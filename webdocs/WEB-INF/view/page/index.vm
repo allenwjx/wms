@@ -1,2 +1,2 @@
-<div style="text-align: center;margin-top: 13%;font-size: 40px;">欢迎进入Jungle框架WEB模板后台</div>
+<div style="text-align: center;margin-top: 13%;font-size: 40px;">欢迎进入卓尔航云仓储管理平台</div>
 <div style="text-align: center;margin-top: 1%;font-size: 40px;"><img src="${rc.contextPath}/img/flight.jpg"/></div>

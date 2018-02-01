@@ -10,6 +10,6 @@
     <!--  DAO configs: auto generate by dalgen                                    -->
     <!-- ======================================================================== -->
 
-    <bean id="manufacturerDAO" class="com.zeh.wms.wms.dal.ibatis.IbatisManufacturerDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="manufacturerDAO" class="com.zeh.wms.dal.ibatis.IbatisManufacturerDAO" parent="wmsSqlMapClientDAO"/>
 	
 </beans>

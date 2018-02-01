@@ -5,7 +5,7 @@
 <sqlMap>
 
     
-    <resultMap id="RM.Manufacturer" class="com.zeh.wms.wms.dal.dataobject.ManufacturerDO">
+    <resultMap id="RM.Manufacturer" class="com.zeh.wms.dal.dataobject.ManufacturerDO">
 		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="serialId" column="serial_id" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />

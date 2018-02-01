@@ -2,8 +2,8 @@ package com.zeh.wms.web.controller;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.utils.common.LoggerUtils;
-import com.zeh.wms.wms.dal.daointerface.ManufacturerDAO;
-import com.zeh.wms.wms.dal.dataobject.ManufacturerDO;
+import com.zeh.wms.dal.daointerface.ManufacturerDAO;
+import com.zeh.wms.dal.dataobject.ManufacturerDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

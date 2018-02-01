@@ -7,7 +7,7 @@
 	</comment>
 
 	<!-- 自动生成DO、DAO及实现类的包限定名，会覆盖原有的类！！ -->
-	<entry key="dal_package">com.zeh.wms.wms.dal</entry>
+	<entry key="dal_package">com.zeh.wms.dal</entry>
 	<entry key="appName">wms</entry>
 
 	<!-- 模块，用于dal层sqlmap及spring配置文件的划分 -->
