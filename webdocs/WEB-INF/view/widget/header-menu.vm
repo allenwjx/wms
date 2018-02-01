@@ -13,7 +13,7 @@
 
         <div class="top-menu pull-left">
             <ul class="nav navbar-nav">
-                <li><a href="${rc.contextPath}/index">Jungle框架WEB模板后台</a></li>
+                <li><a href="${rc.contextPath}/index">卓尔航云仓储管理平台</a></li>
             </ul>
         </div>
 
