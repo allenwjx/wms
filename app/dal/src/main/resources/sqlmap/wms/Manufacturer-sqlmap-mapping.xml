@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.Manufacturer" class="com.zeh.wms.wms.dal.dataobject.ManufacturerDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="serialId" column="serial_id" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="Manufacturer.columns">
+		id, serial_id, name
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.Manufacturer.insert">
+		INSERT INTO manufacturer (
+	        	id ,serial_id ,name
+	        ) VALUES (#id#,#serialId#,#name#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.Manufacturer.delete">
+		DELETE FROM manufacturer WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.Manufacturer.update">
+		UPDATE manufacturer SET
+		        serial_id = #serialId# ,name = #name#
+	        WHERE
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.Manufacturer.queryById" resultMap="RM.Manufacturer" >
+    	SELECT
+ /*wms.Manufacturer.queryById*/ 		    <include refid="Manufacturer.columns"/>
+	        FROM manufacturer
+	        WHERE
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Manufacturer.findPage" resultMap="RM.Manufacturer" >
+    	SELECT
+ /*wms.Manufacturer.findPage*/ 			<include refid="Manufacturer.columns"/>
+			FROM manufacturer
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.Manufacturer.findPage.count" resultClass="long" >
+    	select  /*wms.Manufacturer.findPage.count*/ count(*) 	FROM manufacturer
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

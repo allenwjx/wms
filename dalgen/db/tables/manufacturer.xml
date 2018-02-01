@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
+
+<table sqlname="manufacturer">
+	<!-- 不需要配置的列请删除 -->
+	<sql id="Manufacturer.columns">
+		id, serial_id, name
+	</sql>
+
+	<operation name="insert" paramtype="object">
+		<sql>
+			INSERT INTO manufacturer (
+	        	id ,serial_id ,name
+	        ) VALUES (
+	        	? ,? ,?
+	        )
+		</sql>
+	</operation>
+
+	<operation name="delete">
+		<sql>
+	        DELETE FROM manufacturer WHERE
+	        id = ?
+		</sql>
+	</operation>
+
+	<operation name="update" paramtype="object">
+		<sql>
+	        UPDATE manufacturer SET
+		        serial_id = ? ,name = ?
+	        WHERE
+	        	id = ?
+		</sql>
+	</operation>
+
+	<operation name="queryById" multiplicity="one">
+		<sql>
+	    	SELECT
+		    <include refid="Manufacturer.columns"/>
+	        FROM manufacturer
+	        WHERE
+		        id = ?
+		</sql>
+	</operation>
+
+	<operation name="findPage" multiplicity="paging">
+		<sql>
+			SELECT
+			<include refid="Manufacturer.columns"/>
+			FROM manufacturer
+		</sql>
+	</operation>
+
+</table>
