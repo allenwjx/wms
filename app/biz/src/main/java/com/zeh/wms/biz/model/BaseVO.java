@@ -2,7 +2,8 @@ package com.zeh.wms.biz.model;
 
 import java.util.Date;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 基础数据模型
@@ -11,7 +12,8 @@ import lombok.Data;
  * @create $ ID: BaseVO, 18/2/6 14:59 allen Exp $
  * @since 1.0.0
  */
-@Data
+@Getter
+@Setter
 public class BaseVO extends AbstractModel<Long> {
     /**  */
     private static final long serialVersionUID = 1L;

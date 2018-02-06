@@ -2,7 +2,8 @@ package com.zeh.wms.biz.model;
 
 import com.zeh.wms.biz.model.enums.UserTypeEnum;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 用户，角色关联模型
@@ -11,7 +12,8 @@ import lombok.Data;
  * @create $ ID: UserRoleLinkVO, 18/2/6 16:38 allen Exp $
  * @since 1.0.0
  */
-@Data
+@Getter
+@Setter
 public class UserRoleLinkVO extends BaseVO {
     /**  */
     private static final long serialVersionUID = 1L;

@@ -1,6 +1,7 @@
 package com.zeh.wms.biz.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 发货单模型
@@ -9,7 +10,8 @@ import lombok.Data;
  * @create $ ID: ShipRecordVO, 18/2/6 16:21 allen Exp $
  * @since 1.0.0
  */
-@Data
+@Getter
+@Setter
 public class ShipRecordVO extends BaseVO {
     /**  */
     private static final long serialVersionUID = 1L;

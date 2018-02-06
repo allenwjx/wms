@@ -1,6 +1,7 @@
 package com.zeh.wms.biz.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 辅材价格模型
@@ -9,7 +10,8 @@ import lombok.Data;
  * @create $ ID: AuxiliaryMaterialVO, 18/2/6 15:10 allen Exp $
  * @since 1.0.0
  */
-@Data
+@Getter
+@Setter
 public class AuxiliaryMaterialVO extends BaseVO {
     /**  */
     private static final long serialVersionUID = 1L;

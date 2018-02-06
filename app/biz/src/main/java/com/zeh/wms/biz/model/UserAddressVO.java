@@ -3,7 +3,8 @@ package com.zeh.wms.biz.model;
 import com.zeh.wms.biz.model.enums.AddressTypeEnum;
 import com.zeh.wms.biz.model.enums.StateEnum;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 发货、收获地址模型
@@ -12,7 +13,8 @@ import lombok.Data;
  * @create $ ID: UserAddressVO, 18/2/6 16:23 allen Exp $
  * @since 1.0.0
  */
-@Data
+@Getter
+@Setter
 public class UserAddressVO extends BaseVO {
     /**  */
     private static final long serialVersionUID = 1L;
