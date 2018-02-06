@@ -35,7 +35,7 @@ public interface CommodityDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         commodity         (           id ,code ,name ,price ,unit ,weight ,description ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         commodity         (           id ,manufacturer_id ,code ,name ,price ,unit ,weight ,description ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?)</pre> 
 	 */
 	public long insert(CommodityDO commodity) throws DataAccessException;
 
@@ -49,21 +49,21 @@ public interface CommodityDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         commodity      SET         code = ? ,name = ? ,price = ? ,unit = ? ,weight = ? ,description = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         commodity      SET         manufacturer_id = ? ,code = ? ,name = ? ,price = ? ,unit = ? ,weight = ? ,description = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
 	 */
 	public int update(CommodityDO commodity) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by                  FROM         commodity                WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by                  FROM         commodity                WHERE         id = ?</pre> 
 	 */
 	public CommodityDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by            FROM         commodity</pre> 
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by            FROM         commodity</pre> 
 	 */
 	public PageList<CommodityDO> findPage(int pageSize,int pageNum) throws DataAccessException;
 

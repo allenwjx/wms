@@ -5,13 +5,13 @@
 	<!-- 不需要配置的列请删除 -->
 	
 	<sql id="UserBg.columns">
-		id, username, password, gmt_create, gmt_modified, create_by, modified_by 
+		id, username, password, gmt_create, gmt_modified, create_by, modify_by 
 	</sql>
 	
 	<operation name="insert" paramtype="object">
 		<sql>
 			INSERT INTO user_bg (
-	        	id ,username ,password ,gmt_create ,gmt_modified ,create_by ,modified_by 
+	        	id ,username ,password ,gmt_create ,gmt_modified ,create_by ,modify_by 
 	        ) VALUES (
 	        	? ,? ,? ,? ,? ,? ,?         
 	        )
@@ -28,7 +28,7 @@
 	<operation name="update" paramtype="object">
 		<sql>
 	        UPDATE user_bg SET
-		        username = ? ,password = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modified_by = ? 
+		        username = ? ,password = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
 	        WHERE 
 	        	id = ? 
 		</sql>					

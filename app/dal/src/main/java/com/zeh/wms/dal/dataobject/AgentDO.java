@@ -59,6 +59,22 @@ public class AgentDO implements java.io.Serializable {
 	 * 代理人收件地址 		db_column: address 
 	 */
 	private String address;
+	/**
+	 * 创建时间 		db_column: gmt_create 
+	 */
+	private Date gmtCreate;
+	/**
+	 * 修改时间 		db_column: gmt_modified 
+	 */
+	private Date gmtModified;
+	/**
+	 * 创建人 		db_column: create_by 
+	 */
+	private String createBy;
+	/**
+	 * 修改人 		db_column: modify_by 
+	 */
+	private String modifyBy;
 
 	
 	public void setId(long id) {
@@ -108,6 +124,38 @@ public class AgentDO implements java.io.Serializable {
 	public String getAddress() {
 		return this.address;
 	}
+	
+	public void setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
+	}
+	
+	public Date getGmtCreate() {
+		return this.gmtCreate;
+	}
+	
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+	}
+	
+	public Date getGmtModified() {
+		return this.gmtModified;
+	}
+	
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+	
+	public String getCreateBy() {
+		return this.createBy;
+	}
+	
+	public void setModifyBy(String modifyBy) {
+		this.modifyBy = modifyBy;
+	}
+	
+	public String getModifyBy() {
+		return this.modifyBy;
+	}
 
 	public String toString() {
 		return new ToStringBuilder(this)
@@ -117,6 +165,10 @@ public class AgentDO implements java.io.Serializable {
 			.append("Name",getName())
 			.append("Mobile",getMobile())
 			.append("Address",getAddress())
+			.append("GmtCreate",getGmtCreate())
+			.append("GmtModified",getGmtModified())
+			.append("CreateBy",getCreateBy())
+			.append("ModifyBy",getModifyBy())
 			.toString();
 	}
 	

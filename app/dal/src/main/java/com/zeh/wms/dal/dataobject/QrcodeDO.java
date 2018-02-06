@@ -64,9 +64,9 @@ public class QrcodeDO implements java.io.Serializable {
 	 */
 	private String createBy;
 	/**
-	 * 修改人 		db_column: modified_by 
+	 * 修改人 		db_column: modify_by 
 	 */
-	private String modifiedBy;
+	private String modifyBy;
 
 	
 	public void setId(long id) {
@@ -125,12 +125,12 @@ public class QrcodeDO implements java.io.Serializable {
 		return this.createBy;
 	}
 	
-	public void setModifiedBy(String modifiedBy) {
-		this.modifiedBy = modifiedBy;
+	public void setModifyBy(String modifyBy) {
+		this.modifyBy = modifyBy;
 	}
 	
-	public String getModifiedBy() {
-		return this.modifiedBy;
+	public String getModifyBy() {
+		return this.modifyBy;
 	}
 
 	public String toString() {
@@ -142,7 +142,7 @@ public class QrcodeDO implements java.io.Serializable {
 			.append("GmtCreate",getGmtCreate())
 			.append("GmtModified",getGmtModified())
 			.append("CreateBy",getCreateBy())
-			.append("ModifiedBy",getModifiedBy())
+			.append("ModifyBy",getModifyBy())
 			.toString();
 	}
 	

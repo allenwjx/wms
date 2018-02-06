@@ -13,11 +13,11 @@
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModifeid" column="gmt_modifeid" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="modifiedBy" column="modified_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
     </resultMap>
     
 	<sql id="Authorization.columns">
-		id, name, code, path, gmt_create, gmt_modifeid, create_by, modified_by
+		id, name, code, path, gmt_create, gmt_modifeid, create_by, modify_by
 	</sql>
 		
 
@@ -26,8 +26,8 @@
     
 	<insert id="wms.Authorization.insert">
 		INSERT INTO authorization (
-	        	id ,name ,code ,path ,gmt_create ,gmt_modifeid ,create_by ,modified_by 
-	        ) VALUES (#id#,#name#,#code#,#path#,#gmtCreate#,#gmtModifeid#,#createBy#,#modifiedBy#)
+	        	id ,name ,code ,path ,gmt_create ,gmt_modifeid ,create_by ,modify_by 
+	        ) VALUES (#id#,#name#,#code#,#path#,#gmtCreate#,#gmtModifeid#,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -42,7 +42,7 @@
 	
 	<update id="wms.Authorization.update">
 		UPDATE authorization SET
-		        name = #name# ,code = #code# ,path = #path# ,gmt_create = #gmtCreate# ,gmt_modifeid = #gmtModifeid# ,create_by = #createBy# ,modified_by = #modifiedBy# 
+		        name = #name# ,code = #code# ,path = #path# ,gmt_create = #gmtCreate# ,gmt_modifeid = #gmtModifeid# ,create_by = #createBy# ,modify_by = #modifyBy# 
 	        WHERE 
 	        	id = #id#
 	</update>

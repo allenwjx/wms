@@ -42,7 +42,7 @@ public class IbatisCommodityDAO extends SqlMapClientDaoSupport implements Commod
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         commodity         (           id ,code ,name ,price ,unit ,weight ,description ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         commodity         (           id ,manufacturer_id ,code ,name ,price ,unit ,weight ,description ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?)</pre>
 	 */
 	public long insert(CommodityDO commodity) throws DataAccessException {
 		if(commodity == null) {
@@ -64,7 +64,7 @@ public class IbatisCommodityDAO extends SqlMapClientDaoSupport implements Commod
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         commodity      SET         code = ? ,name = ? ,price = ? ,unit = ? ,weight = ? ,description = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre>
+	 * <pre>UPDATE         commodity      SET         manufacturer_id = ? ,code = ? ,name = ? ,price = ? ,unit = ? ,weight = ? ,description = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre>
 	 */
 	public int update(CommodityDO commodity) throws DataAccessException {
 		if(commodity == null) {
@@ -76,7 +76,7 @@ public class IbatisCommodityDAO extends SqlMapClientDaoSupport implements Commod
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by                  FROM         commodity                WHERE         id = ?</pre>
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by                  FROM         commodity                WHERE         id = ?</pre>
 	 */
 	public CommodityDO queryById(Long id) throws DataAccessException {
 		return (CommodityDO)getSqlMapClientTemplate().queryForObject("wms.Commodity.queryById",id);
@@ -85,7 +85,7 @@ public class IbatisCommodityDAO extends SqlMapClientDaoSupport implements Commod
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by            FROM         commodity</pre>
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by            FROM         commodity</pre>
 	 */
 	public PageList<CommodityDO> findPage(int pageSize,int pageNum) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Commodity.findPage",null,pageNum,pageSize);

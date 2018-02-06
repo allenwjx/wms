@@ -5,13 +5,13 @@
 	<!-- 不需要配置的列请删除 -->
 	
 	<sql id="Qrcode.columns">
-		id, serial_no, commodity_id, data, gmt_create, gmt_modified, create_by, modified_by 
+		id, serial_no, commodity_id, data, gmt_create, gmt_modified, create_by, modify_by 
 	</sql>
 	
 	<operation name="insert" paramtype="object">
 		<sql>
 			INSERT INTO qrcode (
-	        	id ,serial_no ,commodity_id ,data ,gmt_create ,gmt_modified ,create_by ,modified_by 
+	        	id ,serial_no ,commodity_id ,data ,gmt_create ,gmt_modified ,create_by ,modify_by 
 	        ) VALUES (
 	        	? ,? ,? ,? ,? ,? ,? ,?         
 	        )
@@ -28,7 +28,7 @@
 	<operation name="update" paramtype="object">
 		<sql>
 	        UPDATE qrcode SET
-		        serial_no = ? ,commodity_id = ? ,data = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modified_by = ? 
+		        serial_no = ? ,commodity_id = ? ,data = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
 	        WHERE 
 	        	id = ? 
 		</sql>					

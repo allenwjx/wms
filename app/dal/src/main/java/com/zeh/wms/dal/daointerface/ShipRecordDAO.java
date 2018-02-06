@@ -35,7 +35,7 @@ public interface ShipRecordDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         ship_record         (           id ,agent_id ,commodity_id ,qrcode_no ,gmt_create ,gmt_modified ,create_by ,modified_by           )      VALUES         (?,?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         ship_record         (           id ,agent_id ,commodity_id ,qrcode_no ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?)</pre> 
 	 */
 	public long insert(ShipRecordDO shipRecord) throws DataAccessException;
 
@@ -49,21 +49,21 @@ public interface ShipRecordDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         ship_record      SET         agent_id = ? ,commodity_id = ? ,qrcode_no = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modified_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         ship_record      SET         agent_id = ? ,commodity_id = ? ,qrcode_no = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
 	 */
 	public int update(ShipRecordDO shipRecord) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, agent_id, commodity_id, qrcode_no, gmt_create, gmt_modified, create_by, modified_by                  FROM         ship_record                WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, agent_id, commodity_id, qrcode_no, gmt_create, gmt_modified, create_by, modify_by                  FROM         ship_record                WHERE         id = ?</pre> 
 	 */
 	public ShipRecordDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, agent_id, commodity_id, qrcode_no, gmt_create, gmt_modified, create_by, modified_by            FROM         ship_record</pre> 
+	 * <pre>SELECT         id, agent_id, commodity_id, qrcode_no, gmt_create, gmt_modified, create_by, modify_by            FROM         ship_record</pre> 
 	 */
 	public PageList<ShipRecordDO> findPage(int pageSize,int pageNum) throws DataAccessException;
 

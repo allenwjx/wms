@@ -12,10 +12,14 @@
 		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="mobile" column="mobile" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="address" column="address" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
     </resultMap>
     
 	<sql id="Agent.columns">
-		id, code, external_code, name, mobile, address
+		id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -24,8 +28,8 @@
     
 	<insert id="wms.Agent.insert">
 		INSERT INTO agent (
-	        	id ,code ,external_code ,name ,mobile ,address 
-	        ) VALUES (#id#,#code#,#externalCode#,#name#,#mobile#,#address#)
+	        	id ,code ,external_code ,name ,mobile ,address ,gmt_create ,gmt_modified ,create_by ,modify_by 
+	        ) VALUES (#id#,#code#,#externalCode#,#name#,#mobile#,#address#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -40,7 +44,7 @@
 	
 	<update id="wms.Agent.update">
 		UPDATE agent SET
-		        code = #code# ,external_code = #externalCode# ,name = #name# ,mobile = #mobile# ,address = #address# 
+		        code = #code# ,external_code = #externalCode# ,name = #name# ,mobile = #mobile# ,address = #address# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
 	        WHERE 
 	        	id = #id#
 	</update>

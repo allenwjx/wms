@@ -5,15 +5,15 @@
 	<!-- 不需要配置的列请删除 -->
 	
 	<sql id="Commodity.columns">
-		id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by 
+		id, manufacturer_id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by 
 	</sql>
 	
 	<operation name="insert" paramtype="object">
 		<sql>
 			INSERT INTO commodity (
-	        	id ,code ,name ,price ,unit ,weight ,description ,gmt_create ,gmt_modified ,create_by ,modify_by 
+	        	id ,manufacturer_id ,code ,name ,price ,unit ,weight ,description ,gmt_create ,gmt_modified ,create_by ,modify_by 
 	        ) VALUES (
-	        	? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?         
+	        	? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?         
 	        )
 		</sql>		
 	</operation>
@@ -28,7 +28,7 @@
 	<operation name="update" paramtype="object">
 		<sql>
 	        UPDATE commodity SET
-		        code = ? ,name = ? ,price = ? ,unit = ? ,weight = ? ,description = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
+		        manufacturer_id = ? ,code = ? ,name = ? ,price = ? ,unit = ? ,weight = ? ,description = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
 	        WHERE 
 	        	id = ? 
 		</sql>					

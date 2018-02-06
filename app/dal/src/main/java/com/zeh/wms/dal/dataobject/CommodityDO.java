@@ -40,6 +40,10 @@ public class CommodityDO implements java.io.Serializable {
 	 */
 	private long id;
 	/**
+	 * 厂商ID 		db_column: manufacturer_id 
+	 */
+	private long manufacturerId;
+	/**
 	 * 商品编号 		db_column: code 
 	 */
 	private String code;
@@ -87,6 +91,14 @@ public class CommodityDO implements java.io.Serializable {
 	
 	public long getId() {
 		return this.id;
+	}
+	
+	public void setManufacturerId(long manufacturerId) {
+		this.manufacturerId = manufacturerId;
+	}
+	
+	public long getManufacturerId() {
+		return this.manufacturerId;
 	}
 	
 	public void setCode(String code) {
@@ -172,6 +184,7 @@ public class CommodityDO implements java.io.Serializable {
 	public String toString() {
 		return new ToStringBuilder(this)
 			.append("Id",getId())
+			.append("ManufacturerId",getManufacturerId())
 			.append("Code",getCode())
 			.append("Name",getName())
 			.append("Price",getPrice())

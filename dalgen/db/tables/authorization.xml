@@ -5,13 +5,13 @@
 	<!-- 不需要配置的列请删除 -->
 	
 	<sql id="Authorization.columns">
-		id, name, code, path, gmt_create, gmt_modifeid, create_by, modified_by 
+		id, name, code, path, gmt_create, gmt_modifeid, create_by, modify_by 
 	</sql>
 	
 	<operation name="insert" paramtype="object">
 		<sql>
 			INSERT INTO authorization (
-	        	id ,name ,code ,path ,gmt_create ,gmt_modifeid ,create_by ,modified_by 
+	        	id ,name ,code ,path ,gmt_create ,gmt_modifeid ,create_by ,modify_by 
 	        ) VALUES (
 	        	? ,? ,? ,? ,? ,? ,? ,?         
 	        )
@@ -28,7 +28,7 @@
 	<operation name="update" paramtype="object">
 		<sql>
 	        UPDATE authorization SET
-		        name = ? ,code = ? ,path = ? ,gmt_create = ? ,gmt_modifeid = ? ,create_by = ? ,modified_by = ? 
+		        name = ? ,code = ? ,path = ? ,gmt_create = ? ,gmt_modifeid = ? ,create_by = ? ,modify_by = ? 
 	        WHERE 
 	        	id = ? 
 		</sql>					

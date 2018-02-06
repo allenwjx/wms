@@ -5,13 +5,13 @@
 	<!-- 不需要配置的列请删除 -->
 	
 	<sql id="Role.columns">
-		id, name, gmt_create, gmt_modified, create_by, modified_by 
+		id, name, gmt_create, gmt_modified, create_by, modify_by 
 	</sql>
 	
 	<operation name="insert" paramtype="object">
 		<sql>
 			INSERT INTO role (
-	        	id ,name ,gmt_create ,gmt_modified ,create_by ,modified_by 
+	        	id ,name ,gmt_create ,gmt_modified ,create_by ,modify_by 
 	        ) VALUES (
 	        	? ,? ,? ,? ,? ,?         
 	        )
@@ -28,7 +28,7 @@
 	<operation name="update" paramtype="object">
 		<sql>
 	        UPDATE role SET
-		        name = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modified_by = ? 
+		        name = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
 	        WHERE 
 	        	id = ? 
 		</sql>					

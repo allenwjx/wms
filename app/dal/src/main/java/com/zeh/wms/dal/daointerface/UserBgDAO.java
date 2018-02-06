@@ -35,7 +35,7 @@ public interface UserBgDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         user_bg         (           id ,username ,password ,gmt_create ,gmt_modified ,create_by ,modified_by           )      VALUES         (?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         user_bg         (           id ,username ,password ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?)</pre> 
 	 */
 	public long insert(UserBgDO userBg) throws DataAccessException;
 
@@ -49,21 +49,21 @@ public interface UserBgDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         user_bg      SET         username = ? ,password = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modified_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         user_bg      SET         username = ? ,password = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
 	 */
 	public int update(UserBgDO userBg) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, username, password, gmt_create, gmt_modified, create_by, modified_by                  FROM         user_bg                WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, username, password, gmt_create, gmt_modified, create_by, modify_by                  FROM         user_bg                WHERE         id = ?</pre> 
 	 */
 	public UserBgDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, username, password, gmt_create, gmt_modified, create_by, modified_by            FROM         user_bg</pre> 
+	 * <pre>SELECT         id, username, password, gmt_create, gmt_modified, create_by, modify_by            FROM         user_bg</pre> 
 	 */
 	public PageList<UserBgDO> findPage(int pageSize,int pageNum) throws DataAccessException;
 
