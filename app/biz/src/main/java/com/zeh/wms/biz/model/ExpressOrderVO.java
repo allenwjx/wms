@@ -6,7 +6,8 @@ import com.google.common.collect.Lists;
 import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
 import com.zeh.wms.biz.model.enums.ExpressTypeEnum;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 快递单模型
@@ -15,7 +16,8 @@ import lombok.Data;
  * @create $ ID: ExpressOrderVO, 18/2/6 15:30 allen Exp $
  * @since 1.0.0
  */
-@Data
+@Getter
+@Setter
 public class ExpressOrderVO extends BaseVO {
     /**  */
     private static final long        serialVersionUID = 1L;

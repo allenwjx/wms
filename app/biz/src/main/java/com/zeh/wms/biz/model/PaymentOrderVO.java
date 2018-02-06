@@ -3,7 +3,8 @@ package com.zeh.wms.biz.model;
 import com.zeh.wms.biz.model.enums.PaymentChannelEnum;
 import com.zeh.wms.biz.model.enums.PaymentStateEnum;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 支付单模型
@@ -12,7 +13,8 @@ import lombok.Data;
  * @create $ ID: PaymentOrderVO, 18/2/6 16:05 allen Exp $
  * @since 1.0.0
  */
-@Data
+@Getter
+@Setter
 public class PaymentOrderVO extends BaseVO {
     /**  */
     private static final long  serialVersionUID = 1L;

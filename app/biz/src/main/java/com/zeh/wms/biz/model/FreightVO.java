@@ -1,8 +1,7 @@
 package com.zeh.wms.biz.model;
 
-import lombok.Data;
-
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 运费模型
@@ -11,7 +10,8 @@ import java.util.Date;
  * @create $ ID: FreightVO, 18/2/6 16:03 allen Exp $
  * @since 1.0.0
  */
-@Data
+@Getter
+@Setter
 public class FreightVO extends BaseVO {
     /**  */
     private static final long serialVersionUID = 1L;
