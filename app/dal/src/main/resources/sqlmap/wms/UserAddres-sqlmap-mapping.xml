@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.UserAddres" class="com.zeh.wms.dal.dataobject.UserAddresDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="tel" column="tel" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="zipCode" column="zip_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="province" column="province" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="city" column="city" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="region" column="region" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="detail" column="detail" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="addressType" column="address_type" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="userId" column="user_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="defaultSetting" column="default_setting" javaType="int" jdbcType="TINYINT"  nullValue="0"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="UserAddres.columns">
+		id, name, tel, zip_code, province, city, region, detail, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.UserAddres.insert">
+		INSERT INTO user_address (
+	        	id ,name ,tel ,zip_code ,province ,city ,region ,detail ,address_type ,user_id ,default_setting ,gmt_create ,gmt_modified ,create_by ,modify_by 
+	        ) VALUES (#id#,#name#,#tel#,#zipCode#,#province#,#city#,#region#,#detail#,#addressType#,#userId#,#defaultSetting#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.UserAddres.delete">
+		DELETE FROM user_address WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.UserAddres.update">
+		UPDATE user_address SET
+		        name = #name# ,tel = #tel# ,zip_code = #zipCode# ,province = #province# ,city = #city# ,region = #region# ,detail = #detail# ,address_type = #addressType# ,user_id = #userId# ,default_setting = #defaultSetting# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.UserAddres.queryById" resultMap="RM.UserAddres" >
+    	SELECT
+ /*wms.UserAddres.queryById*/ 		    <include refid="UserAddres.columns"/>
+	        FROM user_address 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.UserAddres.findPage" resultMap="RM.UserAddres" >
+    	SELECT  /*wms.UserAddres.findPage*/ 
+			<include refid="UserAddres.columns"/>
+			FROM user_address
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.UserAddres.findPage.count" resultClass="long" >
+    	select  /*wms.UserAddres.findPage.count*/ count(*) 	FROM user_address
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.UserAgentLink" class="com.zeh.wms.dal.dataobject.UserAgentLinkDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="userId" column="user_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="type" column="type" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="linkStatus" column="link_status" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="UserAgentLink.columns">
+		id, user_id, code, type, link_status, gmt_create, gmt_modified, create_by, modify_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.UserAgentLink.insert">
+		INSERT INTO user_agent_link (
+	        	id ,user_id ,code ,type ,link_status ,gmt_create ,gmt_modified ,create_by ,modify_by 
+	        ) VALUES (#id#,#userId#,#code#,#type#,#linkStatus#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.UserAgentLink.delete">
+		DELETE FROM user_agent_link WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.UserAgentLink.update">
+		UPDATE user_agent_link SET
+		        user_id = #userId# ,code = #code# ,type = #type# ,link_status = #linkStatus# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.UserAgentLink.queryById" resultMap="RM.UserAgentLink" >
+    	SELECT
+ /*wms.UserAgentLink.queryById*/ 		    <include refid="UserAgentLink.columns"/>
+	        FROM user_agent_link 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.UserAgentLink.findPage" resultMap="RM.UserAgentLink" >
+    	SELECT  /*wms.UserAgentLink.findPage*/ 
+			<include refid="UserAgentLink.columns"/>
+			FROM user_agent_link
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.UserAgentLink.findPage.count" resultClass="long" >
+    	select  /*wms.UserAgentLink.findPage.count*/ count(*) 	FROM user_agent_link
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

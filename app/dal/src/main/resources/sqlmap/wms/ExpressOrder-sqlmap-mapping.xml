@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.ExpressOrder" class="com.zeh.wms.dal.dataobject.ExpressOrderDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="orderNo" column="order_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="otherOrderNo" column="other_order_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="status" column="status" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="senderName" column="sender_name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="senderTel" column="sender_tel" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="senderProvince" column="sender_province" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="senderCity" column="sender_city" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="senderRegion" column="sender_region" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="senderAddressDetail" column="sender_address_detail" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="senderZipCode" column="sender_zip_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="receiverName" column="receiver_name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="receiverTel" column="receiver_tel" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="receiverProvince" column="receiver_province" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="receiverCity" column="receiver_city" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="receiverRegion" column="receiver_region" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="receiverAddressDetail" column="receiver_address_detail" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="receiverZipCode" column="receiver_zip_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="expressType" column="express_type" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="totalPrice" column="total_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="ExpressOrder.columns">
+		id, order_no, other_order_no, code, status, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail, sender_zip_code, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code, express_type, total_price, gmt_create, gmt_modified, create_by, modify_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.ExpressOrder.insert">
+		INSERT INTO express_order (
+	        	id ,order_no ,other_order_no ,code ,status ,sender_name ,sender_tel ,sender_province ,sender_city ,sender_region ,sender_address_detail ,sender_zip_code ,receiver_name ,receiver_tel ,receiver_province ,receiver_city ,receiver_region ,receiver_address_detail ,receiver_zip_code ,express_type ,total_price ,gmt_create ,gmt_modified ,create_by ,modify_by 
+	        ) VALUES (#id#,#orderNo#,#otherOrderNo#,#code#,#status#,#senderName#,#senderTel#,#senderProvince#,#senderCity#,#senderRegion#,#senderAddressDetail#,#senderZipCode#,#receiverName#,#receiverTel#,#receiverProvince#,#receiverCity#,#receiverRegion#,#receiverAddressDetail#,#receiverZipCode#,#expressType#,#totalPrice#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.ExpressOrder.delete">
+		DELETE FROM express_order WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.ExpressOrder.update">
+		UPDATE express_order SET
+		        order_no = #orderNo# ,other_order_no = #otherOrderNo# ,code = #code# ,status = #status# ,sender_name = #senderName# ,sender_tel = #senderTel# ,sender_province = #senderProvince# ,sender_city = #senderCity# ,sender_region = #senderRegion# ,sender_address_detail = #senderAddressDetail# ,sender_zip_code = #senderZipCode# ,receiver_name = #receiverName# ,receiver_tel = #receiverTel# ,receiver_province = #receiverProvince# ,receiver_city = #receiverCity# ,receiver_region = #receiverRegion# ,receiver_address_detail = #receiverAddressDetail# ,receiver_zip_code = #receiverZipCode# ,express_type = #expressType# ,total_price = #totalPrice# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.ExpressOrder.queryById" resultMap="RM.ExpressOrder" >
+    	SELECT
+ /*wms.ExpressOrder.queryById*/ 		    <include refid="ExpressOrder.columns"/>
+	        FROM express_order 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.ExpressOrder.findPage" resultMap="RM.ExpressOrder" >
+    	SELECT  /*wms.ExpressOrder.findPage*/ 
+			<include refid="ExpressOrder.columns"/>
+			FROM express_order
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.ExpressOrder.findPage.count" resultClass="long" >
+    	select  /*wms.ExpressOrder.findPage.count*/ count(*) 	FROM express_order
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.ExpressOrderItem" class="com.zeh.wms.dal.dataobject.ExpressOrderItemDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="orderNo" column="order_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="itemName" column="item_name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="itemCode" column="item_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="relationCode" column="relation_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="quantity" column="quantity" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="unit" column="unit" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="unitPrice" column="unit_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="unitWeight" column="unit_weight" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="totalWeight" column="total_weight" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="totalPrice" column="total_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="ExpressOrderItem.columns">
+		id, order_no, item_name, item_code, relation_code, quantity, unit, unit_price, unit_weight, total_weight, total_price, gmt_create, gmt_modified, create_by, modify_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.ExpressOrderItem.insert">
+		INSERT INTO express_order_item (
+	        	id ,order_no ,item_name ,item_code ,relation_code ,quantity ,unit ,unit_price ,unit_weight ,total_weight ,total_price ,gmt_create ,gmt_modified ,create_by ,modify_by 
+	        ) VALUES (#id#,#orderNo#,#itemName#,#itemCode#,#relationCode#,#quantity#,#unit#,#unitPrice#,#unitWeight#,#totalWeight#,#totalPrice#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.ExpressOrderItem.delete">
+		DELETE FROM express_order_item WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.ExpressOrderItem.update">
+		UPDATE express_order_item SET
+		        order_no = #orderNo# ,item_name = #itemName# ,item_code = #itemCode# ,relation_code = #relationCode# ,quantity = #quantity# ,unit = #unit# ,unit_price = #unitPrice# ,unit_weight = #unitWeight# ,total_weight = #totalWeight# ,total_price = #totalPrice# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.ExpressOrderItem.queryById" resultMap="RM.ExpressOrderItem" >
+    	SELECT
+ /*wms.ExpressOrderItem.queryById*/ 		    <include refid="ExpressOrderItem.columns"/>
+	        FROM express_order_item 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.ExpressOrderItem.findPage" resultMap="RM.ExpressOrderItem" >
+    	SELECT  /*wms.ExpressOrderItem.findPage*/ 
+			<include refid="ExpressOrderItem.columns"/>
+			FROM express_order_item
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.ExpressOrderItem.findPage.count" resultClass="long" >
+    	select  /*wms.ExpressOrderItem.findPage.count*/ count(*) 	FROM express_order_item
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

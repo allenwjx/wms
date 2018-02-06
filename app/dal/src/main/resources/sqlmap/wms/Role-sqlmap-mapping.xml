@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.Role" class="com.zeh.wms.dal.dataobject.RoleDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifiedBy" column="modified_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="Role.columns">
+		id, name, gmt_create, gmt_modified, create_by, modified_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.Role.insert">
+		INSERT INTO role (
+	        	id ,name ,gmt_create ,gmt_modified ,create_by ,modified_by 
+	        ) VALUES (#id#,#name#,#gmtCreate#,#gmtModified#,#createBy#,#modifiedBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.Role.delete">
+		DELETE FROM role WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.Role.update">
+		UPDATE role SET
+		        name = #name# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modified_by = #modifiedBy# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.Role.queryById" resultMap="RM.Role" >
+    	SELECT
+ /*wms.Role.queryById*/ 		    <include refid="Role.columns"/>
+	        FROM role 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Role.findPage" resultMap="RM.Role" >
+    	SELECT  /*wms.Role.findPage*/ 
+			<include refid="Role.columns"/>
+			FROM role
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.Role.findPage.count" resultClass="long" >
+    	select  /*wms.Role.findPage.count*/ count(*) 	FROM role
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
+
+<table sqlname="user_bg">
+	<!-- 不需要配置的列请删除 -->
+	
+	<sql id="UserBg.columns">
+		id, username, password, gmt_create, gmt_modified, create_by, modified_by 
+	</sql>
+	
+	<operation name="insert" paramtype="object">
+		<sql>
+			INSERT INTO user_bg (
+	        	id ,username ,password ,gmt_create ,gmt_modified ,create_by ,modified_by 
+	        ) VALUES (
+	        	? ,? ,? ,? ,? ,? ,?         
+	        )
+		</sql>		
+	</operation>
+
+	<operation name="delete">
+		<sql>
+	        DELETE FROM user_bg WHERE
+	        id = ? 
+		</sql>
+	</operation>
+	
+	<operation name="update" paramtype="object">
+		<sql>
+	        UPDATE user_bg SET
+		        username = ? ,password = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modified_by = ? 
+	        WHERE 
+	        	id = ? 
+		</sql>					
+	</operation>
+
+	<operation name="queryById" multiplicity="one">
+		<sql>
+	    	SELECT
+		    <include refid="UserBg.columns"/>
+	        FROM user_bg 
+	        WHERE 
+		        id = ? 
+		</sql>
+	</operation>
+
+	
+	<operation name="findPage" multiplicity="paging">
+		<sql>
+			SELECT 
+			<include refid="UserBg.columns"/>
+			FROM user_bg 
+		</sql>
+	</operation>
+
+</table>

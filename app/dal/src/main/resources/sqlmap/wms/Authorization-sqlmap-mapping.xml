@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.Authorization" class="com.zeh.wms.dal.dataobject.AuthorizationDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="path" column="path" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModifeid" column="gmt_modifeid" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifiedBy" column="modified_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="Authorization.columns">
+		id, name, code, path, gmt_create, gmt_modifeid, create_by, modified_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.Authorization.insert">
+		INSERT INTO authorization (
+	        	id ,name ,code ,path ,gmt_create ,gmt_modifeid ,create_by ,modified_by 
+	        ) VALUES (#id#,#name#,#code#,#path#,#gmtCreate#,#gmtModifeid#,#createBy#,#modifiedBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.Authorization.delete">
+		DELETE FROM authorization WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.Authorization.update">
+		UPDATE authorization SET
+		        name = #name# ,code = #code# ,path = #path# ,gmt_create = #gmtCreate# ,gmt_modifeid = #gmtModifeid# ,create_by = #createBy# ,modified_by = #modifiedBy# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.Authorization.queryById" resultMap="RM.Authorization" >
+    	SELECT
+ /*wms.Authorization.queryById*/ 		    <include refid="Authorization.columns"/>
+	        FROM authorization 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Authorization.findPage" resultMap="RM.Authorization" >
+    	SELECT  /*wms.Authorization.findPage*/ 
+			<include refid="Authorization.columns"/>
+			FROM authorization
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.Authorization.findPage.count" resultClass="long" >
+    	select  /*wms.Authorization.findPage.count*/ count(*) 	FROM authorization
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

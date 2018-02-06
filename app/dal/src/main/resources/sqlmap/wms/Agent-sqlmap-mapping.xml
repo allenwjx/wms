@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.Agent" class="com.zeh.wms.dal.dataobject.AgentDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="externalCode" column="external_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="mobile" column="mobile" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="address" column="address" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="Agent.columns">
+		id, code, external_code, name, mobile, address
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.Agent.insert">
+		INSERT INTO agent (
+	        	id ,code ,external_code ,name ,mobile ,address 
+	        ) VALUES (#id#,#code#,#externalCode#,#name#,#mobile#,#address#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.Agent.delete">
+		DELETE FROM agent WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.Agent.update">
+		UPDATE agent SET
+		        code = #code# ,external_code = #externalCode# ,name = #name# ,mobile = #mobile# ,address = #address# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.Agent.queryById" resultMap="RM.Agent" >
+    	SELECT
+ /*wms.Agent.queryById*/ 		    <include refid="Agent.columns"/>
+	        FROM agent 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Agent.findPage" resultMap="RM.Agent" >
+    	SELECT  /*wms.Agent.findPage*/ 
+			<include refid="Agent.columns"/>
+			FROM agent
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.Agent.findPage.count" resultClass="long" >
+    	select  /*wms.Agent.findPage.count*/ count(*) 	FROM agent
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

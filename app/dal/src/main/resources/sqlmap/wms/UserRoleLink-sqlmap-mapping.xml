@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.UserRoleLink" class="com.zeh.wms.dal.dataobject.UserRoleLinkDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="userId" column="user_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="roleId" column="role_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="type" column="type" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="UserRoleLink.columns">
+		id, user_id, role_id, type
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.UserRoleLink.insert">
+		INSERT INTO user_role_link (
+	        	id ,user_id ,role_id ,type 
+	        ) VALUES (#id#,#userId#,#roleId#,#type#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.UserRoleLink.delete">
+		DELETE FROM user_role_link WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.UserRoleLink.update">
+		UPDATE user_role_link SET
+		        user_id = #userId# ,role_id = #roleId# ,type = #type# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.UserRoleLink.queryById" resultMap="RM.UserRoleLink" >
+    	SELECT
+ /*wms.UserRoleLink.queryById*/ 		    <include refid="UserRoleLink.columns"/>
+	        FROM user_role_link 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.UserRoleLink.findPage" resultMap="RM.UserRoleLink" >
+    	SELECT  /*wms.UserRoleLink.findPage*/ 
+			<include refid="UserRoleLink.columns"/>
+			FROM user_role_link
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.UserRoleLink.findPage.count" resultClass="long" >
+    	select  /*wms.UserRoleLink.findPage.count*/ count(*) 	FROM user_role_link
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

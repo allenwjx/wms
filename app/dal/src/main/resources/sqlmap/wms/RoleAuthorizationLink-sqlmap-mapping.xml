@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.RoleAuthorizationLink" class="com.zeh.wms.dal.dataobject.RoleAuthorizationLinkDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="roleId" column="role_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="authId" column="auth_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+    </resultMap>
+    
+	<sql id="RoleAuthorizationLink.columns">
+		id, role_id, auth_id
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.RoleAuthorizationLink.insert">
+		INSERT INTO role_authorization_link (
+	        	id ,role_id ,auth_id 
+	        ) VALUES (#id#,#roleId#,#authId#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.RoleAuthorizationLink.delete">
+		DELETE FROM role_authorization_link WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.RoleAuthorizationLink.update">
+		UPDATE role_authorization_link SET
+		        role_id = #roleId# ,auth_id = #authId# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.RoleAuthorizationLink.queryById" resultMap="RM.RoleAuthorizationLink" >
+    	SELECT
+ /*wms.RoleAuthorizationLink.queryById*/ 		    <include refid="RoleAuthorizationLink.columns"/>
+	        FROM role_authorization_link 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.RoleAuthorizationLink.findPage" resultMap="RM.RoleAuthorizationLink" >
+    	SELECT  /*wms.RoleAuthorizationLink.findPage*/ 
+			<include refid="RoleAuthorizationLink.columns"/>
+			FROM role_authorization_link
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.RoleAuthorizationLink.findPage.count" resultClass="long" >
+    	select  /*wms.RoleAuthorizationLink.findPage.count*/ count(*) 	FROM role_authorization_link
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.ShipRecord" class="com.zeh.wms.dal.dataobject.ShipRecordDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="agentId" column="agent_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="commodityId" column="commodity_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="qrcodeNo" column="qrcode_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifiedBy" column="modified_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="ShipRecord.columns">
+		id, agent_id, commodity_id, qrcode_no, gmt_create, gmt_modified, create_by, modified_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.ShipRecord.insert">
+		INSERT INTO ship_record (
+	        	id ,agent_id ,commodity_id ,qrcode_no ,gmt_create ,gmt_modified ,create_by ,modified_by 
+	        ) VALUES (#id#,#agentId#,#commodityId#,#qrcodeNo#,#gmtCreate#,#gmtModified#,#createBy#,#modifiedBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.ShipRecord.delete">
+		DELETE FROM ship_record WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.ShipRecord.update">
+		UPDATE ship_record SET
+		        agent_id = #agentId# ,commodity_id = #commodityId# ,qrcode_no = #qrcodeNo# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modified_by = #modifiedBy# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.ShipRecord.queryById" resultMap="RM.ShipRecord" >
+    	SELECT
+ /*wms.ShipRecord.queryById*/ 		    <include refid="ShipRecord.columns"/>
+	        FROM ship_record 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.ShipRecord.findPage" resultMap="RM.ShipRecord" >
+    	SELECT  /*wms.ShipRecord.findPage*/ 
+			<include refid="ShipRecord.columns"/>
+			FROM ship_record
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.ShipRecord.findPage.count" resultClass="long" >
+    	select  /*wms.ShipRecord.findPage.count*/ count(*) 	FROM ship_record
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

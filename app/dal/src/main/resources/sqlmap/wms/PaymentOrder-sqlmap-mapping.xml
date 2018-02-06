@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.PaymentOrder" class="com.zeh.wms.dal.dataobject.PaymentOrderDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="orderNo" column="order_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="otherOrderNo" column="other_order_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="userId" column="user_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="paymentOrderNo" column="payment_order_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="otherPaymentNo" column="other_payment_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="amount" column="amount" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="channel" column="channel" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="status" column="status" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="payLimited" column="pay_limited" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="PaymentOrder.columns">
+		id, order_no, other_order_no, user_id, code, payment_order_no, other_payment_no, amount, channel, status, pay_limited, gmt_create, gmt_modified, create_by, modify_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.PaymentOrder.insert">
+		INSERT INTO payment_order (
+	        	id ,order_no ,other_order_no ,user_id ,code ,payment_order_no ,other_payment_no ,amount ,channel ,status ,pay_limited ,gmt_create ,gmt_modified ,create_by ,modify_by 
+	        ) VALUES (#id#,#orderNo#,#otherOrderNo#,#userId#,#code#,#paymentOrderNo#,#otherPaymentNo#,#amount#,#channel#,#status#,#payLimited#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.PaymentOrder.delete">
+		DELETE FROM payment_order WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.PaymentOrder.update">
+		UPDATE payment_order SET
+		        order_no = #orderNo# ,other_order_no = #otherOrderNo# ,user_id = #userId# ,code = #code# ,payment_order_no = #paymentOrderNo# ,other_payment_no = #otherPaymentNo# ,amount = #amount# ,channel = #channel# ,status = #status# ,pay_limited = #payLimited# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.PaymentOrder.queryById" resultMap="RM.PaymentOrder" >
+    	SELECT
+ /*wms.PaymentOrder.queryById*/ 		    <include refid="PaymentOrder.columns"/>
+	        FROM payment_order 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.PaymentOrder.findPage" resultMap="RM.PaymentOrder" >
+    	SELECT  /*wms.PaymentOrder.findPage*/ 
+			<include refid="PaymentOrder.columns"/>
+			FROM payment_order
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.PaymentOrder.findPage.count" resultClass="long" >
+    	select  /*wms.PaymentOrder.findPage.count*/ count(*) 	FROM payment_order
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.UserBg" class="com.zeh.wms.dal.dataobject.UserBgDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="username" column="username" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="password" column="password" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifiedBy" column="modified_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="UserBg.columns">
+		id, username, password, gmt_create, gmt_modified, create_by, modified_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.UserBg.insert">
+		INSERT INTO user_bg (
+	        	id ,username ,password ,gmt_create ,gmt_modified ,create_by ,modified_by 
+	        ) VALUES (#id#,#username#,#password#,#gmtCreate#,#gmtModified#,#createBy#,#modifiedBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.UserBg.delete">
+		DELETE FROM user_bg WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.UserBg.update">
+		UPDATE user_bg SET
+		        username = #username# ,password = #password# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modified_by = #modifiedBy# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.UserBg.queryById" resultMap="RM.UserBg" >
+    	SELECT
+ /*wms.UserBg.queryById*/ 		    <include refid="UserBg.columns"/>
+	        FROM user_bg 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.UserBg.findPage" resultMap="RM.UserBg" >
+    	SELECT  /*wms.UserBg.findPage*/ 
+			<include refid="UserBg.columns"/>
+			FROM user_bg
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.UserBg.findPage.count" resultClass="long" >
+    	select  /*wms.UserBg.findPage.count*/ count(*) 	FROM user_bg
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

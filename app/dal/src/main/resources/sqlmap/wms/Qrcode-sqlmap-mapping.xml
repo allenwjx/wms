@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.Qrcode" class="com.zeh.wms.dal.dataobject.QrcodeDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="serialNo" column="serial_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="commodityId" column="commodity_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="data" column="data" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifiedBy" column="modified_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="Qrcode.columns">
+		id, serial_no, commodity_id, data, gmt_create, gmt_modified, create_by, modified_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.Qrcode.insert">
+		INSERT INTO qrcode (
+	        	id ,serial_no ,commodity_id ,data ,gmt_create ,gmt_modified ,create_by ,modified_by 
+	        ) VALUES (#id#,#serialNo#,#commodityId#,#data#,#gmtCreate#,#gmtModified#,#createBy#,#modifiedBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.Qrcode.delete">
+		DELETE FROM qrcode WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.Qrcode.update">
+		UPDATE qrcode SET
+		        serial_no = #serialNo# ,commodity_id = #commodityId# ,data = #data# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modified_by = #modifiedBy# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.Qrcode.queryById" resultMap="RM.Qrcode" >
+    	SELECT
+ /*wms.Qrcode.queryById*/ 		    <include refid="Qrcode.columns"/>
+	        FROM qrcode 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Qrcode.findPage" resultMap="RM.Qrcode" >
+    	SELECT  /*wms.Qrcode.findPage*/ 
+			<include refid="Qrcode.columns"/>
+			FROM qrcode
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.Qrcode.findPage.count" resultClass="long" >
+    	select  /*wms.Qrcode.findPage.count*/ count(*) 	FROM qrcode
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

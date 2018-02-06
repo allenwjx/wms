@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.Commodity" class="com.zeh.wms.dal.dataobject.CommodityDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="price" column="price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="unit" column="unit" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="weight" column="weight" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="description" column="description" javaType="java.lang.String" jdbcType="LONGVARCHAR"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="Commodity.columns">
+		id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.Commodity.insert">
+		INSERT INTO commodity (
+	        	id ,code ,name ,price ,unit ,weight ,description ,gmt_create ,gmt_modified ,create_by ,modify_by 
+	        ) VALUES (#id#,#code#,#name#,#price#,#unit#,#weight#,#description#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.Commodity.delete">
+		DELETE FROM commodity WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.Commodity.update">
+		UPDATE commodity SET
+		        code = #code# ,name = #name# ,price = #price# ,unit = #unit# ,weight = #weight# ,description = #description# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.Commodity.queryById" resultMap="RM.Commodity" >
+    	SELECT
+ /*wms.Commodity.queryById*/ 		    <include refid="Commodity.columns"/>
+	        FROM commodity 
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Commodity.findPage" resultMap="RM.Commodity" >
+    	SELECT  /*wms.Commodity.findPage*/ 
+			<include refid="Commodity.columns"/>
+			FROM commodity
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.Commodity.findPage.count" resultClass="long" >
+    	select  /*wms.Commodity.findPage.count*/ count(*) 	FROM commodity
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+
