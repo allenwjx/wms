@@ -35,7 +35,7 @@ public interface ManufacturerDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         manufacturer         (           id ,serial_id ,name          )      VALUES         (?,?,?)</pre> 
+	 * <pre>INSERT      INTO         manufacturer         (           id ,code ,name ,gmt_create ,gmt_modified ,create_by ,modify_by ,settle_type           )      VALUES         (?,?,?,?,?,?,?,?)</pre> 
 	 */
 	public long insert(ManufacturerDO manufacturer) throws DataAccessException;
 
@@ -49,21 +49,21 @@ public interface ManufacturerDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         manufacturer      SET         serial_id = ? ,name = ?               WHERE         id = ?</pre> 
+	 * <pre>UPDATE         manufacturer      SET         code = ? ,name = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? ,settle_type = ?                WHERE         id = ?</pre> 
 	 */
 	public int update(ManufacturerDO manufacturer) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, serial_id, name                 FROM         manufacturer               WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, code, name, gmt_create, gmt_modified, create_by, modify_by, settle_type                  FROM         manufacturer                WHERE         id = ?</pre> 
 	 */
 	public ManufacturerDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, serial_id, name           FROM         manufacturer</pre> 
+	 * <pre>SELECT         id, code, name, gmt_create, gmt_modified, create_by, modify_by, settle_type            FROM         manufacturer</pre> 
 	 */
 	public PageList<ManufacturerDO> findPage(int pageSize,int pageNum) throws DataAccessException;
 

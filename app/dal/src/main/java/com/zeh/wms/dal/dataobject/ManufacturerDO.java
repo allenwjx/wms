@@ -36,17 +36,37 @@ public class ManufacturerDO implements java.io.Serializable {
 	private static final long serialVersionUID = -5216457518046898601L;
 	
 	/**
-	 * id 		db_column: id 
+	 * 主键 		db_column: id 
 	 */
 	private long id;
 	/**
-	 * serialId 		db_column: serial_id 
+	 * 厂商编号 		db_column: code 
 	 */
-	private String serialId;
+	private String code;
 	/**
 	 * name 		db_column: name 
 	 */
 	private String name;
+	/**
+	 * gmtCreate 		db_column: gmt_create 
+	 */
+	private Date gmtCreate;
+	/**
+	 * gmtModified 		db_column: gmt_modified 
+	 */
+	private Date gmtModified;
+	/**
+	 * createBy 		db_column: create_by 
+	 */
+	private String createBy;
+	/**
+	 * modifyBy 		db_column: modify_by 
+	 */
+	private String modifyBy;
+	/**
+	 * 结算方式； real：实时线上结算 monthly：月结算 		db_column: settle_type 
+	 */
+	private String settleType;
 
 	
 	public void setId(long id) {
@@ -57,12 +77,12 @@ public class ManufacturerDO implements java.io.Serializable {
 		return this.id;
 	}
 	
-	public void setSerialId(String serialId) {
-		this.serialId = serialId;
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
-	public String getSerialId() {
-		return this.serialId;
+	public String getCode() {
+		return this.code;
 	}
 	
 	public void setName(String name) {
@@ -72,12 +92,57 @@ public class ManufacturerDO implements java.io.Serializable {
 	public String getName() {
 		return this.name;
 	}
+	
+	public void setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
+	}
+	
+	public Date getGmtCreate() {
+		return this.gmtCreate;
+	}
+	
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+	}
+	
+	public Date getGmtModified() {
+		return this.gmtModified;
+	}
+	
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+	
+	public String getCreateBy() {
+		return this.createBy;
+	}
+	
+	public void setModifyBy(String modifyBy) {
+		this.modifyBy = modifyBy;
+	}
+	
+	public String getModifyBy() {
+		return this.modifyBy;
+	}
+	
+	public void setSettleType(String settleType) {
+		this.settleType = settleType;
+	}
+	
+	public String getSettleType() {
+		return this.settleType;
+	}
 
 	public String toString() {
 		return new ToStringBuilder(this)
 			.append("Id",getId())
-			.append("SerialId",getSerialId())
+			.append("Code",getCode())
 			.append("Name",getName())
+			.append("GmtCreate",getGmtCreate())
+			.append("GmtModified",getGmtModified())
+			.append("CreateBy",getCreateBy())
+			.append("ModifyBy",getModifyBy())
+			.append("SettleType",getSettleType())
 			.toString();
 	}
 	

@@ -34,11 +34,12 @@
         <googlecode.map.version>1.4.2</googlecode.map.version>
         <validation.api.version>2.0.1.Final</validation.api.version>
         <validation.hibernate.version>6.0.7.Final</validation.hibernate.version>
+        <zxing.version>3.3.2</zxing.version>
     </properties>
 
     <modules>
-                <module>app/web</module>
-                <module>app/test</module>
+        <module>app/web</module>
+        <module>app/test</module>
         <module>app/facade</module>
         <module>app/facade-impl</module>
         <module>app/integration</module>
@@ -50,12 +51,12 @@
 
     <dependencyManagement>
         <dependencies>
-                        <dependency>
+            <dependency>
                 <groupId>com.zeh.wms</groupId>
                 <artifactId>wms-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
-                        <dependency>
+            <dependency>
                 <groupId>com.zeh.wms</groupId>
                 <artifactId>wms-biz</artifactId>
                 <version>${project.version}</version>
@@ -245,6 +246,16 @@
                 <version>${validation.hibernate.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
@@ -413,7 +424,6 @@
                     <version>2.8.1</version>
                     <configuration>
                         <argLine>-Xms512m -Xmx1024m</argLine>
-                        <fork>true</fork>
                         <testFailureIgnore>true</testFailureIgnore>
                         <includes>
                             <include>**/*Test.java</include>
