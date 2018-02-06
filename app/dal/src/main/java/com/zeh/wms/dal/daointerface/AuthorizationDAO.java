@@ -35,7 +35,7 @@ public interface AuthorizationDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         authorization         (           id ,name ,code ,path ,gmt_create ,gmt_modifeid ,create_by ,modified_by           )      VALUES         (?,?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         authorization         (           id ,name ,code ,path ,gmt_create ,gmt_modifeid ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?)</pre> 
 	 */
 	public long insert(AuthorizationDO authorization) throws DataAccessException;
 
@@ -49,21 +49,21 @@ public interface AuthorizationDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         authorization      SET         name = ? ,code = ? ,path = ? ,gmt_create = ? ,gmt_modifeid = ? ,create_by = ? ,modified_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         authorization      SET         name = ? ,code = ? ,path = ? ,gmt_create = ? ,gmt_modifeid = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
 	 */
 	public int update(AuthorizationDO authorization) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, name, code, path, gmt_create, gmt_modifeid, create_by, modified_by                  FROM         authorization                WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, name, code, path, gmt_create, gmt_modifeid, create_by, modify_by                  FROM         authorization                WHERE         id = ?</pre> 
 	 */
 	public AuthorizationDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, name, code, path, gmt_create, gmt_modifeid, create_by, modified_by            FROM         authorization</pre> 
+	 * <pre>SELECT         id, name, code, path, gmt_create, gmt_modifeid, create_by, modify_by            FROM         authorization</pre> 
 	 */
 	public PageList<AuthorizationDO> findPage(int pageSize,int pageNum) throws DataAccessException;
 

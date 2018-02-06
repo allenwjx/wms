@@ -42,7 +42,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         authorization         (           id ,name ,code ,path ,gmt_create ,gmt_modifeid ,create_by ,modified_by           )      VALUES         (?,?,?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         authorization         (           id ,name ,code ,path ,gmt_create ,gmt_modifeid ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?)</pre>
 	 */
 	public long insert(AuthorizationDO authorization) throws DataAccessException {
 		if(authorization == null) {
@@ -64,7 +64,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         authorization      SET         name = ? ,code = ? ,path = ? ,gmt_create = ? ,gmt_modifeid = ? ,create_by = ? ,modified_by = ?                WHERE         id = ?</pre>
+	 * <pre>UPDATE         authorization      SET         name = ? ,code = ? ,path = ? ,gmt_create = ? ,gmt_modifeid = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre>
 	 */
 	public int update(AuthorizationDO authorization) throws DataAccessException {
 		if(authorization == null) {
@@ -76,7 +76,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, code, path, gmt_create, gmt_modifeid, create_by, modified_by                  FROM         authorization                WHERE         id = ?</pre>
+	 * <pre>SELECT         id, name, code, path, gmt_create, gmt_modifeid, create_by, modify_by                  FROM         authorization                WHERE         id = ?</pre>
 	 */
 	public AuthorizationDO queryById(Long id) throws DataAccessException {
 		return (AuthorizationDO)getSqlMapClientTemplate().queryForObject("wms.Authorization.queryById",id);
@@ -85,7 +85,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, code, path, gmt_create, gmt_modifeid, create_by, modified_by            FROM         authorization</pre>
+	 * <pre>SELECT         id, name, code, path, gmt_create, gmt_modifeid, create_by, modify_by            FROM         authorization</pre>
 	 */
 	public PageList<AuthorizationDO> findPage(int pageSize,int pageNum) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Authorization.findPage",null,pageNum,pageSize);

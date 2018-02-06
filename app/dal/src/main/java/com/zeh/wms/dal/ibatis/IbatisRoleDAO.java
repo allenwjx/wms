@@ -42,7 +42,7 @@ public class IbatisRoleDAO extends SqlMapClientDaoSupport implements RoleDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         role         (           id ,name ,gmt_create ,gmt_modified ,create_by ,modified_by           )      VALUES         (?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         role         (           id ,name ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?)</pre>
 	 */
 	public long insert(RoleDO role) throws DataAccessException {
 		if(role == null) {
@@ -64,7 +64,7 @@ public class IbatisRoleDAO extends SqlMapClientDaoSupport implements RoleDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         role      SET         name = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modified_by = ?                WHERE         id = ?</pre>
+	 * <pre>UPDATE         role      SET         name = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre>
 	 */
 	public int update(RoleDO role) throws DataAccessException {
 		if(role == null) {
@@ -76,7 +76,7 @@ public class IbatisRoleDAO extends SqlMapClientDaoSupport implements RoleDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, gmt_create, gmt_modified, create_by, modified_by                  FROM         role                WHERE         id = ?</pre>
+	 * <pre>SELECT         id, name, gmt_create, gmt_modified, create_by, modify_by                  FROM         role                WHERE         id = ?</pre>
 	 */
 	public RoleDO queryById(Long id) throws DataAccessException {
 		return (RoleDO)getSqlMapClientTemplate().queryForObject("wms.Role.queryById",id);
@@ -85,7 +85,7 @@ public class IbatisRoleDAO extends SqlMapClientDaoSupport implements RoleDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, gmt_create, gmt_modified, create_by, modified_by            FROM         role</pre>
+	 * <pre>SELECT         id, name, gmt_create, gmt_modified, create_by, modify_by            FROM         role</pre>
 	 */
 	public PageList<RoleDO> findPage(int pageSize,int pageNum) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Role.findPage",null,pageNum,pageSize);

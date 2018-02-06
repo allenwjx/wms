@@ -7,6 +7,7 @@
     
     <resultMap id="RM.Commodity" class="com.zeh.wms.dal.dataobject.CommodityDO">
 		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="manufacturerId" column="manufacturer_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="price" column="price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
@@ -20,7 +21,7 @@
     </resultMap>
     
 	<sql id="Commodity.columns">
-		id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by
+		id, manufacturer_id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -29,8 +30,8 @@
     
 	<insert id="wms.Commodity.insert">
 		INSERT INTO commodity (
-	        	id ,code ,name ,price ,unit ,weight ,description ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (#id#,#code#,#name#,#price#,#unit#,#weight#,#description#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+	        	id ,manufacturer_id ,code ,name ,price ,unit ,weight ,description ,gmt_create ,gmt_modified ,create_by ,modify_by 
+	        ) VALUES (#id#,#manufacturerId#,#code#,#name#,#price#,#unit#,#weight#,#description#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -45,7 +46,7 @@
 	
 	<update id="wms.Commodity.update">
 		UPDATE commodity SET
-		        code = #code# ,name = #name# ,price = #price# ,unit = #unit# ,weight = #weight# ,description = #description# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
+		        manufacturer_id = #manufacturerId# ,code = #code# ,name = #name# ,price = #price# ,unit = #unit# ,weight = #weight# ,description = #description# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
 	        WHERE 
 	        	id = #id#
 	</update>

@@ -13,11 +13,11 @@
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="modifiedBy" column="modified_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
     </resultMap>
     
 	<sql id="Qrcode.columns">
-		id, serial_no, commodity_id, data, gmt_create, gmt_modified, create_by, modified_by
+		id, serial_no, commodity_id, data, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -26,8 +26,8 @@
     
 	<insert id="wms.Qrcode.insert">
 		INSERT INTO qrcode (
-	        	id ,serial_no ,commodity_id ,data ,gmt_create ,gmt_modified ,create_by ,modified_by 
-	        ) VALUES (#id#,#serialNo#,#commodityId#,#data#,#gmtCreate#,#gmtModified#,#createBy#,#modifiedBy#)
+	        	id ,serial_no ,commodity_id ,data ,gmt_create ,gmt_modified ,create_by ,modify_by 
+	        ) VALUES (#id#,#serialNo#,#commodityId#,#data#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -42,7 +42,7 @@
 	
 	<update id="wms.Qrcode.update">
 		UPDATE qrcode SET
-		        serial_no = #serialNo# ,commodity_id = #commodityId# ,data = #data# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modified_by = #modifiedBy# 
+		        serial_no = #serialNo# ,commodity_id = #commodityId# ,data = #data# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
 	        WHERE 
 	        	id = #id#
 	</update>

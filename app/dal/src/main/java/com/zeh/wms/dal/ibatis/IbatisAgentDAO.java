@@ -42,7 +42,7 @@ public class IbatisAgentDAO extends SqlMapClientDaoSupport implements AgentDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         agent         (           id ,code ,external_code ,name ,mobile ,address           )      VALUES         (?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         agent         (           id ,code ,external_code ,name ,mobile ,address ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?)</pre>
 	 */
 	public long insert(AgentDO agent) throws DataAccessException {
 		if(agent == null) {
@@ -64,7 +64,7 @@ public class IbatisAgentDAO extends SqlMapClientDaoSupport implements AgentDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         agent      SET         code = ? ,external_code = ? ,name = ? ,mobile = ? ,address = ?                WHERE         id = ?</pre>
+	 * <pre>UPDATE         agent      SET         code = ? ,external_code = ? ,name = ? ,mobile = ? ,address = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre>
 	 */
 	public int update(AgentDO agent) throws DataAccessException {
 		if(agent == null) {
@@ -76,7 +76,7 @@ public class IbatisAgentDAO extends SqlMapClientDaoSupport implements AgentDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, code, external_code, name, mobile, address                  FROM         agent                WHERE         id = ?</pre>
+	 * <pre>SELECT         id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by                  FROM         agent                WHERE         id = ?</pre>
 	 */
 	public AgentDO queryById(Long id) throws DataAccessException {
 		return (AgentDO)getSqlMapClientTemplate().queryForObject("wms.Agent.queryById",id);
@@ -85,7 +85,7 @@ public class IbatisAgentDAO extends SqlMapClientDaoSupport implements AgentDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, code, external_code, name, mobile, address            FROM         agent</pre>
+	 * <pre>SELECT         id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by            FROM         agent</pre>
 	 */
 	public PageList<AgentDO> findPage(int pageSize,int pageNum) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Agent.findPage",null,pageNum,pageSize);

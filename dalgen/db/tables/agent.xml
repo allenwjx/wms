@@ -5,15 +5,15 @@
 	<!-- 不需要配置的列请删除 -->
 	
 	<sql id="Agent.columns">
-		id, code, external_code, name, mobile, address 
+		id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by 
 	</sql>
 	
 	<operation name="insert" paramtype="object">
 		<sql>
 			INSERT INTO agent (
-	        	id ,code ,external_code ,name ,mobile ,address 
+	        	id ,code ,external_code ,name ,mobile ,address ,gmt_create ,gmt_modified ,create_by ,modify_by 
 	        ) VALUES (
-	        	? ,? ,? ,? ,? ,?         
+	        	? ,? ,? ,? ,? ,? ,? ,? ,? ,?         
 	        )
 		</sql>		
 	</operation>
@@ -28,7 +28,7 @@
 	<operation name="update" paramtype="object">
 		<sql>
 	        UPDATE agent SET
-		        code = ? ,external_code = ? ,name = ? ,mobile = ? ,address = ? 
+		        code = ? ,external_code = ? ,name = ? ,mobile = ? ,address = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
 	        WHERE 
 	        	id = ? 
 		</sql>					

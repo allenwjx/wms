@@ -13,11 +13,11 @@
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="modifiedBy" column="modified_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
     </resultMap>
     
 	<sql id="ShipRecord.columns">
-		id, agent_id, commodity_id, qrcode_no, gmt_create, gmt_modified, create_by, modified_by
+		id, agent_id, commodity_id, qrcode_no, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -26,8 +26,8 @@
     
 	<insert id="wms.ShipRecord.insert">
 		INSERT INTO ship_record (
-	        	id ,agent_id ,commodity_id ,qrcode_no ,gmt_create ,gmt_modified ,create_by ,modified_by 
-	        ) VALUES (#id#,#agentId#,#commodityId#,#qrcodeNo#,#gmtCreate#,#gmtModified#,#createBy#,#modifiedBy#)
+	        	id ,agent_id ,commodity_id ,qrcode_no ,gmt_create ,gmt_modified ,create_by ,modify_by 
+	        ) VALUES (#id#,#agentId#,#commodityId#,#qrcodeNo#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -42,7 +42,7 @@
 	
 	<update id="wms.ShipRecord.update">
 		UPDATE ship_record SET
-		        agent_id = #agentId# ,commodity_id = #commodityId# ,qrcode_no = #qrcodeNo# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modified_by = #modifiedBy# 
+		        agent_id = #agentId# ,commodity_id = #commodityId# ,qrcode_no = #qrcodeNo# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
 	        WHERE 
 	        	id = #id#
 	</update>

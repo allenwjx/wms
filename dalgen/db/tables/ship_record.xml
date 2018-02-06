@@ -5,13 +5,13 @@
 	<!-- 不需要配置的列请删除 -->
 	
 	<sql id="ShipRecord.columns">
-		id, agent_id, commodity_id, qrcode_no, gmt_create, gmt_modified, create_by, modified_by 
+		id, agent_id, commodity_id, qrcode_no, gmt_create, gmt_modified, create_by, modify_by 
 	</sql>
 	
 	<operation name="insert" paramtype="object">
 		<sql>
 			INSERT INTO ship_record (
-	        	id ,agent_id ,commodity_id ,qrcode_no ,gmt_create ,gmt_modified ,create_by ,modified_by 
+	        	id ,agent_id ,commodity_id ,qrcode_no ,gmt_create ,gmt_modified ,create_by ,modify_by 
 	        ) VALUES (
 	        	? ,? ,? ,? ,? ,? ,? ,?         
 	        )
@@ -28,7 +28,7 @@
 	<operation name="update" paramtype="object">
 		<sql>
 	        UPDATE ship_record SET
-		        agent_id = ? ,commodity_id = ? ,qrcode_no = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modified_by = ? 
+		        agent_id = ? ,commodity_id = ? ,qrcode_no = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
 	        WHERE 
 	        	id = ? 
 		</sql>					
