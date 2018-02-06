@@ -4,11 +4,13 @@ import com.zeh.jungle.core.error.JGError;
 import com.zeh.jungle.core.exception.JGException;
 
 /**
+ * 服务异常
+ *
  * @author allen
- * @create $ ID: QRCodeException, 18/2/6 13:29 allen Exp $
+ * @create $ ID: ServiceException, 18/2/6 16:51 allen Exp $
  * @since 1.0.0
  */
-public class QRCodeException extends JGException {
+public class ServiceException extends JGException {
     /**  */
     private static final long serialVersionUID = 1L;
 
@@ -17,7 +19,7 @@ public class QRCodeException extends JGException {
      *
      * @param error 错误实例
      */
-    public QRCodeException(JGError error) {
+    public ServiceException(JGError error) {
         super(error);
     }
 
@@ -27,7 +29,7 @@ public class QRCodeException extends JGException {
      * @param error 错误实例
      * @param cause 异常
      */
-    public QRCodeException(JGError error, Throwable cause) {
+    public ServiceException(JGError error, Throwable cause) {
         super(error, cause);
     }
 
@@ -36,7 +38,7 @@ public class QRCodeException extends JGException {
      *
      * @param cause 异常
      */
-    public QRCodeException(Throwable cause) {
+    public ServiceException(Throwable cause) {
         super(cause);
     }
 }
