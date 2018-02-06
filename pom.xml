@@ -37,6 +37,8 @@
         <zxing.version>3.3.2</zxing.version>
         <lombok.version>1.16.20</lombok.version>
         <fastjson.version>1.2.7</fastjson.version>
+        <mapstruct.version>1.2.0.Final</mapstruct.version>
+        <joda-time.version>[2.9,)</joda-time.version>
     </properties>
 
     <modules>
@@ -203,6 +205,11 @@
                 <version>${velocity.tools.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-jdk8</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
                 <version>2.5</version>
@@ -256,6 +263,11 @@
                 <groupId>com.google.zxing</groupId>
                 <artifactId>javase</artifactId>
                 <version>${zxing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -387,6 +399,10 @@
                     <configuration>
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
+                        <encoding>UTF-8</encoding>
+                        <showWarnings>true</showWarnings>
+                        <fork>true</fork>
+                        <compilerVersion>${jdk.version}</compilerVersion>
                     </configuration>
                 </plugin>
                 <plugin>

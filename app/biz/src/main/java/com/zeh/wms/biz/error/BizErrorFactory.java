@@ -59,4 +59,13 @@ public class BizErrorFactory extends AbstractErrorFactory {
         return createError("JG0510010002", qrcode);
     }
 
+    /**
+     * JG0510011001=厂商创建失败，厂商数据不能为空
+     *
+     * @return JGError
+     */
+    public JGError createManufacturerError() {
+        return createError("JG0510011001");
+    }
+
 }

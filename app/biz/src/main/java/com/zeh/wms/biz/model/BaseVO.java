@@ -25,24 +25,4 @@ public class BaseVO extends AbstractModel<Long> {
     private String            createBy;
     /** 修改人 */
     private String            modifyBy;
-
-    /**
-     * 获取领域模型ID
-     *
-     * @return 返回ID
-     */
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * 设置领域模型ID
-     *
-     * @param id 领域模型ID
-     */
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
