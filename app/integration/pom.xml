@@ -17,6 +17,18 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zeh.jungle</groupId>
+            <artifactId>jungle-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zeh.jungle</groupId>
+            <artifactId>jungle-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
