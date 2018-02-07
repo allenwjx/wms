@@ -115,7 +115,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         }
         QueryByPageQuery query = new QueryByPageQuery();
         query.setCode(manufacturer.getCode());
-        query.setExpress(manufacturer.getExpress() == null ? null : manufacturer.getCode());
+        query.setExpress(manufacturer.getExpress() == null ? null : manufacturer.getExpress().getCode());
         query.setName(manufacturer.getName());
         query.setSettleType(manufacturer.getSettleType() == null ? null : manufacturer.getSettleType().getCode());
         query.setPage(currentPage);
