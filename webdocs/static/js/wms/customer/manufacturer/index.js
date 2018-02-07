@@ -42,11 +42,7 @@ $(document).ready(function () {
                     url: __ctx + "/customer/manufacturer/list",
                     data: $.extend(self.queryForm, pageInfo)
                 }).done(function (response) {
-                    if (response.result) {
-                        self.pageResult = response;
-                    } else {
-                        toastr.error(response.message);
-                    }
+                    self.pageResult = response;
                 });
             },
             reset: function () {

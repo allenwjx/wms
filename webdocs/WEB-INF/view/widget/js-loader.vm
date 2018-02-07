@@ -39,32 +39,6 @@
     $(document).ajaxStop(function () {
         Metronic.unblockUI();
     });
-
-    // CSRF
-    debugger;
-    var csrfHeader = {'${_csrf.headerName}': '${_csrf.token}'};
-    jQuery.ajaxSetup({
-        headers: csrfHeader,
-        error: function (err) {
-            toastr.error(err, '', {timeOut: 3000, positionClass: "toast-top-center"});
-        }
-    });
-
-    // SSO error
-    $(document).ajaxError(function (event, xhr, options) {
-        try {
-            var returnMsg = xhr.responseText;
-            var returnObj = JSON.parse(returnMsg);
-            if (returnObj.code == 'LY0500102003') {
-                toastr.error(returnObj.message + '请刷新页面', '', {timeOut: 3000, positionClass: "toast-top-center"});
-            }
-            if (returnObj.code == 'LY0500102007') {
-                window.location.href = __ctx + '/page/error/403';
-            }
-        } catch (e) {
-        }
-    });
-
     jQuery(document).ready(function () {
         Metronic.init();
         Layout.init();
