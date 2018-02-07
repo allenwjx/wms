@@ -1,5 +1,7 @@
 package com.zeh.wms.biz.mapper;
 
+import java.util.Collection;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueMappingStrategy;
 
@@ -16,4 +18,6 @@ public interface ManufacturerMapper extends AbstractMapper {
     ManufacturerDO v2d(ManufacturerVO dataVO);
 
     ManufacturerVO d2v(ManufacturerDO dataObject);
+
+    Collection<ManufacturerVO> d2vs(Collection<ManufacturerDO> dataObjects);
 }

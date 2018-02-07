@@ -68,4 +68,22 @@ public class BizErrorFactory extends AbstractErrorFactory {
         return createError("JG0510011001");
     }
 
+    /**
+     * JG0510011002=厂商更新失败，厂商数据ID不能为空
+     *
+     * @return JGError
+     */
+    public JGError updateManufacturerError() {
+        return createError("JG0510011002");
+    }
+
+    /**
+     * JG0510011003=厂商查询失败，查询条件不能为空
+     * 
+     * @return JGError
+     */
+    public JGError queryManufacturerError() {
+        return createError("JG0510011003");
+    }
+
 }

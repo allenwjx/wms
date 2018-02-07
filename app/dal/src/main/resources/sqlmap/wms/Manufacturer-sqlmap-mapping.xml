@@ -9,15 +9,16 @@
 		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="settleType" column="settle_type" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="express" column="express" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="settleType" column="settle_type" javaType="java.lang.String" jdbcType="VARCHAR"  />
     </resultMap>
     
 	<sql id="Manufacturer.columns">
-		id, code, name, gmt_create, gmt_modified, create_by, modify_by, settle_type
+		id, code, name, settle_type, express, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -26,8 +27,8 @@
     
 	<insert id="wms.Manufacturer.insert">
 		INSERT INTO manufacturer (
-	        	id ,code ,name ,gmt_create ,gmt_modified ,create_by ,modify_by ,settle_type 
-	        ) VALUES (#id#,#code#,#name#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#,#settleType#)
+            id ,code ,name ,settle_type ,express ,gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (#id#,#code#,#name#,#settleType#,#express#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -36,25 +37,25 @@
 	
 	<delete id="wms.Manufacturer.delete">
 		DELETE FROM manufacturer WHERE
-	        id = #id#
+            id = #id#
     </delete>
     
 	
 	<update id="wms.Manufacturer.update">
 		UPDATE manufacturer SET
-		        code = #code# ,name = #name# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# ,settle_type = #settleType# 
-	        WHERE 
-	        	id = #id#
+            code = #code# ,name = #name# ,settle_type = #settleType# ,express = #express# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy#
+            WHERE
+            id = #id#
 	</update>
 	
     
 	
 	<select id="wms.Manufacturer.queryById" resultMap="RM.Manufacturer" >
     	SELECT
- /*wms.Manufacturer.queryById*/ 		    <include refid="Manufacturer.columns"/>
-	        FROM manufacturer 
-	        WHERE 
-		        id = #id#
+ /*wms.Manufacturer.queryById*/             <include refid="Manufacturer.columns"/>
+            FROM manufacturer
+            WHERE
+            id = #id#
 	</select>	
 
 	    
@@ -62,15 +63,59 @@
 	
     
 	
-	<select id="wms.Manufacturer.findPage" resultMap="RM.Manufacturer" >
-    	SELECT  /*wms.Manufacturer.findPage*/ 
-			<include refid="Manufacturer.columns"/>
-			FROM manufacturer
+	<select id="wms.Manufacturer.queryByCode" resultMap="RM.Manufacturer" >
+    	SELECT
+ /*wms.Manufacturer.queryByCode*/             <include refid="Manufacturer.columns"/>
+            FROM manufacturer
+            WHERE
+            code = #code#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Manufacturer.queryByPage" resultMap="RM.Manufacturer" >
+    	SELECT
+ /*wms.Manufacturer.queryByPage*/             <include refid="Manufacturer.columns"/>
+            FROM manufacturer
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="settleType">
+                    settle_type = #settleType#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="express">
+                    express = #express#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
 			limit #offset#,#limit#
 	</select>	
 
-	<select id="wms.Manufacturer.findPage.count" resultClass="long" >
-    	select  /*wms.Manufacturer.findPage.count*/ count(*) 	FROM manufacturer
+	<select id="wms.Manufacturer.queryByPage.count" resultClass="long" >
+    	select  /*wms.Manufacturer.queryByPage.count*/ count(*)  FROM manufacturer
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="settleType">
+                    settle_type = #settleType#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="express">
+                    express = #express#
+                </isNotEmpty>
+            </dynamic>
 	</select>
 	    
 	

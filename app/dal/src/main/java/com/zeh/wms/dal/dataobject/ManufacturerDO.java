@@ -48,6 +48,14 @@ public class ManufacturerDO implements java.io.Serializable {
 	 */
 	private String name;
 	/**
+	 * 结算方式； real：实时线上结算 monthly：月结算 		db_column: settle_type 
+	 */
+	private String settleType;
+	/**
+	 * 快递公司类型，SF-顺丰，DEPPON-德邦 		db_column: express 
+	 */
+	private String express;
+	/**
 	 * gmtCreate 		db_column: gmt_create 
 	 */
 	private Date gmtCreate;
@@ -63,10 +71,6 @@ public class ManufacturerDO implements java.io.Serializable {
 	 * modifyBy 		db_column: modify_by 
 	 */
 	private String modifyBy;
-	/**
-	 * 结算方式； real：实时线上结算 monthly：月结算 		db_column: settle_type 
-	 */
-	private String settleType;
 
 	
 	public void setId(long id) {
@@ -91,6 +95,22 @@ public class ManufacturerDO implements java.io.Serializable {
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public void setSettleType(String settleType) {
+		this.settleType = settleType;
+	}
+	
+	public String getSettleType() {
+		return this.settleType;
+	}
+	
+	public void setExpress(String express) {
+		this.express = express;
+	}
+	
+	public String getExpress() {
+		return this.express;
 	}
 	
 	public void setGmtCreate(Date gmtCreate) {
@@ -124,25 +144,18 @@ public class ManufacturerDO implements java.io.Serializable {
 	public String getModifyBy() {
 		return this.modifyBy;
 	}
-	
-	public void setSettleType(String settleType) {
-		this.settleType = settleType;
-	}
-	
-	public String getSettleType() {
-		return this.settleType;
-	}
 
 	public String toString() {
 		return new ToStringBuilder(this)
 			.append("Id",getId())
 			.append("Code",getCode())
 			.append("Name",getName())
+			.append("SettleType",getSettleType())
+			.append("Express",getExpress())
 			.append("GmtCreate",getGmtCreate())
 			.append("GmtModified",getGmtModified())
 			.append("CreateBy",getCreateBy())
 			.append("ModifyBy",getModifyBy())
-			.append("SettleType",getSettleType())
 			.toString();
 	}
 	

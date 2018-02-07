@@ -35,7 +35,7 @@ public interface AgentDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         agent         (           id ,code ,external_code ,name ,mobile ,address ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         agent         (             id ,code ,external_code ,name ,mobile ,address ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,?,?,?,?,?)</pre> 
 	 */
 	public long insert(AgentDO agent) throws DataAccessException;
 
@@ -49,23 +49,30 @@ public interface AgentDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         agent      SET         code = ? ,external_code = ? ,name = ? ,mobile = ? ,address = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         agent      SET         code = ? ,external_code = ? ,name = ? ,mobile = ? ,address = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                  WHERE         id = ?</pre> 
 	 */
 	public int update(AgentDO agent) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by                  FROM         agent                WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent                  WHERE         id = ?</pre> 
 	 */
 	public AgentDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by            FROM         agent</pre> 
+	 * <pre>SELECT         id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent                  WHERE         code = ?</pre> 
 	 */
-	public PageList<AgentDO> findPage(int pageSize,int pageNum) throws DataAccessException;
+	public AgentDO queryByCode(String code) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent                  WHERE         1=1                                        AND                      code = ?                                            AND                      external_code = ?                                            AND                      name = ?                                            AND                      mobile = ?                                                ORDER BY         gmt_modified DESC</pre> 
+	 */
+	public PageList<AgentDO> queryByPage(QueryByPageQuery param) throws DataAccessException;
 
 }
 

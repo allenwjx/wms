@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:p="http://www.springframework.org/schema/p"
-	   xmlns:jungle="http://schema.jungle.com/schema/jungle"
-	   xmlns:context="http://www.springframework.org/schema/context"
-	   xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:jungle="http://schema.jungle.com/schema/jungle"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://schema.jungle.com/schema/jungle http://schema.jungle.com/schema/jungle.xsd"
-	   default-autowire="byName">
+       default-autowire="byName">
+
+    <bean class="com.zeh.jungle.web.handler.AjaxExceptionHandler">
+        <property name="defaultErrorView" value="/error/500"/>
+        <property name="exceptionMappings">
+            <props>
+                <prop key="java.lang.Exception">/error/500</prop>
+                <prop key="com.zeh.jungle.core.exception.JGException">/error/500</prop>
+                <prop key="import com.zeh.jungle.core.exception.JGRuntimeException">/error/500</prop>
+            </props>
+        </property>
+    </bean>
 </beans>

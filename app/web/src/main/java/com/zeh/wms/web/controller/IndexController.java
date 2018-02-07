@@ -1,15 +1,17 @@
 package com.zeh.wms.web.controller;
 
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.utils.common.LoggerUtils;
-import com.zeh.wms.dal.daointerface.ManufacturerDAO;
-import com.zeh.wms.dal.dataobject.ManufacturerDO;
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.annotation.Resource;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.utils.common.LoggerUtils;
+import com.zeh.wms.biz.exception.ServiceException;
+import com.zeh.wms.biz.model.ManufacturerVO;
+import com.zeh.wms.biz.service.ManufacturerService;
 
 /**
  * 
@@ -22,11 +24,14 @@ public class IndexController {
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
     @Resource
-    private ManufacturerDAO     manufacturerDAO;
+    private ManufacturerService manufacturerService;
 
     @RequestMapping("/index")
-    public String sample() {
-        PageList<ManufacturerDO> manufacturerPageList = manufacturerDAO.findPage(20, 1);
+    public String sample() throws ServiceException {
+        ManufacturerVO m = new ManufacturerVO();
+        m.setCode("a12841232");
+
+        PageList<ManufacturerVO> manufacturerPageList = manufacturerService.pageQueryManufacturers(m, 1, 10);
         LoggerUtils.info(LOGGER, "data: {}", manufacturerPageList.getData());
         return "index";
     }

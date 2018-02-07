@@ -2,55 +2,79 @@
 <!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
 
 <table sqlname="agent">
-	<!-- 不需要配置的列请删除 -->
-	
-	<sql id="Agent.columns">
-		id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by 
-	</sql>
-	
-	<operation name="insert" paramtype="object">
-		<sql>
-			INSERT INTO agent (
-	        	id ,code ,external_code ,name ,mobile ,address ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (
-	        	? ,? ,? ,? ,? ,? ,? ,? ,? ,?         
-	        )
-		</sql>		
-	</operation>
+    <!-- 不需要配置的列请删除 -->
 
-	<operation name="delete">
-		<sql>
-	        DELETE FROM agent WHERE
-	        id = ? 
-		</sql>
-	</operation>
-	
-	<operation name="update" paramtype="object">
-		<sql>
-	        UPDATE agent SET
-		        code = ? ,external_code = ? ,name = ? ,mobile = ? ,address = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
-	        WHERE 
-	        	id = ? 
-		</sql>					
-	</operation>
+    <sql id="Agent.columns">
+        id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by
+    </sql>
 
-	<operation name="queryById" multiplicity="one">
-		<sql>
-	    	SELECT
-		    <include refid="Agent.columns"/>
-	        FROM agent 
-	        WHERE 
-		        id = ? 
-		</sql>
-	</operation>
+    <operation name="insert" paramtype="object">
+        <sql>
+            INSERT INTO agent (
+            id ,code ,external_code ,name ,mobile ,address ,gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (
+            ? ,? ,? ,? ,? ,? ,? ,? ,? ,?
+            )
+        </sql>
+    </operation>
 
-	
-	<operation name="findPage" multiplicity="paging">
-		<sql>
-			SELECT 
-			<include refid="Agent.columns"/>
-			FROM agent 
-		</sql>
-	</operation>
+    <operation name="delete">
+        <sql>
+            DELETE FROM agent WHERE
+            id = ?
+        </sql>
+    </operation>
 
+    <operation name="update" paramtype="object">
+        <sql>
+            UPDATE agent SET
+            code = ? ,external_code = ? ,name = ? ,mobile = ? ,address = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Agent.columns"/>
+            FROM agent
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByCode" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Agent.columns"/>
+            FROM agent
+            WHERE
+            code = #code#
+        </sql>
+    </operation>
+
+    <operation name="queryByPage" paramtype="parameterObject" multiplicity="paging">
+        <sql>
+            SELECT
+            <include refid="Agent.columns"/>
+            FROM agent
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="externalCode">
+                    external_code = #externalCode#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="mobile">
+                    mobile = #mobile#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
+        </sql>
+    </operation>
 </table>
