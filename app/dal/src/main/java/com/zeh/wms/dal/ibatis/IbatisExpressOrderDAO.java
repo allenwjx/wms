@@ -76,7 +76,7 @@ public class IbatisExpressOrderDAO extends SqlMapClientDaoSupport implements Exp
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, order_no, other_order_no, code, status, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail, sender_zip_code, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code, express_type, total_price, gmt_create, gmt_modified, create_by, modify_by                  FROM         express_order                WHERE         id = ?</pre>
+	 * <pre>SELECT         id, order_no, other_order_no, code, type, status, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail, sender_zip_code, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code, express_type, total_price, gmt_create, gmt_modified, create_by, modify_by                 FROM         express_order                WHERE         id = ?</pre>
 	 */
 	public ExpressOrderDO queryById(Long id) throws DataAccessException {
 		return (ExpressOrderDO)getSqlMapClientTemplate().queryForObject("wms.ExpressOrder.queryById",id);
@@ -85,10 +85,10 @@ public class IbatisExpressOrderDAO extends SqlMapClientDaoSupport implements Exp
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, order_no, other_order_no, code, status, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail, sender_zip_code, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code, express_type, total_price, gmt_create, gmt_modified, create_by, modify_by            FROM         express_order</pre>
+	 * <pre>SELECT         id, order_no, other_order_no, code, type, status, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail, sender_zip_code, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code, express_type, total_price, gmt_create, gmt_modified, create_by, modify_by           FROM         express_order         WHERE         1=1                               AND                      order_no = ?                                            AND                      other_order_no = ?                                            AND                      code = ?                                            AND                      type = ?                                            AND                      status = ?                                            AND                      receiver_name like concat('%',?,'%')                                            AND                      receiver_tel = ?                                            AND                      express_type = ?                                            AND                                               gmt_create >= ?                                                                 AND                                               gmt_create <= ?</pre>
 	 */
-	public PageList<ExpressOrderDO> findPage(int pageSize,int pageNum) throws DataAccessException {
-		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.ExpressOrder.findPage",null,pageNum,pageSize);
+	public PageList<ExpressOrderDO> findPage(FindPageQuery param) throws DataAccessException {
+		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.ExpressOrder.findPage",param);
 	}
 
 }

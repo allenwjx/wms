@@ -1,13 +1,12 @@
 package com.zeh.wms.biz.model;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
 import com.zeh.wms.biz.model.enums.ExpressTypeEnum;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * 快递单模型
@@ -34,11 +33,11 @@ public class ExpressOrderVO extends BaseVO {
     /** 寄件人电话 */
     private String                   senderTel;
     /** 寄件人地址：省 */
-    private ProvinceVO               senderProvince;
+    private String                   senderProvince;
     /** 寄件人地址：城市 */
-    private CityVO                   senderCity;
+    private String                   senderCity;
     /** 寄件人地址：区 */
-    private DistrictVO               senderRegion;
+    private String                   senderRegion;
     /** 寄件人地址明细 */
     private String                   senderAddressDetail;
     /** 寄件人邮编 */
@@ -48,11 +47,11 @@ public class ExpressOrderVO extends BaseVO {
     /** 收件人电话 */
     private String                   receiverTel;
     /** 收件人地址：省 */
-    private ProvinceVO               receiverProvince;
+    private String                   receiverProvince;
     /** 收件人地址：城市 */
-    private CityVO                   receiverCity;
+    private String                   receiverCity;
     /** 收件人地址：区 */
-    private DistrictVO               receiverRegion;
+    private String                   receiverRegion;
     /** 收件人详细地址 */
     private String                   receiverAddressDetail;
     /** 收件人邮编 */

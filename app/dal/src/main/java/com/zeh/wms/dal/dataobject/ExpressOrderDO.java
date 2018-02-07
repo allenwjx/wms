@@ -52,6 +52,10 @@ public class ExpressOrderDO implements java.io.Serializable {
 	 */
 	private String code;
 	/**
+	 * 类型：代理商，厂商； 代理商：A； 厂商：B； 		db_column: type 
+	 */
+	private String type;
+	/**
 	 * 订单状态; WATI_PAY（待支付）； WAIT_PICKUP（待取件）； WAIT_SEND（待发货）； SENDED（已发货）； CANCEL（订单取消）; 		db_column: status 
 	 */
 	private String status;
@@ -167,6 +171,14 @@ public class ExpressOrderDO implements java.io.Serializable {
 	
 	public String getCode() {
 		return this.code;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	public String getType() {
+		return this.type;
 	}
 	
 	public void setStatus(String status) {
@@ -343,6 +355,7 @@ public class ExpressOrderDO implements java.io.Serializable {
 			.append("OrderNo",getOrderNo())
 			.append("OtherOrderNo",getOtherOrderNo())
 			.append("Code",getCode())
+			.append("Type",getType())
 			.append("Status",getStatus())
 			.append("SenderName",getSenderName())
 			.append("SenderTel",getSenderTel())
