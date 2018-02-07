@@ -13,7 +13,7 @@
             INSERT INTO manufacturer (
             id ,code ,name ,settle_type ,express ,gmt_create ,gmt_modified ,create_by ,modify_by
             ) VALUES (
-            ? ,? ,? ,? ,? ,? ,? ,? ,?
+            ? ,? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
             )
         </sql>
     </operation>
@@ -28,7 +28,7 @@
     <operation name="update" paramtype="object">
         <sql>
             UPDATE manufacturer SET
-            code = ? ,name = ? ,settle_type = ? ,express = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?
+            name = ? ,settle_type = ? ,express = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
             WHERE
             id = ?
         </sql>

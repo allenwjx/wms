@@ -4,11 +4,15 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.Paginator;
+import com.zeh.jungle.utils.page.SingleResult;
+import com.zeh.jungle.utils.serializer.FastJsonUtils;
 import com.zeh.jungle.web.basic.EnumUtil;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.ManufacturerVO;
@@ -44,6 +48,31 @@ public class ManufacturerController extends BaseController {
     }
 
     /**
+     * 新增，编辑页面
+     *
+     * @param id 厂商ID
+     * @param model
+     * @return
+     */
+    @RequestMapping("edit")
+    public String edit(Long id, Model model) throws ServiceException {
+        model.addAttribute("settleTypes", EnumUtil.enumToJson(SettleTypeEnum.class));
+        model.addAttribute("expresses", EnumUtil.enumToJson(ExpressTypeEnum.class));
+        ManufacturerFrom form = new ManufacturerFrom();
+        if (id != null) {
+            ManufacturerVO manufacturer = manufacturerService.findManufacturerById(id);
+            form.setId(manufacturer.getId());
+            form.setCode(manufacturer.getCode());
+            form.setName(manufacturer.getName());
+            form.setExpress(manufacturer.getExpress().getCode());
+            form.setSettleType(manufacturer.getSettleType().getCode());
+        }
+        String modelData = FastJsonUtils.toJSONString(form);
+        model.addAttribute("modelData", modelData);
+        return "customer/manufacturer/edit";
+    }
+
+    /**
      * 分页查询
      *
      * @param form
@@ -54,8 +83,59 @@ public class ManufacturerController extends BaseController {
     @ResponseBody
     public PageList<ManufacturerVO> list(ManufacturerFrom form, Paginator paginator) throws ServiceException {
         ManufacturerVO manufacturer = new ManufacturerVO();
-        //        manufacturer.setCode(form.get);
+        manufacturer.setCode(form.getCode());
+        manufacturer.setName(form.getName());
+        manufacturer.setSettleType(SettleTypeEnum.getEnumByCode(form.getSettleType()));
+        manufacturer.setExpress(ExpressTypeEnum.getEnumByCode(form.getExpress()));
         return manufacturerService.pageQueryManufacturers(manufacturer, paginator.getCurrentPage(), paginator.getPageSize());
+    }
+
+    /**
+     * 创建厂商信息
+     *
+     * @param form
+     * @return
+     */
+    @RequestMapping(value = "save", method = RequestMethod.POST)
+    @ResponseBody
+    public SingleResult add(@RequestBody ManufacturerFrom form) {
+        ManufacturerVO manufacturer = new ManufacturerVO();
+        manufacturer.setExpress(ExpressTypeEnum.getEnumByCode(form.getExpress()));
+        manufacturer.setSettleType(SettleTypeEnum.getEnumByCode(form.getSettleType()));
+        manufacturer.setName(form.getName());
+        manufacturer.setCreateBy(getCurrentUserID());
+        manufacturer.setModifyBy(getCurrentUserID());
+        try {
+            manufacturerService.createManufacturer(manufacturer);
+            return createSuccessResult(null);
+        } catch (ServiceException e) {
+            return createErrorResult(e);
+        }
+
+    }
+
+    /**
+     * 更新厂商信息
+     * 
+     * @param form
+     * @return
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @ResponseBody
+    public SingleResult update(@RequestBody ManufacturerFrom form) {
+        ManufacturerVO manufacturer = new ManufacturerVO();
+        manufacturer.setId(form.getId());
+        manufacturer.setExpress(ExpressTypeEnum.getEnumByCode(form.getExpress()));
+        manufacturer.setSettleType(SettleTypeEnum.getEnumByCode(form.getSettleType()));
+        manufacturer.setName(form.getName());
+        manufacturer.setModifyBy(getCurrentUserID());
+        try {
+            manufacturerService.updateManufacturer(manufacturer);
+            return createSuccessResult(null);
+        } catch (ServiceException e) {
+            return createErrorResult(e);
+        }
+
     }
 
 }

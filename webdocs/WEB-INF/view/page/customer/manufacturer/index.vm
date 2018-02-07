@@ -48,7 +48,7 @@
                     <div class="button-group" align="center">
                         <button type="submit" class="btn green-meadow" v-on:click="preQuery"><i class="fa fa-search"></i>搜索</button>
                         <button type="button" class="btn default" v-on:click="create"><i class="fa fa-plus"></i>新增</button>
-                        <button type="button" class="btn"><i class="fa fa-refresh"></i>重置</button>
+                        <button type="button" class="btn" v-on:click="reset"><i class="fa fa-refresh"></i>重置</button>
                     </div>
                 </div>
             </form>
@@ -70,14 +70,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-cloak v-for="item in pageresult.data">
+        <tr v-cloak v-for="item in pageResult.data">
             <td v-html="item.id"></td>
             <td v-html="item.code"></td>
             <td v-html="item.name"></td>
-            <td v-html="item.settleType"></td>
+            <td v-html="item.settleType | enumFormat settleTypes"></td>
             <td v-html="item.express | enumFormat expresses"></td>
-            <td v-html="item.gmtCreate"></td>
-            <td v-html="item.gmtModified"></td>
+            <td v-html="item.gmtCreate | toDate 'YYYY-MM-DD HH:mm'"></td>
+            <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td v-html="item.createBy"></td>
             <td v-html="item.modifyBy"></td>
             <td>

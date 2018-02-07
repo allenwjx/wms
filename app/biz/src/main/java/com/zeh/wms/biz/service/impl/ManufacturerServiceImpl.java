@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.annotation.Resource;
 
+import com.zeh.wms.biz.utils.CodeGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         if (manufacturer == null) {
             throw new ServiceException(ERROR_FACTORY.createManufacturerError());
         }
+        manufacturer.setCode(CodeGenerator.generateManufacturerCode());
         ManufacturerDO manufacturerDO = mapper.v2d(manufacturer);
         manufacturerDAO.insert(manufacturerDO);
     }
@@ -60,7 +62,11 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         if (manufacturer == null || manufacturer.getId() <= 0) {
             throw new ServiceException(ERROR_FACTORY.updateManufacturerError());
         }
-        ManufacturerDO manufacturerDO = mapper.v2d(manufacturer);
+        ManufacturerDO manufacturerDO = manufacturerDAO.queryById(manufacturer.getId());
+        manufacturerDO.setName(StringUtils.isNotBlank(manufacturer.getName()) ? manufacturer.getName() : manufacturerDO.getName());
+        manufacturerDO.setSettleType(manufacturer.getSettleType() != null ? manufacturer.getSettleType().getCode() : manufacturerDO.getSettleType());
+        manufacturerDO.setExpress(manufacturer.getExpress() != null ? manufacturer.getExpress().getCode() : manufacturerDO.getExpress());
+        manufacturerDO.setModifyBy(manufacturer.getModifyBy());
         manufacturerDAO.update(manufacturerDO);
     }
 
