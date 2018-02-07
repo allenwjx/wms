@@ -419,10 +419,6 @@
                     <configuration>
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
-                        <encoding>UTF-8</encoding>
-                        <showWarnings>true</showWarnings>
-                        <fork>true</fork>
-                        <compilerVersion>${jdk.version}</compilerVersion>
                     </configuration>
                 </plugin>
                 <plugin>
