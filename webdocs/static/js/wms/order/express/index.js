@@ -13,8 +13,8 @@ $(document).ready(function () {
                 }
             },
             queryForm: {},
-            settleTypes: [],
-            expresses: []
+            expressTypes: [],
+            agents: []
         },
         ready: function () {
             this.init();
@@ -23,7 +23,21 @@ $(document).ready(function () {
         },
         methods: {
             init: function () {
-                var vm = this;
+                var self = this;
+                $.ajax({
+                    type: 'GET',
+                    url: __ctx + "/combo/fromBizEnum",
+                    data: {className:'ExpressTypeEnum'}
+                }).done(function (resp) {
+                    self.expressTypes = resp;
+                });
+
+                $.ajax({
+                    type: 'GET',
+                    url: __ctx + "/combo/allAgentsAndManus"
+                }).done(function (resp) {
+                    self.agents = resp;
+                });
             },
             preQuery: function () {
                 $.resetCurrentPage(this.pageResult.paginator);

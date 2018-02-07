@@ -122,6 +122,17 @@
 	
 	
     
+	
+	<select id="wms.Agent.getAllEnabled" resultMap="RM.Agent" >
+    	SELECT
+ /*wms.Agent.getAllEnabled*/             <include refid="Agent.columns"/>
+            FROM agent
+	</select>	
+
+	    
+	
+	
+    
 
 </sqlMap>
 

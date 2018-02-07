@@ -1,12 +1,12 @@
 package com.zeh.wms.biz.mapper;
 
-import java.util.Collection;
-
+import com.zeh.wms.biz.model.ManufacturerVO;
+import com.zeh.wms.dal.dataobject.ManufacturerDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueMappingStrategy;
 
-import com.zeh.wms.biz.model.ManufacturerVO;
-import com.zeh.wms.dal.dataobject.ManufacturerDO;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author allen
@@ -20,4 +20,6 @@ public interface ManufacturerMapper extends AbstractMapper {
     ManufacturerVO d2v(ManufacturerDO dataObject);
 
     Collection<ManufacturerVO> d2vs(Collection<ManufacturerDO> dataObjects);
+
+    List<ManufacturerVO> do2vos(List<ManufacturerDO> dataObjects);
 }

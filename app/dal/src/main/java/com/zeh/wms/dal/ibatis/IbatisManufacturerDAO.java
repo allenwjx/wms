@@ -100,5 +100,14 @@ public class IbatisManufacturerDAO extends SqlMapClientDaoSupport implements Man
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Manufacturer.queryByPage",param);
 	}
 
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, code, name, settle_type, express, gmt_create, gmt_modified, create_by, modify_by                       FROM         manufacturer</pre>
+	 */
+	public List<ManufacturerDO> getAllEnabled() throws DataAccessException {
+		return (List<ManufacturerDO>)getSqlMapClientTemplate().queryForList("wms.Manufacturer.getAllEnabled",null);
+	}
+
 }
 

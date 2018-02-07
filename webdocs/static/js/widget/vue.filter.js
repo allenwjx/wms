@@ -21,6 +21,27 @@ Vue.filter('toDate', {
         return value;
     }
 });
+
+/**
+ * 人民币分转成元
+ */
+Vue.filter('toMoney', {
+    read: function (value) {
+        if (value) {
+            return parseFloat(value)/100 + "￥";
+        } else {
+            return value;
+        }
+    },
+    write: function (value, format) {
+        if (value && value.length > 1) {
+            var num = value.substr(0, value.length - 1);
+            return parseFloat(num)*100;
+        } else {
+            return value;
+        }
+    }
+});
 /**
  * datas arr
  * 将 datas 里面对应的value显示为对应的text 页面过滤
