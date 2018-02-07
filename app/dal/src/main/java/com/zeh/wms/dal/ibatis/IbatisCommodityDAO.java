@@ -4,25 +4,12 @@
  */ 
 package com.zeh.wms.dal.ibatis;
 
-import com.zeh.wms.dal.operation.commodity.*;
-import com.zeh.wms.dal.dataobject.*;
-
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import com.zeh.wms.dal.daointerface.CommodityDAO;
+import com.zeh.wms.dal.dataobject.CommodityDO;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
-
-import com.zeh.wms.dal.dataobject.CommodityDO;
-import com.zeh.wms.dal.daointerface.CommodityDAO;
 
 /**
  * CommodityDAO
