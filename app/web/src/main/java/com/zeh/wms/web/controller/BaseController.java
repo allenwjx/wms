@@ -29,7 +29,7 @@ public abstract class BaseController {
      */
     protected String getCurrentUserID() {
         // TODO
-        return "";
+        return "TODO";
     }
 
     /**
@@ -39,7 +39,7 @@ public abstract class BaseController {
      */
     protected String getCurrentUserName() {
         // TODO
-        return "";
+        return "TODO";
     }
 
     /**
@@ -58,8 +58,8 @@ public abstract class BaseController {
      * @param data the data
      * @return SingleResult
      */
-    protected <T> SingleResult<T> createSuccessResult(Object data) {
-        SingleResult result = new SingleResult();
+    protected <T> SingleResult<T> createSuccessResult(T data) {
+        SingleResult<T> result = new SingleResult<>();
         result.setSuccess(true);
         result.setData(data);
         return result;
@@ -67,7 +67,7 @@ public abstract class BaseController {
 
     /**
      * 创建失败结果
-     * 
+     *
      * @param e 异常
      * @return SingleResult
      */

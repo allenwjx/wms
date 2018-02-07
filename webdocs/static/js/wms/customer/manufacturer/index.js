@@ -23,13 +23,11 @@ $(document).ready(function () {
         },
         methods: {
             init: function () {
-                var vm = this;
             },
             preQuery: function () {
                 $.resetCurrentPage(this.pageResult.paginator);
                 this.query();
             },
-            /** 查询方法 */
             query: function () {
                 var self = this;
                 var pageInfo = {
@@ -41,27 +39,27 @@ $(document).ready(function () {
                     type: 'GET',
                     url: __ctx + "/customer/manufacturer/list",
                     data: $.extend(self.queryForm, pageInfo)
-                }).done(function (resp) {
-                    self.pageResult = resp;
+                }).done(function (result) {
+                    self.pageResult = result;
                 });
             },
             reset: function () {
                 this.queryForm = {};
             },
-            // create: function () {
-            //     $("#formModal").modal({
-            //         show: true,
-            //         remote: __ctx + "/airlinefilterrule/edit",
-            //         backdrop: 'static'
-            //     });
-            // },
-            // edit: function (id) {
-            //     $("#formModal").modal({
-            //         show: true,
-            //         remote: __ctx + "/airlinefilterrule/edit?id=" + id,
-            //         backdrop: 'static'
-            //     });
-            // }
+            create: function () {
+                $("#formModal").modal({
+                    show: true,
+                    remote: __ctx + "/customer/manufacturer/edit",
+                    backdrop: 'static'
+                });
+            },
+            edit: function (id) {
+                $("#formModal").modal({
+                    show: true,
+                    remote: __ctx + "/customer/manufacturer/edit?id=" + id,
+                    backdrop: 'static'
+                });
+            }
         }
     });
 

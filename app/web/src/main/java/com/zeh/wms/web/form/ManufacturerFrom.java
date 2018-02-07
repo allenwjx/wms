@@ -13,7 +13,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ManufacturerFrom implements Serializable {
-
+    /** id */
+    private long   id;
     /** 厂商编号 */
     private String code;
     /** 厂商名称 */

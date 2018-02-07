@@ -1,5 +1,13 @@
 package com.zeh.wms.biz.service.impl;
 
+import java.util.Collection;
+
+import javax.annotation.Resource;
+
+import com.zeh.wms.biz.utils.CodeGenerator;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.wms.biz.error.BizErrorFactory;
@@ -44,6 +52,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         if (manufacturer == null) {
             throw new ServiceException(ERROR_FACTORY.createManufacturerError());
         }
+        manufacturer.setCode(CodeGenerator.generateManufacturerCode());
         ManufacturerDO manufacturerDO = mapper.v2d(manufacturer);
         manufacturerDAO.insert(manufacturerDO);
     }
@@ -59,7 +68,11 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         if (manufacturer == null || manufacturer.getId() <= 0) {
             throw new ServiceException(ERROR_FACTORY.updateManufacturerError());
         }
-        ManufacturerDO manufacturerDO = mapper.v2d(manufacturer);
+        ManufacturerDO manufacturerDO = manufacturerDAO.queryById(manufacturer.getId());
+        manufacturerDO.setName(StringUtils.isNotBlank(manufacturer.getName()) ? manufacturer.getName() : manufacturerDO.getName());
+        manufacturerDO.setSettleType(manufacturer.getSettleType() != null ? manufacturer.getSettleType().getCode() : manufacturerDO.getSettleType());
+        manufacturerDO.setExpress(manufacturer.getExpress() != null ? manufacturer.getExpress().getCode() : manufacturerDO.getExpress());
+        manufacturerDO.setModifyBy(manufacturer.getModifyBy());
         manufacturerDAO.update(manufacturerDO);
     }
 
@@ -108,7 +121,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         }
         QueryByPageQuery query = new QueryByPageQuery();
         query.setCode(manufacturer.getCode());
-        query.setExpress(manufacturer.getExpress() == null ? null : manufacturer.getCode());
+        query.setExpress(manufacturer.getExpress() == null ? null : manufacturer.getExpress().getCode());
         query.setName(manufacturer.getName());
         query.setSettleType(manufacturer.getSettleType() == null ? null : manufacturer.getSettleType().getCode());
         query.setPage(currentPage);

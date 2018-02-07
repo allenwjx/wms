@@ -42,7 +42,7 @@ public class IbatisManufacturerDAO extends SqlMapClientDaoSupport implements Man
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         manufacturer         (             id ,code ,name ,settle_type ,express ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         manufacturer         (             id ,code ,name ,settle_type ,express ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(ManufacturerDO manufacturer) throws DataAccessException {
 		if(manufacturer == null) {
@@ -64,7 +64,7 @@ public class IbatisManufacturerDAO extends SqlMapClientDaoSupport implements Man
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         manufacturer      SET         code = ? ,name = ? ,settle_type = ? ,express = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                  WHERE         id = ?</pre>
+	 * <pre>UPDATE         manufacturer      SET         name = ? ,settle_type = ? ,express = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre>
 	 */
 	public int update(ManufacturerDO manufacturer) throws DataAccessException {
 		if(manufacturer == null) {
