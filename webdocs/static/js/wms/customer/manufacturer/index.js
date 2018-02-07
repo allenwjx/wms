@@ -41,8 +41,8 @@ $(document).ready(function () {
                     type: 'GET',
                     url: __ctx + "/customer/manufacturer/list",
                     data: $.extend(self.queryForm, pageInfo)
-                }).done(function (response) {
-                    self.pageResult = response;
+                }).done(function (resp) {
+                    self.pageResult = resp;
                 });
             },
             reset: function () {
