@@ -55,8 +55,8 @@ $(document).ready(function () {
                     type: 'GET',
                     url: __ctx + "/order/express/list",
                     data: $.extend(self.queryForm, pageInfo)
-                }).done(function (resp) {
-                    self.pageResult = resp;
+                }).done(function (result) {
+                    self.pageResult = result;
                 });
             },
             reset: function () {
