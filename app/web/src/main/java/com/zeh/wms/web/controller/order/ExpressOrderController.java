@@ -1,4 +1,4 @@
-package com.zeh.wms.web.controller.customer;
+package com.zeh.wms.web.controller.order;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.ServiceException;
