@@ -46,7 +46,7 @@
                 </div>
                 <div class="form-actions">
                     <div class="button-group" align="center">
-                        <button type="submit" class="btn green-meadow" v-on:click="preQuery"><i class="fa fa-search"></i>搜索</button>
+                        <button type="button" class="btn green-meadow" v-on:click="preQuery"><i class="fa fa-search"></i>搜索</button>
                         <button type="button" class="btn default" v-on:click="create"><i class="fa fa-plus"></i>新增</button>
                         <button type="button" class="btn" v-on:click="reset"><i class="fa fa-refresh"></i>重置</button>
                     </div>
