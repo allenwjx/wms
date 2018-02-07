@@ -47,7 +47,7 @@
                     <li>
                         <a href="javascript:;"><i class="icon-trophy"></i><span class="title">订单管理</span><span class="arrow"></span></a>
                         <ul class="sub-menu ul-third">
-                            <li><a href="#"><i class="fa fa-list"></i>菜单一</a></li>
+                            <li><a href="${rc.contextPath}/page/order/express/index"><i class="fa fa-list"></i>快递单管理</a></li>
                             <li><a href="#"><i class="fa fa-list"></i>菜单二</a></li>
                             <li><a href="#"><i class="fa fa-list"></i>菜单三</a></li>
                             <li><a href="#"><i class="fa fa-list"></i>菜单四</a></li>
