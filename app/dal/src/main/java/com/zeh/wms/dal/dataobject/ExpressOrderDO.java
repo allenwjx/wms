@@ -7,19 +7,8 @@ package com.zeh.wms.dal.dataobject;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import java.util.Date;
 /**
  * ExpressOrderDO
  * database table: express_order
@@ -51,6 +40,10 @@ public class ExpressOrderDO implements java.io.Serializable {
 	 * agent用户类型的下单：agent电话号码； 大客户类型的下单：厂商编码（授权码） 散客：空值 		db_column: code 
 	 */
 	private String code;
+	/**
+	 * 类型：代理商，厂商； 代理商：A； 厂商：B； 		db_column: type 
+	 */
+	private String type;
 	/**
 	 * 订单状态; WATI_PAY（待支付）； WAIT_PICKUP（待取件）； WAIT_SEND（待发货）； SENDED（已发货）； CANCEL（订单取消）; 		db_column: status 
 	 */
@@ -167,6 +160,14 @@ public class ExpressOrderDO implements java.io.Serializable {
 	
 	public String getCode() {
 		return this.code;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	public String getType() {
+		return this.type;
 	}
 	
 	public void setStatus(String status) {
@@ -343,6 +344,7 @@ public class ExpressOrderDO implements java.io.Serializable {
 			.append("OrderNo",getOrderNo())
 			.append("OtherOrderNo",getOtherOrderNo())
 			.append("Code",getCode())
+			.append("Type",getType())
 			.append("Status",getStatus())
 			.append("SenderName",getSenderName())
 			.append("SenderTel",getSenderTel())

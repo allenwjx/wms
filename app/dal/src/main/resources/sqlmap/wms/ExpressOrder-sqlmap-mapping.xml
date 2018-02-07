@@ -10,6 +10,7 @@
 		<result property="orderNo" column="order_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="otherOrderNo" column="other_order_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="type" column="type" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="status" column="status" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="senderName" column="sender_name" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="senderTel" column="sender_tel" javaType="java.lang.String" jdbcType="VARCHAR"  />
