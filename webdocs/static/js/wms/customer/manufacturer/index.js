@@ -65,7 +65,7 @@ $(document).ready(function () {
                 alertify.confirm("该操作不可恢复，确定删除该记录么？", function (result) {
                     if (result) {
                         $.ajax({
-                            type: 'GET',
+                            type: 'POST',
                             url: __ctx + "/customer/manufacturer/delete/" + id
                         }).done(function (data) {
                             if (data.success) {

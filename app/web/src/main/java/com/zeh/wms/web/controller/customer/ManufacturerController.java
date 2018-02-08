@@ -135,7 +135,7 @@ public class ManufacturerController extends BaseController {
 
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     @ResponseBody
     public SingleResult update(@PathVariable Long id) {
         if (id == null || id == 0) {
