@@ -74,6 +74,13 @@ public interface ManufacturerDAO {
 	 */
 	public PageList<ManufacturerDO> queryByPage(QueryByPageQuery param) throws DataAccessException;
 
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, code, name, settle_type, express, gmt_create, gmt_modified, create_by, modify_by                       FROM         manufacturer</pre> 
+	 */
+	public List<ManufacturerDO> getAllEnabled() throws DataAccessException;
+
 }
 
 

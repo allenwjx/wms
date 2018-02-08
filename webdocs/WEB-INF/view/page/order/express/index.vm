@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-4">快递公司</label>
                                 <div class="col-md-8">
-                                    <vue-select :options="settleTypes" :model.sync="queryForm.expressType" :configs="{placeholder:'全部'}"></vue-select>
+                                    <vue-select :options="expressTypes" id="expressType" :model.sync="queryForm.expressType" :configs="{placeholder:'全部'}"></vue-select>
                                 </div>
                             </div>
                         </div>
@@ -38,7 +38,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-4">代理商或大客户</label>
                                 <div class="col-md-8">
-                                    <vue-select :options="expresses" :model.sync="queryForm.code" :configs="{placeholder:'全部'}"></vue-select>
+                                    <vue-select :options="agents" id="code" :model.sync="queryForm.code" :configs="{placeholder:'全部'}"></vue-select>
                                 </div>
                             </div>
                         </div>
@@ -74,9 +74,9 @@
                 </div>
                 <div class="form-actions">
                     <div class="button-group" align="center">
-                        <button type="submit" class="btn green-meadow" v-on:click="preQuery"><i class="fa fa-search"></i>搜索</button>
+                        <button type="button" class="btn green-meadow" v-on:click="preQuery"><i class="fa fa-search"></i>搜索</button>
                         <button type="button" class="btn"><i class="fa fa-refresh"></i>重置</button>
-                        <button type="button" class="btn default" v-on:click="create"><i class="fa fa-plus"></i>导出</button>
+                        <button type="button" class="btn default" ><i class="fa fa-plus"></i>导出</button>
                     </div>
                 </div>
             </form>
@@ -98,16 +98,16 @@
         </thead>
         <tbody>
         <tr v-cloak v-for="item in pageResult.data">
-            <td v-html="item.code"></td>
+            <td v-html="item.code | enumFormat agents"></td>
             <td v-html="item.orderNo"></td>
             <td v-html="item.otherOrderNo"></td>
-            <td v-html="item.expressType"></td>
+            <td v-html="item.expressType | enumFormat expressTypes"></td>
             <td v-html="item.receiverName"></td>
             <td v-html="item.receiverTel"></td>
-            <td v-html="item.totalPrice"></td>
+            <td v-html="item.totalPrice | toMoney"></td>
             <td v-html="item.gmtCreate | toDate 'YYYY-MM-DD'"></td>
             <td>
-                <a class="a-icon" v-on:click="edit(item.id)"><i class="fa fa-edit"></i>编辑</a>
+                <a class="a-icon" v-on:click="edit(item.id)"><i class="fa fa-edit"></i>明细</a>
             </td>
         </tr>
         </tbody>

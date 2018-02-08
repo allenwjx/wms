@@ -18,6 +18,12 @@ import com.zeh.wms.biz.service.ManufacturerService;
 import com.zeh.wms.dal.daointerface.ManufacturerDAO;
 import com.zeh.wms.dal.dataobject.ManufacturerDO;
 import com.zeh.wms.dal.operation.manufacturer.QueryByPageQuery;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author allen
@@ -123,5 +129,17 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         PageList<ManufacturerDO> ret = manufacturerDAO.queryByPage(query);
         Collection<ManufacturerVO> manufacturers = mapper.d2vs(ret.getData());
         return PageUtils.createPageList(manufacturers, ret.getPaginator());
+    }
+
+    /**
+     * 根据厂商ID查询厂商信息
+     *
+     * @return 厂商
+     * @throws ServiceException 厂商查询异常
+     */
+    @Override
+    public List<ManufacturerVO> getAll() throws ServiceException {
+        List<ManufacturerDO> manufacturer = manufacturerDAO.getAllEnabled();
+        return mapper.do2vos(manufacturer);
     }
 }

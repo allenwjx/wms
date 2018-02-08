@@ -121,6 +121,17 @@
 	
 	
     
+	
+	<select id="wms.Manufacturer.getAllEnabled" resultMap="RM.Manufacturer" >
+    	SELECT
+ /*wms.Manufacturer.getAllEnabled*/             <include refid="Manufacturer.columns"/>
+            FROM manufacturer
+	</select>	
+
+	    
+	
+	
+    
 
 </sqlMap>
 

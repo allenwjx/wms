@@ -77,4 +77,13 @@
             ORDER BY gmt_modified DESC
         </sql>
     </operation>
+
+    <operation name="getAllEnabled" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="Manufacturer.columns"/>
+            FROM manufacturer
+
+        </sql>
+    </operation>
 </table>

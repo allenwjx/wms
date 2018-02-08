@@ -60,7 +60,7 @@
                 <a href="javascript:;"><i class="icon-plane"></i><span class="title">订单管理</span><span class="arrow "></span></a>
                 <ul class="sub-menu ul-sec">
                     <li><a href="#"  ><i class="fa fa-cab"></i>验证单管理</a></li>
-                    <li><a href="#"  ><i class="fa fa-cab"></i>快递单管理</a></li>
+                    <li><a href="${rc.contextPath}/page/order/express/index"  ><i class="fa fa-cab"></i>快递单管理</a></li>
                     <li><a href="#"  ><i class="fa fa-cab"></i>支付单管理</a></li>
                 </ul>
             </li>
