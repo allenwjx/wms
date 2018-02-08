@@ -4,10 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.Paginator;
@@ -107,7 +104,7 @@ public class ManufacturerController extends BaseController {
         manufacturer.setModifyBy(getCurrentUserID());
         try {
             manufacturerService.createManufacturer(manufacturer);
-            return createSuccessResult(null);
+            return createSuccessResult();
         } catch (ServiceException e) {
             return createErrorResult(e);
         }
@@ -131,7 +128,22 @@ public class ManufacturerController extends BaseController {
         manufacturer.setModifyBy(getCurrentUserID());
         try {
             manufacturerService.updateManufacturer(manufacturer);
-            return createSuccessResult(null);
+            return createSuccessResult();
+        } catch (ServiceException e) {
+            return createErrorResult(e);
+        }
+
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public SingleResult update(@PathVariable Long id) {
+        if (id == null || id == 0) {
+            return createErrorResult("厂商ID不能为空");
+        }
+        try {
+            manufacturerService.deleteManufacturer(id);
+            return createSuccessResult();
         } catch (ServiceException e) {
             return createErrorResult(e);
         }

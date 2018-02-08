@@ -142,4 +142,15 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         List<ManufacturerDO> manufacturer = manufacturerDAO.getAllEnabled();
         return mapper.do2vos(manufacturer);
     }
+
+    /**
+     * 删除厂商信息，不能恢复
+     *
+     * @param id 厂商ID
+     * @throws ServiceException 删除异常
+     */
+    @Override
+    public void deleteManufacturer(long id) throws ServiceException {
+        manufacturerDAO.delete(id);
+    }
 }

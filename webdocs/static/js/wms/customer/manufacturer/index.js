@@ -59,6 +59,24 @@ $(document).ready(function () {
                     remote: __ctx + "/customer/manufacturer/edit?id=" + id,
                     backdrop: 'static'
                 });
+            },
+            delete: function (id) {
+                var self = this;
+                alertify.confirm("该操作不可恢复，确定删除该记录么？", function (result) {
+                    if (result) {
+                        $.ajax({
+                            type: 'DELETE',
+                            url: __ctx + "/customer/manufacturer/delete/" + id
+                        }).done(function (data) {
+                            if (data.success) {
+                                toastr.success('操作成功', {timeOut: 1500, positionClass: "toast-top-center"});
+                                self.preQuery();
+                            } else {
+                                toastr.error(data.errorMessage, {timeOut: 1500, positionClass: "toast-top-center"});
+                            }
+                        });
+                    }
+                });
             }
         }
     });
