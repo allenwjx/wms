@@ -150,6 +150,5 @@ public class AgentController extends BaseController {
         } catch (ServiceException e) {
             return createErrorResult(e);
         }
-
     }
 }

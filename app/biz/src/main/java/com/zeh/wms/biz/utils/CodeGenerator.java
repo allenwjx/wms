@@ -20,4 +20,10 @@ public class CodeGenerator {
         String code = g.generate();
         return "AG" + code;
     }
+
+    public static final String generateCommodityCode() {
+        RandomGenerator g = new RandomGenerator(8);
+        String code = g.generate();
+        return "CM" + code;
+    }
 }

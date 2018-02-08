@@ -68,6 +68,10 @@ public class CommodityDO implements java.io.Serializable {
 	 */
 	private String description;
 	/**
+	 * 启用状态，0-未启用，1-已启用 		db_column: enabled 
+	 */
+	private int enabled;
+	/**
 	 * 创建时间 		db_column: gmt_create 
 	 */
 	private Date gmtCreate;
@@ -149,6 +153,14 @@ public class CommodityDO implements java.io.Serializable {
 		return this.description;
 	}
 	
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+	
+	public int getEnabled() {
+		return this.enabled;
+	}
+	
 	public void setGmtCreate(Date gmtCreate) {
 		this.gmtCreate = gmtCreate;
 	}
@@ -191,6 +203,7 @@ public class CommodityDO implements java.io.Serializable {
 			.append("Unit",getUnit())
 			.append("Weight",getWeight())
 			.append("Description",getDescription())
+			.append("Enabled",getEnabled())
 			.append("GmtCreate",getGmtCreate())
 			.append("GmtModified",getGmtModified())
 			.append("CreateBy",getCreateBy())
