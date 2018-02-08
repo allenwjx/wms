@@ -34,7 +34,13 @@ public interface ExpressOrderService {
      */
     ExpressOrderVO getOrderDetailInfo(Long id) throws ServiceException;
 
-    ResponseEntity<byte[]> export(GetAllByParsQuery query) throws ServiceException;
-
-    ResponseEntity<byte[]> export2(GetAllByParsQuery query, String templatePath) throws ServiceException;
+    /**
+     * 导出excel.
+     *
+     * @param query        查询条件
+     * @param templatePath excel模板路径
+     * @return the response entity
+     * @throws ServiceException the service exception
+     */
+    ResponseEntity<byte[]> export(GetAllByParsQuery query, String templatePath) throws ServiceException;
 }

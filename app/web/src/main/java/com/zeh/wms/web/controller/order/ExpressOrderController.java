@@ -6,6 +6,7 @@ import com.zeh.wms.biz.model.ExpressOrderVO;
 import com.zeh.wms.biz.service.ExpressOrderService;
 import com.zeh.wms.dal.operation.expressorder.FindPageQuery;
 import com.zeh.wms.dal.operation.expressorder.GetAllByParsQuery;
+import com.zeh.wms.web.constant.ExcelConstant;
 import com.zeh.wms.web.controller.BaseController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -63,7 +64,7 @@ public class ExpressOrderController extends BaseController {
     @RequestMapping(value = "export", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> export(GetAllByParsQuery query, HttpServletRequest request) throws ServiceException {
-        return expressOrderService.export2(query, getRealFileName(request, "/export/sf_template.xlsx"));
+        return expressOrderService.export(query, getRealFileName(request, ExcelConstant.SF_FILE_PATH));
     }
 
     private String getRealFileName(HttpServletRequest request, String relativeFileName) {
