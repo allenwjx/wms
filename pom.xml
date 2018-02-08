@@ -39,6 +39,9 @@
         <mapstruct.version>1.2.0.Final</mapstruct.version>
         <joda-time.version>[2.9,)</joda-time.version>
         <jackson.version>2.6.5</jackson.version>
+        <jxls.version>2.4.3</jxls.version>
+        <jxls.poi.version>1.0.14</jxls.poi.version>
+        <poi.version>3.17</poi.version>
     </properties>
 
     <modules>
@@ -294,6 +297,21 @@
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-joda</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jxls</groupId>
+                <artifactId>jxls</artifactId>
+                <version>${jxls.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jxls</groupId>
+                <artifactId>jxls-poi</artifactId>
+                <version>${jxls.poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>

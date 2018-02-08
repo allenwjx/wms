@@ -68,6 +68,21 @@ $(document).ready(function () {
                     remote: __ctx + "/page/order/express/view?id=" + id,
                     backdrop: 'static'
                 });
+            },
+            /** 导出Excel */
+            exportExcel : function(){
+                var start= this.queryForm.fromDate;
+                var end = this.queryForm.toDate;
+                if (start == '' || end == ''){
+                    toastr.error("请选择日期范围");
+                    return
+                }
+                var des = new Date(end) - new Date(start);
+                if (des/86400000 > 60){
+                    toastr.error("日期范围大于60天，请缩小时间范围");
+                    return
+                }
+                window.location.href = __ctx + "/order/express/export?" + $.param(this.queryForm);
             }
         }
     });

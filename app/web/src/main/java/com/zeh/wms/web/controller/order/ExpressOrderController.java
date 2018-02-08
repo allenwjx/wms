@@ -5,12 +5,18 @@ import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.ExpressOrderVO;
 import com.zeh.wms.biz.service.ExpressOrderService;
 import com.zeh.wms.dal.operation.expressorder.FindPageQuery;
+import com.zeh.wms.dal.operation.expressorder.GetAllByParsQuery;
+import com.zeh.wms.web.constant.ExcelConstant;
 import com.zeh.wms.web.controller.BaseController;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 
 /**
  * The type Express order controller.
@@ -54,5 +60,19 @@ public class ExpressOrderController extends BaseController {
             expressOrderVO = expressOrderService.getOrderDetailInfo(id);
         }
         return expressOrderVO;
+    }
+    @RequestMapping(value = "export", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<byte[]> export(GetAllByParsQuery query, HttpServletRequest request) throws ServiceException {
+        return expressOrderService.export(query, getRealFileName(request, ExcelConstant.SF_FILE_PATH));
+    }
+
+    private String getRealFileName(HttpServletRequest request, String relativeFileName) {
+        String contextRealPath = request.getSession().getServletContext().getRealPath("/");
+        File realFile = new File(contextRealPath, relativeFileName);
+        if (!realFile.exists()) {
+            return "";
+        }
+        return realFile.getAbsolutePath();
     }
 }

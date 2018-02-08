@@ -90,4 +90,49 @@
 		</sql>
 	</operation>
 
+	<operation name="getAllByPars" paramtype="parameterObject" multiplicity="many">
+		<sql>
+			SELECT
+			<include refid="ExpressOrder.columns"/>
+			FROM express_order
+			WHERE 1=1
+			<dynamic>
+				<isNotEmpty prepend="AND" property="orderNo">
+					order_no = #orderNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="otherOrderNo">
+					other_order_no = #otherOrderNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="code">
+					code = #code#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="type">
+					type = #type#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="status">
+					status = #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="receiverName">
+					receiver_name like concat('%',#receiverName#,'%')
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="receiverTel">
+					receiver_tel = #receiverTel#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="expressType">
+					express_type = #expressType#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="fromDate">
+					<![CDATA[
+                        gmt_create >= #fromDate#
+                    ]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="toDate">
+					<![CDATA[
+                        gmt_create <= #toDate#
+                    ]]>
+				</isNotEmpty>
+			</dynamic>
+		</sql>
+	</operation>
+
 </table>

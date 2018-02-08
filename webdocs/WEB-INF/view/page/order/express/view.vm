@@ -14,7 +14,7 @@
         <div class="modal-body container-fluid ">
             <div class="row">
                 <div class="col-md-6 col-sm-12">
-                    <div class="portlet yellow-crusta box">
+                    <div class="portlet green-meadow box">
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-cogs"></i>寄件人信息
@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-12">
-                    <div class="portlet blue-hoki box">
+                    <div class="portlet red-sunglo box">
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-cogs"></i>收件人信息
@@ -119,7 +119,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 col-sm-12">
-                    <div class="portlet grey-cascade box">
+                    <div class="portlet blue-hoki box">
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-cogs"></i>Shopping Cart

@@ -2,21 +2,13 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import org.springframework.dao.DataAccessException;
-import com.zeh.wms.dal.operation.expressorder.*;
-import com.zeh.wms.dal.dataobject.*;
-
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import com.zeh.wms.dal.dataobject.ExpressOrderDO;
+import com.zeh.wms.dal.operation.expressorder.FindPageQuery;
+import com.zeh.wms.dal.operation.expressorder.GetAllByParsQuery;
+import org.springframework.dao.DataAccessException;
+
+import java.util.List;
 /**
  * ExpressOrderDAO
  * database table: express_order
@@ -66,6 +58,13 @@ public interface ExpressOrderDAO {
 	 * <pre>SELECT         id, order_no, other_order_no, code, type, status, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail, sender_zip_code, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code, express_type, total_price, gmt_create, gmt_modified, create_by, modify_by           FROM         express_order         WHERE         1=1                               AND                      order_no = ?                                            AND                      other_order_no = ?                                            AND                      code = ?                                            AND                      type = ?                                            AND                      status = ?                                            AND                      receiver_name like concat('%',?,'%')                                            AND                      receiver_tel = ?                                            AND                      express_type = ?                                            AND                                               gmt_create >= ?                                                                 AND                                               gmt_create <= ?</pre> 
 	 */
 	public PageList<ExpressOrderDO> findPage(FindPageQuery param) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, order_no, other_order_no, code, type, status, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail, sender_zip_code, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code, express_type, total_price, gmt_create, gmt_modified, create_by, modify_by           FROM         express_order         WHERE         1=1                   AND       order_no = ?                    AND       other_order_no = ?                    AND       code = ?                    AND       type = ?                    AND       status = ?                    AND       receiver_name like concat('%',?,'%')                    AND       receiver_tel = ?                    AND       express_type = ?                    AND                                gmt_create >= ?                                         AND                                gmt_create <= ?</pre> 
+	 */
+	public List<ExpressOrderDO> getAllByPars(GetAllByParsQuery param) throws DataAccessException;
 
 }
 
