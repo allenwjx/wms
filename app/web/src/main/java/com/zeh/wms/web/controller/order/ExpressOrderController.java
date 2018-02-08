@@ -39,4 +39,20 @@ public class ExpressOrderController extends BaseController {
     public PageList<ExpressOrderVO> list(FindPageQuery query) throws ServiceException {
         return expressOrderService.pageQueryExpressOrders(query);
     }
+
+    /**
+     * 查看详情页面
+     *
+     * @param id 订单ID
+     * @return
+     */
+    @RequestMapping("one")
+    @ResponseBody
+    public ExpressOrderVO one(Long id) throws ServiceException {
+        ExpressOrderVO expressOrderVO = new ExpressOrderVO();
+        if (id != null) {
+            expressOrderVO = expressOrderService.getOrderDetailInfo(id);
+        }
+        return expressOrderVO;
+    }
 }

@@ -86,4 +86,13 @@ public class BizErrorFactory extends AbstractErrorFactory {
         return createError("JG0510011003");
     }
 
+    /**
+     * 未找到快递单详情。id: {0}
+     * @param id 主键
+     * @return
+     */
+    public JGError notFindExpressOrderDetail(Long id) {
+        return createError("JG0510021001", id);
+    }
+
 }

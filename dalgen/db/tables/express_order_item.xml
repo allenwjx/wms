@@ -53,4 +53,13 @@
 		</sql>
 	</operation>
 
+	<operation name="getItemByOrderNo" multiplicity="many">
+		<sql>
+			SELECT
+			<include refid="ExpressOrderItem.columns"/>
+			FROM express_order_item
+			WHERE order_no = #orderNo#
+		</sql>
+	</operation>
+
 </table>
