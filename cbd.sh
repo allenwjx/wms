@@ -27,7 +27,6 @@ start() {
 	echo Removing application [$APP_NAME] from [$CATALINA_DIR/webapps] ...
 	rm -rf $CATALINA_DIR/webapps/$APP_NAME.war
 	rm -rf $CATALINA_DIR/webapps/$APP_NAME
-
 	echo Copy application [$APP_NAME] to [$CATALINA_DIR/webapps] ...
 	cp $WORKSPACE_DIR/target/$APP_NAME.war $CATALINA_DIR/webapps/$APP_NAME.war
 
@@ -43,17 +42,28 @@ start() {
 }
 
 build() {
+    echo ----------------------------------------------------------------------------------------------------------------
+	echo - Update WMS workspace...
+	echo ----------------------------------------------------------------------------------------------------------------
+	git pull
+
+	echo ----------------------------------------------------------------------------------------------------------------
+	echo - Build WMS ...
+	echo ----------------------------------------------------------------------------------------------------------------
 	cd $WORKSPACE_DIR
 	echo Building [$APP_NAME] application as $BUILD_MODE...
 	mvn clean install -Dmaven.test.skip=true -P$BUILD_MODE
-	echo application [$APP_NAME] has built
+	echo Application [$APP_NAME] has built
 }
 
 copy() {
-	echo Removing [$APP_NAME] from [$CATALINA_DIR/webapps] ...
+    echo ----------------------------------------------------------------------------------------------------------------
+	echo - Copy application [$APP_NAME] to [$CATALINA_DIR/webapps] ...
+	echo ----------------------------------------------------------------------------------------------------------------
+	echo Removing application [$APP_NAME] from [$CATALINA_DIR/webapps] ...
 	rm -rf $CATALINA_DIR/webapps/$APP_NAME.war
 	rm -rf $CATALINA_DIR/webapps/$APP_NAME
-	echo copy [$APP_NAME] application to [$CATALINA_DIR/webapps] ...
+	echo Copy [$APP_NAME] application to [$CATALINA_DIR/webapps] ...
 	cp $WORKSPACE_DIR/target/$APP_NAME.war $CATALINA_DIR/webapps/$APP_NAME.war
 	echo [$APP_NAME.war] has been copied to [$CATALINA_DIR/webapps]
 }
