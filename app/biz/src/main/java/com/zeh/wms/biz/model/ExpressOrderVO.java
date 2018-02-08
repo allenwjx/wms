@@ -1,5 +1,6 @@
 package com.zeh.wms.biz.model;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
 import com.zeh.wms.biz.model.enums.ExpressTypeEnum;
@@ -62,4 +63,20 @@ public class ExpressOrderVO extends BaseVO {
     private int                      totalPrice;
     /** 快递商品项 */
     private List<ExpressOrderItemVO> items            = Lists.newArrayList();
+
+    /**
+     * 寄件人所有字段拼接的地址.
+     * @return 寄件人地址.
+     */
+    public String getSenderAddress() {
+        return Joiner.on(" ").join(senderProvince, senderCity, senderRegion, senderAddressDetail);
+    }
+
+    /**
+     * 收件人所有地址字段拼接的地址.
+     * @return 收件人地址.
+     */
+    public String getReceiverAddress() {
+        return Joiner.on(" ").join(receiverProvince, receiverCity, receiverRegion, receiverAddressDetail);
+    }
 }

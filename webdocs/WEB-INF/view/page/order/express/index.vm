@@ -76,7 +76,7 @@
                     <div class="button-group" align="center">
                         <button type="button" class="btn green-meadow" v-on:click="preQuery"><i class="fa fa-search"></i>搜索</button>
                         <button type="button" class="btn" v-on:click="reset"><i class="fa fa-refresh"></i>重置</button>
-                        <button type="button" class="btn default" ><i class="fa fa-plus"></i>导出</button>
+                        <button type="button" class="btn default" v-on:click="exportExcel"><i class="fa fa-plus"></i>导出</button>
                     </div>
                 </div>
             </form>

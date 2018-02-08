@@ -91,5 +91,14 @@ public class IbatisExpressOrderDAO extends SqlMapClientDaoSupport implements Exp
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.ExpressOrder.findPage",param);
 	}
 
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, order_no, other_order_no, code, type, status, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail, sender_zip_code, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code, express_type, total_price, gmt_create, gmt_modified, create_by, modify_by           FROM         express_order         WHERE         1=1                   AND       order_no = ?                    AND       other_order_no = ?                    AND       code = ?                    AND       type = ?                    AND       status = ?                    AND       receiver_name like concat('%',?,'%')                    AND       receiver_tel = ?                    AND       express_type = ?                    AND                                gmt_create >= ?                                         AND                                gmt_create <= ?</pre>
+	 */
+	public List<ExpressOrderDO> getAllByPars(GetAllByParsQuery param) throws DataAccessException {
+		return (List<ExpressOrderDO>)getSqlMapClientTemplate().queryForList("wms.ExpressOrder.getAllByPars",param);
+	}
+
 }
 

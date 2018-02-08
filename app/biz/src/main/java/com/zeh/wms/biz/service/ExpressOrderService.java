@@ -1,9 +1,12 @@
 package com.zeh.wms.biz.service;
 
+import org.springframework.http.ResponseEntity;
+
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.ExpressOrderVO;
 import com.zeh.wms.dal.operation.expressorder.FindPageQuery;
+import com.zeh.wms.dal.operation.expressorder.GetAllByParsQuery;
 
 /**
  * 订单相关查询.
@@ -30,4 +33,8 @@ public interface ExpressOrderService {
      * @throws ServiceException the service exception
      */
     ExpressOrderVO getOrderDetailInfo(Long id) throws ServiceException;
+
+    ResponseEntity<byte[]> export(GetAllByParsQuery query) throws ServiceException;
+
+    ResponseEntity<byte[]> export2(GetAllByParsQuery query, String templatePath) throws ServiceException;
 }
