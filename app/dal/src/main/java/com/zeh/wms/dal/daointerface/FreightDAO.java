@@ -35,7 +35,7 @@ public interface FreightDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         freight         (           id ,province_code ,first_weight ,first_price ,additional_price ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         freight         (             id ,province_code ,first_weight ,first_price ,additional_price ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre> 
 	 */
 	public long insert(FreightDO freight) throws DataAccessException;
 
@@ -49,23 +49,37 @@ public interface FreightDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         freight      SET         province_code = ? ,first_weight = ? ,first_price = ? ,additional_price = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         freight      SET         province_code = ? ,first_weight = ? ,first_price = ? ,additional_price = ? ,enabled = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre> 
 	 */
 	public int update(FreightDO freight) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, province_code, first_weight, first_price, additional_price, gmt_create, gmt_modified, create_by, modify_by                  FROM         freight                WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, province_code, first_weight, first_price, additional_price, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         id = ?</pre> 
 	 */
 	public FreightDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, province_code, first_weight, first_price, additional_price, gmt_create, gmt_modified, create_by, modify_by            FROM         freight</pre> 
+	 * <pre>SELECT         id, province_code, first_weight, first_price, additional_price, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         province_code = ?          AND enabled = 1</pre> 
 	 */
-	public PageList<FreightDO> findPage(int pageSize,int pageNum) throws DataAccessException;
+	public FreightDO queryByProvince(String provinceCode) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, province_code, first_weight, first_price, additional_price, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         1=1                                        AND                      province_code = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modified DESC</pre> 
+	 */
+	public PageList<FreightDO> queryByPage(QueryByPageQuery param) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, province_code, first_weight, first_price, additional_price, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         enabled = 1;</pre> 
+	 */
+	public List<FreightDO> queryAllEnabled() throws DataAccessException;
 
 }
 

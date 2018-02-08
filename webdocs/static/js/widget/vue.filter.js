@@ -44,7 +44,7 @@ Vue.filter('toMoney', {
 });
 
 /**
- * 人民币分转成元
+ * 克转千克
  */
 Vue.filter('toKG', {
     read: function (value) {
@@ -58,6 +58,27 @@ Vue.filter('toKG', {
         if (value && value.length > 1) {
             var num = value.substr(0, value.length - 2);
             return parseFloat(num)*1000;
+        } else {
+            return value;
+        }
+    }
+});
+
+/**
+ * 克转500克
+ */
+Vue.filter('toJin', {
+    read: function (value) {
+        if (value) {
+            return parseFloat(value)/500 + " * (500克)";
+        } else {
+            return value;
+        }
+    },
+    write: function (value, format) {
+        if (value && value.length > 1) {
+            var num = value.substr(0, value.length - 2);
+            return parseFloat(num)*500;
         } else {
             return value;
         }

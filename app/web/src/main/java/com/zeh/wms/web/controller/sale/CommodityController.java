@@ -72,7 +72,7 @@ public class CommodityController extends BaseController {
     }
 
     /**
-     * 创建代理人信息
+     * 创建商品信息
      *§§
      * @param form
      * @return

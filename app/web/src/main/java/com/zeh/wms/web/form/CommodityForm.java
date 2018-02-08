@@ -13,22 +13,23 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommodityForm implements Serializable {
+    private static final long serialVersionUID = 1L;
     /** 商品ID */
-    private Long    id;
+    private Long              id;
     /** 厂商ID */
-    private Long    manufacturerId;
+    private Long              manufacturerId;
     /** 商品编号 */
-    private String  code;
+    private String            code;
     /** 商品名称 */
-    private String  name;
+    private String            name;
     /** 商品单价，单位：元 */
-    private String  price;
+    private String            price;
     /** 商品单位，如：件，箱 */
-    private String  unit;
+    private String            unit;
     /** 商品重量（单件），单位：KG */
-    private String  weight;
+    private String            weight;
     /** 商品简介 */
-    private String  description;
+    private String            description;
     /** 商品状态 */
-    private Integer enabled;
+    private Integer           enabled;
 }

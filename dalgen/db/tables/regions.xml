@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
+
+<table sqlname="regions">
+    <!-- 不需要配置的列请删除 -->
+
+    <sql id="Region.columns">
+        id, code, name, parent_id, level, first_pinyin_char, pinyin_name
+    </sql>
+
+    <operation name="insert" paramtype="object">
+        <sql>
+            INSERT INTO regions (
+            id ,code ,name ,parent_id ,level ,first_pinyin_char ,pinyin_name
+            ) VALUES (
+            ? ,? ,? ,? ,? ,? ,?
+            )
+        </sql>
+    </operation>
+
+    <operation name="delete">
+        <sql>
+            DELETE FROM regions WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="update" paramtype="object">
+        <sql>
+            UPDATE regions SET
+            code = ? ,name = ? ,parent_id = ? ,level = ? ,first_pinyin_char = ? ,pinyin_name = ?
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Region.columns"/>
+            FROM regions
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByCode" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Region.columns"/>
+            FROM regions
+            WHERE
+            code = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByName" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Region.columns"/>
+            FROM regions
+            WHERE
+            name = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByParentId" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="Region.columns"/>
+            FROM regions
+            WHERE
+            parent_id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByPage" paramtype="parameterObject" multiplicity="paging">
+        <sql>
+            SELECT
+            <include refid="Region.columns"/>
+            FROM regions
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="parentId">
+                    parent_id = #parentId#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
+        </sql>
+    </operation>
+
+</table>

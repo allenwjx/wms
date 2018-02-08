@@ -141,6 +141,42 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * JG0510014001=运价创建失败，运价数据不能为空
+     *
+     * @return JGError
+     */
+    public JGError createFreightError() {
+        return createError("JG0510014001");
+    }
+
+    /**
+     * JG0510014002=运价更新失败，运价数据ID不能为空
+     *
+     * @return JGError
+     */
+    public JGError updateFreightError() {
+        return createError("JG0510014002");
+    }
+
+    /**
+     * JG0510014003=运价查询失败，查询条件不能为空
+     *
+     * @return JGError
+     */
+    public JGError queryFreightError() {
+        return createError("JG0510014003");
+    }
+
+    /**
+     * JG0510014004=运价创建失败，{0}有效运价已存在
+     *
+     * @return JGError
+     */
+    public JGError freightExistError(String province, long id) {
+        return createError("JG0510014004", province, id);
+    }
+
+    /**
      * 未找到快递单详情。id: {0}
      * @param id 主键
      * @return

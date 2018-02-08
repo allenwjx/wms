@@ -11,6 +11,7 @@
 		<result property="firstWeight" column="first_weight" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="firstPrice" column="first_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="additionalPrice" column="additional_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="enabled" column="enabled" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
@@ -18,7 +19,7 @@
     </resultMap>
     
 	<sql id="Freight.columns">
-		id, province_code, first_weight, first_price, additional_price, gmt_create, gmt_modified, create_by, modify_by
+		id, province_code, first_weight, first_price, additional_price, enabled, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -27,8 +28,8 @@
     
 	<insert id="wms.Freight.insert">
 		INSERT INTO freight (
-	        	id ,province_code ,first_weight ,first_price ,additional_price ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (#id#,#provinceCode#,#firstWeight#,#firstPrice#,#additionalPrice#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+            id ,province_code ,first_weight ,first_price ,additional_price ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (#id#,#provinceCode#,#firstWeight#,#firstPrice#,#additionalPrice#,#enabled#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -37,25 +38,25 @@
 	
 	<delete id="wms.Freight.delete">
 		DELETE FROM freight WHERE
-	        id = #id#
+            id = #id#
     </delete>
     
 	
 	<update id="wms.Freight.update">
 		UPDATE freight SET
-		        province_code = #provinceCode# ,first_weight = #firstWeight# ,first_price = #firstPrice# ,additional_price = #additionalPrice# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
-	        WHERE 
-	        	id = #id#
+            province_code = #provinceCode# ,first_weight = #firstWeight# ,first_price = #firstPrice# ,additional_price = #additionalPrice# ,enabled = #enabled# ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+            WHERE
+            id = #id#
 	</update>
 	
     
 	
 	<select id="wms.Freight.queryById" resultMap="RM.Freight" >
     	SELECT
- /*wms.Freight.queryById*/ 		    <include refid="Freight.columns"/>
-	        FROM freight 
-	        WHERE 
-		        id = #id#
+ /*wms.Freight.queryById*/             <include refid="Freight.columns"/>
+            FROM freight
+            WHERE
+            id = #id#
 	</select>	
 
 	    
@@ -63,16 +64,60 @@
 	
     
 	
-	<select id="wms.Freight.findPage" resultMap="RM.Freight" >
-    	SELECT  /*wms.Freight.findPage*/ 
-			<include refid="Freight.columns"/>
-			FROM freight
+	<select id="wms.Freight.queryByProvince" resultMap="RM.Freight" >
+    	SELECT
+ /*wms.Freight.queryByProvince*/             <include refid="Freight.columns"/>
+            FROM freight
+            WHERE
+            province_code = #provinceCode# AND enabled = 1
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Freight.queryByPage" resultMap="RM.Freight" >
+    	SELECT
+ /*wms.Freight.queryByPage*/             <include refid="Freight.columns"/>
+            FROM freight
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="provinceCode">
+                    province_code = #provinceCode#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
 			limit #offset#,#limit#
 	</select>	
 
-	<select id="wms.Freight.findPage.count" resultClass="long" >
-    	select  /*wms.Freight.findPage.count*/ count(*) 	FROM freight
+	<select id="wms.Freight.queryByPage.count" resultClass="long" >
+    	select  /*wms.Freight.queryByPage.count*/ count(*)  FROM freight
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="provinceCode">
+                    province_code = #provinceCode#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
 	</select>
+	    
+	
+	
+    
+	
+	<select id="wms.Freight.queryAllEnabled" resultMap="RM.Freight" >
+    	SELECT
+ /*wms.Freight.queryAllEnabled*/             <include refid="Freight.columns"/>
+            FROM freight
+            WHERE enabled = 1;
+	</select>	
+
 	    
 	
 	

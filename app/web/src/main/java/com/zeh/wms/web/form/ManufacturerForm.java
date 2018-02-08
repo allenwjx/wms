@@ -13,14 +13,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ManufacturerForm implements Serializable {
+    private static final long serialVersionUID = 1L;
     /** id */
-    private long   id;
+    private long              id;
     /** 厂商编号 */
-    private String code;
+    private String            code;
     /** 厂商名称 */
-    private String name;
+    private String            name;
     /** 结算方式； real：实时线上结算 monthly：月结算 */
-    private String settleType;
+    private String            settleType;
     /** 快递公司类型，SF-顺丰，DEPPON-德邦 */
-    private String express;
+    private String            express;
 }

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.Region" class="com.zeh.wms.dal.dataobject.RegionDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="parentId" column="parent_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="level" column="level" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="firstPinyinChar" column="first_pinyin_char" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="pinyinName" column="pinyin_name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="Region.columns">
+		id, code, name, parent_id, level, first_pinyin_char, pinyin_name
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.Region.insert">
+		INSERT INTO regions (
+            id ,code ,name ,parent_id ,level ,first_pinyin_char ,pinyin_name
+            ) VALUES (#id#,#code#,#name#,#parentId#,#level#,#firstPinyinChar#,#pinyinName#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.Region.delete">
+		DELETE FROM regions WHERE
+            id = #id#
+    </delete>
+    
+	
+	<update id="wms.Region.update">
+		UPDATE regions SET
+            code = #code# ,name = #name# ,parent_id = #parentId# ,level = #level# ,first_pinyin_char = #firstPinyinChar# ,pinyin_name = #pinyinName#
+            WHERE
+            id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.Region.queryById" resultMap="RM.Region" >
+    	SELECT
+ /*wms.Region.queryById*/             <include refid="Region.columns"/>
+            FROM regions
+            WHERE
+            id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Region.queryByCode" resultMap="RM.Region" >
+    	SELECT
+ /*wms.Region.queryByCode*/             <include refid="Region.columns"/>
+            FROM regions
+            WHERE
+            code = #code#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Region.queryByName" resultMap="RM.Region" >
+    	SELECT
+ /*wms.Region.queryByName*/             <include refid="Region.columns"/>
+            FROM regions
+            WHERE
+            name = #name#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Region.queryByParentId" resultMap="RM.Region" >
+    	SELECT
+ /*wms.Region.queryByParentId*/             <include refid="Region.columns"/>
+            FROM regions
+            WHERE
+            parent_id = #parentId#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Region.queryByPage" resultMap="RM.Region" >
+    	SELECT
+ /*wms.Region.queryByPage*/             <include refid="Region.columns"/>
+            FROM regions
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="parentId">
+                    parent_id = #parentId#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.Region.queryByPage.count" resultClass="long" >
+    	select  /*wms.Region.queryByPage.count*/ count(*)  FROM regions
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="parentId">
+                    parent_id = #parentId#
+                </isNotEmpty>
+            </dynamic>
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

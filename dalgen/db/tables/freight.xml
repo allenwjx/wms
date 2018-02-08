@@ -2,55 +2,83 @@
 <!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
 
 <table sqlname="freight">
-	<!-- 不需要配置的列请删除 -->
-	
-	<sql id="Freight.columns">
-		id, province_code, first_weight, first_price, additional_price, gmt_create, gmt_modified, create_by, modify_by 
-	</sql>
-	
-	<operation name="insert" paramtype="object">
-		<sql>
-			INSERT INTO freight (
-	        	id ,province_code ,first_weight ,first_price ,additional_price ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (
-	        	? ,? ,? ,? ,? ,? ,? ,? ,?         
-	        )
-		</sql>		
-	</operation>
+    <!-- 不需要配置的列请删除 -->
 
-	<operation name="delete">
-		<sql>
-	        DELETE FROM freight WHERE
-	        id = ? 
-		</sql>
-	</operation>
-	
-	<operation name="update" paramtype="object">
-		<sql>
-	        UPDATE freight SET
-		        province_code = ? ,first_weight = ? ,first_price = ? ,additional_price = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
-	        WHERE 
-	        	id = ? 
-		</sql>					
-	</operation>
+    <sql id="Freight.columns">
+        id, province_code, first_weight, first_price, additional_price, enabled, gmt_create, gmt_modified, create_by, modify_by
+    </sql>
 
-	<operation name="queryById" multiplicity="one">
-		<sql>
-	    	SELECT
-		    <include refid="Freight.columns"/>
-	        FROM freight 
-	        WHERE 
-		        id = ? 
-		</sql>
-	</operation>
+    <operation name="insert" paramtype="object">
+        <sql>
+            INSERT INTO freight (
+            id ,province_code ,first_weight ,first_price ,additional_price ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (
+            ? ,? ,? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
+            )
+        </sql>
+    </operation>
 
-	
-	<operation name="findPage" multiplicity="paging">
-		<sql>
-			SELECT 
-			<include refid="Freight.columns"/>
-			FROM freight 
-		</sql>
-	</operation>
+    <operation name="delete">
+        <sql>
+            DELETE FROM freight WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="update" paramtype="object">
+        <sql>
+            UPDATE freight SET
+            province_code = ? ,first_weight = ? ,first_price = ? ,additional_price = ? ,enabled = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Freight.columns"/>
+            FROM freight
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByProvince" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Freight.columns"/>
+            FROM freight
+            WHERE
+            province_code = #provinceCode# AND enabled = 1
+        </sql>
+    </operation>
+
+    <operation name="queryByPage" paramtype="parameterObject" multiplicity="paging">
+        <sql>
+            SELECT
+            <include refid="Freight.columns"/>
+            FROM freight
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="provinceCode">
+                    province_code = #provinceCode#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
+        </sql>
+    </operation>
+
+    <operation name="queryAllEnabled" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="Freight.columns"/>
+            FROM freight
+            WHERE enabled = 1;
+        </sql>
+    </operation>
 
 </table>
