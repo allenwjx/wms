@@ -17,7 +17,7 @@ fi
 
 STARTUP_DIR=`pwd`
 
-exec="$STARTUP_DIR/snailms.sh"
+exec="$STARTUP_DIR/startup.sh"
 
 start() {
 daemon $exec start
