@@ -1,11 +1,13 @@
 package com.zeh.wms.web.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.zeh.jungle.core.support.ExceptionUtils;
 import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.model.UserBgVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 
 /**
  * The type Base controller.
@@ -97,5 +99,20 @@ public abstract class BaseController {
         result.setErrorCode("-1");
         result.setErrorMessage(errorMessage);
         return result;
+    }
+
+    /**
+     *
+     * @param request
+     * @param relativeFileName
+     * @return
+     */
+    protected String getRealFileName(HttpServletRequest request, String relativeFileName) {
+        String contextRealPath = request.getSession().getServletContext().getRealPath("/");
+        File realFile = new File(contextRealPath, relativeFileName);
+        if (!realFile.exists()) {
+            return "";
+        }
+        return realFile.getAbsolutePath();
     }
 }

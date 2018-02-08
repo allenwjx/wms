@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 
 /**
  * The type Express order controller.
@@ -65,14 +64,5 @@ public class ExpressOrderController extends BaseController {
     @ResponseBody
     public ResponseEntity<byte[]> export(GetAllByParsQuery query, HttpServletRequest request) throws ServiceException {
         return expressOrderService.export(query, getRealFileName(request, ExcelConstant.SF_FILE_PATH));
-    }
-
-    private String getRealFileName(HttpServletRequest request, String relativeFileName) {
-        String contextRealPath = request.getSession().getServletContext().getRealPath("/");
-        File realFile = new File(contextRealPath, relativeFileName);
-        if (!realFile.exists()) {
-            return "";
-        }
-        return realFile.getAbsolutePath();
     }
 }

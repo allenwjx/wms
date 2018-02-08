@@ -8,25 +8,25 @@
 		maxTransactions="3000" useStatementNamespaces="false" />
 	
 	<sqlMap resource="sqlmap/wms/common-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/Agent-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/Authorization-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/AuxiliaryMaterial-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/City-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/Commodity-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/District-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/ExpressOrder-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/ExpressOrderItem-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/Freight-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/Manufacturer-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/PaymentOrder-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/Province-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/Qrcode-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/Role-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/RoleAuthorizationLink-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/ShipRecord-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/Agent-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/Qrcode-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/City-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/Province-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/Role-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/User-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/UserAddres-sqlmap-mapping.xml" />
-	<sqlMap resource="sqlmap/wms/UserAgentLink-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/UserBg-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/UserRoleLink-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/Manufacturer-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/PaymentOrder-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/Commodity-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/AuxiliaryMaterial-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/Freight-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/ShipRecord-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/ExpressOrderItem-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/Authorization-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/UserAgentLink-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/ExpressOrder-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/District-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/UserAddres-sqlmap-mapping.xml" />
 </sqlMapConfig>

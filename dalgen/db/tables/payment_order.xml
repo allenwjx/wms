@@ -45,11 +45,87 @@
 	</operation>
 
 	
-	<operation name="findPage" multiplicity="paging">
+	<operation name="getPageData" paramtype="parameterObject" multiplicity="paging">
 		<sql>
 			SELECT 
 			<include refid="PaymentOrder.columns"/>
-			FROM payment_order 
+			FROM payment_order
+			WHERE 1 = 1
+			<dynamic>
+				<isNotEmpty prepend="AND" property="orderNo" >
+					order_no = #orderNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="otherOrderNo" >
+					other_order_no = #otherOrderNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="userId" >
+					user_id = #userId#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="code" >
+					code = #code#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="paymentOrderNo" >
+					payment_order_no = #paymentOrderNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="otherPaymentNo" >
+					other_payment_no = #otherPaymentNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="status" >
+					status = #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="fromDate">
+					<![CDATA[
+                        gmt_create >= #fromDate#
+                    ]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="toDate">
+					<![CDATA[
+                        gmt_create <= #toDate#
+                    ]]>
+				</isNotEmpty>
+			</dynamic>
+		</sql>
+	</operation>
+
+	<operation name="getAllData" paramtype="parameterObject" multiplicity="many">
+		<sql>
+			SELECT
+			<include refid="PaymentOrder.columns"/>
+			FROM payment_order
+			WHERE 1 = 1
+			<dynamic>
+				<isNotEmpty prepend="AND" property="orderNo" >
+					order_no = #orderNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="otherOrderNo" >
+					other_order_no = #otherOrderNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="userId" >
+					user_id = #userId#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="code" >
+					code = #code#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="paymentOrderNo" >
+					payment_order_no = #paymentOrderNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="otherPaymentNo" >
+					other_payment_no = #otherPaymentNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="status" >
+					status = #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="fromDate">
+					<![CDATA[
+                        gmt_create >= #fromDate#
+                    ]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="toDate">
+					<![CDATA[
+                        gmt_create <= #toDate#
+                    ]]>
+				</isNotEmpty>
+			</dynamic>
 		</sql>
 	</operation>
 
