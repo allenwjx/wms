@@ -3,7 +3,7 @@
         <div class="portlet-title">
             <div class="caption font-green">
                 <i class="icon-settings font-green"></i>
-                <span class="caption-subject bold uppercase">代理人信息</span>
+                <span class="caption-subject bold uppercase">代理人管理</span>
             </div>
         </div>
         <div class="portlet-body form small">

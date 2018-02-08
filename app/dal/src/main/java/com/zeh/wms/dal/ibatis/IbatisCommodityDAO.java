@@ -4,12 +4,25 @@
  */ 
 package com.zeh.wms.dal.ibatis;
 
+import com.zeh.wms.dal.operation.commodity.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageQueryUtils;
-import com.zeh.wms.dal.daointerface.CommodityDAO;
-import com.zeh.wms.dal.dataobject.CommodityDO;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+
+import com.zeh.wms.dal.dataobject.CommodityDO;
+import com.zeh.wms.dal.daointerface.CommodityDAO;
 
 /**
  * CommodityDAO
@@ -29,7 +42,7 @@ public class IbatisCommodityDAO extends SqlMapClientDaoSupport implements Commod
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         commodity         (           id ,manufacturer_id ,code ,name ,price ,unit ,weight ,description ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         commodity         (             id ,manufacturer_id ,code ,name ,price ,unit ,weight ,description ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(CommodityDO commodity) throws DataAccessException {
 		if(commodity == null) {
@@ -51,7 +64,7 @@ public class IbatisCommodityDAO extends SqlMapClientDaoSupport implements Commod
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         commodity      SET         manufacturer_id = ? ,code = ? ,name = ? ,price = ? ,unit = ? ,weight = ? ,description = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre>
+	 * <pre>UPDATE         commodity      SET         manufacturer_id=?, code = ? ,name = ? ,price = ? ,unit = ? ,weight = ? ,enabled = ? ,description = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre>
 	 */
 	public int update(CommodityDO commodity) throws DataAccessException {
 		if(commodity == null) {
@@ -63,7 +76,7 @@ public class IbatisCommodityDAO extends SqlMapClientDaoSupport implements Commod
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by                  FROM         commodity                WHERE         id = ?</pre>
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         commodity                  WHERE         id = ?</pre>
 	 */
 	public CommodityDO queryById(Long id) throws DataAccessException {
 		return (CommodityDO)getSqlMapClientTemplate().queryForObject("wms.Commodity.queryById",id);
@@ -72,10 +85,37 @@ public class IbatisCommodityDAO extends SqlMapClientDaoSupport implements Commod
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by            FROM         commodity</pre>
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         commodity                  WHERE         code = ?          and enabled = 1</pre>
 	 */
-	public PageList<CommodityDO> findPage(int pageSize,int pageNum) throws DataAccessException {
-		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Commodity.findPage",null,pageNum,pageSize);
+	public CommodityDO queryByCode(String code) throws DataAccessException {
+		return (CommodityDO)getSqlMapClientTemplate().queryForObject("wms.Commodity.queryByCode",code);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         commodity                  WHERE         manufacturer_id = ?          and enabled = 1</pre>
+	 */
+	public List<CommodityDO> queryByManufacturerId(Long manufacturerId) throws DataAccessException {
+		return (List<CommodityDO>)getSqlMapClientTemplate().queryForList("wms.Commodity.queryByManufacturerId",manufacturerId);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         commodity                  WHERE         1=1                                        AND                      code = ?                                            AND                      name = ?                                            AND                      manufacturer_id = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modified DESC</pre>
+	 */
+	public PageList<CommodityDO> queryByPage(QueryByPageQuery param) throws DataAccessException {
+		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Commodity.queryByPage",param);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         commodity                  WHERE         enabled = 1;</pre>
+	 */
+	public List<CommodityDO> queryAllEnabled() throws DataAccessException {
+		return (List<CommodityDO>)getSqlMapClientTemplate().queryForList("wms.Commodity.queryAllEnabled",null);
 	}
 
 }

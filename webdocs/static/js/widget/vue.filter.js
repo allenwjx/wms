@@ -42,6 +42,28 @@ Vue.filter('toMoney', {
         }
     }
 });
+
+/**
+ * 人民币分转成元
+ */
+Vue.filter('toKG', {
+    read: function (value) {
+        if (value) {
+            return parseFloat(value)/1000 + "KG";
+        } else {
+            return value;
+        }
+    },
+    write: function (value, format) {
+        if (value && value.length > 1) {
+            var num = value.substr(0, value.length - 2);
+            return parseFloat(num)*1000;
+        } else {
+            return value;
+        }
+    }
+});
+
 /**
  * datas arr
  * 将 datas 里面对应的value显示为对应的text 页面过滤

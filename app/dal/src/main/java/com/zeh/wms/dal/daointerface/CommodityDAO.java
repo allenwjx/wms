@@ -2,9 +2,21 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.wms.dal.dataobject.CommodityDO;
 import org.springframework.dao.DataAccessException;
+import com.zeh.wms.dal.operation.commodity.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * CommodityDAO
  * database table: commodity
@@ -23,7 +35,7 @@ public interface CommodityDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         commodity         (           id ,manufacturer_id ,code ,name ,price ,unit ,weight ,description ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         commodity         (             id ,manufacturer_id ,code ,name ,price ,unit ,weight ,description ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre> 
 	 */
 	public long insert(CommodityDO commodity) throws DataAccessException;
 
@@ -37,23 +49,44 @@ public interface CommodityDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         commodity      SET         manufacturer_id = ? ,code = ? ,name = ? ,price = ? ,unit = ? ,weight = ? ,description = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         commodity      SET         manufacturer_id=?, code = ? ,name = ? ,price = ? ,unit = ? ,weight = ? ,enabled = ? ,description = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre> 
 	 */
 	public int update(CommodityDO commodity) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by                  FROM         commodity                WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         commodity                  WHERE         id = ?</pre> 
 	 */
 	public CommodityDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by            FROM         commodity</pre> 
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         commodity                  WHERE         code = ?          and enabled = 1</pre> 
 	 */
-	public PageList<CommodityDO> findPage(int pageSize,int pageNum) throws DataAccessException;
+	public CommodityDO queryByCode(String code) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         commodity                  WHERE         manufacturer_id = ?          and enabled = 1</pre> 
+	 */
+	public List<CommodityDO> queryByManufacturerId(Long manufacturerId) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         commodity                  WHERE         1=1                                        AND                      code = ?                                            AND                      name = ?                                            AND                      manufacturer_id = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modified DESC</pre> 
+	 */
+	public PageList<CommodityDO> queryByPage(QueryByPageQuery param) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, manufacturer_id, code, name, price, unit, weight, description, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         commodity                  WHERE         enabled = 1;</pre> 
+	 */
+	public List<CommodityDO> queryAllEnabled() throws DataAccessException;
 
 }
 

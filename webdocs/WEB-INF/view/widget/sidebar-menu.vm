@@ -21,39 +21,39 @@
             <li>
                 <a href="javascript:;"><i class="icon-diamond"></i><span class="title">基础数据管理</span><span class="arrow open"></span></a>
                 <ul class="sub-menu ul-sec">
-                    <li><a href="#"  ><i class="fa fa-cab"></i>省</a></li>
-                    <li><a href="#"  ><i class="fa fa-cab"></i>市</a></li>
-                    <li><a href="#"  ><i class="fa fa-cab"></i>区</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>省</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>市</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>区</a></li>
                 </ul>
             </li>
             <li>
                 <a href="javascript:;"><i class="icon-plane"></i><span class="title">销售管理</span><span class="arrow "></span></a>
                 <ul class="sub-menu ul-sec">
-                    <li><a href="#"  ><i class="fa fa-cab"></i>商品管理</a></li>
-                    <li><a href="#"  ><i class="fa fa-cab"></i>运费管理</a></li>
-                    <li><a href="#"  ><i class="fa fa-cab"></i>辅材价格管理</a></li>
+                    <li><a href="${rc.contextPath}/page/sale/commodity/index"><i class="fa fa-cab"></i>商品管理</a></li>
+                    <li><a href="${rc.contextPath}/page/sale/freight/index"><i class="fa fa-cab"></i>运费管理</a></li>
+                    <li><a href="${rc.contextPath}/page/sale/auxiliary/index"><i class="fa fa-cab"></i>辅材价格管理</a></li>
                 </ul>
             </li>
 
             <li>
                 <a href="javascript:;"><i class="icon-plane"></i><span class="title">客户管理</span><span class="arrow "></span></a>
                 <ul class="sub-menu ul-sec">
-                    <li><a href="${rc.contextPath}/customer/manufacturer/index"  ><i class="fa fa-cab"></i>厂商管理</a></li>
-                    <li><a href="${rc.contextPath}/customer/agent/index"  ><i class="fa fa-cab"></i>代理人管理</a></li>
+                    <li><a href="${rc.contextPath}/customer/manufacturer/index"><i class="fa fa-cab"></i>厂商管理</a></li>
+                    <li><a href="${rc.contextPath}/customer/agent/index"><i class="fa fa-cab"></i>代理人管理</a></li>
                 </ul>
             </li>
             <li>
                 <a href="javascript:;"><i class="icon-energy"></i><span class="title">用户管理</span><span class="arrow "></span></a>
                 <ul class="sub-menu ul-sec">
-                    <li><a href="#"  ><i class="fa fa-cab"></i>前台用户管理</a></li>
-                    <li><a href="#"  ><i class="fa fa-cab"></i>后台用户管理</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>前台用户管理</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>后台用户管理</a></li>
                 </ul>
             </li>
             <li>
                 <a href="javascript:;"><i class="icon-energy"></i><span class="title">二维码管理</span><span class="arrow "></span></a>
                 <ul class="sub-menu ul-sec">
-                    <li><a href="#"  ><i class="fa fa-cab"></i>二维码查询</a></li>
-                    <li><a href="#"  ><i class="fa fa-cab"></i>二维码生成</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>二维码查询</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>二维码生成</a></li>
                 </ul>
             </li>
             <li>
@@ -67,11 +67,11 @@
             <li>
                 <a href="javascript:;"><i class="icon-energy"></i><span class="title">系统管理</span><span class="arrow "></span></a>
                 <ul class="sub-menu ul-sec">
-                    <li><a href="#"  ><i class="fa fa-cab"></i>权限管理</a></li>
-                    <li><a href="#"  ><i class="fa fa-cab"></i>菜单二</a></li>
-                    <li><a href="#"  ><i class="fa fa-cab"></i>菜单三</a></li>
-                    <li><a href="#"  ><i class="fa fa-cab"></i>菜单四</a></li>
-                    <li><a href="#"  ><i class="fa fa-cab"></i>菜单五</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>权限管理</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>菜单二</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>菜单三</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>菜单四</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>菜单五</a></li>
                 </ul>
             </li>
         </ul>

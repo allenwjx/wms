@@ -1,9 +1,9 @@
-<div id="manufacturer">
+<div id="commidty">
     <div class="portlet light">
         <div class="portlet-title">
             <div class="caption font-green">
                 <i class="icon-settings font-green"></i>
-                <span class="caption-subject bold uppercase">厂商管理</span>
+                <span class="caption-subject bold uppercase">商品管理</span>
             </div>
         </div>
         <div class="portlet-body form small">
@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <label class="control-label col-md-4">厂商编号</label>
+                                <label class="control-label col-md-4">商品编号</label>
                                 <div class="col-md-8">
                                     <input class="form-control" id="code" name="code" type="text" v-model.trim="queryForm.code"/>
                                 </div>
@@ -20,7 +20,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <label class="control-label col-md-4">厂商名称</label>
+                                <label class="control-label col-md-4">商品名称</label>
                                 <div class="col-md-8">
                                     <input class="form-control" id="name" name="name" type="text" v-model.trim="queryForm.name"/>
                                 </div>
@@ -28,17 +28,17 @@
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <label class="control-label col-md-4">结算方式</label>
+                                <label class="control-label col-md-4">厂商</label>
                                 <div class="col-md-8">
-                                    <vue-select :options="settleTypes" :model.sync="queryForm.settleType" :configs="{placeholder:'全部'}"></vue-select>
+                                    <vue-select :options="manufacturers" :model.sync="queryForm.manufacturerId" :configs="{placeholder:'全部'}"></vue-select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <label class="control-label col-md-4">派件公司</label>
+                                <label class="control-label col-md-4">状态</label>
                                 <div class="col-md-8">
-                                    <vue-select :options="expresses" :model.sync="queryForm.express" :configs="{placeholder:'全部'}"></vue-select>
+                                    <vue-select :options="states" :model.sync="queryForm.enabled" :configs="{placeholder:'全部'}"></vue-select>
                                 </div>
                             </div>
                         </div>
@@ -60,8 +60,11 @@
             <th>ID</th>
             <th>编号</th>
             <th>名称</th>
-            <th>结算方式</th>
-            <th>派件公司</th>
+            <th>厂商</th>
+            <th>单价</th>
+            <th>单位</th>
+            <th>重量</th>
+            <th>状态</th>
             <th>创建时间</th>
             <th>修改时间</th>
             <th>创建人</th>
@@ -74,15 +77,25 @@
             <td v-html="item.id"></td>
             <td v-html="item.code"></td>
             <td v-html="item.name"></td>
-            <td v-html="item.settleType | enumFormat settleTypes"></td>
-            <td v-html="item.express | enumFormat expresses"></td>
+            <td v-html="item.manufacturerId  | enumFormat manufacturers"></td>
+            <td v-html="item.price | toMoney"></td>
+            <td v-html="item.unit"></td>
+            <td v-html="item.weight | toKG"></td>
+            <td v-html="item.enabled | enumFormat states"></td>
             <td v-html="item.gmtCreate | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td v-html="item.createBy"></td>
             <td v-html="item.modifyBy"></td>
             <td>
                 <a class="a-icon" v-on:click="edit(item.id)"><i class="fa fa-edit"></i>编辑</a>
-                <a class="a-icon" v-on:click="delete(item.id)"><i class="fa fa-remove"></i>删除</a>
+                <a class="a-icon" v-on:click="delete(item.id, item.enabled)"><i class="fa fa-remove"></i>
+                    <template v-if="item.enabled == 0">
+                        启用
+                    </template>
+                    <template v-else>
+                        禁用
+                    </template>
+                </a>
             </td>
         </tr>
         </tbody>
@@ -102,8 +115,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    var settleTypes = $!{settleTypes};
-    var expresses = $!{expresses};
-</script>
-<script type="text/javascript" src="${rc.contextPath}/js/wms/customer/manufacturer/index.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/wms/sale/commodity/index.js"></script>

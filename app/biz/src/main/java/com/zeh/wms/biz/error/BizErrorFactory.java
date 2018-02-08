@@ -114,6 +114,33 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * JG0510013001=商品创建失败，商品数据不能为空
+     *
+     * @return JGError
+     */
+    public JGError createCommodityError() {
+        return createError("JG0510013001");
+    }
+
+    /**
+     * JG0510013002=商品更新失败，商品数据ID不能为空
+     *
+     * @return JGError
+     */
+    public JGError updateCommodityError() {
+        return createError("JG0510013002");
+    }
+
+    /**
+     * JG0510013003=商品查询失败，查询条件不能为空
+     *
+     * @return JGError
+     */
+    public JGError queryCommodityError() {
+        return createError("JG0510013003");
+    }
+
+    /**
      * 未找到快递单详情。id: {0}
      * @param id 主键
      * @return

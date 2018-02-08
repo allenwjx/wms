@@ -14,6 +14,7 @@
 		<result property="unit" column="unit" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="weight" column="weight" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="description" column="description" javaType="java.lang.String" jdbcType="LONGVARCHAR"  />
+		<result property="enabled" column="enabled" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
@@ -21,7 +22,7 @@
     </resultMap>
     
 	<sql id="Commodity.columns">
-		id, manufacturer_id, code, name, price, unit, weight, description, gmt_create, gmt_modified, create_by, modify_by
+		id, manufacturer_id, code, name, price, unit, weight, description, enabled, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -30,8 +31,8 @@
     
 	<insert id="wms.Commodity.insert">
 		INSERT INTO commodity (
-	        	id ,manufacturer_id ,code ,name ,price ,unit ,weight ,description ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (#id#,#manufacturerId#,#code#,#name#,#price#,#unit#,#weight#,#description#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+            id ,manufacturer_id ,code ,name ,price ,unit ,weight ,description ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (#id#,#manufacturerId#,#code#,#name#,#price#,#unit#,#weight#,#description#,#enabled#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -40,25 +41,25 @@
 	
 	<delete id="wms.Commodity.delete">
 		DELETE FROM commodity WHERE
-	        id = #id#
+            id = #id#
     </delete>
     
 	
 	<update id="wms.Commodity.update">
 		UPDATE commodity SET
-		        manufacturer_id = #manufacturerId# ,code = #code# ,name = #name# ,price = #price# ,unit = #unit# ,weight = #weight# ,description = #description# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
-	        WHERE 
-	        	id = #id#
+            manufacturer_id=#manufacturerId#, code = #code# ,name = #name# ,price = #price# ,unit = #unit# ,weight = #weight# ,enabled = #enabled# ,description = #description# ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+            WHERE
+            id = #id#
 	</update>
 	
     
 	
 	<select id="wms.Commodity.queryById" resultMap="RM.Commodity" >
     	SELECT
- /*wms.Commodity.queryById*/ 		    <include refid="Commodity.columns"/>
-	        FROM commodity 
-	        WHERE 
-		        id = #id#
+ /*wms.Commodity.queryById*/             <include refid="Commodity.columns"/>
+            FROM commodity
+            WHERE
+            id = #id#
 	</select>	
 
 	    
@@ -66,16 +67,85 @@
 	
     
 	
-	<select id="wms.Commodity.findPage" resultMap="RM.Commodity" >
-    	SELECT  /*wms.Commodity.findPage*/ 
-			<include refid="Commodity.columns"/>
-			FROM commodity
+	<select id="wms.Commodity.queryByCode" resultMap="RM.Commodity" >
+    	SELECT
+ /*wms.Commodity.queryByCode*/             <include refid="Commodity.columns"/>
+            FROM commodity
+            WHERE
+            code = #code# and enabled = 1
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Commodity.queryByManufacturerId" resultMap="RM.Commodity" >
+    	SELECT
+ /*wms.Commodity.queryByManufacturerId*/             <include refid="Commodity.columns"/>
+            FROM commodity
+            WHERE
+            manufacturer_id = #manufacturerId# and enabled = 1
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Commodity.queryByPage" resultMap="RM.Commodity" >
+    	SELECT
+ /*wms.Commodity.queryByPage*/             <include refid="Commodity.columns"/>
+            FROM commodity
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="manufacturerId">
+                    manufacturer_id = #manufacturerId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
 			limit #offset#,#limit#
 	</select>	
 
-	<select id="wms.Commodity.findPage.count" resultClass="long" >
-    	select  /*wms.Commodity.findPage.count*/ count(*) 	FROM commodity
+	<select id="wms.Commodity.queryByPage.count" resultClass="long" >
+    	select  /*wms.Commodity.queryByPage.count*/ count(*)  FROM commodity
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="manufacturerId">
+                    manufacturer_id = #manufacturerId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
 	</select>
+	    
+	
+	
+    
+	
+	<select id="wms.Commodity.queryAllEnabled" resultMap="RM.Commodity" >
+    	SELECT
+ /*wms.Commodity.queryAllEnabled*/             <include refid="Commodity.columns"/>
+            FROM commodity
+            WHERE enabled = 1;
+	</select>	
+
 	    
 	
 	
