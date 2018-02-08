@@ -39,7 +39,7 @@
                 <a href="javascript:;"><i class="icon-plane"></i><span class="title">客户管理</span><span class="arrow "></span></a>
                 <ul class="sub-menu ul-sec">
                     <li><a href="${rc.contextPath}/customer/manufacturer/index"  ><i class="fa fa-cab"></i>厂商管理</a></li>
-                    <li><a href="#"  ><i class="fa fa-cab"></i>代理人管理</a></li>
+                    <li><a href="${rc.contextPath}/customer/agent/index"  ><i class="fa fa-cab"></i>代理人管理</a></li>
                 </ul>
             </li>
             <li>

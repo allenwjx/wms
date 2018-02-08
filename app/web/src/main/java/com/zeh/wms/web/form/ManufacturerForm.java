@@ -7,12 +7,12 @@ import lombok.Setter;
 
 /**
  * @author allen
- * @create $ ID: ManufacturerFrom, 18/2/7 19:28 allen Exp $
+ * @create $ ID: ManufacturerForm, 18/2/7 19:28 allen Exp $
  * @since 1.0.0
  */
 @Getter
 @Setter
-public class ManufacturerFrom implements Serializable {
+public class ManufacturerForm implements Serializable {
     /** id */
     private long   id;
     /** 厂商编号 */

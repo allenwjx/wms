@@ -2,7 +2,7 @@
 ## Title
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title" id="myModalLabel">厂商维护</h4>
+    <h4 class="modal-title" id="myModalLabel">代理人维护</h4>
 </div>
 
 ## Form
@@ -15,21 +15,27 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label" for="type">名称</label>
+            <label class="col-sm-3 control-label" for="type">姓名</label>
             <div class="col-sm-6">
                 <input class="form-control" id="name" name="name" type="text" v-model.trim="model.name"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">结算方式</label>
+            <label class="col-sm-3 control-label" for="type">第三方编号</label>
             <div class="col-sm-6">
-                <vue-select name="settleType" :options="settleTypes" :model.sync="model.settleType" :configs="{placeholder:'请选择'}"></vue-select>
+                <input class="form-control" id="externalCode" name="externalCode" type="text" v-model.trim="model.externalCode"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">派件公司</label>
+            <label class="col-sm-3 control-label" for="type">联系电话</label>
             <div class="col-sm-6">
-                <vue-select name="express" :options="expresses" :model.sync="model.express" :configs="{placeholder:'请选择'}"></vue-select>
+                <input class="form-control" id="mobile" name="mobile" type="text" v-model.trim="model.mobile"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="type">联系地址</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="address" name="address" type="text" v-model.trim="model.address"/>
             </div>
         </div>
     </div>
@@ -39,8 +45,6 @@
     </div>
 </form>
 <script type="text/javascript">
-    var settleTypes = $!{settleTypes};
-    var expresses = $!{expresses};
     var formData = $!{modelData};
 </script>
-<script type="text/javascript" src="${rc.contextPath}/js/wms/customer/manufacturer/edit.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/wms/customer/agent/edit.js"></script>

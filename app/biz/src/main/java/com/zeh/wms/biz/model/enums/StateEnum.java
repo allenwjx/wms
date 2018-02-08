@@ -1,15 +1,17 @@
 package com.zeh.wms.biz.model.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * @author allen
  * @create $ ID: AddressTypeEnum, 18/2/6 15:15 allen Exp $
  * @since 1.0.0
  */
 public enum StateEnum {
-    /** 无效 */
-    N(0, "无效"),
-    /** 有效 */
-    Y(1, "有效");
+                       /** 无效 */
+                       N(0, "无效"),
+                       /** 有效 */
+                       Y(1, "有效");
 
     /** 枚举编码 */
     private int    code;
@@ -44,9 +46,9 @@ public enum StateEnum {
 
     /**
      *
-     *
      * 获取枚举编码
      */
+    @JsonValue
     public int getCode() {
         return code;
     }

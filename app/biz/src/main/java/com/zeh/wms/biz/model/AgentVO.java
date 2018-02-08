@@ -1,5 +1,7 @@
 package com.zeh.wms.biz.model;
 
+import com.zeh.wms.biz.model.enums.StateEnum;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,4 +27,6 @@ public class AgentVO extends BaseVO {
     private String            mobile;
     /** 代理人收件地址 */
     private String            address;
+    /** 状态 */
+    private StateEnum         enabled;
 }

@@ -42,7 +42,7 @@ public class IbatisAgentDAO extends SqlMapClientDaoSupport implements AgentDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         agent         (             id ,code ,external_code ,name ,mobile ,address ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         agent         (             id ,code ,external_code ,name ,mobile ,address ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(AgentDO agent) throws DataAccessException {
 		if(agent == null) {
@@ -64,7 +64,7 @@ public class IbatisAgentDAO extends SqlMapClientDaoSupport implements AgentDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         agent      SET         code = ? ,external_code = ? ,name = ? ,mobile = ? ,address = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                  WHERE         id = ?</pre>
+	 * <pre>UPDATE         agent      SET         external_code = ? ,name = ? ,mobile = ? ,address = ? ,enabled = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre>
 	 */
 	public int update(AgentDO agent) throws DataAccessException {
 		if(agent == null) {
@@ -76,7 +76,7 @@ public class IbatisAgentDAO extends SqlMapClientDaoSupport implements AgentDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent                  WHERE         id = ?</pre>
+	 * <pre>SELECT         id, code, external_code, name, mobile, address, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent                  WHERE         id = ?</pre>
 	 */
 	public AgentDO queryById(Long id) throws DataAccessException {
 		return (AgentDO)getSqlMapClientTemplate().queryForObject("wms.Agent.queryById",id);
@@ -85,7 +85,7 @@ public class IbatisAgentDAO extends SqlMapClientDaoSupport implements AgentDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent                  WHERE         code = ?</pre>
+	 * <pre>SELECT         id, code, external_code, name, mobile, address, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent                  WHERE         code = ?          and enabled = 1</pre>
 	 */
 	public AgentDO queryByCode(String code) throws DataAccessException {
 		return (AgentDO)getSqlMapClientTemplate().queryForObject("wms.Agent.queryByCode",code);
@@ -94,7 +94,7 @@ public class IbatisAgentDAO extends SqlMapClientDaoSupport implements AgentDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent                  WHERE         1=1                                        AND                      code = ?                                            AND                      external_code = ?                                            AND                      name = ?                                            AND                      mobile = ?                                                ORDER BY         gmt_modified DESC</pre>
+	 * <pre>SELECT         id, code, external_code, name, mobile, address, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent                  WHERE         1=1                                        AND                      code = ?                                            AND                      external_code = ?                                            AND                      name = ?                                            AND                      mobile = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modified DESC</pre>
 	 */
 	public PageList<AgentDO> queryByPage(QueryByPageQuery param) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Agent.queryByPage",param);
@@ -103,10 +103,10 @@ public class IbatisAgentDAO extends SqlMapClientDaoSupport implements AgentDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent</pre>
+	 * <pre>SELECT         id, code, external_code, name, mobile, address, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent                  WHERE         enabled = 1;</pre>
 	 */
-	public List<AgentDO> getAllEnabled() throws DataAccessException {
-		return (List<AgentDO>)getSqlMapClientTemplate().queryForList("wms.Agent.getAllEnabled",null);
+	public List<AgentDO> queryAllEnabled() throws DataAccessException {
+		return (List<AgentDO>)getSqlMapClientTemplate().queryForList("wms.Agent.queryAllEnabled",null);
 	}
 
 }
