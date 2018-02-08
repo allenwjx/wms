@@ -87,6 +87,33 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * JG0510012001=代理商创建失败，代理商数据不能为空
+     *
+     * @return JGError
+     */
+    public JGError createAgentError() {
+        return createError("JG0510012001");
+    }
+
+    /**
+     * JG0510012002=代理商更新失败，代理商数据ID不能为空
+     *
+     * @return JGError
+     */
+    public JGError updateAgentError() {
+        return createError("JG0510012002");
+    }
+
+    /**
+     * JG0510012003=代理商查询失败，查询条件不能为空
+     *
+     * @return JGError
+     */
+    public JGError queryAgentError() {
+        return createError("JG0510012003");
+    }
+
+    /**
      * 未找到快递单详情。id: {0}
      * @param id 主键
      * @return

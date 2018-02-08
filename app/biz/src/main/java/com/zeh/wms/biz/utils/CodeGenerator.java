@@ -10,8 +10,14 @@ import com.zeh.jungle.utils.serializer.RandomGenerator;
 public class CodeGenerator {
 
     public static final String generateManufacturerCode() {
-        RandomGenerator g = new RandomGenerator(6);
+        RandomGenerator g = new RandomGenerator(8);
         String code = g.generate();
         return "MF" + code;
+    }
+
+    public static final String generateAgentCode() {
+        RandomGenerator g = new RandomGenerator(8);
+        String code = g.generate();
+        return "AG" + code;
     }
 }

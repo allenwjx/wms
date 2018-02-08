@@ -1,7 +1,7 @@
-var manufacturer_vm;
+var agent_vm;
 $(document).ready(function () {
-    manufacturer_vm = new Vue({
-        el: '#manufacturer',
+    agent_vm = new Vue({
+        el: '#agent',
         data: {
             pageSize: 10,
             pageResult: {
@@ -13,8 +13,7 @@ $(document).ready(function () {
                 }
             },
             queryForm: {},
-            settleTypes: settleTypes,
-            expresses: expresses
+            states: states
         },
         ready: function () {
             this.init();
@@ -37,7 +36,7 @@ $(document).ready(function () {
                 };
                 $.ajax({
                     type: 'GET',
-                    url: __ctx + "/customer/manufacturer/list",
+                    url: __ctx + "/customer/agent/list",
                     data: $.extend(self.queryForm, pageInfo)
                 }).done(function (result) {
                     self.pageResult = result;
@@ -49,24 +48,33 @@ $(document).ready(function () {
             create: function () {
                 $("#formModal").modal({
                     show: true,
-                    remote: __ctx + "/customer/manufacturer/edit",
+                    remote: __ctx + "/customer/agent/edit",
                     backdrop: 'static'
                 });
             },
             edit: function (id) {
                 $("#formModal").modal({
                     show: true,
-                    remote: __ctx + "/customer/manufacturer/edit?id=" + id,
+                    remote: __ctx + "/customer/agent/edit?id=" + id,
                     backdrop: 'static'
                 });
             },
-            delete: function (id) {
+            delete: function (id, enabled) {
                 var self = this;
-                alertify.confirm("该操作不可恢复，确定删除该记录么？", function (result) {
+                var p = "";
+                var _enabled = 0;
+                if (enabled == 0) {
+                    p = "启用";
+                    _enabled = 1;
+                } else {
+                    p = "禁用";
+                    _enabled = 0;
+                }
+                alertify.confirm("确定" + p + "该记录么？", function (result) {
                     if (result) {
                         $.ajax({
                             type: 'POST',
-                            url: __ctx + "/customer/manufacturer/delete/" + id
+                            url: __ctx + "/customer/agent/state/" + id + "/" + _enabled
                         }).done(function (data) {
                             if (data.success) {
                                 toastr.success('操作成功', {timeOut: 1500, positionClass: "toast-top-center"});

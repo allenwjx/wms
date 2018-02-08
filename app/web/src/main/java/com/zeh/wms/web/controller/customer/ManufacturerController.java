@@ -4,10 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.Paginator;
@@ -20,7 +17,7 @@ import com.zeh.wms.biz.model.enums.ExpressTypeEnum;
 import com.zeh.wms.biz.model.enums.SettleTypeEnum;
 import com.zeh.wms.biz.service.ManufacturerService;
 import com.zeh.wms.web.controller.BaseController;
-import com.zeh.wms.web.form.ManufacturerFrom;
+import com.zeh.wms.web.form.ManufacturerForm;
 
 /**
  * @author allen
@@ -58,7 +55,7 @@ public class ManufacturerController extends BaseController {
     public String edit(Long id, Model model) throws ServiceException {
         model.addAttribute("settleTypes", EnumUtil.enumToJson(SettleTypeEnum.class));
         model.addAttribute("expresses", EnumUtil.enumToJson(ExpressTypeEnum.class));
-        ManufacturerFrom form = new ManufacturerFrom();
+        ManufacturerForm form = new ManufacturerForm();
         if (id != null) {
             ManufacturerVO manufacturer = manufacturerService.findManufacturerById(id);
             form.setId(manufacturer.getId());
@@ -81,7 +78,7 @@ public class ManufacturerController extends BaseController {
      */
     @RequestMapping(value = "list")
     @ResponseBody
-    public PageList<ManufacturerVO> list(ManufacturerFrom form, Paginator paginator) throws ServiceException {
+    public PageList<ManufacturerVO> list(ManufacturerForm form, Paginator paginator) throws ServiceException {
         ManufacturerVO manufacturer = new ManufacturerVO();
         manufacturer.setCode(form.getCode());
         manufacturer.setName(form.getName());
@@ -98,16 +95,16 @@ public class ManufacturerController extends BaseController {
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult add(@RequestBody ManufacturerFrom form) {
+    public SingleResult add(@RequestBody ManufacturerForm form) {
         ManufacturerVO manufacturer = new ManufacturerVO();
         manufacturer.setExpress(ExpressTypeEnum.getEnumByCode(form.getExpress()));
         manufacturer.setSettleType(SettleTypeEnum.getEnumByCode(form.getSettleType()));
         manufacturer.setName(form.getName());
-        manufacturer.setCreateBy(getCurrentUserID());
-        manufacturer.setModifyBy(getCurrentUserID());
+        manufacturer.setCreateBy(getCurrentUserName());
+        manufacturer.setModifyBy(getCurrentUserName());
         try {
             manufacturerService.createManufacturer(manufacturer);
-            return createSuccessResult(null);
+            return createSuccessResult();
         } catch (ServiceException e) {
             return createErrorResult(e);
         }
@@ -122,16 +119,31 @@ public class ManufacturerController extends BaseController {
      */
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @ResponseBody
-    public SingleResult update(@RequestBody ManufacturerFrom form) {
+    public SingleResult update(@RequestBody ManufacturerForm form) {
         ManufacturerVO manufacturer = new ManufacturerVO();
         manufacturer.setId(form.getId());
         manufacturer.setExpress(ExpressTypeEnum.getEnumByCode(form.getExpress()));
         manufacturer.setSettleType(SettleTypeEnum.getEnumByCode(form.getSettleType()));
         manufacturer.setName(form.getName());
-        manufacturer.setModifyBy(getCurrentUserID());
+        manufacturer.setModifyBy(getCurrentUserName());
         try {
             manufacturerService.updateManufacturer(manufacturer);
-            return createSuccessResult(null);
+            return createSuccessResult();
+        } catch (ServiceException e) {
+            return createErrorResult(e);
+        }
+
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public SingleResult update(@PathVariable Long id) {
+        if (id == null || id == 0) {
+            return createErrorResult("厂商ID不能为空");
+        }
+        try {
+            manufacturerService.deleteManufacturer(id);
+            return createSuccessResult();
         } catch (ServiceException e) {
             return createErrorResult(e);
         }

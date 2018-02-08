@@ -5,15 +5,15 @@
     <!-- 不需要配置的列请删除 -->
 
     <sql id="Agent.columns">
-        id, code, external_code, name, mobile, address, gmt_create, gmt_modified, create_by, modify_by
+        id, code, external_code, name, mobile, address, enabled, gmt_create, gmt_modified, create_by, modify_by
     </sql>
 
     <operation name="insert" paramtype="object">
         <sql>
             INSERT INTO agent (
-            id ,code ,external_code ,name ,mobile ,address ,gmt_create ,gmt_modified ,create_by ,modify_by
+            id ,code ,external_code ,name ,mobile ,address ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by
             ) VALUES (
-            ? ,? ,? ,? ,? ,? ,? ,? ,? ,?
+            ? ,? ,? ,? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
             )
         </sql>
     </operation>
@@ -28,7 +28,7 @@
     <operation name="update" paramtype="object">
         <sql>
             UPDATE agent SET
-            code = ? ,external_code = ? ,name = ? ,mobile = ? ,address = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?
+            external_code = ? ,name = ? ,mobile = ? ,address = ? ,enabled = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
             WHERE
             id = ?
         </sql>
@@ -50,7 +50,7 @@
             <include refid="Agent.columns"/>
             FROM agent
             WHERE
-            code = #code#
+            code = #code# and enabled = 1
         </sql>
     </operation>
 
@@ -73,17 +73,20 @@
                 <isNotEmpty prepend="AND" property="mobile">
                     mobile = #mobile#
                 </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
             </dynamic>
             ORDER BY gmt_modified DESC
         </sql>
     </operation>
 
-    <operation name="getAllEnabled" multiplicity="many">
+    <operation name="queryAllEnabled" multiplicity="many">
         <sql>
             SELECT
             <include refid="Agent.columns"/>
             FROM agent
-
+            WHERE enabled = 1;
         </sql>
     </operation>
 </table>

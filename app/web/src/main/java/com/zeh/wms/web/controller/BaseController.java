@@ -61,8 +61,18 @@ public abstract class BaseController {
     protected <T> SingleResult<T> createSuccessResult(T data) {
         SingleResult<T> result = new SingleResult<>();
         result.setSuccess(true);
+        result.setErrorMessage(SUCCESS);
         result.setData(data);
         return result;
+    }
+
+    /**
+     * 创建成功结果
+     *
+     * @return SingleResult
+     */
+    protected <T> SingleResult<T> createSuccessResult() {
+        return createSuccessResult(null);
     }
 
     /**
@@ -73,5 +83,19 @@ public abstract class BaseController {
      */
     protected <T> SingleResult<T> createErrorResult(Exception e) {
         return ExceptionUtils.getErrorResult(e, SingleResult.class);
+    }
+
+    /**
+     * 创建失败结果
+     *
+     * @param errorMessage 异常
+     * @return SingleResult
+     */
+    protected <T> SingleResult<T> createErrorResult(String errorMessage) {
+        SingleResult<T> result = new SingleResult<>();
+        result.setSuccess(true);
+        result.setErrorCode("-1");
+        result.setErrorMessage(errorMessage);
+        return result;
     }
 }

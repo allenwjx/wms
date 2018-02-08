@@ -43,15 +43,18 @@ public class QueryByPageQuery  extends PageQuery implements java.io.Serializable
 	private String name;
 	/** 代理人电话 */
 	private String mobile;
+	/** 启用状态，0-未启用，1-已启用 */
+	private Integer enabled;
 	
 	public QueryByPageQuery() {
 	}
 	
-	public QueryByPageQuery(String code ,String externalCode ,String name ,String mobile ) {
+	public QueryByPageQuery(String code ,String externalCode ,String name ,String mobile ,Integer enabled ) {
 		this.code = code;
 		this.externalCode = externalCode;
 		this.name = name;
 		this.mobile = mobile;
+		this.enabled = enabled;
 	}
 	
 	public String getCode() {
@@ -77,6 +80,12 @@ public class QueryByPageQuery  extends PageQuery implements java.io.Serializable
 	}
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+	public Integer getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
 	}
 	
 	public String toString() {
