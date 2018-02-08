@@ -85,10 +85,19 @@ public class IbatisPaymentOrderDAO extends SqlMapClientDaoSupport implements Pay
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, order_no, other_order_no, user_id, code, payment_order_no, other_payment_no, amount, channel, status, pay_limited, gmt_create, gmt_modified, create_by, modify_by            FROM         payment_order</pre>
+	 * <pre>SELECT         id, order_no, other_order_no, user_id, code, payment_order_no, other_payment_no, amount, channel, status, pay_limited, gmt_create, gmt_modified, create_by, modify_by            FROM         payment_order         WHERE         1 = 1                   AND       order_no = ?                    AND       other_order_no = ?                    AND       user_id = ?                    AND       code = ?                    AND       payment_order_no = ?                    AND       other_payment_no = ?                    AND       status = ?                    AND                                gmt_create >= ?                                         AND                                gmt_create <= ?</pre>
 	 */
-	public PageList<PaymentOrderDO> findPage(int pageSize,int pageNum) throws DataAccessException {
-		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.PaymentOrder.findPage",null,pageNum,pageSize);
+	public PageList<PaymentOrderDO> getPageData(GetPageDataQuery param) throws DataAccessException {
+		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.PaymentOrder.getPageData",param);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, order_no, other_order_no, user_id, code, payment_order_no, other_payment_no, amount, channel, status, pay_limited, gmt_create, gmt_modified, create_by, modify_by            FROM         payment_order         WHERE         1 = 1                   AND       order_no = ?                    AND       other_order_no = ?                    AND       user_id = ?                    AND       code = ?                    AND       payment_order_no = ?                    AND       other_payment_no = ?                    AND       status = ?                    AND                                gmt_create >= ?                                         AND                                gmt_create <= ?</pre>
+	 */
+	public List<PaymentOrderDO> getAllData(GetAllDataQuery param) throws DataAccessException {
+		return (List<PaymentOrderDO>)getSqlMapClientTemplate().queryForList("wms.PaymentOrder.getAllData",param);
 	}
 
 }
