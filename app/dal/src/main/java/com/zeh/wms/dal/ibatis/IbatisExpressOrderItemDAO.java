@@ -4,25 +4,14 @@
  */ 
 package com.zeh.wms.dal.ibatis;
 
-import com.zeh.wms.dal.operation.expressorderitem.*;
-import com.zeh.wms.dal.dataobject.*;
-
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import com.zeh.wms.dal.daointerface.ExpressOrderItemDAO;
+import com.zeh.wms.dal.dataobject.ExpressOrderItemDO;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
-import com.zeh.wms.dal.dataobject.ExpressOrderItemDO;
-import com.zeh.wms.dal.daointerface.ExpressOrderItemDAO;
+import java.util.List;
 
 /**
  * ExpressOrderItemDAO
@@ -89,6 +78,15 @@ public class IbatisExpressOrderItemDAO extends SqlMapClientDaoSupport implements
 	 */
 	public PageList<ExpressOrderItemDO> findPage(int pageSize,int pageNum) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.ExpressOrderItem.findPage",null,pageNum,pageSize);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, order_no, item_name, item_code, relation_code, quantity, unit, unit_price, unit_weight, total_weight, total_price, gmt_create, gmt_modified, create_by, modify_by            FROM         express_order_item         WHERE         order_no = ?</pre>
+	 */
+	public List<ExpressOrderItemDO> getItemByOrderNo(String orderNo) throws DataAccessException {
+		return (List<ExpressOrderItemDO>)getSqlMapClientTemplate().queryForList("wms.ExpressOrderItem.getItemByOrderNo",orderNo);
 	}
 
 }

@@ -61,6 +61,13 @@ $(document).ready(function () {
             },
             reset: function () {
                 this.queryForm = {};
+            },
+            edit: function (id) {
+                $("#formModal").modal({
+                    show: true,
+                    remote: __ctx + "/page/order/express/view?id=" + id,
+                    backdrop: 'static'
+                });
             }
         }
     });

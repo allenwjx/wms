@@ -83,6 +83,18 @@
 	
 	
     
+	
+	<select id="wms.ExpressOrderItem.getItemByOrderNo" resultMap="RM.ExpressOrderItem" >
+    	SELECT
+ /*wms.ExpressOrderItem.getItemByOrderNo*/ 			<include refid="ExpressOrderItem.columns"/>
+			FROM express_order_item
+			WHERE order_no = #orderNo#
+	</select>	
+
+	    
+	
+	
+    
 
 </sqlMap>
 
