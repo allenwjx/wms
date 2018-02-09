@@ -56,6 +56,10 @@ public class AuxiliaryMaterialDO implements java.io.Serializable {
 	 */
 	private long commodityId;
 	/**
+	 * 启用状态，0-未启用，1-已启用 		db_column: enabled 
+	 */
+	private int enabled;
+	/**
 	 * gmtCreate 		db_column: gmt_create 
 	 */
 	private Date gmtCreate;
@@ -68,9 +72,9 @@ public class AuxiliaryMaterialDO implements java.io.Serializable {
 	 */
 	private String createBy;
 	/**
-	 * modifiedBy 		db_column: modified_by 
+	 * modifyBy 		db_column: modify_by 
 	 */
-	private String modifiedBy;
+	private String modifyBy;
 
 	
 	public void setId(long id) {
@@ -113,6 +117,14 @@ public class AuxiliaryMaterialDO implements java.io.Serializable {
 		return this.commodityId;
 	}
 	
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+	
+	public int getEnabled() {
+		return this.enabled;
+	}
+	
 	public void setGmtCreate(Date gmtCreate) {
 		this.gmtCreate = gmtCreate;
 	}
@@ -137,12 +149,12 @@ public class AuxiliaryMaterialDO implements java.io.Serializable {
 		return this.createBy;
 	}
 	
-	public void setModifiedBy(String modifiedBy) {
-		this.modifiedBy = modifiedBy;
+	public void setModifyBy(String modifyBy) {
+		this.modifyBy = modifyBy;
 	}
 	
-	public String getModifiedBy() {
-		return this.modifiedBy;
+	public String getModifyBy() {
+		return this.modifyBy;
 	}
 
 	public String toString() {
@@ -152,10 +164,11 @@ public class AuxiliaryMaterialDO implements java.io.Serializable {
 			.append("Price",getPrice())
 			.append("Quantity",getQuantity())
 			.append("CommodityId",getCommodityId())
+			.append("Enabled",getEnabled())
 			.append("GmtCreate",getGmtCreate())
 			.append("GmtModified",getGmtModified())
 			.append("CreateBy",getCreateBy())
-			.append("ModifiedBy",getModifiedBy())
+			.append("ModifyBy",getModifyBy())
 			.toString();
 	}
 	

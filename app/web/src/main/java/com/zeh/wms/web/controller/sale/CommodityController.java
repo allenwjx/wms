@@ -39,16 +39,16 @@ public class CommodityController extends BaseController {
     public CommodityForm edit(Long id) throws ServiceException {
         CommodityForm form = new CommodityForm();
         if (id != null) {
-            CommodityVO commidity = commodityService.findCommodityById(id);
-            form.setCode(commidity.getCode());
-            form.setDescription(commidity.getDescription());
-            form.setEnabled(commidity.getEnabled().getCode());
-            form.setId(commidity.getId());
-            form.setManufacturerId(commidity.getManufacturerId());
-            form.setName(commidity.getName());
-            form.setPrice(String.valueOf(commidity.getPrice() / 100D));
-            form.setUnit(commidity.getUnit());
-            form.setWeight(String.valueOf(commidity.getWeight() / 1000D));
+            CommodityVO commodity = commodityService.findCommodityById(id);
+            form.setCode(commodity.getCode());
+            form.setDescription(commodity.getDescription());
+            form.setEnabled(commodity.getEnabled().getCode());
+            form.setId(commodity.getId());
+            form.setManufacturerId(commodity.getManufacturerId());
+            form.setName(commodity.getName());
+            form.setPrice(String.valueOf(commodity.getPrice() / 100D));
+            form.setUnit(commodity.getUnit());
+            form.setWeight(String.valueOf(commodity.getWeight() / 1000D));
         }
         return form;
     }
@@ -102,7 +102,7 @@ public class CommodityController extends BaseController {
     }
 
     /**
-     * 更新代理人信息
+     * 更新商品信息
      *
      * @param form
      * @return
@@ -132,7 +132,8 @@ public class CommodityController extends BaseController {
     }
 
     /**
-     * 更新代理人状态
+     * 更新商品状态
+     *
      * @param id
      * @return
      */

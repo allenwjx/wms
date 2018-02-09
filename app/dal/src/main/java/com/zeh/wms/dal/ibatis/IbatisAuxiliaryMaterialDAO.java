@@ -42,7 +42,7 @@ public class IbatisAuxiliaryMaterialDAO extends SqlMapClientDaoSupport implement
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         auxiliary_material         (           id ,name ,price ,quantity ,commodity_id ,gmt_create ,gmt_modified ,create_by ,modified_by           )      VALUES         (?,?,?,?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         auxiliary_material         (             id ,name ,price ,quantity ,commodity_id ,enabled, gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(AuxiliaryMaterialDO auxiliaryMaterial) throws DataAccessException {
 		if(auxiliaryMaterial == null) {
@@ -64,7 +64,7 @@ public class IbatisAuxiliaryMaterialDAO extends SqlMapClientDaoSupport implement
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         auxiliary_material      SET         name = ? ,price = ? ,quantity = ? ,commodity_id = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modified_by = ?                WHERE         id = ?</pre>
+	 * <pre>UPDATE         auxiliary_material      SET         name = ? ,price = ? ,quantity = ? ,commodity_id = ? , enabled = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre>
 	 */
 	public int update(AuxiliaryMaterialDO auxiliaryMaterial) throws DataAccessException {
 		if(auxiliaryMaterial == null) {
@@ -76,7 +76,7 @@ public class IbatisAuxiliaryMaterialDAO extends SqlMapClientDaoSupport implement
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, price, quantity, commodity_id, gmt_create, gmt_modified, create_by, modified_by                  FROM         auxiliary_material                WHERE         id = ?</pre>
+	 * <pre>SELECT         id, name, price, quantity, commodity_id, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         auxiliary_material                  WHERE         id = ?</pre>
 	 */
 	public AuxiliaryMaterialDO queryById(Long id) throws DataAccessException {
 		return (AuxiliaryMaterialDO)getSqlMapClientTemplate().queryForObject("wms.AuxiliaryMaterial.queryById",id);
@@ -85,10 +85,37 @@ public class IbatisAuxiliaryMaterialDAO extends SqlMapClientDaoSupport implement
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, price, quantity, commodity_id, gmt_create, gmt_modified, create_by, modified_by            FROM         auxiliary_material</pre>
+	 * <pre>SELECT         id, name, price, quantity, commodity_id, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         auxiliary_material                  WHERE         id = ?          AND enabled = 1</pre>
 	 */
-	public PageList<AuxiliaryMaterialDO> findPage(int pageSize,int pageNum) throws DataAccessException {
-		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.AuxiliaryMaterial.findPage",null,pageNum,pageSize);
+	public AuxiliaryMaterialDO queryEnabledById(Long id) throws DataAccessException {
+		return (AuxiliaryMaterialDO)getSqlMapClientTemplate().queryForObject("wms.AuxiliaryMaterial.queryEnabledById",id);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, name, price, quantity, commodity_id, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         auxiliary_material                  WHERE         commodity_id = ?          AND enabled = 1</pre>
+	 */
+	public AuxiliaryMaterialDO queryByCommodityId(Long commodityId) throws DataAccessException {
+		return (AuxiliaryMaterialDO)getSqlMapClientTemplate().queryForObject("wms.AuxiliaryMaterial.queryByCommodityId",commodityId);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, name, price, quantity, commodity_id, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         auxiliary_material                  WHERE         1=1                                        AND                      name = ?                                            AND                      commodity_id = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modified DESC</pre>
+	 */
+	public PageList<AuxiliaryMaterialDO> queryByPage(QueryByPageQuery param) throws DataAccessException {
+		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.AuxiliaryMaterial.queryByPage",param);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, name, price, quantity, commodity_id, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         auxiliary_material                  WHERE         enabled = 1;</pre>
+	 */
+	public List<AuxiliaryMaterialDO> queryAllEnabled() throws DataAccessException {
+		return (List<AuxiliaryMaterialDO>)getSqlMapClientTemplate().queryForList("wms.AuxiliaryMaterial.queryAllEnabled",null);
 	}
 
 }

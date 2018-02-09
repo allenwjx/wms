@@ -70,7 +70,7 @@ public class FreightServiceImpl implements FreightService {
 
         if (StringUtils.isNotBlank(freight.getProvinceCode())) {
             FreightDO existFreight = freightDAO.queryByProvince(freight.getProvinceCode());
-            if (existFreight != null) {
+            if (existFreight != null && existFreight.getId() != freight.getId()) {
                 throw new ServiceException(ERROR_FACTORY.freightExistError(existFreight.getProvinceCode(), existFreight.getId()));
             }
         }

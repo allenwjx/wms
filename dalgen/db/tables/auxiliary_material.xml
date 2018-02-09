@@ -2,55 +2,95 @@
 <!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
 
 <table sqlname="auxiliary_material">
-	<!-- 不需要配置的列请删除 -->
-	
-	<sql id="AuxiliaryMaterial.columns">
-		id, name, price, quantity, commodity_id, gmt_create, gmt_modified, create_by, modified_by 
-	</sql>
-	
-	<operation name="insert" paramtype="object">
-		<sql>
-			INSERT INTO auxiliary_material (
-	        	id ,name ,price ,quantity ,commodity_id ,gmt_create ,gmt_modified ,create_by ,modified_by 
-	        ) VALUES (
-	        	? ,? ,? ,? ,? ,? ,? ,? ,?         
-	        )
-		</sql>		
-	</operation>
+    <!-- 不需要配置的列请删除 -->
 
-	<operation name="delete">
-		<sql>
-	        DELETE FROM auxiliary_material WHERE
-	        id = ? 
-		</sql>
-	</operation>
-	
-	<operation name="update" paramtype="object">
-		<sql>
-	        UPDATE auxiliary_material SET
-		        name = ? ,price = ? ,quantity = ? ,commodity_id = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modified_by = ? 
-	        WHERE 
-	        	id = ? 
-		</sql>					
-	</operation>
+    <sql id="AuxiliaryMaterial.columns">
+        id, name, price, quantity, commodity_id, enabled, gmt_create, gmt_modified, create_by, modify_by
+    </sql>
 
-	<operation name="queryById" multiplicity="one">
-		<sql>
-	    	SELECT
-		    <include refid="AuxiliaryMaterial.columns"/>
-	        FROM auxiliary_material 
-	        WHERE 
-		        id = ? 
-		</sql>
-	</operation>
+    <operation name="insert" paramtype="object">
+        <sql>
+            INSERT INTO auxiliary_material (
+            id ,name ,price ,quantity ,commodity_id ,enabled, gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (
+            ? ,? ,? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
+            )
+        </sql>
+    </operation>
 
-	
-	<operation name="findPage" multiplicity="paging">
-		<sql>
-			SELECT 
-			<include refid="AuxiliaryMaterial.columns"/>
-			FROM auxiliary_material 
-		</sql>
-	</operation>
+    <operation name="delete">
+        <sql>
+            DELETE FROM auxiliary_material WHERE
+            id = ?
+        </sql>
+    </operation>
 
+    <operation name="update" paramtype="object">
+        <sql>
+            UPDATE auxiliary_material SET
+            name = ? ,price = ? ,quantity = ? ,commodity_id = ? , enabled = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="AuxiliaryMaterial.columns"/>
+            FROM auxiliary_material
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryEnabledById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="AuxiliaryMaterial.columns"/>
+            FROM auxiliary_material
+            WHERE
+            id = ? AND enabled = 1
+        </sql>
+    </operation>
+
+    <operation name="queryByCommodityId" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="AuxiliaryMaterial.columns"/>
+            FROM auxiliary_material
+            WHERE
+            commodity_id = ? AND enabled = 1
+        </sql>
+    </operation>
+
+    <operation name="queryByPage" paramtype="parameterObject" multiplicity="paging">
+        <sql>
+            SELECT
+            <include refid="AuxiliaryMaterial.columns"/>
+            FROM auxiliary_material
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    commodity_id = #commodityId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
+        </sql>
+    </operation>
+
+    <operation name="queryAllEnabled" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="AuxiliaryMaterial.columns"/>
+            FROM auxiliary_material
+            WHERE enabled = 1;
+        </sql>
+    </operation>
 </table>

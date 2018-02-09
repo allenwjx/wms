@@ -1,8 +1,3 @@
-/*
- * LY.com Inc.
- * Copyright (c) 2004-2016 All Rights Reserved.
- */
-
 /**
  * Vuejs 封装的select和duallistbox控件.默认使用bootstrap风格.
  * 依赖jquery, select2, duallistbox.

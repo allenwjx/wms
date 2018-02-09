@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.zeh.wms.biz.model.CommodityVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import com.zeh.jungle.web.basic.TextValue;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.ManufacturerVO;
 import com.zeh.wms.biz.model.RegionsVO;
+import com.zeh.wms.biz.service.CommodityService;
 import com.zeh.wms.biz.service.ManufacturerService;
 import com.zeh.wms.biz.service.RegionsService;
 
@@ -42,6 +44,8 @@ public class ComboController extends BaseController {
     private ManufacturerService manufacturerService;
     @Resource
     private RegionsService      regionsService;
+    @Resource
+    private CommodityService    commodityService;
 
     /**
      * 获取枚举作为下拉列表选项.
@@ -157,6 +161,26 @@ public class ComboController extends BaseController {
             Collection<RegionsVO> districts = regionsService.queryDistricts(Long.valueOf(cityId));
             if (CollectionUtils.isNotEmpty(districts)) {
                 result.addAll(districts.stream().map(item -> new TextValue(item.getId(), item.getName())).collect(Collectors.toList()));
+            }
+        } catch (ServiceException e) {
+            logger.error("异常", e);
+        }
+        return result;
+    }
+
+    /**
+     * 获取有效商品信息
+     *
+     * @return list list
+     */
+    @RequestMapping(value = "/commodities", method = RequestMethod.GET)
+    @ResponseBody
+    public List<TextValue> loadCommodities() {
+        List<TextValue> result = Lists.newArrayList();
+        try {
+            Collection<CommodityVO> commodities = commodityService.findAllCommodities();
+            if (CollectionUtils.isNotEmpty(commodities)) {
+                result.addAll(commodities.stream().map(item -> new TextValue(item.getId(), item.getName())).collect(Collectors.toList()));
             }
         } catch (ServiceException e) {
             logger.error("异常", e);

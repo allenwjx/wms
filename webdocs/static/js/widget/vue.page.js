@@ -1,7 +1,3 @@
-/*
- * LY.com Inc.
- * Copyright (c) 2004-2016 All Rights Reserved.
- */
 Vue.component('vue-page', {
     template:
     '<ul class="pagination pull-right no-margin">' +

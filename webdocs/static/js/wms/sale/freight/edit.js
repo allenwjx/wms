@@ -76,6 +76,10 @@ $(document).ready(function () {
                             validators: {
                                 notEmpty: {
                                     message: '请输入首重'
+                                },
+                                greaterThan: {
+                                    value: 0,
+                                    message: '该值只能包含数字'
                                 }
                             }
                         },
@@ -83,6 +87,10 @@ $(document).ready(function () {
                             validators: {
                                 notEmpty: {
                                     message: '请输入首重价格，单位：元'
+                                },
+                                greaterThan: {
+                                    value: 0,
+                                    message: '该值只能包含数字'
                                 }
                             }
                         },
@@ -90,6 +98,10 @@ $(document).ready(function () {
                             validators: {
                                 notEmpty: {
                                     message: '请输入续重价格，单位：元'
+                                },
+                                greaterThan: {
+                                    value: 0,
+                                    message: '该值只能包含数字'
                                 }
                             }
                         }
