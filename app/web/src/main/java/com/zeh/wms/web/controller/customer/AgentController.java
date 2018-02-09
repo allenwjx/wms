@@ -1,11 +1,7 @@
 package com.zeh.wms.web.controller.customer;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.Paginator;
 import com.zeh.jungle.utils.page.SingleResult;
@@ -15,8 +11,24 @@ import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.AgentVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.service.AgentService;
+import com.zeh.wms.web.constant.ExcelConstant;
 import com.zeh.wms.web.controller.BaseController;
 import com.zeh.wms.web.form.AgentForm;
+import com.zeh.wms.web.form.AgentImportModel;
+import org.jxls.reader.ReaderBuilder;
+import org.jxls.reader.ReaderConfig;
+import org.jxls.reader.XLSReader;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author allen
@@ -150,5 +162,38 @@ public class AgentController extends BaseController {
         } catch (ServiceException e) {
             return createErrorResult(e);
         }
+    }
+
+    /**
+     * 导入供应商资源过滤配置数据
+     *
+     * @param file 导入文件
+     * @return String
+     */
+    @RequestMapping(value = "import", method = RequestMethod.POST)
+    @ResponseBody
+    public String upload(@RequestParam("file_data") MultipartFile file, HttpServletRequest request) {
+        String configPath = getRealFileName(request, ExcelConstant.ANGENT_METADATE_PATH);
+
+        try(InputStream xmlInputStream = new FileInputStream(configPath)) {
+            ReaderConfig.getInstance().setSkipErrors(true);
+            XLSReader reader = ReaderBuilder.buildFromXML(xmlInputStream);
+            try (InputStream xlsInputStream = file.getInputStream()) {
+                List<AgentImportModel> modelList = Lists.newArrayList();
+                Map<String, Object> beans = Maps.newHashMap();
+                beans.put("list", modelList);
+
+                logger.info("Reading the data...");
+                reader.read(xlsInputStream, beans);
+                logger.info("Read " + modelList.size() + " model into `list` list");
+                for (AgentImportModel model : modelList) {
+                    logger.info(model.toString());
+                    // TODO: 2018/2/9 导入到数据库里的逻辑。 
+                }
+            }
+        } catch (Exception e) {
+            logger.error("导入失败", e);
+        }
+        return "OK";
     }
 }

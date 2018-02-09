@@ -6,4 +6,6 @@ package com.zeh.wms.web.constant;
  */
 public class ExcelConstant {
     public static final String SF_FILE_PATH = "/export/sf_template.xlsx";
+
+    public static final String ANGENT_METADATE_PATH = "/import/ai_matedata.xml";
 }
