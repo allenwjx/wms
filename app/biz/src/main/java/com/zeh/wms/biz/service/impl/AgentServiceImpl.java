@@ -32,7 +32,7 @@ public class AgentServiceImpl implements AgentService {
     /** 错误工厂 */
     private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
 
-    private static Logger logger = LoggerFactory.getLogger(AgentServiceImpl.class);
+    private static Logger                logger        = LoggerFactory.getLogger(AgentServiceImpl.class);
     /** 代理商数据库访问组件 */
     @Resource
     private AgentDAO                     agentDAO;

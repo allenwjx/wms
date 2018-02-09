@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * The type Agent controller.
+ *
  * @author allen
  * @create $ ID: AgentController, 18/2/8 13:46 allen Exp $
  * @since 1.0.0
@@ -45,8 +47,8 @@ public class AgentController extends BaseController {
     /**
      * 页面初始化
      *
-     * @param model
-     * @return
+     * @param model the model
+     * @return string
      */
     @RequestMapping(value = "index")
     public String index(Model model) {
@@ -57,9 +59,10 @@ public class AgentController extends BaseController {
     /**
      * 新增，编辑页面
      *
-     * @param id 厂商ID
-     * @param model
-     * @return
+     * @param id    厂商ID
+     * @param model the model
+     * @return string
+     * @throws ServiceException the service exception
      */
     @RequestMapping("edit")
     public String edit(Long id, Model model) throws ServiceException {
@@ -81,9 +84,10 @@ public class AgentController extends BaseController {
     /**
      * 分页查询
      *
-     * @param form
-     * @param paginator
-     * @return
+     * @param form      the form
+     * @param paginator the paginator
+     * @return page list
+     * @throws ServiceException the service exception
      */
     @RequestMapping(value = "list")
     @ResponseBody
@@ -99,9 +103,10 @@ public class AgentController extends BaseController {
 
     /**
      * 创建代理人信息
-     *§§
-     * @param form
-     * @return
+     * §§
+     *
+     * @param form the form
+     * @return single result
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
@@ -124,8 +129,8 @@ public class AgentController extends BaseController {
     /**
      * 更新代理人信息
      *
-     * @param form
-     * @return
+     * @param form the form
+     * @return single result
      */
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     @ResponseBody
@@ -147,8 +152,10 @@ public class AgentController extends BaseController {
 
     /**
      * 更新代理人状态
-     * @param id
-     * @return
+     *
+     * @param id      the id
+     * @param enabled the enabled
+     * @return single result
      */
     @RequestMapping(value = "/state/{id}/{enabled}", method = RequestMethod.POST)
     @ResponseBody
@@ -167,8 +174,9 @@ public class AgentController extends BaseController {
     /**
      * 导入供应商资源过滤配置数据
      *
-     * @param file 导入文件
-     * @return String
+     * @param file    导入文件
+     * @param request the request
+     * @return String single result
      */
     @RequestMapping(value = "import", method = RequestMethod.POST)
     @ResponseBody
