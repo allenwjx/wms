@@ -1,10 +1,10 @@
-var commodity_edit_vm;
+var auxiliary_edit_vm;
 $(document).ready(function () {
     debugger;
-    commodity_edit_vm = new Vue({
+    auxiliary_edit_vm = new Vue({
         el: '#modalForm',
         data: {
-            manufacturers: [],
+            commodities: [],
             model: {}
         },
         ready: function () {
@@ -15,27 +15,27 @@ $(document).ready(function () {
                 var self = this;
                 $.ajax({
                     type: 'GET',
-                    url: __ctx + "/sale/commodity/edit",
+                    url: __ctx + "/sale/auxiliary/edit",
                     data: {id: $("#id").val()}
                 }).done(function (result) {
                     self.model = result;
                 });
                 $.ajax({
                     type: 'GET',
-                    url: __ctx + "/combo/loadManus"
+                    url: __ctx + "/combo/commodities"
                 }).done(function (resp) {
-                    self.manufacturers = resp;
+                    self.commodities = resp;
                 });
             },
             submitData: function () {
                 $("#modalForm").data('bootstrapValidator', null);
                 this.validator();
                 var me = this.model;
-                var url = __ctx + "/sale/commodity/save";
+                var url = __ctx + "/sale/auxiliary/save";
                 var method = "POST";
                 if (this.model.id) {
                     method = "PUT";
-                    url = __ctx + "/sale/commodity/update";
+                    url = __ctx + "/sale/auxiliary/update";
                 }
                 $("#modalForm").data('bootstrapValidator').validate();
                 if ($("#modalForm").data('bootstrapValidator').isValid()) {
@@ -50,7 +50,7 @@ $(document).ready(function () {
                             if (data && data.success) {
                                 $('#formModal').modal('hide');
                                 toastr.success('操作成功', {timeOut: 1500, positionClass: "toast-top-center"});
-                                commidty_vm.preQuery();
+                                auxiliary_vm.preQuery();
                             } else {
                                 toastr.error(data.errorMessage, {timeOut: 1500, positionClass: "toast-top-center"});
                             }
@@ -65,24 +65,24 @@ $(document).ready(function () {
                 $('#modalForm').bootstrapValidator({
                     message: 'This value is not valid',
                     fields: {
-                        manufacturerId: {
+                        commodityId: {
                             validators: {
                                 notEmpty: {
-                                    message: '请选择厂商'
+                                    message: '请选择归属商品'
                                 }
                             }
                         },
                         name: {
                             validators: {
                                 notEmpty: {
-                                    message: '请输入商品名称'
+                                    message: '请输入辅材名称'
                                 }
                             }
                         },
                         price: {
                             validators: {
                                 notEmpty: {
-                                    message: '请输入商品单价，单位：元'
+                                    message: '请输入辅材单价，单位：元'
                                 },
                                 greaterThan: {
                                     value: 0,
@@ -90,17 +90,10 @@ $(document).ready(function () {
                                 }
                             }
                         },
-                        unit: {
+                        quantity: {
                             validators: {
                                 notEmpty: {
-                                    message: '请输入商品单位'
-                                }
-                            }
-                        },
-                        weight: {
-                            validators: {
-                                notEmpty: {
-                                    message: '请输入商品重量，单位：KG'
+                                    message: '请输入满足多少件商品收取辅材费用'
                                 },
                                 greaterThan: {
                                     value: 0,

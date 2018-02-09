@@ -11,14 +11,15 @@
 		<result property="price" column="price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="quantity" column="quantity" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="commodityId" column="commodity_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="enabled" column="enabled" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="modifiedBy" column="modified_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
     </resultMap>
     
 	<sql id="AuxiliaryMaterial.columns">
-		id, name, price, quantity, commodity_id, gmt_create, gmt_modified, create_by, modified_by
+		id, name, price, quantity, commodity_id, enabled, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -27,8 +28,8 @@
     
 	<insert id="wms.AuxiliaryMaterial.insert">
 		INSERT INTO auxiliary_material (
-	        	id ,name ,price ,quantity ,commodity_id ,gmt_create ,gmt_modified ,create_by ,modified_by 
-	        ) VALUES (#id#,#name#,#price#,#quantity#,#commodityId#,#gmtCreate#,#gmtModified#,#createBy#,#modifiedBy#)
+            id ,name ,price ,quantity ,commodity_id ,enabled, gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (#id#,#name#,#price#,#quantity#,#commodityId#,#enabled#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -37,25 +38,25 @@
 	
 	<delete id="wms.AuxiliaryMaterial.delete">
 		DELETE FROM auxiliary_material WHERE
-	        id = #id#
+            id = #id#
     </delete>
     
 	
 	<update id="wms.AuxiliaryMaterial.update">
 		UPDATE auxiliary_material SET
-		        name = #name# ,price = #price# ,quantity = #quantity# ,commodity_id = #commodityId# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modified_by = #modifiedBy# 
-	        WHERE 
-	        	id = #id#
+            name = #name# ,price = #price# ,quantity = #quantity# ,commodity_id = #commodityId# , enabled = #enabled# ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+            WHERE
+            id = #id#
 	</update>
 	
     
 	
 	<select id="wms.AuxiliaryMaterial.queryById" resultMap="RM.AuxiliaryMaterial" >
     	SELECT
- /*wms.AuxiliaryMaterial.queryById*/ 		    <include refid="AuxiliaryMaterial.columns"/>
-	        FROM auxiliary_material 
-	        WHERE 
-		        id = #id#
+ /*wms.AuxiliaryMaterial.queryById*/             <include refid="AuxiliaryMaterial.columns"/>
+            FROM auxiliary_material
+            WHERE
+            id = #id#
 	</select>	
 
 	    
@@ -63,16 +64,79 @@
 	
     
 	
-	<select id="wms.AuxiliaryMaterial.findPage" resultMap="RM.AuxiliaryMaterial" >
-    	SELECT  /*wms.AuxiliaryMaterial.findPage*/ 
-			<include refid="AuxiliaryMaterial.columns"/>
-			FROM auxiliary_material
+	<select id="wms.AuxiliaryMaterial.queryEnabledById" resultMap="RM.AuxiliaryMaterial" >
+    	SELECT
+ /*wms.AuxiliaryMaterial.queryEnabledById*/             <include refid="AuxiliaryMaterial.columns"/>
+            FROM auxiliary_material
+            WHERE
+            id = #id# AND enabled = 1
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.AuxiliaryMaterial.queryByCommodityId" resultMap="RM.AuxiliaryMaterial" >
+    	SELECT
+ /*wms.AuxiliaryMaterial.queryByCommodityId*/             <include refid="AuxiliaryMaterial.columns"/>
+            FROM auxiliary_material
+            WHERE
+            commodity_id = #commodityId# AND enabled = 1
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.AuxiliaryMaterial.queryByPage" resultMap="RM.AuxiliaryMaterial" >
+    	SELECT
+ /*wms.AuxiliaryMaterial.queryByPage*/             <include refid="AuxiliaryMaterial.columns"/>
+            FROM auxiliary_material
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    commodity_id = #commodityId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
 			limit #offset#,#limit#
 	</select>	
 
-	<select id="wms.AuxiliaryMaterial.findPage.count" resultClass="long" >
-    	select  /*wms.AuxiliaryMaterial.findPage.count*/ count(*) 	FROM auxiliary_material
+	<select id="wms.AuxiliaryMaterial.queryByPage.count" resultClass="long" >
+    	select  /*wms.AuxiliaryMaterial.queryByPage.count*/ count(*)  FROM auxiliary_material
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    commodity_id = #commodityId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
 	</select>
+	    
+	
+	
+    
+	
+	<select id="wms.AuxiliaryMaterial.queryAllEnabled" resultMap="RM.AuxiliaryMaterial" >
+    	SELECT
+ /*wms.AuxiliaryMaterial.queryAllEnabled*/             <include refid="AuxiliaryMaterial.columns"/>
+            FROM auxiliary_material
+            WHERE enabled = 1;
+	</select>	
+
 	    
 	
 	

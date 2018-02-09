@@ -177,6 +177,42 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * JG0510015001=辅材创建失败，辅材数据不能为空
+     *
+     * @return JGError
+     */
+    public JGError createAuxiliaryError() {
+        return createError("JG0510015001");
+    }
+
+    /**
+     * JG0510015002=辅材更新失败，辅材数据ID不能为空
+     *
+     * @return JGError
+     */
+    public JGError updateAuxiliaryError() {
+        return createError("JG0510015002");
+    }
+
+    /**
+     * JG0510015003=辅材查询失败，查询条件不能为空
+     *
+     * @return JGError
+     */
+    public JGError queryAuxiliaryError() {
+        return createError("JG0510015003");
+    }
+
+    /**
+     * JG0510015004=辅材创建失败，{0}有效辅材已存在，辅材ID：{1}
+     *
+     * @return JGError
+     */
+    public JGError auxiliaryExistError(long commodity, long id) {
+        return createError("JG0510015004", commodity, id);
+    }
+
+    /**
      * 未找到快递单详情。id: {0}
      * @param id 主键
      * @return

@@ -18,7 +18,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label" for="type">厂商</label>
             <div class="col-sm-6">
-                <vue-select :options="manufacturers" :model.sync="model.manufacturerId" :configs="{placeholder:'请选择'}"></vue-select>
+                <vue-select name="manufacturerId" :options="manufacturers" :model.sync="model.manufacturerId" :configs="{placeholder:'请选择'}"></vue-select>
             </div>
         </div>
         <div class="form-group">
