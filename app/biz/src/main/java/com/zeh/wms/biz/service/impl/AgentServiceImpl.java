@@ -23,6 +23,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * The type Agent service.
+ *
  * @author allen
  * @create $ ID: AgentServiceImpl, 18/2/8 13:15 allen Exp $
  * @since 1.0.0
@@ -59,8 +61,8 @@ public class AgentServiceImpl implements AgentService {
 
     /**
      * 批量更新
-     * @param agentVOS
-     * @throws ServiceException
+     * @param agentVOS 代理商列表。
+     * @throws ServiceException 代理商更新异常
      */
     @Override
     public void batchCreateAgent(List<AgentVO> agentVOS) throws ServiceException {
