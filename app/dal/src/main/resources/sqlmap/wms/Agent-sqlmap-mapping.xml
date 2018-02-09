@@ -141,6 +141,19 @@
 	
 	
     
+	
+	<select id="wms.Agent.queryByExternalCode" resultMap="RM.Agent" >
+    	SELECT
+ /*wms.Agent.queryByExternalCode*/             <include refid="Agent.columns"/>
+            FROM agent
+            WHERE
+            external_code = #externalCode# and enabled = 1
+	</select>	
+
+	    
+	
+	
+    
 
 </sqlMap>
 

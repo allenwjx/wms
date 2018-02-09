@@ -40,7 +40,7 @@ import java.util.Map;
 public class AgentController extends BaseController {
     /** 代理人服务 */
     @Resource
-    private AgentService agentService;
+    private AgentService    agentService;
 
     /**
      * 页面初始化
@@ -172,10 +172,10 @@ public class AgentController extends BaseController {
      */
     @RequestMapping(value = "import", method = RequestMethod.POST)
     @ResponseBody
-    public String upload(@RequestParam("file_data") MultipartFile file, HttpServletRequest request) {
+    public SingleResult upload(@RequestParam("file_data") MultipartFile file, HttpServletRequest request) {
         String configPath = getRealFileName(request, ExcelConstant.ANGENT_METADATE_PATH);
 
-        try(InputStream xmlInputStream = new FileInputStream(configPath)) {
+        try (InputStream xmlInputStream = new FileInputStream(configPath)) {
             ReaderConfig.getInstance().setSkipErrors(true);
             XLSReader reader = ReaderBuilder.buildFromXML(xmlInputStream);
             try (InputStream xlsInputStream = file.getInputStream()) {
@@ -186,14 +186,24 @@ public class AgentController extends BaseController {
                 logger.info("Reading the data...");
                 reader.read(xlsInputStream, beans);
                 logger.info("Read " + modelList.size() + " model into `list` list");
+                List<AgentVO> list = Lists.newArrayList();
                 for (AgentImportModel model : modelList) {
-                    logger.info(model.toString());
-                    // TODO: 2018/2/9 导入到数据库里的逻辑。 
+                    AgentVO agentVO = new AgentVO();
+                    agentVO.setAddress(model.getReceiverAddress());
+                    agentVO.setExternalCode(model.getCode());
+                    agentVO.setName(model.getReceiverName());
+                    agentVO.setMobile(model.getTelPlainString());
+                    agentVO.setCode(model.getCode());
+                    agentVO.setModifyBy(getCurrentUserName());
+                    agentVO.setCreateBy(getCurrentUserName());
+                    list.add(agentVO);
                 }
+                agentService.batchCreateAgent(list);
             }
         } catch (Exception e) {
             logger.error("导入失败", e);
+            return createErrorResult(e);
         }
-        return "OK";
+        return createSuccessResult();
     }
 }

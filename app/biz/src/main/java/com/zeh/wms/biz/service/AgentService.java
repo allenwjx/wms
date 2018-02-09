@@ -1,13 +1,16 @@
 package com.zeh.wms.biz.service;
 
-import java.util.Collection;
-
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.AgentVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
+ * The interface Agent service.
+ *
  * @author allen
  * @create $ ID: AgentService, 18/2/8 10:59 allen Exp $
  * @since 1.0.0
@@ -22,8 +25,16 @@ public interface AgentService {
     void createAgent(AgentVO agent) throws ServiceException;
 
     /**
+     * 批量更新.
+     *
+     * @param agentVOS the agent vos
+     * @throws ServiceException the service exception
+     */
+    void batchCreateAgent(List<AgentVO> agentVOS) throws ServiceException;
+
+    /**
      * 更新代理商信息
-     * 
+     *
      * @param agent 代理商
      * @throws ServiceException 代理商更新异常
      */
@@ -31,28 +42,29 @@ public interface AgentService {
 
     /**
      * 根据代理商编号查询代理商信息
-     * 
+     *
      * @param code 代理商编号
-     * @return 代理商信息
+     * @return 代理商信息 agent vo
      * @throws ServiceException 代理商查询异常
      */
     AgentVO findAgentByCode(String code) throws ServiceException;
 
     /**
      * 根据代理商ID查询代理商信息
-     * 
+     *
      * @param id 代理商ID
-     * @return 代理商信息
+     * @return 代理商信息 agent vo
      * @throws ServiceException 代理商查询异常
      */
     AgentVO findAgentById(long id) throws ServiceException;
 
     /**
      * 分页查询代理商信息
-     * @param agent 代理商查询条件
+     *
+     * @param agent       代理商查询条件
      * @param currentPage 查询起始页
-     * @param size 每页数量
-     * @return 代理商信息
+     * @param size        每页数量
+     * @return 代理商信息 page list
      * @throws ServiceException 分页查询异常
      */
     PageList<AgentVO> pageQueryAgents(AgentVO agent, int currentPage, int size) throws ServiceException;
@@ -60,7 +72,7 @@ public interface AgentService {
     /**
      * 查询所有代理商信息
      *
-     * @return 所有代理商信息
+     * @return 所有代理商信息 collection
      * @throws ServiceException 代理商查询异常
      */
     Collection<AgentVO> findAllAgents() throws ServiceException;
