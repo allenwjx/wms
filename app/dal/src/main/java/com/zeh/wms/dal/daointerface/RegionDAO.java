@@ -81,13 +81,6 @@ public interface RegionDAO {
 	 */
 	public List<RegionDO> queryByParentId(Long parentId) throws DataAccessException;
 
-	/**
-	 * 
-	 * sql:
-	 * <pre>SELECT         id, code, name, parent_id, level, first_pinyin_char, pinyin_name                       FROM         regions                  WHERE         1=1                                        AND                      code = ?                                            AND                      name = ?                                            AND                      parent_id = ?                                                ORDER BY         gmt_modified DESC</pre> 
-	 */
-	public PageList<RegionDO> queryByPage(QueryByPageQuery param) throws DataAccessException;
-
 }
 
 

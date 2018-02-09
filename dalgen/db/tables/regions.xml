@@ -73,26 +73,4 @@
             parent_id = ?
         </sql>
     </operation>
-
-    <operation name="queryByPage" paramtype="parameterObject" multiplicity="paging">
-        <sql>
-            SELECT
-            <include refid="Region.columns"/>
-            FROM regions
-            WHERE 1=1
-            <dynamic>
-                <isNotEmpty prepend="AND" property="code">
-                    code = #code#
-                </isNotEmpty>
-                <isNotEmpty prepend="AND" property="name">
-                    name = #name#
-                </isNotEmpty>
-                <isNotEmpty prepend="AND" property="parentId">
-                    parent_id = #parentId#
-                </isNotEmpty>
-            </dynamic>
-            ORDER BY gmt_modified DESC
-        </sql>
-    </operation>
-
 </table>

@@ -71,6 +71,7 @@
         <property name="configLocations">
             <list>
                 <value>classpath:sqlmap/wms/wms-sqlmap-config.xml</value>
+                <value>classpath:sqlmap/wms/wms-manual-sqlmap-config.xml</value>
             </list>
         </property>
         <property name="lobHandler" ref="lobHandler"/>

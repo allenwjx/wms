@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    <resultMap id="RM.QueryByPageResult" class="com.zeh.wms.dal.operation.region.QueryByPageResult">
+        <result property="id" column="id" javaType="long" jdbcType="BIGINT" nullValue="0"/>
+        <result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="level" column="level" javaType="int" jdbcType="INT" nullValue="0"/>
+        <result property="parentId" column="parent_id" javaType="long" jdbcType="BIGINT" nullValue="0"/>
+        <result property="parentName" column="parentName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="wms.Region.queryByPage" resultMap="RM.QueryByPageResult">
+        SELECT
+        r1.id, r1.code, r1.name, r1.level, r1.parent_id, r2.name AS parentName
+        FROM regions r1 LEFT JOIN regions r2 on r1.parent_id = r2.id
+        WHERE 1=1
+        <dynamic>
+            <isNotEmpty prepend="AND" property="code">
+                r1.code = #code#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="name">
+                r1.name = #name#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="parentId">
+                r1.parent_id = #parentId#
+            </isNotEmpty>
+        </dynamic>
+        limit #offset#,#limit#
+    </select>
+
+    <select id="wms.Region.queryByPage.count" resultClass="long">
+        select count(*) FROM regions r1 LEFT JOIN regions r2 on r1.parent_id = r2.id
+        WHERE 1=1
+        <dynamic>
+            <isNotEmpty prepend="AND" property="code">
+                r1.code = #code#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="name">
+                r1.name = #name#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="parentId">
+                r1.parent_id = #parentId#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+</sqlMap>
+

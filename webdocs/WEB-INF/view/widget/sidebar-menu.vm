@@ -21,9 +21,7 @@
             <li>
                 <a href="javascript:;"><i class="icon-diamond"></i><span class="title">基础数据管理</span><span class="arrow open"></span></a>
                 <ul class="sub-menu ul-sec">
-                    <li><a href="#"><i class="fa fa-cab"></i>省</a></li>
-                    <li><a href="#"><i class="fa fa-cab"></i>市</a></li>
-                    <li><a href="#"><i class="fa fa-cab"></i>区</a></li>
+                    <li><a href="${rc.contextPath}/page/basic/regions/index"><i class="fa fa-cab"></i>省市区管理</a></li>
                 </ul>
             </li>
             <li>

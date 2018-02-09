@@ -6,6 +6,7 @@ import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.RegionsVO;
 import com.zeh.wms.dal.operation.region.QueryByPageQuery;
+import com.zeh.wms.dal.operation.region.QueryByPageResult;
 
 /**
  * @author allen
@@ -21,7 +22,7 @@ public interface RegionsService {
      * @return 省市区
      * @throws ServiceException 异常
      */
-    PageList<RegionsVO> pageQueryRegions(QueryByPageQuery query) throws ServiceException;
+    PageList<QueryByPageResult> pageQueryRegions(QueryByPageQuery query) throws ServiceException;
 
     /**
      * 查询省信息
