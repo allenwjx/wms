@@ -1,10 +1,10 @@
 package com.zeh.wms.biz.model;
 
-import com.zeh.wms.biz.model.enums.PaymentChannelEnum;
-import com.zeh.wms.biz.model.enums.PaymentStateEnum;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import com.zeh.wms.biz.model.enums.PaymentChannelEnum;
+import com.zeh.wms.biz.model.enums.PaymentStateEnum;
 
 /**
  * 支付单模型
@@ -31,7 +31,7 @@ public class PaymentOrderVO extends BaseVO {
     /** 微信支付流水号 */
     private String             otherPaymentNo;
     /** 支付金额，单位：分 */
-    private Integer                amount;
+    private Integer            amount;
     /** 支付渠道：WX: 微信; ALIPAY: 支付宝 */
     private PaymentChannelEnum channel;
     /** 支付状态； WATI_PAY（待支付）； PAYING（支付中）； PAYED（已支付）； PAY_CANCEL（支付取消）*/

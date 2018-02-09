@@ -76,9 +76,10 @@
             <th>快递单号</th>
             <th>三方快递单号</th>
             <th>微信支付流水号</th>
+            <th>平台支付流水号</th>
             <th>金额</th>
+            <th>状态</th>
             <th>创建时间</th>
-            <th>操作</th>
         </tr>
         </thead>
         <tbody>
@@ -87,11 +88,10 @@
             <td v-html="item.orderNo"></td>
             <td v-html="item.otherOrderNo"></td>
             <td v-html="item.otherPaymentNo"></td>
+            <td v-html="item.paymentOrderNo"></td>
             <td v-html="item.amount | toMoney"></td>
+            <td v-html="item.status | enumFormat paymentStates"></td>
             <td v-html="item.gmtCreate | toDate 'YYYY-MM-DD'"></td>
-            <td>
-                <a class="a-icon" v-on:click="edit(item.id)"><i class="fa fa-edit"></i>明细</a>
-            </td>
         </tr>
         </tbody>
         <tfoot>
