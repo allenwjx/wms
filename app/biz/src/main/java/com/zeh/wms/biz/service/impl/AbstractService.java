@@ -29,7 +29,7 @@ public abstract class AbstractService {
 
     protected ResponseEntity<byte[]> getExcel(String templatePath, String fileName, Object list) {
         Map<String, Object> pars = Maps.newHashMap();
-        pars.put("list", list);
+        pars.put("lists", list);
         return getExcel(templatePath, fileName, pars);
     }
 

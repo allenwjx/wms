@@ -80,6 +80,6 @@ public class PaymentOrderController extends BaseController {
     @RequestMapping(value = "export", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<byte[]> export(GetAllDataQuery query, HttpServletRequest request) throws ServiceException {
-        return paymentService.export(query, getRealFileName(request, ExcelConstant.SF_FILE_PATH));
+        return paymentService.export(query, getRealFileName(request, ExcelConstant.PAYMENT_FILE_PATH));
     }
 }
