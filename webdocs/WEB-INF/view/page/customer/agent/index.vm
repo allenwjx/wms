@@ -59,6 +59,7 @@
                         <button type="button" class="btn green-meadow" v-on:click="preQuery"><i class="fa fa-search"></i>搜索</button>
                         <button type="button" class="btn default" v-on:click="create"><i class="fa fa-plus"></i>新增</button>
                         <button type="button" class="btn" v-on:click="reset"><i class="fa fa-refresh"></i>重置</button>
+                        <button type="button" class="btn default" data-toggle="importModal" @click="importModal"><i class="fa fa-database"></i>导入</button>
                     </div>
                 </div>
             </form>
@@ -118,6 +119,27 @@
     <div class="modal-dialog" role="document" style="width:1200px">
         <div class="modal-content">
 
+        </div>
+    </div>
+</div>
+
+<!-- 导入航线白名单页面 -->
+<div id="importModal" class="modal fade modal-scroll" tabindex="-1" data-replace="true">
+    <div class="modal-dialog" role="document" style="width: 700px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="importModal">&times;</button>
+                <span class="mymodal-title">代理商导入</span>
+            </div>
+
+##            <p style="margin-left:15px;margin-top:15px;">
+##                <a href="${rc.contextPath}/ai_template.xlsx"><i
+##                        class="fa fa-file-excel-o"></i> 导入模板下载</a>
+##            </p>
+
+            <div class="modal-body">
+                <input class="form-control file" type="file" id="angentFile">
+            </div>
         </div>
     </div>
 </div>

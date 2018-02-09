@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workbook>
+    <worksheet idx="0">
+        <section startRow="1" endRow="1">
+        </section>
+        <loop startRow="2" endRow="2" items="list" var="agent" varType="com.zeh.wms.web.form.AgentImportModel">
+            <section startRow="2" endRow="2">
+                <mapping row="2" col="1">agent.code</mapping>
+                <mapping row="2" col="2">agent.receiverName</mapping>
+                <mapping row="2" col="3">agent.receiverTel</mapping>
+                <mapping row="2" col="4">agent.amount</mapping>
+                <mapping row="2" col="5">agent.receiverAddress</mapping>
+            </section>
+            <loopbreakcondition>
+                <rowcheck offset="0">
+                    <cellcheck offset="0"></cellcheck>
+                </rowcheck>
+            </loopbreakcondition>
+        </loop>
+    </worksheet>
+</workbook>

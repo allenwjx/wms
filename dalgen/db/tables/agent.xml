@@ -89,4 +89,14 @@
             WHERE enabled = 1;
         </sql>
     </operation>
+
+    <operation name="queryByExternalCode" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Agent.columns"/>
+            FROM agent
+            WHERE
+            external_code = #externalCode# and enabled = 1
+        </sql>
+    </operation>
 </table>

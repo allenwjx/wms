@@ -1,13 +1,5 @@
 package com.zeh.wms.biz.service.impl;
 
-import java.util.Collection;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.wms.biz.error.BizErrorFactory;
@@ -20,8 +12,19 @@ import com.zeh.wms.biz.utils.CodeGenerator;
 import com.zeh.wms.dal.daointerface.AgentDAO;
 import com.zeh.wms.dal.dataobject.AgentDO;
 import com.zeh.wms.dal.operation.agent.QueryByPageQuery;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
+ * The type Agent service.
+ *
  * @author allen
  * @create $ ID: AgentServiceImpl, 18/2/8 13:15 allen Exp $
  * @since 1.0.0
@@ -30,6 +33,8 @@ import com.zeh.wms.dal.operation.agent.QueryByPageQuery;
 public class AgentServiceImpl implements AgentService {
     /** 错误工厂 */
     private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
+
+    private static Logger                logger        = LoggerFactory.getLogger(AgentServiceImpl.class);
     /** 代理商数据库访问组件 */
     @Resource
     private AgentDAO                     agentDAO;
@@ -55,6 +60,31 @@ public class AgentServiceImpl implements AgentService {
     }
 
     /**
+     * 批量更新
+     * @param agentVOS 代理商列表。
+     * @throws ServiceException 代理商更新异常
+     */
+    @Override
+    public void batchCreateAgent(List<AgentVO> agentVOS) throws ServiceException {
+        if (CollectionUtils.isEmpty(agentVOS)) {
+            return;
+        }
+        agentVOS.forEach(item -> {
+            AgentDO agentDO = agentDAO.queryByExternalCode(item.getCode());
+            if (agentDO == null) {
+                try {
+                    createAgent(item);
+                } catch (ServiceException e) {
+                    logger.error("批量导入失败！", e);
+                }
+                return;
+            }
+
+            updateDO(item, agentDO);
+        });
+    }
+
+    /**
      * 更新代理商信息
      *
      * @param agent 代理商
@@ -66,6 +96,10 @@ public class AgentServiceImpl implements AgentService {
             throw new ServiceException(ERROR_FACTORY.updateAgentError());
         }
         AgentDO agentDO = agentDAO.queryById(agent.getId());
+        updateDO(agent, agentDO);
+    }
+
+    private void updateDO(AgentVO agent, AgentDO agentDO) {
         agentDO.setAddress(StringUtils.isNotBlank(agent.getAddress()) ? agent.getAddress() : agentDO.getAddress());
         agentDO.setExternalCode(StringUtils.isNotBlank(agent.getExternalCode()) ? agent.getExternalCode() : agentDO.getExternalCode());
         agentDO.setMobile(StringUtils.isNotBlank(agent.getMobile()) ? agent.getMobile() : agentDO.getMobile());

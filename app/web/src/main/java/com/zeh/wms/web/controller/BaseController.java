@@ -51,7 +51,10 @@ public abstract class BaseController {
      */
     protected UserBgVO getCurrentUser() {
         // TODO
-        return null;
+        UserBgVO bgVO = new UserBgVO();
+        bgVO.setPassword("TODO");
+        bgVO.setUsername("TODO");
+        return bgVO;
     }
 
     /**

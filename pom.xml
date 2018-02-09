@@ -41,6 +41,7 @@
         <jackson.version>2.6.5</jackson.version>
         <jxls.version>2.4.3</jxls.version>
         <jxls.poi.version>1.0.14</jxls.poi.version>
+        <jxls.reader.version>2.0.3</jxls.reader.version>
         <poi.version>3.17</poi.version>
     </properties>
 
@@ -309,9 +310,19 @@
                 <version>${jxls.poi.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.jxls</groupId>
+                <artifactId>jxls-reader</artifactId>
+                <version>${jxls.reader.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.3.2</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
