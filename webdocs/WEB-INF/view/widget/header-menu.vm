@@ -13,7 +13,8 @@
 
         <div class="top-menu pull-left">
             <ul class="nav navbar-nav">
-                <li><a href="${rc.contextPath}/index">卓尔航云仓储管理平台</a></li>
+##                卓尔航云仓储管理平台
+                <li><a href="${rc.contextPath}/index">国际机票运营后台</a></li>
             </ul>
         </div>
 
