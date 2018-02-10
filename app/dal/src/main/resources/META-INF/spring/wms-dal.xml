@@ -20,6 +20,7 @@
     <bean id="manufacturerDAO" class="com.zeh.wms.dal.ibatis.IbatisManufacturerDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="paymentOrderDAO" class="com.zeh.wms.dal.ibatis.IbatisPaymentOrderDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="qrcodeDAO" class="com.zeh.wms.dal.ibatis.IbatisQrcodeDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="qrcodeBatchDAO" class="com.zeh.wms.dal.ibatis.IbatisQrcodeBatchDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="regionDAO" class="com.zeh.wms.dal.ibatis.IbatisRegionDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="roleDAO" class="com.zeh.wms.dal.ibatis.IbatisRoleDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="roleAuthorizationLinkDAO" class="com.zeh.wms.dal.ibatis.IbatisRoleAuthorizationLinkDAO" parent="wmsSqlMapClientDAO"/>

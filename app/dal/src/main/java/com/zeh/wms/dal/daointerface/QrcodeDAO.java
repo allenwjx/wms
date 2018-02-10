@@ -2,9 +2,21 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.wms.dal.dataobject.QrcodeDO;
 import org.springframework.dao.DataAccessException;
+import com.zeh.wms.dal.operation.qrcode.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * QrcodeDAO
  * database table: qrcode
@@ -54,6 +66,13 @@ public interface QrcodeDAO {
 	 * <pre>SELECT         id, serial_no, commodity_id, data, gmt_create, gmt_modified, create_by, modify_by            FROM         qrcode</pre> 
 	 */
 	public PageList<QrcodeDO> findPage(int pageSize,int pageNum) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, serial_no, commodity_id, data, gmt_create, gmt_modified, create_by, modify_by            FROM         qrcode         WHERE         commodity_id = ?</pre> 
+	 */
+	public PageList<QrcodeDO> findByCommodityId(Long commodityId,int pageSize,int pageNum) throws DataAccessException;
 
 }
 

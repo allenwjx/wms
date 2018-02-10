@@ -18,6 +18,7 @@
 	<sqlMap resource="sqlmap/wms/Manufacturer-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/PaymentOrder-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/Qrcode-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/QrcodeBatch-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/Region-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/Role-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/RoleAuthorizationLink-sqlmap-mapping.xml" />

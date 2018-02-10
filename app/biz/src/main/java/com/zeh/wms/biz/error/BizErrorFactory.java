@@ -213,6 +213,33 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * JG0510016001=二维码批次创建失败，二维码批次数据不能为空
+     *
+     * @return JGError
+     */
+    public JGError createQRCodeBatchError() {
+        return createError("JG0510016001");
+    }
+
+    /**
+     * JG0510016002=二维码批次更新失败，二维码批次数据ID不能为空
+     *
+     * @return JGError
+     */
+    public JGError updateQRCodeBatchError() {
+        return createError("JG0510016002");
+    }
+
+    /**
+     * JG0510016003=二维码批次查询失败，查询条件不能为空
+     *
+     * @return JGError
+     */
+    public JGError queryQRCodeBatchError() {
+        return createError("JG0510016003");
+    }
+
+    /**
      * 未找到快递单详情。id: {0}
      * @param id 主键
      * @return

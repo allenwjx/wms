@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.QrcodeBatch" class="com.zeh.wms.dal.dataobject.QrcodeBatchDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="batchSerial" column="batch_serial" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="qrcodeSerial" column="qrcode_serial" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="state" column="state" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+    </resultMap>
+    
+	<sql id="QrcodeBatch.columns">
+		id, batch_serial, qrcode_serial, state, gmt_create, gmt_modified
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.QrcodeBatch.insert">
+		INSERT INTO qrcode_batch (
+            id ,batch_serial ,qrcode_serial ,state ,gmt_create ,gmt_modified
+            ) VALUES (#id#,#batchSerial#,#qrcodeSerial#,#state#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.QrcodeBatch.delete">
+		DELETE FROM qrcode_batch WHERE
+            id = #id#
+    </delete>
+    
+	
+	<update id="wms.QrcodeBatch.update">
+		UPDATE qrcode_batch SET
+            state = #state# ,gmt_modified = CURRENT_TIMESTAMP
+            WHERE
+            id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.QrcodeBatch.queryById" resultMap="RM.QrcodeBatch" >
+    	SELECT
+ /*wms.QrcodeBatch.queryById*/             <include refid="QrcodeBatch.columns"/>
+            FROM qrcode_batch
+            WHERE
+            id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.QrcodeBatch.queryAllQRcodesByBatchSerial" resultMap="RM.QrcodeBatch" >
+    	SELECT
+ /*wms.QrcodeBatch.queryAllQRcodesByBatchSerial*/             <include refid="QrcodeBatch.columns"/>
+            FROM qrcode_batch
+            WHERE
+            batch_serial = #batchSerial#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.QrcodeBatch.queryByPage" resultMap="RM.QrcodeBatch" >
+    	SELECT
+ /*wms.QrcodeBatch.queryByPage*/             <include refid="QrcodeBatch.columns"/>
+            FROM qrcode_batch
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="batchSerial">
+                    batch_serial = #batchSerial#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="qrcodeSerial">
+                    qrcode_serial = #qrcodeSerial#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="state">
+                    state = #state#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.QrcodeBatch.queryByPage.count" resultClass="long" >
+    	select  /*wms.QrcodeBatch.queryByPage.count*/ count(*)  FROM qrcode_batch
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="batchSerial">
+                    batch_serial = #batchSerial#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="qrcodeSerial">
+                    qrcode_serial = #qrcodeSerial#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="state">
+                    state = #state#
+                </isNotEmpty>
+            </dynamic>
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

@@ -170,11 +170,11 @@ public class CommodityServiceImpl implements CommodityService {
      */
     @Override
     public void updateCommodityState(long id, String modifyBy, StateEnum enabled) throws ServiceException {
-        CommodityVO agent = new CommodityVO();
-        agent.setId(id);
-        agent.setModifyBy(modifyBy);
-        agent.setEnabled(enabled);
-        updateCommodity(agent);
+        CommodityVO commodity = new CommodityVO();
+        commodity.setId(id);
+        commodity.setModifyBy(modifyBy);
+        commodity.setEnabled(enabled);
+        updateCommodity(commodity);
     }
 
     /**

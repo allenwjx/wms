@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
+
+<table sqlname="qrcode_batch">
+    <!-- 不需要配置的列请删除 -->
+
+    <sql id="QrcodeBatch.columns">
+        id, batch_serial, qrcode_serial, state, gmt_create, gmt_modified
+    </sql>
+
+    <operation name="insert" paramtype="object">
+        <sql>
+            INSERT INTO qrcode_batch (
+            id ,batch_serial ,qrcode_serial ,state ,gmt_create ,gmt_modified
+            ) VALUES (
+            ? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+            )
+        </sql>
+    </operation>
+
+    <operation name="delete">
+        <sql>
+            DELETE FROM qrcode_batch WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="update" paramtype="object">
+        <sql>
+            UPDATE qrcode_batch SET
+            state = ? ,gmt_modified = CURRENT_TIMESTAMP
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="QrcodeBatch.columns"/>
+            FROM qrcode_batch
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryAllQRcodesByBatchSerial" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="QrcodeBatch.columns"/>
+            FROM qrcode_batch
+            WHERE
+            batch_serial = #batchSerial#
+        </sql>
+    </operation>
+
+    <operation name="queryByPage" paramtype="parameterObject" multiplicity="paging">
+        <sql>
+            SELECT
+            <include refid="QrcodeBatch.columns"/>
+            FROM qrcode_batch
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="batchSerial">
+                    batch_serial = #batchSerial#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="qrcodeSerial">
+                    qrcode_serial = #qrcodeSerial#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="state">
+                    state = #state#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
+        </sql>
+    </operation>
+
+</table>

@@ -76,6 +76,25 @@
 	
 	
     
+	
+	<select id="wms.Qrcode.findByCommodityId" resultMap="RM.Qrcode" >
+    	SELECT
+ /*wms.Qrcode.findByCommodityId*/ 			<include refid="Qrcode.columns"/>
+			FROM qrcode
+			WHERE
+			commodity_id = #commodityId#
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.Qrcode.findByCommodityId.count" resultClass="long" >
+    	select  /*wms.Qrcode.findByCommodityId.count*/ count(*) 	FROM qrcode
+			WHERE
+			commodity_id = #commodityId#
+	</select>
+	    
+	
+	
+    
 
 </sqlMap>
 

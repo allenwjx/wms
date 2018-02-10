@@ -53,4 +53,14 @@
 		</sql>
 	</operation>
 
+	<operation name="findByCommodityId" multiplicity="paging">
+		<sql>
+			SELECT
+			<include refid="Qrcode.columns"/>
+			FROM qrcode
+			WHERE
+			commodity_id = ?
+		</sql>
+	</operation>
+
 </table>
