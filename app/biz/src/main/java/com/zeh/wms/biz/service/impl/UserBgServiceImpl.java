@@ -51,7 +51,7 @@ public class UserBgServiceImpl implements UserBgService {
         if (existUserBg != null) {
             throw new ServiceException(ERROR_FACTORY.userBgNameExistError(userBg.getUsername()));
         }
-        userBg.setPassword(MD5Utils.encrypt(userBg.getUsername(), "UTF-8", false));
+        userBg.setPassword(MD5Utils.encrypt(userBg.getPassword(), "UTF-8", false));
         userBg.setEnabled(StateEnum.Y);
         UserBgDO userBgDO = mapper.vo2do(userBg);
         userBgDAO.insert(userBgDO);
@@ -77,7 +77,7 @@ public class UserBgServiceImpl implements UserBgService {
 
         UserBgDO userBgDO = userBgDAO.queryById(userBg.getId());
         if (StringUtils.isNotBlank(userBg.getPassword())) {
-            String encodedPassword = MD5Utils.encrypt(userBg.getUsername(), "UTF-8", false);
+            String encodedPassword = MD5Utils.encrypt(userBg.getPassword(), "UTF-8", false);
             if (!StringUtils.equals(encodedPassword, userBgDO.getPassword())) {
                 userBgDO.setPassword(encodedPassword);
             }
