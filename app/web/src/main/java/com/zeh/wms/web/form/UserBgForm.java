@@ -1,26 +1,28 @@
-package com.zeh.wms.biz.model;
+package com.zeh.wms.web.form;
 
-import com.zeh.wms.biz.model.enums.StateEnum;
+import java.io.Serializable;
 
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 后台用户模型
- * 
  * @author allen
- * @create $ ID: UserBgVO, 18/2/6 16:34 allen Exp $
+ * @create $ ID: UserBgForm, 18/2/11 16:01 allen Exp $
  * @since 1.0.0
  */
 @Getter
 @Setter
-public class UserBgVO extends BaseVO {
+public class UserBgForm implements Serializable {
     /**  */
     private static final long serialVersionUID = 1L;
+    /** id */
+    private Long              id;
     /** 后台用户账号 */
     private String            username;
     /** 后台用户账号密码 */
     private String            password;
+    /** 确认后的密码 */
+    private String            confirmedPassword;
     /** 用户状态 */
-    private StateEnum         enabled;
+    private Integer           enabled;
 }

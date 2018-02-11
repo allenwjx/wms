@@ -2,9 +2,21 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.wms.dal.dataobject.UserBgDO;
 import org.springframework.dao.DataAccessException;
+import com.zeh.wms.dal.operation.userbg.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * UserBgDAO
  * database table: user_bg
@@ -23,7 +35,7 @@ public interface UserBgDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         user_bg         (           id ,username ,password ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         user_bg         (             username ,password ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre> 
 	 */
 	public long insert(UserBgDO userBg) throws DataAccessException;
 
@@ -37,23 +49,37 @@ public interface UserBgDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         user_bg      SET         username = ? ,password = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         user_bg      SET         password = ? , enabled = ?, gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre> 
 	 */
 	public int update(UserBgDO userBg) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, username, password, gmt_create, gmt_modified, create_by, modify_by                  FROM         user_bg                WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, username, password, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         user_bg                  WHERE         id = ?</pre> 
 	 */
 	public UserBgDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, username, password, gmt_create, gmt_modified, create_by, modify_by            FROM         user_bg</pre> 
+	 * <pre>SELECT         id, username, password, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         user_bg                  WHERE         username = ?</pre> 
 	 */
-	public PageList<UserBgDO> findPage(int pageSize,int pageNum) throws DataAccessException;
+	public UserBgDO queryByUsername(String username) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, username, password, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         user_bg                  WHERE         username = ?          AND password = ?</pre> 
+	 */
+	public UserBgDO queryByLogin(String username ,String password) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, username, password, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         user_bg                  WHERE         1=1                                        AND                      username = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modified DESC</pre> 
+	 */
+	public PageList<UserBgDO> queryByPage(QueryByPageQuery param) throws DataAccessException;
 
 }
 

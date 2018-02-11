@@ -48,6 +48,10 @@ public class UserBgDO implements java.io.Serializable {
 	 */
 	private String password;
 	/**
+	 * 后台用户状态：0-禁用，1启用 		db_column: enabled 
+	 */
+	private int enabled;
+	/**
 	 * gmtCreate 		db_column: gmt_create 
 	 */
 	private Date gmtCreate;
@@ -89,6 +93,14 @@ public class UserBgDO implements java.io.Serializable {
 		return this.password;
 	}
 	
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+	
+	public int getEnabled() {
+		return this.enabled;
+	}
+	
 	public void setGmtCreate(Date gmtCreate) {
 		this.gmtCreate = gmtCreate;
 	}
@@ -126,6 +138,7 @@ public class UserBgDO implements java.io.Serializable {
 			.append("Id",getId())
 			.append("Username",getUsername())
 			.append("Password",getPassword())
+			.append("Enabled",getEnabled())
 			.append("GmtCreate",getGmtCreate())
 			.append("GmtModified",getGmtModified())
 			.append("CreateBy",getCreateBy())

@@ -4,12 +4,25 @@
  */ 
 package com.zeh.wms.dal.ibatis;
 
+import com.zeh.wms.dal.operation.userbg.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageQueryUtils;
-import com.zeh.wms.dal.daointerface.UserBgDAO;
-import com.zeh.wms.dal.dataobject.UserBgDO;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+
+import com.zeh.wms.dal.dataobject.UserBgDO;
+import com.zeh.wms.dal.daointerface.UserBgDAO;
 
 /**
  * UserBgDAO
@@ -29,7 +42,7 @@ public class IbatisUserBgDAO extends SqlMapClientDaoSupport implements UserBgDAO
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         user_bg         (           id ,username ,password ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         user_bg         (             username ,password ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(UserBgDO userBg) throws DataAccessException {
 		if(userBg == null) {
@@ -51,7 +64,7 @@ public class IbatisUserBgDAO extends SqlMapClientDaoSupport implements UserBgDAO
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         user_bg      SET         username = ? ,password = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre>
+	 * <pre>UPDATE         user_bg      SET         password = ? , enabled = ?, gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre>
 	 */
 	public int update(UserBgDO userBg) throws DataAccessException {
 		if(userBg == null) {
@@ -63,7 +76,7 @@ public class IbatisUserBgDAO extends SqlMapClientDaoSupport implements UserBgDAO
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, username, password, gmt_create, gmt_modified, create_by, modify_by                  FROM         user_bg                WHERE         id = ?</pre>
+	 * <pre>SELECT         id, username, password, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         user_bg                  WHERE         id = ?</pre>
 	 */
 	public UserBgDO queryById(Long id) throws DataAccessException {
 		return (UserBgDO)getSqlMapClientTemplate().queryForObject("wms.UserBg.queryById",id);
@@ -72,10 +85,31 @@ public class IbatisUserBgDAO extends SqlMapClientDaoSupport implements UserBgDAO
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, username, password, gmt_create, gmt_modified, create_by, modify_by            FROM         user_bg</pre>
+	 * <pre>SELECT         id, username, password, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         user_bg                  WHERE         username = ?</pre>
 	 */
-	public PageList<UserBgDO> findPage(int pageSize,int pageNum) throws DataAccessException {
-		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.UserBg.findPage",null,pageNum,pageSize);
+	public UserBgDO queryByUsername(String username) throws DataAccessException {
+		return (UserBgDO)getSqlMapClientTemplate().queryForObject("wms.UserBg.queryByUsername",username);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, username, password, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         user_bg                  WHERE         username = ?          AND password = ?</pre>
+	 */
+	public UserBgDO queryByLogin(String username ,String password) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("username",username);
+		param.put("password",password);
+		return (UserBgDO)getSqlMapClientTemplate().queryForObject("wms.UserBg.queryByLogin",param);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, username, password, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         user_bg                  WHERE         1=1                                        AND                      username = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modified DESC</pre>
+	 */
+	public PageList<UserBgDO> queryByPage(QueryByPageQuery param) throws DataAccessException {
+		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.UserBg.queryByPage",param);
 	}
 
 }
