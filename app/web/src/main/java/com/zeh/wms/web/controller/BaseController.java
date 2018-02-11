@@ -3,6 +3,9 @@ package com.zeh.wms.web.controller;
 import com.zeh.jungle.core.support.ExceptionUtils;
 import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.model.UserBgVO;
+import com.zeh.wms.web.error.WebErrorFactory;
+import com.zeh.wms.web.exception.WebException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,12 +20,14 @@ import java.io.File;
  */
 public abstract class BaseController {
 
+    protected static final WebErrorFactory ERROR_FACTORY = WebErrorFactory.getInstance();
+
     /** 日志*/
-    protected final Logger        logger  = LoggerFactory.getLogger(getClass());
+    protected final Logger                 logger        = LoggerFactory.getLogger(getClass());
 
     /** 常量定义 */
-    protected static final String SUCCESS = "操作成功";
-    protected static final String FAILED  = "操作失败";
+    protected static final String          SUCCESS       = "操作成功";
+    protected static final String          FAILED        = "操作失败";
 
     /**
      * 获取当前用户工号
@@ -105,7 +110,7 @@ public abstract class BaseController {
     }
 
     /**
-     *
+     * 获取实际路径
      * @param request
      * @param relativeFileName
      * @return
@@ -117,5 +122,23 @@ public abstract class BaseController {
             return "";
         }
         return realFile.getAbsolutePath();
+    }
+
+    protected void assertNull(Long obj, String parameterName) throws WebException {
+        if (obj == null) {
+            throw new WebException(ERROR_FACTORY.parameterEmptyError(parameterName));
+        }
+    }
+
+    protected void assertEmpty(String obj, String parameterName) throws WebException {
+        if (StringUtils.isBlank(obj)) {
+            throw new WebException(ERROR_FACTORY.parameterEmptyError(parameterName));
+        }
+    }
+
+    protected void assertObjectNull(Object obj, String parameterName) throws WebException {
+        if (obj == null) {
+            throw new WebException(ERROR_FACTORY.parameterEmptyError(parameterName));
+        }
     }
 }

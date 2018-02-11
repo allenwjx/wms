@@ -28,10 +28,10 @@
 	<operation name="update" paramtype="object">
 		<sql>
 	        UPDATE user_agent_link SET
-		        user_id = ? ,code = ? ,type = ? ,link_status = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
+		        type = ? ,link_status = ? ,gmt_modified = CURRENT_TIMESTAMP , modify_by = ?
 	        WHERE 
-	        	id = ? 
-		</sql>					
+	        	id = ?
+		</sql>
 	</operation>
 
 	<operation name="queryById" multiplicity="one">
@@ -41,6 +41,16 @@
 	        FROM user_agent_link 
 	        WHERE 
 		        id = ? 
+		</sql>
+	</operation>
+
+	<operation name="queryByPar" multiplicity="one">
+		<sql>
+			SELECT
+			<include refid="UserAgentLink.columns"/>
+			FROM user_agent_link
+			WHERE
+			user_id = ? and code = ? and type = ?
 		</sql>
 	</operation>
 

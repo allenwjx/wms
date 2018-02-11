@@ -28,8 +28,8 @@
     
 	<insert id="wms.User.insert">
 		INSERT INTO user (
-	        	id ,nick_name ,user_id ,password ,open_id ,gmt_create ,gmt_modified ,create_by ,modify_by ,type 
-	        ) VALUES (#id#,#nickName#,#userId#,#password#,#openId#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#,#type#)
+	        	id ,nick_name ,user_id ,password ,open_id ,gmt_create ,gmt_modified ,create_by ,modify_by ,type
+	        ) VALUES (#id#,#nickName#,#userId#,#password#,#openId#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#,#type#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -44,9 +44,44 @@
 	
 	<update id="wms.User.update">
 		UPDATE user SET
-		        nick_name = #nickName# ,user_id = #userId# ,password = #password# ,open_id = #openId# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# ,type = #type# 
-	        WHERE 
+		        nick_name = #nickName# ,user_id = #userId# ,password = #password# ,open_id = #openId# , gmt_modified = CURRENT_TIMESTAMP , modify_by = #modifyBy# ,type = #type#
+	        WHERE
 	        	id = #id#
+	</update>
+	
+    
+	
+	<update id="wms.User.updateByPars">
+		UPDATE user SET gmt_modified = CURRENT_TIMESTAMP
+            <isNotEmpty prepend="AND" property="nickName">
+                nick_name = #nickName#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="userId">
+                user_id = #userId#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="password">
+                password = #password#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="openId">
+                open_id = #openId#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="type">
+                type = #type#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="noExistsProp">
+                1 = #noExistsProp#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="modifyBy">
+                modify_by = #modifyBy#
+            </isNotEmpty>
+
+            WHERE
+            id = #id#
 	</update>
 	
     
@@ -54,8 +89,8 @@
 	<select id="wms.User.queryById" resultMap="RM.User" >
     	SELECT
  /*wms.User.queryById*/ 		    <include refid="User.columns"/>
-	        FROM user 
-	        WHERE 
+	        FROM user
+	        WHERE
 		        id = #id#
 	</select>	
 
@@ -64,15 +99,63 @@
 	
     
 	
-	<select id="wms.User.findPage" resultMap="RM.User" >
-    	SELECT  /*wms.User.findPage*/ 
-			<include refid="User.columns"/>
-			FROM user
+	<select id="wms.User.getAllUserPage" resultMap="RM.User" >
+    	SELECT
+ /*wms.User.getAllUserPage*/ 			<include refid="User.columns"/>
+			FROM user u
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="nickName">
+                    u.nick_name = #nickName#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="userId">
+                    u.user_id = #userId#
+                </isNotEmpty>
+
+                <isNotEmpty prepend="AND" property="type">
+                    u.type = #type#
+                </isNotEmpty>
+
+                <isNotEmpty prepend="AND" property="fromDate">
+                    <![CDATA[
+                        u.gmt_create >= #fromDate#
+                    ]]>
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="toDate">
+                    <![CDATA[
+                        u.gmt_create <= #toDate#
+                    ]]>
+                </isNotEmpty>
+            </dynamic>
 			limit #offset#,#limit#
 	</select>	
 
-	<select id="wms.User.findPage.count" resultClass="long" >
-    	select  /*wms.User.findPage.count*/ count(*) 	FROM user
+	<select id="wms.User.getAllUserPage.count" resultClass="long" >
+    	select  /*wms.User.getAllUserPage.count*/ count(*) 	FROM user u
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="nickName">
+                    u.nick_name = #nickName#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="userId">
+                    u.user_id = #userId#
+                </isNotEmpty>
+
+                <isNotEmpty prepend="AND" property="type">
+                    u.type = #type#
+                </isNotEmpty>
+
+                <isNotEmpty prepend="AND" property="fromDate">
+                    <![CDATA[
+                        u.gmt_create >= #fromDate#
+                    ]]>
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="toDate">
+                    <![CDATA[
+                        u.gmt_create <= #toDate#
+                    ]]>
+                </isNotEmpty>
+            </dynamic>
 	</select>
 	    
 	

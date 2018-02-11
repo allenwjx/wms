@@ -3,53 +3,112 @@
 
 <table sqlname="user">
 	<!-- 不需要配置的列请删除 -->
-	
+
 	<sql id="User.columns">
-		id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type 
+		id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type
 	</sql>
-	
+
 	<operation name="insert" paramtype="object">
 		<sql>
 			INSERT INTO user (
-	        	id ,nick_name ,user_id ,password ,open_id ,gmt_create ,gmt_modified ,create_by ,modify_by ,type 
+	        	id ,nick_name ,user_id ,password ,open_id ,gmt_create ,gmt_modified ,create_by ,modify_by ,type
 	        ) VALUES (
-	        	? ,? ,? ,? ,? ,? ,? ,? ,? ,?         
+	        	? ,? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,? ,?
 	        )
-		</sql>		
+		</sql>
 	</operation>
 
 	<operation name="delete">
 		<sql>
 	        DELETE FROM user WHERE
-	        id = ? 
+	        id = ?
 		</sql>
 	</operation>
-	
+
 	<operation name="update" paramtype="object">
 		<sql>
 	        UPDATE user SET
-		        nick_name = ? ,user_id = ? ,password = ? ,open_id = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? ,type = ? 
-	        WHERE 
-	        	id = ? 
-		</sql>					
+		        nick_name = ? ,user_id = ? ,password = ? ,open_id = ? , gmt_modified = CURRENT_TIMESTAMP , modify_by = ? ,type = ?
+	        WHERE
+	        	id = ?
+		</sql>
 	</operation>
+
+    <operation name="updateByPars" paramtype="parameterObject">
+        <sql>
+            UPDATE user SET gmt_modified = CURRENT_TIMESTAMP
+            <isNotEmpty prepend="AND" property="nickName">
+                nick_name = #nickName#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="userId">
+                user_id = #userId#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="password">
+                password = #password#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="openId">
+                open_id = #openId#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="type">
+                type = #type#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="noExistsProp">
+                1 = #noExistsProp#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="AND" property="modifyBy">
+                modify_by = #modifyBy#
+            </isNotEmpty>
+
+            WHERE
+            id = ?
+        </sql>
+    </operation>
 
 	<operation name="queryById" multiplicity="one">
 		<sql>
 	    	SELECT
 		    <include refid="User.columns"/>
-	        FROM user 
-	        WHERE 
-		        id = ? 
+	        FROM user
+	        WHERE
+		        id = ?
 		</sql>
 	</operation>
 
-	
-	<operation name="findPage" multiplicity="paging">
+
+	<operation name="getAllUserPage" paramtype="parameterObject" multiplicity="paging">
 		<sql>
-			SELECT 
+			SELECT
 			<include refid="User.columns"/>
-			FROM user 
+			FROM user u
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="nickName">
+                    u.nick_name = #nickName#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="userId">
+                    u.user_id = #userId#
+                </isNotEmpty>
+
+                <isNotEmpty prepend="AND" property="type">
+                    u.type = #type#
+                </isNotEmpty>
+
+                <isNotEmpty prepend="AND" property="fromDate">
+                    <![CDATA[
+                        u.gmt_create >= #fromDate#
+                    ]]>
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="toDate">
+                    <![CDATA[
+                        u.gmt_create <= #toDate#
+                    ]]>
+                </isNotEmpty>
+            </dynamic>
 		</sql>
 	</operation>
 

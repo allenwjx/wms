@@ -64,7 +64,7 @@ public class IbatisUserAgentLinkDAO extends SqlMapClientDaoSupport implements Us
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         user_agent_link      SET         user_id = ? ,code = ? ,type = ? ,link_status = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre>
+	 * <pre>UPDATE         user_agent_link      SET         type = ? ,link_status = ? ,gmt_modified = CURRENT_TIMESTAMP , modify_by = ?               WHERE         id = ?</pre>
 	 */
 	public int update(UserAgentLinkDO userAgentLink) throws DataAccessException {
 		if(userAgentLink == null) {
@@ -80,6 +80,19 @@ public class IbatisUserAgentLinkDAO extends SqlMapClientDaoSupport implements Us
 	 */
 	public UserAgentLinkDO queryById(Long id) throws DataAccessException {
 		return (UserAgentLinkDO)getSqlMapClientTemplate().queryForObject("wms.UserAgentLink.queryById",id);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, user_id, code, type, link_status, gmt_create, gmt_modified, create_by, modify_by            FROM         user_agent_link         WHERE         user_id = ?          and code = ?          and type = ?</pre>
+	 */
+	public UserAgentLinkDO queryByPar(Long userId ,String code ,String type) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("userId",userId);
+		param.put("code",code);
+		param.put("type",type);
+		return (UserAgentLinkDO)getSqlMapClientTemplate().queryForObject("wms.UserAgentLink.queryByPar",param);
 	}
 
 	/**

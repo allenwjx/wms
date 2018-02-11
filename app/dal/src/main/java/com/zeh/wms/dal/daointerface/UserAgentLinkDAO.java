@@ -49,7 +49,7 @@ public interface UserAgentLinkDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         user_agent_link      SET         user_id = ? ,code = ? ,type = ? ,link_status = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         user_agent_link      SET         type = ? ,link_status = ? ,gmt_modified = CURRENT_TIMESTAMP , modify_by = ?               WHERE         id = ?</pre> 
 	 */
 	public int update(UserAgentLinkDO userAgentLink) throws DataAccessException;
 
@@ -59,6 +59,13 @@ public interface UserAgentLinkDAO {
 	 * <pre>SELECT         id, user_id, code, type, link_status, gmt_create, gmt_modified, create_by, modify_by                  FROM         user_agent_link                WHERE         id = ?</pre> 
 	 */
 	public UserAgentLinkDO queryById(Long id) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, user_id, code, type, link_status, gmt_create, gmt_modified, create_by, modify_by            FROM         user_agent_link         WHERE         user_id = ?          and code = ?          and type = ?</pre> 
+	 */
+	public UserAgentLinkDO queryByPar(Long userId ,String code ,String type) throws DataAccessException;
 
 	/**
 	 * 

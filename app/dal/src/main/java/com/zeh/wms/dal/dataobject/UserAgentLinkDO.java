@@ -7,19 +7,8 @@ package com.zeh.wms.dal.dataobject;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import java.util.Date;
 /**
  * UserAgentLinkDO
  * database table: user_agent_link
@@ -48,13 +37,13 @@ public class UserAgentLinkDO implements java.io.Serializable {
 	 */
 	private String code;
 	/**
-	 * 类型：代理商，厂商； 代理商：A； 厂商：B； 		db_column: type 
+	 * 类型：代理商，厂商；代理商：A；厂商：B； 		db_column: type 
 	 */
 	private String type;
 	/**
-	 * 关联关系状态：已关联, 已解除； 已关联：R； 已解除：D； 		db_column: link_status 
+	 * 关联关系状态：1已关联, 0已解除； 已关联：Y； 已解除：N； 		db_column: link_status 
 	 */
-	private String linkStatus;
+	private int linkStatus;
 	/**
 	 * 创建时间 		db_column: gmt_create 
 	 */
@@ -105,11 +94,11 @@ public class UserAgentLinkDO implements java.io.Serializable {
 		return this.type;
 	}
 	
-	public void setLinkStatus(String linkStatus) {
+	public void setLinkStatus(int linkStatus) {
 		this.linkStatus = linkStatus;
 	}
 	
-	public String getLinkStatus() {
+	public int getLinkStatus() {
 		return this.linkStatus;
 	}
 	

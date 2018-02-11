@@ -10,7 +10,7 @@
 		<result property="userId" column="user_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="type" column="type" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="linkStatus" column="link_status" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="linkStatus" column="link_status" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
@@ -43,7 +43,7 @@
 	
 	<update id="wms.UserAgentLink.update">
 		UPDATE user_agent_link SET
-		        user_id = #userId# ,code = #code# ,type = #type# ,link_status = #linkStatus# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
+		        type = #type# ,link_status = #linkStatus# ,gmt_modified = CURRENT_TIMESTAMP , modify_by = #modifyBy#
 	        WHERE 
 	        	id = #id#
 	</update>
@@ -56,6 +56,19 @@
 	        FROM user_agent_link 
 	        WHERE 
 		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.UserAgentLink.queryByPar" resultMap="RM.UserAgentLink" >
+    	SELECT
+ /*wms.UserAgentLink.queryByPar*/ 			<include refid="UserAgentLink.columns"/>
+			FROM user_agent_link
+			WHERE
+			user_id = #userId# and code = #code# and type = #type#
 	</select>	
 
 	    

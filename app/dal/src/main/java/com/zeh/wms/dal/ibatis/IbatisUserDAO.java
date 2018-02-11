@@ -42,7 +42,7 @@ public class IbatisUserDAO extends SqlMapClientDaoSupport implements UserDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         user         (           id ,nick_name ,user_id ,password ,open_id ,gmt_create ,gmt_modified ,create_by ,modify_by ,type           )      VALUES         (?,?,?,?,?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         user         (           id ,nick_name ,user_id ,password ,open_id ,gmt_create ,gmt_modified ,create_by ,modify_by ,type          )      VALUES         (?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?,?)</pre>
 	 */
 	public long insert(UserDO user) throws DataAccessException {
 		if(user == null) {
@@ -64,7 +64,7 @@ public class IbatisUserDAO extends SqlMapClientDaoSupport implements UserDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         user      SET         nick_name = ? ,user_id = ? ,password = ? ,open_id = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? ,type = ?                WHERE         id = ?</pre>
+	 * <pre>UPDATE         user      SET         nick_name = ? ,user_id = ? ,password = ? ,open_id = ? , gmt_modified = CURRENT_TIMESTAMP , modify_by = ? ,type = ?               WHERE         id = ?</pre>
 	 */
 	public int update(UserDO user) throws DataAccessException {
 		if(user == null) {
@@ -76,7 +76,16 @@ public class IbatisUserDAO extends SqlMapClientDaoSupport implements UserDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type                  FROM         user                WHERE         id = ?</pre>
+	 * <pre>UPDATE         user      SET         gmt_modified = CURRENT_TIMESTAMP                       AND                  nick_name = ?                                    AND                  user_id = ?                                     AND                  password = ?                                     AND                  open_id = ?                                     AND                  type = ?                                     AND                  1 = ?                                     AND                  modify_by = ?                                WHERE         id = ?</pre>
+	 */
+	public int updateByPars(UpdateByParsParameter param) throws DataAccessException {
+		return getSqlMapClientTemplate().update("wms.User.updateByPars", param);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type                 FROM         user               WHERE         id = ?</pre>
 	 */
 	public UserDO queryById(Long id) throws DataAccessException {
 		return (UserDO)getSqlMapClientTemplate().queryForObject("wms.User.queryById",id);
@@ -85,10 +94,10 @@ public class IbatisUserDAO extends SqlMapClientDaoSupport implements UserDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type            FROM         user</pre>
+	 * <pre>SELECT         id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type           FROM         user u                  WHERE         1=1                                        AND                      u.nick_name = ?                                            AND                      u.user_id = ?                                             AND                      u.type = ?                                             AND                                               u.gmt_create >= ?                                                                 AND                                               u.gmt_create <= ?</pre>
 	 */
-	public PageList<UserDO> findPage(int pageSize,int pageNum) throws DataAccessException {
-		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.User.findPage",null,pageNum,pageSize);
+	public PageList<UserDO> getAllUserPage(GetAllUserPageQuery param) throws DataAccessException {
+		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.User.getAllUserPage",param);
 	}
 
 }
