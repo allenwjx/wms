@@ -312,6 +312,31 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * 参数异常。{0}不能为空.
+     * @param parameterName 参数名
+     * @return
+     */
+    public JGError parameterEmptyError(String parameterName) {
+        return createError("JG0510001001", parameterName);
+    }
+
+    /**
+     * 用户更新密码失败。
+     * @return
+     */
+    public JGError updateUserPasswordError() {
+        return createError("JG0510041001");
+    }
+
+    /**
+     * 用户关联信息失败。
+     * @return
+     */
+    public JGError updateLinkError() {
+        return createError("JG0510041002");
+    }
+
+    /**
      * JG0510016011=查询参数为空
      * @return
      */

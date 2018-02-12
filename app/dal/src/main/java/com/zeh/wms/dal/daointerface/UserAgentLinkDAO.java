@@ -35,7 +35,7 @@ public interface UserAgentLinkDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         user_agent_link         (           id ,user_id ,code ,type ,link_status ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         user_agent_link         (           id ,user_id ,code ,type ,link_status ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre> 
 	 */
 	public long insert(UserAgentLinkDO userAgentLink) throws DataAccessException;
 
@@ -49,7 +49,7 @@ public interface UserAgentLinkDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         user_agent_link      SET         user_id = ? ,code = ? ,type = ? ,link_status = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         user_agent_link      SET         type = ? , code = ?, link_status = ? ,gmt_modified = CURRENT_TIMESTAMP , modify_by = ?               WHERE         id = ?</pre> 
 	 */
 	public int update(UserAgentLinkDO userAgentLink) throws DataAccessException;
 
@@ -59,6 +59,20 @@ public interface UserAgentLinkDAO {
 	 * <pre>SELECT         id, user_id, code, type, link_status, gmt_create, gmt_modified, create_by, modify_by                  FROM         user_agent_link                WHERE         id = ?</pre> 
 	 */
 	public UserAgentLinkDO queryById(Long id) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, user_id, code, type, link_status, gmt_create, gmt_modified, create_by, modify_by            FROM         user_agent_link         WHERE         1=1                   AND       user_id = ?                     AND       code = ?                     AND       type = ?                    AND       link_status = ?</pre> 
+	 */
+	public UserAgentLinkDO queryByPar(QueryByParQuery param) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, user_id, code, type, link_status, gmt_create, gmt_modified, create_by, modify_by            FROM         user_agent_link         WHERE         user_id = ?          and link_status = ?</pre> 
+	 */
+	public UserAgentLinkDO queryByUserId(Long userId ,Integer linkStatus) throws DataAccessException;
 
 	/**
 	 * 

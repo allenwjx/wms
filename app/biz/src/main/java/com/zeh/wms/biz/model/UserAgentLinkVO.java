@@ -19,7 +19,7 @@ public class UserAgentLinkVO extends BaseVO {
     /**  */
     private static final long serialVersionUID = 1L;
     /** 用户ID */
-    private long              userId;
+    private Long              userId;
     /** agent电话号码，或厂商编码（授权码）*/
     private String            code;
     /** 类型：代理商，厂商； 代理商：A； 厂商：B；*/

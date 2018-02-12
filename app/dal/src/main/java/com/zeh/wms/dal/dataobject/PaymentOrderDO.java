@@ -52,7 +52,7 @@ public class PaymentOrderDO implements java.io.Serializable {
 	 */
 	private long userId;
 	/**
-	 * agent用户类型的下单：agent电话号码； 大客户类型的下单：厂商编码（授权码） 散客：空值 		db_column: code 
+	 * agent用户类型的下单：agent电话号码；大客户类型的下单：厂商编码（授权码）散客：空值 		db_column: code 
 	 */
 	private String code;
 	/**
@@ -72,7 +72,7 @@ public class PaymentOrderDO implements java.io.Serializable {
 	 */
 	private String channel;
 	/**
-	 * 支付状态； WATI_PAY（待支付）； PAYING（支付中）； PAYED（已支付）； PAY_CANCEL（支付取消） 		db_column: status 
+	 * 支付状态；WATI_PAY（待支付）；PAYING（支付中）；PAYED（已支付）；PAY_CANCEL（支付取消） 		db_column: status 
 	 */
 	private String status;
 	/**

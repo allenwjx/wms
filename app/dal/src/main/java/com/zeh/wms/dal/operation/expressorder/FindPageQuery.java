@@ -39,11 +39,11 @@ public class FindPageQuery  extends PageQuery implements java.io.Serializable {
 	private String orderNo;
 	/** 3方订单号 */
 	private String otherOrderNo;
-	/** agent用户类型的下单：agent电话号码； 大客户类型的下单：厂商编码（授权码） 散客：空值 */
+	/** agent用户类型的下单：agent电话号码；大客户类型的下单：厂商编码（授权码）;散客：空值 */
 	private String code;
 	/** 类型：代理商，厂商； 代理商：A； 厂商：B； */
 	private String type;
-	/** 订单状态; WATI_PAY（待支付）； WAIT_PICKUP（待取件）； WAIT_SEND（待发货）； SENDED（已发货）； CANCEL（订单取消）; */
+	/** 订单状态;WATI_PAY（待支付）；WAIT_PICKUP（待取件）；WAIT_SEND（待发货）；SENDED（已发货）；CANCEL（订单取消）; */
 	private String status;
 	/** 收件人姓名 */
 	private String receiverName;

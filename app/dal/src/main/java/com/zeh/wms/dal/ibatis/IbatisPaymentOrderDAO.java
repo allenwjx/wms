@@ -42,7 +42,7 @@ public class IbatisPaymentOrderDAO extends SqlMapClientDaoSupport implements Pay
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         payment_order         (           id ,order_no ,other_order_no ,user_id ,code ,payment_order_no ,other_payment_no ,amount ,channel ,status ,pay_limited ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         payment_order         (           id ,order_no ,other_order_no ,user_id ,code ,payment_order_no ,other_payment_no ,amount ,channel ,status ,pay_limited ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(PaymentOrderDO paymentOrder) throws DataAccessException {
 		if(paymentOrder == null) {
@@ -64,7 +64,7 @@ public class IbatisPaymentOrderDAO extends SqlMapClientDaoSupport implements Pay
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         payment_order      SET         order_no = ? ,other_order_no = ? ,user_id = ? ,code = ? ,payment_order_no = ? ,other_payment_no = ? ,amount = ? ,channel = ? ,status = ? ,pay_limited = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre>
+	 * <pre>UPDATE         payment_order      SET         order_no = ? ,other_order_no = ? ,user_id = ? ,code = ? ,payment_order_no = ? ,other_payment_no = ? ,amount = ? ,channel = ? ,status = ? ,pay_limited = ? ,gmt_modified = CURRENT_TIMESTAMP ,create_by = ? ,modify_by = ?               WHERE         id = ?</pre>
 	 */
 	public int update(PaymentOrderDO paymentOrder) throws DataAccessException {
 		if(paymentOrder == null) {

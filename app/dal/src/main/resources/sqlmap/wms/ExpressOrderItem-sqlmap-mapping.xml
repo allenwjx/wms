@@ -34,7 +34,7 @@
 	<insert id="wms.ExpressOrderItem.insert">
 		INSERT INTO express_order_item (
 	        	id ,order_no ,item_name ,item_code ,relation_code ,quantity ,unit ,unit_price ,unit_weight ,total_weight ,total_price ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (#id#,#orderNo#,#itemName#,#itemCode#,#relationCode#,#quantity#,#unit#,#unitPrice#,#unitWeight#,#totalWeight#,#totalPrice#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+	        ) VALUES (#id#,#orderNo#,#itemName#,#itemCode#,#relationCode#,#quantity#,#unit#,#unitPrice#,#unitWeight#,#totalWeight#,#totalPrice#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -49,7 +49,7 @@
 	
 	<update id="wms.ExpressOrderItem.update">
 		UPDATE express_order_item SET
-		        order_no = #orderNo# ,item_name = #itemName# ,item_code = #itemCode# ,relation_code = #relationCode# ,quantity = #quantity# ,unit = #unit# ,unit_price = #unitPrice# ,unit_weight = #unitWeight# ,total_weight = #totalWeight# ,total_price = #totalPrice# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
+		        order_no = #orderNo# ,item_name = #itemName# ,item_code = #itemCode# ,relation_code = #relationCode# ,quantity = #quantity# ,unit = #unit# ,unit_price = #unitPrice# ,unit_weight = #unitWeight# ,total_weight = #totalWeight# ,total_price = #totalPrice# ,gmt_modified = CURRENT_TIMESTAMP ,create_by = #createBy# ,modify_by = #modifyBy#
 	        WHERE 
 	        	id = #id#
 	</update>
