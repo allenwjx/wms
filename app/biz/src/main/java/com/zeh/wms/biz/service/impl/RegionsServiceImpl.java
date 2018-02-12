@@ -8,15 +8,15 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageUtils;
-import com.zeh.wms.biz.error.BizErrorFactory;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.RegionsMapper;
 import com.zeh.wms.biz.model.RegionsVO;
 import com.zeh.wms.biz.service.RegionsService;
 import com.zeh.wms.dal.daointerface.RegionDAO;
+import com.zeh.wms.dal.daointerface.RegionManualDAO;
 import com.zeh.wms.dal.dataobject.RegionDO;
 import com.zeh.wms.dal.operation.region.QueryByPageQuery;
+import com.zeh.wms.dal.operation.region.QueryByPageResult;
 
 /**
  * @author allen
@@ -25,12 +25,12 @@ import com.zeh.wms.dal.operation.region.QueryByPageQuery;
  */
 @Service
 public class RegionsServiceImpl implements RegionsService {
-    /** 错误工厂 */
-    private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
     @Resource
-    private RegionDAO                    regionDAO;
+    private RegionDAO       regionDAO;
     @Resource
-    private RegionsMapper                mapper;
+    private RegionManualDAO regionManualDAO;
+    @Resource
+    private RegionsMapper   mapper;
 
     /**
      * 分页查询省市区
@@ -40,10 +40,9 @@ public class RegionsServiceImpl implements RegionsService {
      * @throws ServiceException 异常
      */
     @Override
-    public PageList<RegionsVO> pageQueryRegions(QueryByPageQuery query) throws ServiceException {
-        PageList<RegionDO> ret = regionDAO.queryByPage(query);
-        Collection<RegionsVO> regions = mapper.do2vos(ret.getData());
-        return PageUtils.createPageList(regions, ret.getPaginator());
+    public PageList<QueryByPageResult> pageQueryRegions(QueryByPageQuery query) throws ServiceException {
+        PageList<QueryByPageResult> ret = regionManualDAO.queryByPage(query);
+        return ret;
     }
 
     /**

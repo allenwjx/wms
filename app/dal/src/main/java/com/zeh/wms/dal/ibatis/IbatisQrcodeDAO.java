@@ -4,12 +4,25 @@
  */ 
 package com.zeh.wms.dal.ibatis;
 
+import com.zeh.wms.dal.operation.qrcode.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageQueryUtils;
-import com.zeh.wms.dal.daointerface.QrcodeDAO;
-import com.zeh.wms.dal.dataobject.QrcodeDO;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+
+import com.zeh.wms.dal.dataobject.QrcodeDO;
+import com.zeh.wms.dal.daointerface.QrcodeDAO;
 
 /**
  * QrcodeDAO
@@ -76,6 +89,15 @@ public class IbatisQrcodeDAO extends SqlMapClientDaoSupport implements QrcodeDAO
 	 */
 	public PageList<QrcodeDO> findPage(int pageSize,int pageNum) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Qrcode.findPage",null,pageNum,pageSize);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, serial_no, commodity_id, data, gmt_create, gmt_modified, create_by, modify_by            FROM         qrcode         WHERE         commodity_id = ?</pre>
+	 */
+	public PageList<QrcodeDO> findByCommodityId(Long commodityId,int pageSize,int pageNum) throws DataAccessException {
+		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Qrcode.findByCommodityId",commodityId,pageNum,pageSize);
 	}
 
 }

@@ -1,0 +1,90 @@
+<div id="regions">
+    <div class="portlet light">
+        <div class="portlet-title">
+            <div class="caption font-green">
+                <i class="icon-settings font-green"></i>
+                <span class="caption-subject bold uppercase">省市区管理</span>
+            </div>
+        </div>
+        <div class="portlet-body form small">
+            <form action="#" class="form-horizontal">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">省</label>
+                                <div class="col-md-8">
+                                    <vue-select :options="provinces" :model.sync="queryForm.provinceId" :configs="{placeholder:'全部'}"></vue-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">市</label>
+                                <div class="col-md-8">
+                                    <vue-select :options="cities" :model.sync="queryForm.cityId" :configs="{placeholder:'全部'}"></vue-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">区</label>
+                                <div class="col-md-8">
+                                    <vue-select :options="districts" :model.sync="queryForm.districtId" :configs="{placeholder:'全部'}"></vue-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">名称</label>
+                                <div class="col-md-8">
+                                    <input class="form-control" id="name" name="name" type="text" v-model.trim="queryForm.name"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">行政编码</label>
+                                <div class="col-md-8">
+                                    <input class="form-control" id="code" name="code" type="text" v-model.trim="queryForm.code"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <div class="button-group" align="center">
+                        <button type="button" class="btn green-meadow" v-on:click="preQuery"><i class="fa fa-search"></i>搜索</button>
+                        <button type="button" class="btn" v-on:click="reset"><i class="fa fa-refresh"></i>重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table id="table" class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>行政编码</th>
+            <th>名称</th>
+            <th>上级行政</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-cloak v-for="item in pageResult.data">
+            <td v-html="item.id"></td>
+            <td v-html="item.code"></td>
+            <td v-html="item.name"></td>
+            <td v-html="item.parentName"></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="100">
+                <vue-page :paginator="pageResult.paginator" :size="10" :query="query"></vue-page>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+<script type="text/javascript" src="${rc.contextPath}/js/wms/basic/regions/index.js"></script>

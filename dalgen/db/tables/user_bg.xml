@@ -2,55 +2,84 @@
 <!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
 
 <table sqlname="user_bg">
-	<!-- 不需要配置的列请删除 -->
-	
-	<sql id="UserBg.columns">
-		id, username, password, gmt_create, gmt_modified, create_by, modify_by 
-	</sql>
-	
-	<operation name="insert" paramtype="object">
-		<sql>
-			INSERT INTO user_bg (
-	        	id ,username ,password ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (
-	        	? ,? ,? ,? ,? ,? ,?         
-	        )
-		</sql>		
-	</operation>
+    <!-- 不需要配置的列请删除 -->
 
-	<operation name="delete">
-		<sql>
-	        DELETE FROM user_bg WHERE
-	        id = ? 
-		</sql>
-	</operation>
-	
-	<operation name="update" paramtype="object">
-		<sql>
-	        UPDATE user_bg SET
-		        username = ? ,password = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
-	        WHERE 
-	        	id = ? 
-		</sql>					
-	</operation>
+    <sql id="UserBg.columns">
+        id, username, password, enabled, gmt_create, gmt_modified, create_by, modify_by
+    </sql>
 
-	<operation name="queryById" multiplicity="one">
-		<sql>
-	    	SELECT
-		    <include refid="UserBg.columns"/>
-	        FROM user_bg 
-	        WHERE 
-		        id = ? 
-		</sql>
-	</operation>
+    <operation name="insert" paramtype="object">
+        <sql>
+            INSERT INTO user_bg (
+            username ,password ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (
+            ? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
+            )
+        </sql>
+    </operation>
 
-	
-	<operation name="findPage" multiplicity="paging">
-		<sql>
-			SELECT 
-			<include refid="UserBg.columns"/>
-			FROM user_bg 
-		</sql>
-	</operation>
+    <operation name="delete">
+        <sql>
+            DELETE FROM user_bg WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="update" paramtype="object">
+        <sql>
+            UPDATE user_bg SET
+            password = ? , enabled = ?, gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="UserBg.columns"/>
+            FROM user_bg
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByUsername" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="UserBg.columns"/>
+            FROM user_bg
+            WHERE
+            username = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByLogin" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="UserBg.columns"/>
+            FROM user_bg
+            WHERE
+            username = #username# AND password = #password#
+        </sql>
+    </operation>
+
+    <operation name="queryByPage" paramtype="parameterObject" multiplicity="paging">
+        <sql>
+            SELECT
+            <include refid="UserBg.columns"/>
+            FROM user_bg
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="username">
+                    username = #username#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
+        </sql>
+    </operation>
 
 </table>

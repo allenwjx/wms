@@ -213,12 +213,102 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * JG0510016001=二维码批次创建失败，二维码批次数据不能为空
+     *
+     * @return JGError
+     */
+    public JGError createQRCodeBatchError() {
+        return createError("JG0510016001");
+    }
+
+    /**
+     * JG0510016002=二维码批次更新失败，二维码批次数据ID不能为空
+     *
+     * @return JGError
+     */
+    public JGError updateQRCodeBatchError() {
+        return createError("JG0510016002");
+    }
+
+    /**
+     * JG0510016003=二维码批次查询失败，查询条件不能为空
+     *
+     * @return JGError
+     */
+    public JGError queryQRCodeBatchError() {
+        return createError("JG0510016003");
+    }
+
+    /**
+     * JG0510017001=后台用户创建失败，后台用户数据不能为空
+     *
+     * @return JGError
+     */
+    public JGError createUserBgError() {
+        return createError("JG0510017001");
+    }
+
+    /**
+     * JG0510017002=后台用户更新失败，后台用户ID不能为空
+     *
+     * @return JGError
+     */
+    public JGError updateUserBgError() {
+        return createError("JG0510017002");
+    }
+
+    /**
+     * JG0510017003=后台用户查询失败，查询条件不能为空
+     *
+     * @return JGError
+     */
+    public JGError queryUserBgError() {
+        return createError("JG0510017003");
+    }
+
+    /**
+     * JG0510017004=后台用户创建失败，用户名{0}已存在
+     *
+     * @return
+     */
+    public JGError userBgNameExistError(String username) {
+        return createError("JG0510017004", username);
+    }
+
+    /**
+     * JG0510017005=后台用户密码更新失败，用户名{0}
+     *
+     * @return
+     */
+    public JGError userBgPasswordUpdateError(String username) {
+        return createError("JG0510017005", username);
+    }
+
+    /**
      * 未找到快递单详情。id: {0}
      * @param id 主键
      * @return
      */
     public JGError notFindExpressOrderDetail(Long id) {
         return createError("JG0510021001", id);
+    }
+
+    /**
+     * JG0510031001=用户名无效
+     *
+     * @return
+     */
+    public JGError usernameInvalid() {
+        return createError("JG0510031001");
+    }
+
+    /**
+     * JG0510031002=密码无效
+     *
+     * @return
+     */
+    public JGError passwordInvalid() {
+        return createError("JG0510031002");
     }
 
     /**
@@ -235,7 +325,7 @@ public class BizErrorFactory extends AbstractErrorFactory {
      * @return
      */
     public JGError updateUserPasswordError() {
-        return createError("JG0510031001");
+        return createError("JG0510041001");
     }
 
     /**
@@ -243,7 +333,7 @@ public class BizErrorFactory extends AbstractErrorFactory {
      * @return
      */
     public JGError updateLinkError() {
-        return createError("JG0510031002");
+        return createError("JG0510041002");
     }
 
 }

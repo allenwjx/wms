@@ -1,5 +1,7 @@
 package com.zeh.wms.biz.model;
 
+import com.zeh.wms.biz.model.enums.StateEnum;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,4 +21,6 @@ public class UserBgVO extends BaseVO {
     private String            username;
     /** 后台用户账号密码 */
     private String            password;
+    /** 用户状态 */
+    private StateEnum         enabled;
 }

@@ -99,46 +99,6 @@
 	
 	
     
-	
-	<select id="wms.Region.queryByPage" resultMap="RM.Region" >
-    	SELECT
- /*wms.Region.queryByPage*/             <include refid="Region.columns"/>
-            FROM regions
-            WHERE 1=1
-            <dynamic>
-                <isNotEmpty prepend="AND" property="code">
-                    code = #code#
-                </isNotEmpty>
-                <isNotEmpty prepend="AND" property="name">
-                    name = #name#
-                </isNotEmpty>
-                <isNotEmpty prepend="AND" property="parentId">
-                    parent_id = #parentId#
-                </isNotEmpty>
-            </dynamic>
-            ORDER BY gmt_modified DESC
-			limit #offset#,#limit#
-	</select>	
-
-	<select id="wms.Region.queryByPage.count" resultClass="long" >
-    	select  /*wms.Region.queryByPage.count*/ count(*)  FROM regions
-            WHERE 1=1
-            <dynamic>
-                <isNotEmpty prepend="AND" property="code">
-                    code = #code#
-                </isNotEmpty>
-                <isNotEmpty prepend="AND" property="name">
-                    name = #name#
-                </isNotEmpty>
-                <isNotEmpty prepend="AND" property="parentId">
-                    parent_id = #parentId#
-                </isNotEmpty>
-            </dynamic>
-	</select>
-	    
-	
-	
-    
 
 </sqlMap>
 
