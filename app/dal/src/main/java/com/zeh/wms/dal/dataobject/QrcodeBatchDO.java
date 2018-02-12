@@ -44,9 +44,9 @@ public class QrcodeBatchDO implements java.io.Serializable {
 	 */
 	private String batchSerial;
 	/**
-	 * 二维码ID 		db_column: qrcode_serial 
+	 * 批次数量 		db_column: amount 
 	 */
-	private String qrcodeSerial;
+	private int amount;
 	/**
 	 * 批次状态； 0-未使用，1-已使用 		db_column: state 
 	 */
@@ -77,12 +77,12 @@ public class QrcodeBatchDO implements java.io.Serializable {
 		return this.batchSerial;
 	}
 	
-	public void setQrcodeSerial(String qrcodeSerial) {
-		this.qrcodeSerial = qrcodeSerial;
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 	
-	public String getQrcodeSerial() {
-		return this.qrcodeSerial;
+	public int getAmount() {
+		return this.amount;
 	}
 	
 	public void setState(int state) {
@@ -113,7 +113,7 @@ public class QrcodeBatchDO implements java.io.Serializable {
 		return new ToStringBuilder(this)
 			.append("Id",getId())
 			.append("BatchSerial",getBatchSerial())
-			.append("QrcodeSerial",getQrcodeSerial())
+			.append("Amount",getAmount())
 			.append("State",getState())
 			.append("GmtCreate",getGmtCreate())
 			.append("GmtModified",getGmtModified())

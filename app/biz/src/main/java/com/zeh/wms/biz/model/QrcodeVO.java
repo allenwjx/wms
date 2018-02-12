@@ -18,7 +18,9 @@ public class QrcodeVO extends BaseVO {
     /** 二维码编号 */
     private String            serialNo;
     /** 商品id */
-    private long              commodityId;
+    private Long              commodityId;
+    /** 批次号id*/
+    private Long              batchId;
     /** 二维码图片数据，base64编码 */
     private String            data;
 }

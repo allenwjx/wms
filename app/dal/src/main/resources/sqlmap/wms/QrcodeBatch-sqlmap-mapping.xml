@@ -8,14 +8,14 @@
     <resultMap id="RM.QrcodeBatch" class="com.zeh.wms.dal.dataobject.QrcodeBatchDO">
 		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="batchSerial" column="batch_serial" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="qrcodeSerial" column="qrcode_serial" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="amount" column="amount" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="state" column="state" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
     </resultMap>
     
 	<sql id="QrcodeBatch.columns">
-		id, batch_serial, qrcode_serial, state, gmt_create, gmt_modified
+		id, batch_serial, amount, state, gmt_create, gmt_modified
 	</sql>
 		
 
@@ -24,8 +24,8 @@
     
 	<insert id="wms.QrcodeBatch.insert">
 		INSERT INTO qrcode_batch (
-            id ,batch_serial ,qrcode_serial ,state ,gmt_create ,gmt_modified
-            ) VALUES (#id#,#batchSerial#,#qrcodeSerial#,#state#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+            id ,batch_serial ,amount ,state ,gmt_create ,gmt_modified
+            ) VALUES (#id#,#batchSerial#,#amount#,#state#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -82,9 +82,6 @@
                 <isNotEmpty prepend="AND" property="batchSerial">
                     batch_serial = #batchSerial#
                 </isNotEmpty>
-                <isNotEmpty prepend="AND" property="qrcodeSerial">
-                    qrcode_serial = #qrcodeSerial#
-                </isNotEmpty>
                 <isNotEmpty prepend="AND" property="state">
                     state = #state#
                 </isNotEmpty>
@@ -99,9 +96,6 @@
             <dynamic>
                 <isNotEmpty prepend="AND" property="batchSerial">
                     batch_serial = #batchSerial#
-                </isNotEmpty>
-                <isNotEmpty prepend="AND" property="qrcodeSerial">
-                    qrcode_serial = #qrcodeSerial#
                 </isNotEmpty>
                 <isNotEmpty prepend="AND" property="state">
                     state = #state#

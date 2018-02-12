@@ -1,9 +1,9 @@
-<div id="qrCodeBatch">
+<div id="qrCode">
     <div class="portlet light">
         <div class="portlet-title">
             <div class="caption font-green">
                 <i class="icon-settings font-green"></i>
-                <span class="caption-subject bold uppercase">二维码批次管理</span>
+                <span class="caption-subject bold uppercase">二维码管理</span>
             </div>
         </div>
         <div class="portlet-body form small">
@@ -20,17 +20,9 @@
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <label class="control-label col-md-4">数量</label>
+                                <label class="control-label col-md-4">商品编号</label>
                                 <div class="col-md-8">
-                                    <input class="form-control" id="amount" name="amount" type="int" v-model.trim="queryForm.amount"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-md-4">状态</label>
-                                <div class="col-md-8">
-                                    <vue-select :options="states" :model.sync="queryForm.state" :configs="{placeholder:'全部'}"></vue-select>
+                                    <input class="form-control" id="qrcodeSerial" name="qrcodeSerial" type="text" v-model.trim="queryForm.qrcodeSerial"/>
                                 </div>
                             </div>
                         </div>
@@ -49,9 +41,9 @@
         <thead>
         <tr>
             <th>ID</th>
+            <th>二维码值</th>
             <th>批次号</th>
-            <th>数量</th>
-            <th>状态</th>
+            <th>关联商品ID</th>
             <th>创建时间</th>
             <th>修改时间</th>
             <th>操作</th>
@@ -60,14 +52,14 @@
         <tbody>
         <tr v-cloak v-for="item in pageResult.data">
             <td v-html="item.id"></td>
-            <td v-html="item.batchSerial"></td>
-            <td v-html="item.amount"></td>
-            <td v-html="item.state | enumFormat states"></td>
+            <td v-html="item.serialNo"></td>
+            <td v-html="item.batchId"></td>
+            <td v-html="item.commodityId"></td>
             <td v-html="item.gmtCreate | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td>
-                <template v-if="item.state == 0">
-                    <a class="a-icon" v-on:click="delete(item.id, item.state)"><i class="fa fa-remove"></i>使用</a>
+                <template v-if="item.commodityId">
+                    <a class="a-icon" v-on:click="bind(item.id, item.state)"><i class="fa fa-remove"></i>绑定商品</a>
                 </template>
             </td>
         </tr>
@@ -88,4 +80,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="${rc.contextPath}/js/wms/qr/batch/index.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/wms/qr/code/index.js"></script>
