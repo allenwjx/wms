@@ -62,18 +62,20 @@ $(document).ready(function () {
             reset: function () {
                 this.queryForm = {};
             },
-            bind: function (id, enabled) {
+            edit: function (id) {
+                $("#formModal").modal({
+                    show: true,
+                    remote: __ctx + "/qr/code/one?id=" + id,
+                    backdrop: 'static'
+                });
+            },
+            bind: function (id, commodityId) {
                 var self = this;
-                var p = "";
-                var _enabled = 0;
-                if (enabled == 0) {
-                    _enabled = 1;
-                }
-                alertify.confirm("确定使用该记录么？", function (result) {
+                alertify.confirm ("即将绑定商品，是否继续？", function (result) {
                     if (result) {
                         $.ajax({
                             type: 'POST',
-                            url: __ctx + "/qr/batch/state/" + id + "/" + _enabled
+                            url: __ctx + "/qr/coce/" + id + "/bind/" + commodityId
                         }).done(function (data) {
                             if (data.success) {
                                 toastr.success('操作成功', {timeOut: 1500, positionClass: "toast-top-center"});

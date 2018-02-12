@@ -67,4 +67,22 @@ public interface QRCodeService {
      * @throws QRCodeException
      */
     PageList <QrcodeVO> queryByConditions (QrcodeVO vo, int currentPage, int size) throws ServiceException;
+
+    /**
+     * 建立二维码与商品的绑定关系
+     *
+     * @param code_id   二维码ID
+     * @param commodity_id  商品ID
+     * @throws ServiceException
+     */
+    void bindCommodity (Long code_id, Long commodity_id) throws ServiceException;
+
+    /**
+     * 通过主键查询
+     *
+     * @param code_id   二维码ID
+     * @return
+     * @throws ServiceException
+     */
+    QrcodeVO queryById (Long code_id) throws ServiceException;
 }
