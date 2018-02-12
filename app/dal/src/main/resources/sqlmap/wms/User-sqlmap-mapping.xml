@@ -53,35 +53,35 @@
 	
 	<update id="wms.User.updateByPars">
 		UPDATE user SET gmt_modified = CURRENT_TIMESTAMP
-            <isNotEmpty prepend="AND" property="nickName">
+            <isNotEmpty prepend="," property="nickName">
                 nick_name = #nickName#
             </isNotEmpty>
-            <isNotEmpty prepend="AND" property="userId">
+            <isNotEmpty prepend="," property="userId">
                 user_id = #userId#
             </isNotEmpty>
 
-            <isNotEmpty prepend="AND" property="password">
+            <isNotEmpty prepend="," property="password">
                 password = #password#
             </isNotEmpty>
 
-            <isNotEmpty prepend="AND" property="openId">
+            <isNotEmpty prepend="," property="openId">
                 open_id = #openId#
             </isNotEmpty>
 
-            <isNotEmpty prepend="AND" property="type">
+            <isNotEmpty prepend="," property="type">
                 type = #type#
             </isNotEmpty>
 
-            <isNotEmpty prepend="AND" property="noExistsProp">
-                1 = #noExistsProp#
-            </isNotEmpty>
-
-            <isNotEmpty prepend="AND" property="modifyBy">
+            <isNotEmpty prepend="," property="modifyBy">
                 modify_by = #modifyBy#
             </isNotEmpty>
 
             WHERE
             id = #id#
+
+            <isNotEmpty prepend="AND" property="noExistsProp">
+                1 = #noExistsProp#
+            </isNotEmpty>
 	</update>
 	
     

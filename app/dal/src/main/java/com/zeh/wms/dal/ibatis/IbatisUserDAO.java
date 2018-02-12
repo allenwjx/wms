@@ -76,7 +76,7 @@ public class IbatisUserDAO extends SqlMapClientDaoSupport implements UserDAO {
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         user      SET         gmt_modified = CURRENT_TIMESTAMP                       AND                  nick_name = ?                                    AND                  user_id = ?                                     AND                  password = ?                                     AND                  open_id = ?                                     AND                  type = ?                                     AND                  1 = ?                                     AND                  modify_by = ?                                WHERE         id = ?</pre>
+	 * <pre>UPDATE         user      SET         gmt_modified = CURRENT_TIMESTAMP              ,                  nick_name = ?                           ,                  user_id = ?                            ,                  password = ?                            ,                  open_id = ?                            ,                  type = ?                            ,                  modify_by = ?                                WHERE         id = ?                        AND                  1 = ?</pre>
 	 */
 	public int updateByPars(UpdateByParsParameter param) throws DataAccessException {
 		return getSqlMapClientTemplate().update("wms.User.updateByPars", param);

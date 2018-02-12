@@ -4,13 +4,18 @@
  */
 package com.zeh.wms.web.controller;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-
+import com.google.common.collect.Lists;
+import com.zeh.jungle.web.basic.EnumUtil;
+import com.zeh.jungle.web.basic.TextValue;
+import com.zeh.wms.biz.exception.ServiceException;
+import com.zeh.wms.biz.model.AgentVO;
 import com.zeh.wms.biz.model.CommodityVO;
+import com.zeh.wms.biz.model.ManufacturerVO;
+import com.zeh.wms.biz.model.RegionsVO;
+import com.zeh.wms.biz.service.AgentService;
+import com.zeh.wms.biz.service.CommodityService;
+import com.zeh.wms.biz.service.ManufacturerService;
+import com.zeh.wms.biz.service.RegionsService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.collect.Lists;
-import com.zeh.jungle.web.basic.EnumUtil;
-import com.zeh.jungle.web.basic.TextValue;
-import com.zeh.wms.biz.exception.ServiceException;
-import com.zeh.wms.biz.model.ManufacturerVO;
-import com.zeh.wms.biz.model.RegionsVO;
-import com.zeh.wms.biz.service.CommodityService;
-import com.zeh.wms.biz.service.ManufacturerService;
-import com.zeh.wms.biz.service.RegionsService;
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 下拉框Controller
@@ -42,6 +42,8 @@ public class ComboController extends BaseController {
     private static Logger       logger = LoggerFactory.getLogger(ComboController.class);
     @Resource
     private ManufacturerService manufacturerService;
+    @Resource
+    private AgentService agentService;
     @Resource
     private RegionsService      regionsService;
     @Resource
@@ -67,12 +69,40 @@ public class ComboController extends BaseController {
 
     /**
      * 获取所有有效代理商和大客户
+     * text: name; value: code
      *
      * @return list list
      */
     @RequestMapping(value = "/allAgentsAndManus", method = RequestMethod.GET)
     @ResponseBody
     public List<TextValue> allAgentsAndManus() {
+        List<TextValue> result = Lists.newArrayList();
+        try {
+            List<ManufacturerVO> list = manufacturerService.getAll();
+            Collection<AgentVO> agentVOS = agentService.findAllAgents();
+
+            if (CollectionUtils.isNotEmpty(list)) {
+                result.addAll(list.stream().map(item -> new TextValue(item.getCode(), item.getName())).collect(Collectors.toList()));
+            }
+
+            if (CollectionUtils.isNotEmpty(agentVOS)) {
+                result.addAll(agentVOS.stream().map(item -> new TextValue(item.getCode(), item.getName())).collect(Collectors.toList()));
+            }
+        } catch (ServiceException e) {
+            logger.error("异常", e);
+        }
+        return result;
+    }
+
+    /**
+     * 获取所有有效大客户
+     * text: name; value: code
+     *
+     * @return list list
+     */
+    @RequestMapping(value = "/allManus", method = RequestMethod.GET)
+    @ResponseBody
+    public List<TextValue> allManus() {
         List<TextValue> result = Lists.newArrayList();
         try {
             List<ManufacturerVO> list = manufacturerService.getAll();
@@ -87,7 +117,29 @@ public class ComboController extends BaseController {
     }
 
     /**
-     * 获取所有有效大客户
+     * 获取所有有效代理商
+     * text: name; value: code
+     *
+     * @return list list
+     */
+    @RequestMapping(value = "/allAgents", method = RequestMethod.GET)
+    @ResponseBody
+    public List<TextValue> allAgent() {
+        List<TextValue> result = Lists.newArrayList();
+        try {
+            Collection<AgentVO> list = agentService.findAllAgents();
+
+            if (CollectionUtils.isNotEmpty(list)) {
+                result.addAll(list.stream().map(item -> new TextValue(item.getCode(), item.getName())).collect(Collectors.toList()));
+            }
+        } catch (ServiceException e) {
+            logger.error("异常", e);
+        }
+        return result;
+    }
+
+    /**
+     * 获取所有有效大客户，text：name; value: id
      *
      * @return list list
      */

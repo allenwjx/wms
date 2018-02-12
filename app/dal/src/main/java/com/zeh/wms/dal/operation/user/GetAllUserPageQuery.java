@@ -39,7 +39,7 @@ public class GetAllUserPageQuery  extends PageQuery implements java.io.Serializa
 	private String nickName;
 	/** 用户账号，用户电话 */
 	private String userId;
-	/** 客户类型； 代理商：A； 厂商：B； 散客: C； */
+	/** 客户类型；代理商：A；厂商：B；散客: C； */
 	private String type;
 	/** 创建时间 */
 	private java.util.Date fromDate;

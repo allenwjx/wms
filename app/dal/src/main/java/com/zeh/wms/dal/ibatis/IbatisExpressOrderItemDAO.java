@@ -4,14 +4,25 @@
  */ 
 package com.zeh.wms.dal.ibatis;
 
+import com.zeh.wms.dal.operation.expressorderitem.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageQueryUtils;
-import com.zeh.wms.dal.daointerface.ExpressOrderItemDAO;
-import com.zeh.wms.dal.dataobject.ExpressOrderItemDO;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
-import java.util.List;
+import com.zeh.wms.dal.dataobject.ExpressOrderItemDO;
+import com.zeh.wms.dal.daointerface.ExpressOrderItemDAO;
 
 /**
  * ExpressOrderItemDAO
@@ -31,7 +42,7 @@ public class IbatisExpressOrderItemDAO extends SqlMapClientDaoSupport implements
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         express_order_item         (           id ,order_no ,item_name ,item_code ,relation_code ,quantity ,unit ,unit_price ,unit_weight ,total_weight ,total_price ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         express_order_item         (           id ,order_no ,item_name ,item_code ,relation_code ,quantity ,unit ,unit_price ,unit_weight ,total_weight ,total_price ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(ExpressOrderItemDO expressOrderItem) throws DataAccessException {
 		if(expressOrderItem == null) {
@@ -53,7 +64,7 @@ public class IbatisExpressOrderItemDAO extends SqlMapClientDaoSupport implements
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         express_order_item      SET         order_no = ? ,item_name = ? ,item_code = ? ,relation_code = ? ,quantity = ? ,unit = ? ,unit_price = ? ,unit_weight = ? ,total_weight = ? ,total_price = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre>
+	 * <pre>UPDATE         express_order_item      SET         order_no = ? ,item_name = ? ,item_code = ? ,relation_code = ? ,quantity = ? ,unit = ? ,unit_price = ? ,unit_weight = ? ,total_weight = ? ,total_price = ? ,gmt_modified = CURRENT_TIMESTAMP ,create_by = ? ,modify_by = ?               WHERE         id = ?</pre>
 	 */
 	public int update(ExpressOrderItemDO expressOrderItem) throws DataAccessException {
 		if(expressOrderItem == null) {

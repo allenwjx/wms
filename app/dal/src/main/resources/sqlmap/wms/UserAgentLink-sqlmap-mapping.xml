@@ -28,7 +28,7 @@
 	<insert id="wms.UserAgentLink.insert">
 		INSERT INTO user_agent_link (
 	        	id ,user_id ,code ,type ,link_status ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (#id#,#userId#,#code#,#type#,#linkStatus#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+	        ) VALUES (#id#,#userId#,#code#,#type#,#linkStatus#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -43,7 +43,7 @@
 	
 	<update id="wms.UserAgentLink.update">
 		UPDATE user_agent_link SET
-		        type = #type# ,link_status = #linkStatus# ,gmt_modified = CURRENT_TIMESTAMP , modify_by = #modifyBy#
+		        type = #type# , code = #code#, link_status = #linkStatus# ,gmt_modified = CURRENT_TIMESTAMP , modify_by = #modifyBy#
 	        WHERE 
 	        	id = #id#
 	</update>
@@ -67,8 +67,36 @@
     	SELECT
  /*wms.UserAgentLink.queryByPar*/ 			<include refid="UserAgentLink.columns"/>
 			FROM user_agent_link
+			WHERE 1=1
+			<dynamic>
+				<isNotEmpty prepend="AND" property="userId">
+					user_id = #userId#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="AND" property="code">
+					code = #code#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="AND" property="type">
+					type = #type#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="linkStatus">
+					link_status = #linkStatus#
+				</isNotEmpty>
+			</dynamic>
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.UserAgentLink.queryByUserId" resultMap="RM.UserAgentLink" >
+    	SELECT
+ /*wms.UserAgentLink.queryByUserId*/ 			<include refid="UserAgentLink.columns"/>
+			FROM user_agent_link
 			WHERE
-			user_id = #userId# and code = #code# and type = #type#
+			user_id = #userId# and link_status = #linkStatus#
 	</select>	
 
 	    

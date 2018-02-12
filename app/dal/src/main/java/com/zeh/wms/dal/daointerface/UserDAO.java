@@ -2,21 +2,11 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import org.springframework.dao.DataAccessException;
-import com.zeh.wms.dal.operation.user.*;
-import com.zeh.wms.dal.dataobject.*;
-
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import com.zeh.wms.dal.dataobject.UserDO;
+import com.zeh.wms.dal.operation.user.GetAllUserPageQuery;
+import com.zeh.wms.dal.operation.user.UpdateByParsParameter;
+import org.springframework.dao.DataAccessException;
 /**
  * UserDAO
  * database table: user
@@ -56,7 +46,7 @@ public interface UserDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         user      SET         gmt_modified = CURRENT_TIMESTAMP                       AND                  nick_name = ?                                    AND                  user_id = ?                                     AND                  password = ?                                     AND                  open_id = ?                                     AND                  type = ?                                     AND                  1 = ?                                     AND                  modify_by = ?                                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         user      SET         gmt_modified = CURRENT_TIMESTAMP              ,                  nick_name = ?                           ,                  user_id = ?                            ,                  password = ?                            ,                  open_id = ?                            ,                  type = ?                            ,                  modify_by = ?                                WHERE         id = ?                        AND                  1 = ?</pre> 
 	 */
 	public int updateByPars(UpdateByParsParameter param) throws DataAccessException;
 

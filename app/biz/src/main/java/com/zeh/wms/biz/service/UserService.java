@@ -47,4 +47,21 @@ public interface UserService {
      * @throws ServiceException the service exception
      */
     void updateType(UserAgentLinkVO linkVO) throws ServiceException;
+
+    /**
+     * 根据User表主键id，查询已关联状态的link表数据。
+     *
+     * @param id the id
+     * @return link vo by user id
+     * @throws ServiceException the service exception
+     */
+    UserAgentLinkVO getLinkVOByUserId(Long id) throws ServiceException;
+
+    /**
+     * 使link无效
+     * @param id User的主键
+     * @param modifyBy 修改人。
+     * @throws ServiceException 更新失败。
+     */
+    void disabledUserLinkByUserId(Long id, String modifyBy) throws ServiceException;
 }

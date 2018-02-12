@@ -48,7 +48,7 @@ public class ExpressOrderDO implements java.io.Serializable {
 	 */
 	private String otherOrderNo;
 	/**
-	 * agent用户类型的下单：agent电话号码； 大客户类型的下单：厂商编码（授权码） 散客：空值 		db_column: code 
+	 * agent用户类型的下单：agent电话号码；大客户类型的下单：厂商编码（授权码）;散客：空值 		db_column: code 
 	 */
 	private String code;
 	/**
@@ -56,7 +56,7 @@ public class ExpressOrderDO implements java.io.Serializable {
 	 */
 	private String type;
 	/**
-	 * 订单状态; WATI_PAY（待支付）； WAIT_PICKUP（待取件）； WAIT_SEND（待发货）； SENDED（已发货）； CANCEL（订单取消）; 		db_column: status 
+	 * 订单状态;WATI_PAY（待支付）；WAIT_PICKUP（待取件）；WAIT_SEND（待发货）；SENDED（已发货）；CANCEL（订单取消）; 		db_column: status 
 	 */
 	private String status;
 	/**

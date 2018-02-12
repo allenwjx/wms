@@ -10,6 +10,7 @@ import com.zeh.wms.biz.service.UserService;
 import com.zeh.wms.dal.operation.user.GetAllUserPageQuery;
 import com.zeh.wms.web.controller.BaseController;
 import com.zeh.wms.web.exception.WebException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -66,6 +67,25 @@ public class UserController extends BaseController {
     }
 
     /**
+     * 查看详情页面
+     *
+     * @param id 订单ID
+     * @return user vo
+     * @throws ServiceException the service exception
+     * @throws WebException     the web exception
+     */
+    @RequestMapping("link")
+    @ResponseBody
+    public SingleResult<UserAgentLinkVO> oneLink(Long id) throws ServiceException, WebException {
+        assertNull(id, "id");
+        UserAgentLinkVO userAgentLinkVO = new UserAgentLinkVO();
+        if (id != null) {
+            userAgentLinkVO = userService.getLinkVOByUserId(id);
+        }
+        return createSuccessResult(userAgentLinkVO);
+    }
+
+    /**
      * Update password.
      *
      * @param id       the id
@@ -74,13 +94,14 @@ public class UserController extends BaseController {
      * @throws ServiceException the service exception
      * @throws WebException     the web exception
      */
-    @RequestMapping(value = "pwd", method = RequestMethod.PUT)
+    @RequestMapping(value = "pwd", method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult updatePassword(Long id, String password) throws ServiceException, WebException {
+    public SingleResult updatePassword(Long id, String password, String confirmPassword) throws ServiceException, WebException {
         assertNull(id, "id");
         assertEmpty(password, "密码");
+        assertEquals(password, confirmPassword, "两次输入的密码");
 
-        userService.updatePassword(password, id);
+        userService.updatePassword(confirmPassword, id);
         return createSuccessResult();
     }
 
@@ -94,10 +115,15 @@ public class UserController extends BaseController {
      * @throws ServiceException the service exception
      * @throws WebException     the web exception
      */
-    @RequestMapping(value = "type", method = RequestMethod.PUT)
+    @RequestMapping(value = "type", method = RequestMethod.POST)
     @ResponseBody
     public SingleResult updateUserType(Long userId, String type, String code) throws ServiceException, WebException {
         assertNull(userId, "userId");
+        if (StringUtils.isBlank(type)) {
+            userService.disabledUserLinkByUserId(userId, getCurrentUserName());
+            return createSuccessResult();
+        }
+
         assertEmpty(type, "商户类型");
         assertObjectNull(UserLinkTypeEnum.getEnumByCode(type), "商户类型");
         assertEmpty(code, "商户code");

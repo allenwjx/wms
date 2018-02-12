@@ -52,7 +52,7 @@ public class ExpressOrderItemDO implements java.io.Serializable {
 	 */
 	private String itemCode;
 	/**
-	 * agent用户类型的下单：agent电话号码； 大客户类型的下单：厂商编码（授权码） 散客：空值 		db_column: relation_code 
+	 * agent用户类型的下单：agent电话号码；大客户类型的下单：厂商编码（授权码）散客：空值 		db_column: relation_code 
 	 */
 	private String relationCode;
 	/**

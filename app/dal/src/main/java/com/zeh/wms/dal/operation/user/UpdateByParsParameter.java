@@ -43,27 +43,27 @@ public class UpdateByParsParameter  implements java.io.Serializable {
 	private String password;
 	/** openid */
 	private String openId;
-	/** 客户类型； 代理商：A； 厂商：B； 散客: C； */
+	/** 客户类型；代理商：A；厂商：B；散客: C； */
 	private String type;
-	/** noExistsProp */
-	private Object noExistsProp;
 	/** 修改人 */
 	private String modifyBy;
 	/** id */
 	private Long id;
+	/** noExistsProp */
+	private Object noExistsProp;
 	
 	public UpdateByParsParameter() {
 	}
 	
-	public UpdateByParsParameter(String nickName ,String userId ,String password ,String openId ,String type ,Object noExistsProp ,String modifyBy ,Long id ) {
+	public UpdateByParsParameter(String nickName ,String userId ,String password ,String openId ,String type ,String modifyBy ,Long id ,Object noExistsProp ) {
 		this.nickName = nickName;
 		this.userId = userId;
 		this.password = password;
 		this.openId = openId;
 		this.type = type;
-		this.noExistsProp = noExistsProp;
 		this.modifyBy = modifyBy;
 		this.id = id;
+		this.noExistsProp = noExistsProp;
 	}
 	
 	public String getNickName() {
@@ -96,12 +96,6 @@ public class UpdateByParsParameter  implements java.io.Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Object getNoExistsProp() {
-		return noExistsProp;
-	}
-	public void setNoExistsProp(Object noExistsProp) {
-		this.noExistsProp = noExistsProp;
-	}
 	public String getModifyBy() {
 		return modifyBy;
 	}
@@ -113,6 +107,12 @@ public class UpdateByParsParameter  implements java.io.Serializable {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public Object getNoExistsProp() {
+		return noExistsProp;
+	}
+	public void setNoExistsProp(Object noExistsProp) {
+		this.noExistsProp = noExistsProp;
 	}
 	
 	public String toString() {

@@ -34,7 +34,7 @@
 	<insert id="wms.PaymentOrder.insert">
 		INSERT INTO payment_order (
 	        	id ,order_no ,other_order_no ,user_id ,code ,payment_order_no ,other_payment_no ,amount ,channel ,status ,pay_limited ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (#id#,#orderNo#,#otherOrderNo#,#userId#,#code#,#paymentOrderNo#,#otherPaymentNo#,#amount#,#channel#,#status#,#payLimited#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+	        ) VALUES (#id#,#orderNo#,#otherOrderNo#,#userId#,#code#,#paymentOrderNo#,#otherPaymentNo#,#amount#,#channel#,#status#,#payLimited#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -49,7 +49,7 @@
 	
 	<update id="wms.PaymentOrder.update">
 		UPDATE payment_order SET
-		        order_no = #orderNo# ,other_order_no = #otherOrderNo# ,user_id = #userId# ,code = #code# ,payment_order_no = #paymentOrderNo# ,other_payment_no = #otherPaymentNo# ,amount = #amount# ,channel = #channel# ,status = #status# ,pay_limited = #payLimited# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
+		        order_no = #orderNo# ,other_order_no = #otherOrderNo# ,user_id = #userId# ,code = #code# ,payment_order_no = #paymentOrderNo# ,other_payment_no = #otherPaymentNo# ,amount = #amount# ,channel = #channel# ,status = #status# ,pay_limited = #payLimited# ,gmt_modified = CURRENT_TIMESTAMP ,create_by = #createBy# ,modify_by = #modifyBy#
 	        WHERE 
 	        	id = #id#
 	</update>

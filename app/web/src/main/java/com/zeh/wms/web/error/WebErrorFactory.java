@@ -44,4 +44,13 @@ public class WebErrorFactory extends AbstractErrorFactory {
     public JGError parameterEmptyError(String parameterName) {
         return createError("JG0510101001", parameterName);
     }
+
+    /**
+     * 参数异常。{0}不相等.
+     * @param parameterName 参数名
+     * @return
+     */
+    public JGError parameterNotEqualsError(String parameterName) {
+        return createError("JG0510101002", parameterName);
+    }
 }
