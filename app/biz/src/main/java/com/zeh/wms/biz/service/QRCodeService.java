@@ -1,9 +1,12 @@
 package com.zeh.wms.biz.service;
 
-import java.util.Map;
-
 import com.google.zxing.EncodeHintType;
+import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.QRCodeException;
+import com.zeh.wms.biz.exception.ServiceException;
+import com.zeh.wms.biz.model.QrcodeVO;
+
+import java.util.Map;
 
 /**
  * @author allen
@@ -43,4 +46,25 @@ public interface QRCodeService {
      * @throws QRCodeException 二维码解析异常
      */
     String decode(String qrCode) throws QRCodeException;
+
+    /**
+     * 查询全部数据
+     *
+     * @param currentPage
+     * @param size
+     * @return
+     * @throws ServiceException
+     */
+    PageList <QrcodeVO> queryAll (int currentPage, int size) throws ServiceException;
+
+    /**
+     * 条件查询二维码列表
+     *
+     * @param vo        二维码查询对象（可包括：商品ID，批次号ID）
+     * @param currentPage
+     * @param size
+     * @return
+     * @throws QRCodeException
+     */
+    PageList <QrcodeVO> queryByConditions (QrcodeVO vo, int currentPage, int size) throws ServiceException;
 }

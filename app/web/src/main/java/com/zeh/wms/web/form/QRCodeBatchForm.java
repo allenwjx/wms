@@ -1,9 +1,9 @@
 package com.zeh.wms.web.form;
 
-import java.io.Serializable;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  * @author allen
@@ -20,4 +20,6 @@ public class QRCodeBatchForm implements Serializable {
     private String            qrcodeSerial;
     /** 批次状态； 0-未使用，1-已使用 */
     private Integer           state;
+    /** 批次数量 */
+    private Integer           amount;
 }

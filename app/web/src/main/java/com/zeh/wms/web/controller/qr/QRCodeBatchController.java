@@ -40,7 +40,7 @@ public class QRCodeBatchController extends BaseController {
     @ResponseBody
     public PageList<QRCodeBatchVO> list(QRCodeBatchForm form, Paginator paginator) throws ServiceException {
         QRCodeBatchVO qrCodeBatch = new QRCodeBatchVO();
-        qrCodeBatch.setQrcodeSerial(form.getQrcodeSerial());
+        qrCodeBatch.setAmount (form.getAmount ());
         qrCodeBatch.setBatchSerial(form.getBatchSerial());
         qrCodeBatch.setState(form.getState() == null ? null : StateEnum.getEnumByCode(form.getState()));
         return qrCodeBatchService.pageQueryQRCodeBatchs(qrCodeBatch, paginator.getCurrentPage(), paginator.getPageSize());
