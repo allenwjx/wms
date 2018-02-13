@@ -1,53 +1,32 @@
 #set($layout="layout/spa.vm")
-<div id="qrcode_bind">
 ## Title
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel"><span aria-hidden="true" class="icon-plane"></span>二维码 {{model.serialNo}} 绑定商品</h4>
-    </div>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="myModalLabel">绑定商品维护</h4>
+</div>
 
 ## Form
-    <form class="form-horizontal">
-        <input type="hidden" id="objId" value="$!{id}">
-        <div class="modal-body container-fluid ">
-            <div class="row">
-                <div class="col-md-6 col-sm-12">
-                    <div class="portlet green-meadow box">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <i class="fa fa-cogs"></i>待绑定商品
-                            </div>
-                            <div class="tools">
-                                <a href="javascript:;" class="collapse">
-                                </a>
-                                <a href="javascript:;" class="reload">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="portlet-body">
-                            <div class="row static-info">
-                                <div class="col-md-5 name">
-                                    ID:
-                                </div>
-                                <div class="col-md-7 value">
-                                    {{ model.commodityId }} <span class="label label-info label-sm"> 商品已绑定 </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <span aria-hidden="true">&nbsp;</span>
-                </div>
+<form id="modalForm" class="form-horizontal">
+    <div class="modal-body container-fluid ">
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="type">二维码ID</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="id" name="id" type="text" v-model.trim="model.id" :disabled="true"/>
             </div>
         </div>
-        <div class="modal-footer">
-            <button id="dialog-cancel" type="button" class="btn btn-warning" data-dismiss="modal">关闭</button>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="type">商品ID</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="commodityId" name="commodityId" type="text" v-model.trim="model.commodityId"/>
+            </div>
         </div>
-    </form>
-</div>
+    </div>
+    <div class="modal-footer">
+        <button id="dialog-submit" type="button" @click.prevent="submitData" class="btn blue">绑定</button>
+        <button id="dialog-cancel" type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+    </div>
+</form>
+<script type="text/javascript">
+    var formData = $!{modelData};
+</script>
 <script type="text/javascript" src="${rc.contextPath}/js/wms/qr/code/view.js"></script>
