@@ -336,4 +336,21 @@ public class BizErrorFactory extends AbstractErrorFactory {
         return createError("JG0510041002");
     }
 
+    /**
+     * JG0510016011=查询参数为空
+     * @return
+     */
+    public JGError queryQRCodeError () {return createError ("JG0510016011"); }
+
+    /**
+     * JG0510016012=更新二维码失败
+     * @return
+     */
+    public JGError updateQRCodeError () {return createError ("JG0510016012"); }
+
+    /**
+     * JG0510016013=二维码绑定商品失败
+     * @return
+     */
+    public JGError bindCommodityError (String message) {return createError ("JG0510016013", message); }
 }

@@ -124,7 +124,7 @@ public class QRCodeServiceImpl implements QRCodeService {
 
     @Override
     public PageList <QrcodeVO> queryAll (int currentPage, int size) throws ServiceException {
-        PageList <QrcodeDO> dos = qrcodeDAO.queryPageAll (currentPage, size);
+        PageList <QrcodeDO> dos = qrcodeDAO.queryPageAll (size, currentPage);
         return PageUtils.createPageList (mapper.d2vs (dos.getData ()), dos.getPaginator ());
     }
 
@@ -146,5 +146,35 @@ public class QRCodeServiceImpl implements QRCodeService {
 
         PageList <QrcodeDO> dos = qrcodeDAO.queryPageByConditions (query);
         return PageUtils.createPageList (mapper.d2vs (dos.getData ()), dos.getPaginator ());
+    }
+
+    /**
+     * 建立二维码与商品间的绑定关系
+     *
+     * @param code_id   二维码ID
+     * @param commodity_id  商品ID
+     * @throws ServiceException
+     */
+    @Override
+    public void bindCommodity (Long code_id, Long commodity_id) throws ServiceException {
+        if (code_id == null || commodity_id == null) throw new ServiceException (ERROR_FACTORY.bindCommodityError ("查询参数为空"));
+
+        QrcodeDO code = qrcodeDAO.queryById (code_id);
+        if (code == null || code.getCommodityId () > 0) throw new ServiceException (ERROR_FACTORY.bindCommodityError ("指定二维码不存在，或是已绑定商品"));
+
+        code.setCommodityId (commodity_id);
+        qrcodeDAO.update (code);
+    }
+
+    /**
+     * 通过主键查询
+     * @param code_id   二维码ID
+     * @return
+     * @throws ServiceException
+     */
+    @Override
+    public QrcodeVO queryById (Long code_id) throws ServiceException {
+        QrcodeDO _do = qrcodeDAO.queryById (code_id);
+        return mapper.d2v (_do);
     }
 }

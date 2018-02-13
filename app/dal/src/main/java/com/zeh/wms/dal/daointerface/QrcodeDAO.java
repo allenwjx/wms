@@ -2,8 +2,10 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
+
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.dal.dataobject.QrcodeDO;
+import com.zeh.wms.dal.operation.qrcode.QueryPageByConditionsQuery;
 import org.springframework.dao.DataAccessException;
 /**
  * QrcodeDAO
