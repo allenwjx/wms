@@ -2,18 +2,16 @@ package com.zeh.wms.web.controller.qr;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.Paginator;
-import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.jungle.utils.serializer.FastJsonUtils;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.QRCodeMapper;
 import com.zeh.wms.biz.model.QrcodeVO;
 import com.zeh.wms.biz.service.QRCodeService;
-import com.zeh.wms.dal.dataobject.QrcodeDO;
 import com.zeh.wms.web.controller.BaseController;
 import com.zeh.wms.web.form.QRCodeForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -63,7 +61,7 @@ public class QRCodeController extends BaseController {
 
     @RequestMapping ("doBind")
     @ResponseBody
-    public QrcodeVO bindCommodity (QRCodeForm form) throws ServiceException {
+    public QrcodeVO bindCommodity (@RequestBody QRCodeForm form) throws ServiceException {
         qrCodeService.bindCommodity (form.getId (), form.getCommodityId ());
         return qrCodeService.queryById (form.getId ());
     }

@@ -15,15 +15,13 @@ $(document).ready(function () {
         methods: {
             init: function () {
                 var self = this;
-
-                /**
                 $.ajax({
                     type: 'GET',
                     url: __ctx + "/qr/code/one",
                     data: {id: formData.id}
                 }).done(function (result) {
                     self.model = result;
-                });*/
+                });
             },
 
             // 提交数据
@@ -31,14 +29,14 @@ $(document).ready(function () {
                 $("#modalForm").data('bootstrapValidator', null);
                 this.validator();
                 var me = this.model;
-                var url = __ctx + "/qr/code/doBind?id=" + me.id + "&commondityId=" + me.commodityId;
+                var url = __ctx + "/qr/code/doBind";
                 var method = "POST";
                 $("#modalForm").data('bootstrapValidator').validate();
                 if ($("#modalForm").data('bootstrapValidator').isValid()) {
                     $.ajax({
                         type: method,
                         url: url,
-                        // data: JSON.stringify(me),
+                        data: JSON.stringify (me),
                         dataType: "json",
                         contentType: "application/json",
                         //成功返回之后调用的函数
