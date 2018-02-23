@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.wms.biz.error.BizErrorFactory;
@@ -133,6 +134,22 @@ public class RoleServiceImpl implements RoleService {
     public RoleVO findRoleById(long id) throws ServiceException {
         RoleDO roleDO = roleDAO.queryById(id);
         return mapper.do2vo(roleDO);
+    }
+
+    /**
+     * 根据角色ID集合查询角色信息
+     *
+     * @param roleIds 角色ID集合
+     * @return 角色信息集合
+     * @throws ServiceException 角色查询异常
+     */
+    @Override
+    public Collection<RoleVO> findRoleByIds(List<Long> roleIds) throws ServiceException {
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return Lists.newArrayList();
+        }
+        List<RoleDO> roleDOs = roleDAO.queryByIds(roleIds, StateEnum.Y.getCode());
+        return mapper.do2vos(roleDOs);
     }
 
     /**

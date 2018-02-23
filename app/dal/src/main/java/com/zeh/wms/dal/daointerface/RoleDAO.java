@@ -63,6 +63,13 @@ public interface RoleDAO {
 	/**
 	 * 
 	 * sql:
+	 * <pre>SELECT         id, name, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         role                  WHERE         id IN              (             ?                      )                      AND enabled = ?</pre> 
+	 */
+	public List<RoleDO> queryByIds(java.util.List<Long> roleIds ,Integer enabled) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
 	 * <pre>SELECT         id, name, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         role                  WHERE         name = ?          AND enabled = 1</pre> 
 	 */
 	public RoleDO queryByName(String name) throws DataAccessException;

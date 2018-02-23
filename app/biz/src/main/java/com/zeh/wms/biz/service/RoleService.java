@@ -1,9 +1,11 @@
 package com.zeh.wms.biz.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.ServiceException;
+import com.zeh.wms.biz.model.AuthorizationVO;
 import com.zeh.wms.biz.model.RoleVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
 
@@ -37,6 +39,15 @@ public interface RoleService {
      * @throws ServiceException 角色查询异常
      */
     RoleVO findRoleById(long id) throws ServiceException;
+
+    /**
+     * 根据角色ID集合查询角色信息
+     *
+     * @param roleIds 角色ID集合
+     * @return 角色信息集合
+     * @throws ServiceException 角色查询异常
+     */
+    Collection<RoleVO> findRoleByIds(List<Long> roleIds) throws ServiceException;
 
     /**
      * 根据角色ID查询角色信息，含角色关联的权限信息

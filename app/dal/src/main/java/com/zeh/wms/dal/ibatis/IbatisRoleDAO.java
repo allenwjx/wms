@@ -85,6 +85,18 @@ public class IbatisRoleDAO extends SqlMapClientDaoSupport implements RoleDAO {
 	/**
 	 * 
 	 * sql: 
+	 * <pre>SELECT         id, name, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         role                  WHERE         id IN              (             ?                      )                      AND enabled = ?</pre>
+	 */
+	public List<RoleDO> queryByIds(java.util.List<Long> roleIds ,Integer enabled) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("roleIds",roleIds);
+		param.put("enabled",enabled);
+		return (List<RoleDO>)getSqlMapClientTemplate().queryForList("wms.Role.queryByIds",param);
+	}
+
+	/**
+	 * 
+	 * sql: 
 	 * <pre>SELECT         id, name, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         role                  WHERE         name = ?          AND enabled = 1</pre>
 	 */
 	public RoleDO queryByName(String name) throws DataAccessException {

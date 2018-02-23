@@ -61,6 +61,23 @@
 	
     
 	
+	<select id="wms.Role.queryByIds" resultMap="RM.Role" >
+    	SELECT
+ /*wms.Role.queryByIds*/             <include refid="Role.columns"/>
+            FROM role
+            WHERE
+            id IN
+            <iterate close=")" conjunction="," open="(" property="roleIds">
+                #roleIds[]#
+            </iterate>
+            AND enabled = #enabled#
+	</select>	
+
+	    
+	
+	
+    
+	
 	<select id="wms.Role.queryByName" resultMap="RM.Role" >
     	SELECT
  /*wms.Role.queryByName*/             <include refid="Role.columns"/>

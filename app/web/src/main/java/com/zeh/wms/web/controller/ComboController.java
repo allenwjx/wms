@@ -4,12 +4,12 @@
  */
 package com.zeh.wms.web.controller;
 
-import com.google.common.collect.Lists;
-import com.zeh.jungle.web.basic.EnumUtil;
-import com.zeh.jungle.web.basic.TextValue;
-import com.zeh.wms.biz.exception.ServiceException;
-import com.zeh.wms.biz.model.*;
-import com.zeh.wms.biz.service.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.google.common.collect.Lists;
+import com.zeh.jungle.web.basic.EnumUtil;
+import com.zeh.jungle.web.basic.TextValue;
+import com.zeh.wms.biz.exception.ServiceException;
+import com.zeh.wms.biz.model.*;
+import com.zeh.wms.biz.service.*;
 
 /**
  * 下拉框Controller
@@ -44,6 +46,8 @@ public class ComboController extends BaseController {
     private CommodityService     commodityService;
     @Resource
     private AuthorizationService authorizationService;
+    @Resource
+    private RoleService          roleService;
 
     /**
      * 获取枚举作为下拉列表选项.
@@ -249,6 +253,26 @@ public class ComboController extends BaseController {
             Collection<AuthorizationVO> auths = authorizationService.findAllAuthorizations();
             if (CollectionUtils.isNotEmpty(auths)) {
                 result.addAll(auths.stream().map(item -> new TextValue(String.valueOf(item.getId()), item.getName())).collect(Collectors.toList()));
+            }
+        } catch (ServiceException e) {
+            logger.error("异常", e);
+        }
+        return result;
+    }
+
+    /**
+     * 获取有效角色信息
+     *
+     * @return list list
+     */
+    @RequestMapping(value = "/roles", method = RequestMethod.GET)
+    @ResponseBody
+    public List<TextValue> loadRoles() {
+        List<TextValue> result = Lists.newArrayList();
+        try {
+            Collection<RoleVO> roles = roleService.findAllRoles();
+            if (CollectionUtils.isNotEmpty(roles)) {
+                result.addAll(roles.stream().map(item -> new TextValue(String.valueOf(item.getId()), item.getName())).collect(Collectors.toList()));
             }
         } catch (ServiceException e) {
             logger.error("异常", e);

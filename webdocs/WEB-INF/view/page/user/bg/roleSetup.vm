@@ -1,0 +1,28 @@
+#set($layout="layout/spa.vm")
+## Title
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="myModalLabel">用户角色维护</h4>
+</div>
+
+## Form
+<form id="modalForm" class="form-horizontal">
+    <input type="hidden" id="id" value="$!{id}">
+    <div class="modal-body container-fluid ">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">用户角色</label>
+            <div class="col-sm-8">
+                <template v-for="item in roles">
+                    <label class="checkbox-inline">
+                        <input name="role" type="checkbox" v-model="model.roles" v-bind:value="item.value"> {{item.text}}
+                    </label>
+                </template>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="dialog-submit" type="button" @click.prevent="submitData" class="btn blue">保存</button>
+        <button id="dialog-cancel" type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+    </div>
+</form>
+<script type="text/javascript" src="${rc.contextPath}/js/wms/user/bg/roleSetup.js"></script>

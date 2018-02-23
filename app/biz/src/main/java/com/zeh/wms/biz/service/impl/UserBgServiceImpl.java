@@ -1,9 +1,16 @@
 package com.zeh.wms.biz.service.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.zeh.wms.biz.model.AuthorizationVO;
+import com.zeh.wms.biz.model.enums.UserTypeEnum;
+import com.zeh.wms.dal.dataobject.RoleAuthorizationLinkDO;
+import com.zeh.wms.dal.dataobject.RoleDO;
+import com.zeh.wms.dal.dataobject.UserRoleLinkDO;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,10 +20,13 @@ import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.wms.biz.error.BizErrorFactory;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.UserBgMapper;
+import com.zeh.wms.biz.model.RoleVO;
 import com.zeh.wms.biz.model.UserBgVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
+import com.zeh.wms.biz.service.RoleService;
 import com.zeh.wms.biz.service.UserBgService;
 import com.zeh.wms.dal.daointerface.UserBgDAO;
+import com.zeh.wms.dal.daointerface.UserRoleLinkDAO;
 import com.zeh.wms.dal.dataobject.UserBgDO;
 import com.zeh.wms.dal.operation.userbg.QueryByPageQuery;
 
@@ -35,9 +45,15 @@ public class UserBgServiceImpl implements UserBgService {
     /** 后台用户DAO */
     @Resource
     private UserBgDAO                    userBgDAO;
+    /** User Role Relation Dao */
+    @Resource
+    private UserRoleLinkDAO              userRoleLinkDAO;
     /** 密码加解密服务 */
     @Resource
     private PasswordEncoder              passwordEncoder;
+    /** 角色服务 */
+    @Resource
+    private RoleService                  roleService;
 
     /**
      * 创建后台用户
@@ -80,6 +96,38 @@ public class UserBgServiceImpl implements UserBgService {
         userBgDO.setEnabled(userBg.getEnabled() != null ? userBg.getEnabled().getCode() : userBgDO.getEnabled());
         userBgDO.setModifyBy(userBg.getModifyBy());
         userBgDAO.update(userBgDO);
+    }
+
+    /**
+     * 设置用户角色
+     *
+     * @param userBg 后台用户
+     * @throws ServiceException 后台用户设置异常
+     */
+    @Override
+    public void updateUserRoles(UserBgVO userBg) throws ServiceException {
+        if (userBg == null || userBg.getId() <= 0) {
+            throw new ServiceException(ERROR_FACTORY.updateUserBgError());
+        }
+
+        // update role
+        UserBgDO userBgDO;
+        userBgDO = userBgDAO.queryById(userBg.getId());
+        userBgDO.setModifyBy(userBg.getModifyBy());
+        userBgDAO.update(userBgDO);
+
+        // update role authorization relation
+        Collection<RoleVO> roles = userBg.getRoles();
+        userRoleLinkDAO.deleteByUserId(userBg.getId());
+        if (CollectionUtils.isNotEmpty(roles)) {
+            for (RoleVO role : roles) {
+                UserRoleLinkDO urld = new UserRoleLinkDO();
+                urld.setUserId(userBg.getId());
+                urld.setRoleId(role.getId());
+                urld.setType(UserTypeEnum.B.getCode());
+                userRoleLinkDAO.insert(urld);
+            }
+        }
     }
 
     /**
@@ -150,5 +198,43 @@ public class UserBgServiceImpl implements UserBgService {
         userBg.setModifyBy(modifyBy);
         userBg.setEnabled(enabled);
         updateUserBg(userBg);
+    }
+
+    /**
+     * 根据后台用户名查询后台用户信息，含用户角色信息
+     *
+     * @param username 后台用户名
+     * @return 后台用户信息
+     * @throws ServiceException 后台用户查询异常
+     */
+    @Override
+    public UserBgVO findUserBgDetailsByUsername(String username) throws ServiceException {
+        UserBgVO user = findUserBgByUsername(username);
+        if (user != null) {
+            throw new ServiceException(ERROR_FACTORY.usernameInvalid());
+        }
+        List<Long> roleIds = userRoleLinkDAO.queryByUserId(user.getId());
+        Collection<RoleVO> roles = roleService.findRoleByIds(roleIds);
+        user.setRoles(roles);
+        return user;
+    }
+
+    /**
+     * 根据后台用户ID查询后台用户信息，含用户角色信息
+     *
+     * @param id 后台用户ID
+     * @return 后台用户信息
+     * @throws ServiceException 后台用户查询异常
+     */
+    @Override
+    public UserBgVO findUserBgDetailsById(long id) throws ServiceException {
+        UserBgVO user = findUserBgById(id);
+        if (user == null) {
+            throw new ServiceException(ERROR_FACTORY.usernameInvalid());
+        }
+        List<Long> roleIds = userRoleLinkDAO.queryByUserId(user.getId());
+        Collection<RoleVO> roles = roleService.findRoleByIds(roleIds);
+        user.setRoles(roles);
+        return user;
     }
 }

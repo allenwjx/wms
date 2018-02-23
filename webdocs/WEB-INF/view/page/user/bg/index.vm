@@ -63,6 +63,7 @@
             <td>
                 <a class="a-icon" v-on:click="edit(item.id)"><i class="fa fa-edit"></i>编辑</a>
                 <a class="a-icon" v-on:click="changePwd(item.id)"><i class="fa fa-edit"></i>修改密码</a>
+                <a class="a-icon" v-on:click="setupRoles(item.id)"><i class="fa fa-edit"></i>权限设置</a>
                 <a class="a-icon" v-on:click="delete(item.id, item.enabled)"><i class="fa fa-remove"></i>
                     <template v-if="item.enabled == 0">
                         启用

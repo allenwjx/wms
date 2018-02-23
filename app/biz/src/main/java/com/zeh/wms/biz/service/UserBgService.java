@@ -28,6 +28,14 @@ public interface UserBgService {
     void updateUserBg(UserBgVO userBg) throws ServiceException;
 
     /**
+     * 设置用户角色
+     * 
+     * @param userBg 后台用户
+     * @throws ServiceException 后台用户设置异常
+     */
+    void updateUserRoles(UserBgVO userBg) throws ServiceException;
+
+    /**
      * 根据后台用户名查询后台用户信息
      *
      * @param username 后台用户名
@@ -37,6 +45,15 @@ public interface UserBgService {
     UserBgVO findUserBgByUsername(String username) throws ServiceException;
 
     /**
+     * 根据后台用户名查询后台用户信息，含用户角色信息
+     *
+     * @param username 后台用户名
+     * @return 后台用户信息
+     * @throws ServiceException 后台用户查询异常
+     */
+    UserBgVO findUserBgDetailsByUsername(String username) throws ServiceException;
+
+    /**
      * 根据后台用户ID查询后台用户信息
      *
      * @param id 后台用户ID
@@ -44,6 +61,15 @@ public interface UserBgService {
      * @throws ServiceException 后台用户查询异常
      */
     UserBgVO findUserBgById(long id) throws ServiceException;
+
+    /**
+     * 根据后台用户ID查询后台用户信息，含用户角色信息
+     *
+     * @param id 后台用户ID
+     * @return 后台用户信息
+     * @throws ServiceException 后台用户查询异常
+     */
+    UserBgVO findUserBgDetailsById(long id) throws ServiceException;
 
     /**
      * 分页查询后台用户信息

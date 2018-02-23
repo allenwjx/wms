@@ -48,7 +48,7 @@ public class UserRoleLinkDO implements java.io.Serializable {
 	 */
 	private long roleId;
 	/**
-	 * 用户类型； 前台用户：F 后台用户：B 		db_column: type 
+	 * 用户类型；前台用户：F; 后台用户：B 		db_column: type 
 	 */
 	private String type;
 

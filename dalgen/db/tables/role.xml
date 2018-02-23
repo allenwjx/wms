@@ -44,6 +44,20 @@
         </sql>
     </operation>
 
+    <operation name="queryByIds" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="Role.columns"/>
+            FROM role
+            WHERE
+            id IN
+            <iterate open="(" conjunction="," close=")" property="roleIds">
+                #roleIds[]#
+            </iterate>
+            AND enabled = #enabled#
+        </sql>
+    </operation>
+
     <operation name="queryByName" multiplicity="one">
         <sql>
             SELECT

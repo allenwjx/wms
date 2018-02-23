@@ -74,6 +74,13 @@ $(document).ready(function () {
                     backdrop: 'static'
                 });
             },
+            setupRoles: function (id) {
+                $("#formModal").modal({
+                    show: true,
+                    remote: __ctx + "/page/user/bg/roleSetup?id=" + id,
+                    backdrop: 'static'
+                });
+            },
             delete: function (id, enabled) {
                 var self = this;
                 var p = "";
