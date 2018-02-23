@@ -85,6 +85,18 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         id IN              (             ?                      )                      AND enabled = ?</pre>
+	 */
+	public List<AuthorizationDO> queryByIds(java.util.List<Long> authIds ,Integer enabled) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("authIds",authIds);
+		param.put("enabled",enabled);
+		return (List<AuthorizationDO>)getSqlMapClientTemplate().queryForList("wms.Authorization.queryByIds",param);
+	}
+
+	/**
+	 * 
+	 * sql: 
 	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         code = ?          AND enabled = 1</pre>
 	 */
 	public AuthorizationDO queryByCode(String code) throws DataAccessException {

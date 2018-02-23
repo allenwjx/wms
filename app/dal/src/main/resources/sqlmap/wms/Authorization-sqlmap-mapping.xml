@@ -63,6 +63,23 @@
 	
     
 	
+	<select id="wms.Authorization.queryByIds" resultMap="RM.Authorization" >
+    	SELECT
+ /*wms.Authorization.queryByIds*/             <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE
+            id IN
+            <iterate close=")" conjunction="," open="(" property="authIds">
+                #authIds[]#
+            </iterate>
+            AND enabled = #enabled#
+	</select>	
+
+	    
+	
+	
+    
+	
 	<select id="wms.Authorization.queryByCode" resultMap="RM.Authorization" >
     	SELECT
  /*wms.Authorization.queryByCode*/             <include refid="Authorization.columns"/>

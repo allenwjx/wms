@@ -21,8 +21,8 @@
     
 	<insert id="wms.RoleAuthorizationLink.insert">
 		INSERT INTO role_authorization_link (
-	        	id ,role_id ,auth_id 
-	        ) VALUES (#id#,#roleId#,#authId#)
+            id ,role_id ,auth_id
+            ) VALUES (#id#,#roleId#,#authId#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -31,25 +31,32 @@
 	
 	<delete id="wms.RoleAuthorizationLink.delete">
 		DELETE FROM role_authorization_link WHERE
-	        id = #id#
+            id = #id#
+    </delete>
+    
+	
+	
+	<delete id="wms.RoleAuthorizationLink.deleteByRoleId">
+		DELETE FROM role_authorization_link WHERE
+            role_id = #roleId#
     </delete>
     
 	
 	<update id="wms.RoleAuthorizationLink.update">
 		UPDATE role_authorization_link SET
-		        role_id = #roleId# ,auth_id = #authId# 
-	        WHERE 
-	        	id = #id#
+            role_id = #roleId# ,auth_id = #authId#
+            WHERE
+            id = #id#
 	</update>
 	
     
 	
 	<select id="wms.RoleAuthorizationLink.queryById" resultMap="RM.RoleAuthorizationLink" >
     	SELECT
- /*wms.RoleAuthorizationLink.queryById*/ 		    <include refid="RoleAuthorizationLink.columns"/>
-	        FROM role_authorization_link 
-	        WHERE 
-		        id = #id#
+ /*wms.RoleAuthorizationLink.queryById*/             <include refid="RoleAuthorizationLink.columns"/>
+            FROM role_authorization_link
+            WHERE
+            id = #id#
 	</select>	
 
 	    
@@ -57,16 +64,27 @@
 	
     
 	
-	<select id="wms.RoleAuthorizationLink.findPage" resultMap="RM.RoleAuthorizationLink" >
-    	SELECT  /*wms.RoleAuthorizationLink.findPage*/ 
-			<include refid="RoleAuthorizationLink.columns"/>
-			FROM role_authorization_link
-			limit #offset#,#limit#
+	<select id="wms.RoleAuthorizationLink.queryByRoleId" resultClass="Long" >
+    	SELECT
+ /*wms.RoleAuthorizationLink.queryByRoleId*/             auth_id
+            FROM role_authorization_link
+            WHERE
+            role_id = #roleId#
 	</select>	
 
-	<select id="wms.RoleAuthorizationLink.findPage.count" resultClass="long" >
-    	select  /*wms.RoleAuthorizationLink.findPage.count*/ count(*) 	FROM role_authorization_link
-	</select>
+	    
+	
+	
+    
+	
+	<select id="wms.RoleAuthorizationLink.queryByAuthId" resultClass="Long" >
+    	SELECT
+ /*wms.RoleAuthorizationLink.queryByAuthId*/             role_id
+            FROM role_authorization_link
+            WHERE
+            auth_id = #authId#
+	</select>	
+
 	    
 	
 	

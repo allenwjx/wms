@@ -63,6 +63,13 @@ public interface AuthorizationDAO {
 	/**
 	 * 
 	 * sql:
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         id IN              (             ?                      )                      AND enabled = ?</pre> 
+	 */
+	public List<AuthorizationDO> queryByIds(java.util.List<Long> authIds ,Integer enabled) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
 	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         code = ?          AND enabled = 1</pre> 
 	 */
 	public AuthorizationDO queryByCode(String code) throws DataAccessException;

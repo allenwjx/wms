@@ -1,4 +1,4 @@
-package com.zeh.wms.web.controller.basic.auth;
+package com.zeh.wms.web.controller.basic.security;
 
 import javax.annotation.Resource;
 

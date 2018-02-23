@@ -109,4 +109,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="${rc.contextPath}/js/wms/basic/auth/authIndex.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/wms/basic/auth/index.js"></script>

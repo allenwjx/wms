@@ -1,6 +1,7 @@
 package com.zeh.wms.biz.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.ServiceException;
@@ -37,6 +38,15 @@ public interface AuthorizationService {
      * @throws ServiceException 资源权限查询异常
      */
     AuthorizationVO findAuthorizationById(long id) throws ServiceException;
+
+    /**
+     * 根据资源权限ID查询资源权限信息
+     *
+     * @param authIds 资源权限ID集合
+     * @return 资源权限信息
+     * @throws ServiceException 资源权限查询异常
+     */
+    Collection<AuthorizationVO> findAuthorizationByIds(List<Long> authIds) throws ServiceException;
 
     /**
      * 分页查询资源权限信息

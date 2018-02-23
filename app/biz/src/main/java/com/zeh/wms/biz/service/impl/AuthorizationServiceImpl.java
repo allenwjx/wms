@@ -5,8 +5,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.wms.biz.error.BizErrorFactory;
@@ -19,7 +22,6 @@ import com.zeh.wms.biz.utils.CodeGenerator;
 import com.zeh.wms.dal.daointerface.AuthorizationDAO;
 import com.zeh.wms.dal.dataobject.AuthorizationDO;
 import com.zeh.wms.dal.operation.authorization.QueryByPageQuery;
-import org.springframework.stereotype.Service;
 
 /**
  * @author allen
@@ -54,7 +56,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         }
         ado = authorizationDAO.queryByPath(authorization.getPath());
         if (ado != null) {
-            throw new ServiceException(ERROR_FACTORY.authorizatonResourceExistError(authorization.getPath()));
+            throw new ServiceException(ERROR_FACTORY.authorizationResourceExistError(authorization.getPath()));
         }
         authorization.setCode(CodeGenerator.generateAuthCode());
         authorization.setEnabled(StateEnum.Y);
@@ -84,7 +86,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         if (StringUtils.isNotBlank(authorization.getPath())) {
             authorizationDO = authorizationDAO.queryByPath(authorization.getPath());
             if (authorizationDO != null && authorization.getId() != authorizationDO.getId()) {
-                throw new ServiceException(ERROR_FACTORY.authorizatonResourceExistError(authorization.getPath()));
+                throw new ServiceException(ERROR_FACTORY.authorizationResourceExistError(authorization.getPath()));
             }
         }
 
@@ -108,6 +110,22 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     public AuthorizationVO findAuthorizationById(long id) throws ServiceException {
         AuthorizationDO authorizationDO = authorizationDAO.queryById(id);
         return mapper.do2vo(authorizationDO);
+    }
+
+    /**
+     * 根据资源权限ID查询资源权限信息
+     *
+     * @param authIds 资源权限ID集合
+     * @return 资源权限信息
+     * @throws ServiceException 资源权限查询异常
+     */
+    @Override
+    public Collection<AuthorizationVO> findAuthorizationByIds(List<Long> authIds) throws ServiceException {
+        if (CollectionUtils.isEmpty(authIds)) {
+            return Lists.newArrayList();
+        }
+        List<AuthorizationDO> authorizationDOs = authorizationDAO.queryByIds(authIds, StateEnum.Y.getCode());
+        return mapper.do2vos(authorizationDOs);
     }
 
     /**

@@ -1,10 +1,15 @@
-var auth_edit_vm;
+var role_edit_vm;
 $(document).ready(function () {
     debugger;
-    auth_edit_vm = new Vue({
+    role_edit_vm = new Vue({
         el: '#modalForm',
         data: {
-            manufacturers: [],
+            applyTransferConfig: {
+                infoText: "",
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false
+            },
+            authorizations: [],
             model: {}
         },
         ready: function () {
@@ -15,7 +20,13 @@ $(document).ready(function () {
                 var self = this;
                 $.ajax({
                     type: 'GET',
-                    url: __ctx + "/basic/auth/edit",
+                    url: __ctx + "/combo/authorizations"
+                }).done(function (resp) {
+                    self.authorizations = resp;
+                });
+                $.ajax({
+                    type: 'GET',
+                    url: __ctx + "/basic/role/edit",
                     data: {id: $("#id").val()}
                 }).done(function (result) {
                     self.model = result;
@@ -25,11 +36,11 @@ $(document).ready(function () {
                 $("#modalForm").data('bootstrapValidator', null);
                 this.validator();
                 var me = this.model;
-                var url = __ctx + "/basic/auth/save";
+                var url = __ctx + "/basic/role/save";
                 var method = "POST";
                 if (this.model.id) {
                     method = "PUT";
-                    url = __ctx + "/basic/auth/update";
+                    url = __ctx + "/basic/role/update";
                 }
                 $("#modalForm").data('bootstrapValidator').validate();
                 if ($("#modalForm").data('bootstrapValidator').isValid()) {
@@ -44,7 +55,7 @@ $(document).ready(function () {
                             if (data && data.success) {
                                 $('#formModal').modal('hide');
                                 toastr.success('操作成功', {timeOut: 1500, positionClass: "toast-top-center"});
-                                auth_vm.preQuery();
+                                role_vm.preQuery();
                             } else {
                                 toastr.error(data.errorMessage, {timeOut: 1500, positionClass: "toast-top-center"});
                             }
@@ -62,14 +73,7 @@ $(document).ready(function () {
                         name: {
                             validators: {
                                 notEmpty: {
-                                    message: '请输入资源权限名称'
-                                }
-                            }
-                        },
-                        path: {
-                            validators: {
-                                notEmpty: {
-                                    message: '请输入资源路径'
+                                    message: '请输入角色名称'
                                 }
                             }
                         }

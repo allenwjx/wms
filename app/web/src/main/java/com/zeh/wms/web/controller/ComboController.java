@@ -8,14 +8,8 @@ import com.google.common.collect.Lists;
 import com.zeh.jungle.web.basic.EnumUtil;
 import com.zeh.jungle.web.basic.TextValue;
 import com.zeh.wms.biz.exception.ServiceException;
-import com.zeh.wms.biz.model.AgentVO;
-import com.zeh.wms.biz.model.CommodityVO;
-import com.zeh.wms.biz.model.ManufacturerVO;
-import com.zeh.wms.biz.model.RegionsVO;
-import com.zeh.wms.biz.service.AgentService;
-import com.zeh.wms.biz.service.CommodityService;
-import com.zeh.wms.biz.service.ManufacturerService;
-import com.zeh.wms.biz.service.RegionsService;
+import com.zeh.wms.biz.model.*;
+import com.zeh.wms.biz.service.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,15 +33,17 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/combo")
 public class ComboController extends BaseController {
-    private static Logger       logger = LoggerFactory.getLogger(ComboController.class);
+    private static Logger        logger = LoggerFactory.getLogger(ComboController.class);
     @Resource
-    private ManufacturerService manufacturerService;
+    private ManufacturerService  manufacturerService;
     @Resource
-    private AgentService agentService;
+    private AgentService         agentService;
     @Resource
-    private RegionsService      regionsService;
+    private RegionsService       regionsService;
     @Resource
-    private CommodityService    commodityService;
+    private CommodityService     commodityService;
+    @Resource
+    private AuthorizationService authorizationService;
 
     /**
      * 获取枚举作为下拉列表选项.
@@ -233,6 +229,26 @@ public class ComboController extends BaseController {
             Collection<CommodityVO> commodities = commodityService.findAllCommodities();
             if (CollectionUtils.isNotEmpty(commodities)) {
                 result.addAll(commodities.stream().map(item -> new TextValue(item.getId(), item.getName())).collect(Collectors.toList()));
+            }
+        } catch (ServiceException e) {
+            logger.error("异常", e);
+        }
+        return result;
+    }
+
+    /**
+     * 获取有效权限信息
+     *
+     * @return list list
+     */
+    @RequestMapping(value = "/authorizations", method = RequestMethod.GET)
+    @ResponseBody
+    public List<TextValue> loadAuthorizations() {
+        List<TextValue> result = Lists.newArrayList();
+        try {
+            Collection<AuthorizationVO> auths = authorizationService.findAllAuthorizations();
+            if (CollectionUtils.isNotEmpty(auths)) {
+                result.addAll(auths.stream().map(item -> new TextValue(String.valueOf(item.getId()), item.getName())).collect(Collectors.toList()));
             }
         } catch (ServiceException e) {
             logger.error("异常", e);

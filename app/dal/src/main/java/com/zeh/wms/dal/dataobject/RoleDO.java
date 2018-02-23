@@ -44,13 +44,17 @@ public class RoleDO implements java.io.Serializable {
 	 */
 	private String name;
 	/**
+	 * 启用状态，0-未启用，1-已启用 		db_column: enabled 
+	 */
+	private int enabled;
+	/**
 	 * gmtCreate 		db_column: gmt_create 
 	 */
 	private Date gmtCreate;
 	/**
-	 * gmtModified 		db_column: gmt_modified 
+	 * gmtModify 		db_column: gmt_modify 
 	 */
-	private Date gmtModified;
+	private Date gmtModify;
 	/**
 	 * createBy 		db_column: create_by 
 	 */
@@ -77,6 +81,14 @@ public class RoleDO implements java.io.Serializable {
 		return this.name;
 	}
 	
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+	
+	public int getEnabled() {
+		return this.enabled;
+	}
+	
 	public void setGmtCreate(Date gmtCreate) {
 		this.gmtCreate = gmtCreate;
 	}
@@ -85,12 +97,12 @@ public class RoleDO implements java.io.Serializable {
 		return this.gmtCreate;
 	}
 	
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
+	public void setGmtModify(Date gmtModify) {
+		this.gmtModify = gmtModify;
 	}
 	
-	public Date getGmtModified() {
-		return this.gmtModified;
+	public Date getGmtModify() {
+		return this.gmtModify;
 	}
 	
 	public void setCreateBy(String createBy) {
@@ -113,8 +125,9 @@ public class RoleDO implements java.io.Serializable {
 		return new ToStringBuilder(this)
 			.append("Id",getId())
 			.append("Name",getName())
+			.append("Enabled",getEnabled())
 			.append("GmtCreate",getGmtCreate())
-			.append("GmtModified",getGmtModified())
+			.append("GmtModify",getGmtModify())
 			.append("CreateBy",getCreateBy())
 			.append("ModifyBy",getModifyBy())
 			.toString();

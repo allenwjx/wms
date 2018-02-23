@@ -44,6 +44,20 @@
         </sql>
     </operation>
 
+    <operation name="queryByIds" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE
+            id IN
+            <iterate open="(" conjunction="," close=")" property="authIds">
+                #authIds[]#
+            </iterate>
+            AND enabled = #enabled#
+        </sql>
+    </operation>
+
     <operation name="queryByCode" multiplicity="one">
         <sql>
             SELECT

@@ -337,8 +337,45 @@ public class BizErrorFactory extends AbstractErrorFactory {
      * @param resource
      * @return
      */
-    public JGError authorizatonResourceExistError(String resource) {
+    public JGError authorizationResourceExistError(String resource) {
         return createError("JG0510018006", resource);
+    }
+
+    /**
+     * JG0510018007=角色创建失败，角色数据不能为空
+     *
+     * @return JGError
+     */
+    public JGError createRoleError() {
+        return createError("JG0510018007");
+    }
+
+    /**
+     * JG0510018008=角色更新失败，角色ID不能为空
+     *
+     * @return JGError
+     */
+    public JGError updateRoleError() {
+        return createError("JG0510018008");
+    }
+
+    /**
+     * JG0510018009=角色查询失败，查询条件不能为空
+     *
+     * @return JGError
+     */
+    public JGError queryRoleError() {
+        return createError("JG0510018009");
+    }
+
+    /**
+     * JG0510018010=角色【{0}】已存在
+     *
+     * @param name
+     * @return
+     */
+    public JGError roleExistError(String name) {
+        return createError("JG0510018010", name);
     }
 
     /**

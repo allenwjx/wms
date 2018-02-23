@@ -56,14 +56,14 @@ $(document).ready(function () {
             create: function () {
                 $("#formModal").modal({
                     show: true,
-                    remote: __ctx + "/page/basic/auth/authEdit",
+                    remote: __ctx + "/page/basic/auth/edit",
                     backdrop: 'static'
                 });
             },
             edit: function (id) {
                 $("#formModal").modal({
                     show: true,
-                    remote: __ctx + "/page/basic/auth/authEdit?id=" + id,
+                    remote: __ctx + "/page/basic/auth/edit?id=" + id,
                     backdrop: 'static'
                 });
             },

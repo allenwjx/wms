@@ -35,7 +35,7 @@ public interface RoleAuthorizationLinkDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         role_authorization_link         (           id ,role_id ,auth_id           )      VALUES         (?,?,?)</pre> 
+	 * <pre>INSERT      INTO         role_authorization_link         (             id ,role_id ,auth_id             )      VALUES         (?,?,?)</pre> 
 	 */
 	public long insert(RoleAuthorizationLinkDO roleAuthorizationLink) throws DataAccessException;
 
@@ -49,23 +49,37 @@ public interface RoleAuthorizationLinkDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         role_authorization_link      SET         role_id = ? ,auth_id = ?                WHERE         id = ?</pre> 
+	 * <pre>DELETE      FROM         role_authorization_link      WHERE         role_id = ?</pre> 
+	 */
+	public int deleteByRoleId(Long roleId) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>UPDATE         role_authorization_link      SET         role_id = ? ,auth_id = ?                  WHERE         id = ?</pre> 
 	 */
 	public int update(RoleAuthorizationLinkDO roleAuthorizationLink) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, role_id, auth_id                  FROM         role_authorization_link                WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, role_id, auth_id                       FROM         role_authorization_link                  WHERE         id = ?</pre> 
 	 */
 	public RoleAuthorizationLinkDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, role_id, auth_id            FROM         role_authorization_link</pre> 
+	 * <pre>SELECT         auth_id                  FROM         role_authorization_link                  WHERE         role_id = ?</pre> 
 	 */
-	public PageList<RoleAuthorizationLinkDO> findPage(int pageSize,int pageNum) throws DataAccessException;
+	public List<Long> queryByRoleId(Long roleId) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         role_id                  FROM         role_authorization_link                  WHERE         auth_id = ?</pre> 
+	 */
+	public List<Long> queryByAuthId(Long authId) throws DataAccessException;
 
 }
 
