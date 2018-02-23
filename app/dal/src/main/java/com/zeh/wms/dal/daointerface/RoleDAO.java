@@ -35,7 +35,7 @@ public interface RoleDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         role         (             id ,name ,enabled ,gmt_create ,gmt_modify ,create_by ,modify_by             )      VALUES         (?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre> 
+	 * <pre>INSERT      INTO         role         (             id ,name ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre> 
 	 */
 	public long insert(RoleDO role) throws DataAccessException;
 
@@ -49,35 +49,35 @@ public interface RoleDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         role      SET         name = ? , enabled = ? ,gmt_modify = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre> 
+	 * <pre>UPDATE         role      SET         name = ? , enabled = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre> 
 	 */
 	public int update(RoleDO role) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, name, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         role                  WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, name, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         role                  WHERE         id = ?</pre> 
 	 */
 	public RoleDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, name, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         role                  WHERE         name = ?          AND enabled = 1</pre> 
+	 * <pre>SELECT         id, name, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         role                  WHERE         name = ?          AND enabled = 1</pre> 
 	 */
 	public RoleDO queryByName(String name) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, name, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         role                  WHERE         1=1                                        AND                      name = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modify DESC</pre> 
+	 * <pre>SELECT         id, name, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         role                  WHERE         1=1                                        AND                      name = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modified DESC</pre> 
 	 */
 	public PageList<RoleDO> queryByPage(QueryByPageQuery param) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, name, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         role                  WHERE         enabled = 1;</pre> 
+	 * <pre>SELECT         id, name, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         role                  WHERE         enabled = 1;</pre> 
 	 */
 	public List<RoleDO> queryAllEnabled() throws DataAccessException;
 

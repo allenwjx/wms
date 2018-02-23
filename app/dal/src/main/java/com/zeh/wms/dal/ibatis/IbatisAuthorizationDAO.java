@@ -42,7 +42,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         authorization         (             id ,name ,code ,path ,enabled ,gmt_create ,gmt_modify ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
+	 * <pre>INSERT      INTO         authorization         (             id ,name ,code ,path ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(AuthorizationDO authorization) throws DataAccessException {
 		if(authorization == null) {
@@ -64,7 +64,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         authorization      SET         name = ? ,code = ? ,path = ? ,enabled = ? ,gmt_modify = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre>
+	 * <pre>UPDATE         authorization      SET         name = ? ,code = ? ,path = ? ,enabled = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre>
 	 */
 	public int update(AuthorizationDO authorization) throws DataAccessException {
 		if(authorization == null) {
@@ -76,7 +76,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         id = ?</pre>
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         authorization                  WHERE         id = ?</pre>
 	 */
 	public AuthorizationDO queryById(Long id) throws DataAccessException {
 		return (AuthorizationDO)getSqlMapClientTemplate().queryForObject("wms.Authorization.queryById",id);
@@ -85,7 +85,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         id IN              (             ?                      )                      AND enabled = ?</pre>
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         authorization                  WHERE         id IN              (             ?                      )                      AND enabled = ?</pre>
 	 */
 	public List<AuthorizationDO> queryByIds(java.util.List<Long> authIds ,Integer enabled) throws DataAccessException {
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -97,7 +97,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         code = ?          AND enabled = 1</pre>
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         authorization                  WHERE         code = ?          AND enabled = 1</pre>
 	 */
 	public AuthorizationDO queryByCode(String code) throws DataAccessException {
 		return (AuthorizationDO)getSqlMapClientTemplate().queryForObject("wms.Authorization.queryByCode",code);
@@ -106,7 +106,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         name = ?          AND enabled = 1</pre>
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         authorization                  WHERE         name = ?          AND enabled = 1</pre>
 	 */
 	public AuthorizationDO queryByName(String name) throws DataAccessException {
 		return (AuthorizationDO)getSqlMapClientTemplate().queryForObject("wms.Authorization.queryByName",name);
@@ -115,7 +115,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         path = ?          AND enabled = 1</pre>
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         authorization                  WHERE         path = ?          AND enabled = 1</pre>
 	 */
 	public AuthorizationDO queryByPath(String path) throws DataAccessException {
 		return (AuthorizationDO)getSqlMapClientTemplate().queryForObject("wms.Authorization.queryByPath",path);
@@ -124,7 +124,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         1=1                                        AND                      name = ?                                            AND                      code = ?                                            AND                      path = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modify DESC</pre>
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         authorization                  WHERE         1=1                                        AND                      name = ?                                            AND                      code = ?                                            AND                      path = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modified DESC</pre>
 	 */
 	public PageList<AuthorizationDO> queryByPage(QueryByPageQuery param) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Authorization.queryByPage",param);
@@ -133,7 +133,7 @@ public class IbatisAuthorizationDAO extends SqlMapClientDaoSupport implements Au
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         enabled = 1;</pre>
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         authorization                  WHERE         enabled = 1;</pre>
 	 */
 	public List<AuthorizationDO> queryAllEnabled() throws DataAccessException {
 		return (List<AuthorizationDO>)getSqlMapClientTemplate().queryForList("wms.Authorization.queryAllEnabled",null);

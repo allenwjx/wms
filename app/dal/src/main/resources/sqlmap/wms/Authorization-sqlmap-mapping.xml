@@ -12,13 +12,13 @@
 		<result property="path" column="path" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="enabled" column="enabled" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
-		<result property="gmtModify" column="gmt_modify" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
     </resultMap>
     
 	<sql id="Authorization.columns">
-		id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by
+		id, name, code, path, enabled, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -27,7 +27,7 @@
     
 	<insert id="wms.Authorization.insert">
 		INSERT INTO authorization (
-            id ,name ,code ,path ,enabled ,gmt_create ,gmt_modify ,create_by ,modify_by
+            id ,name ,code ,path ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by
             ) VALUES (#id#,#name#,#code#,#path#,#enabled#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
@@ -43,7 +43,7 @@
 	
 	<update id="wms.Authorization.update">
 		UPDATE authorization SET
-            name = #name# ,code = #code# ,path = #path# ,enabled = #enabled# ,gmt_modify = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+            name = #name# ,code = #code# ,path = #path# ,enabled = #enabled# ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
             WHERE
             id = #id#
 	</update>
@@ -138,7 +138,7 @@
                     enabled = #enabled#
                 </isNotEmpty>
             </dynamic>
-            ORDER BY gmt_modify DESC
+            ORDER BY gmt_modified DESC
 			limit #offset#,#limit#
 	</select>	
 

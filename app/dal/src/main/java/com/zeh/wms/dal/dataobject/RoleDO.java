@@ -52,9 +52,9 @@ public class RoleDO implements java.io.Serializable {
 	 */
 	private Date gmtCreate;
 	/**
-	 * gmtModify 		db_column: gmt_modify 
+	 * gmtModified 		db_column: gmt_modified 
 	 */
-	private Date gmtModify;
+	private Date gmtModified;
 	/**
 	 * createBy 		db_column: create_by 
 	 */
@@ -97,12 +97,12 @@ public class RoleDO implements java.io.Serializable {
 		return this.gmtCreate;
 	}
 	
-	public void setGmtModify(Date gmtModify) {
-		this.gmtModify = gmtModify;
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
 	}
 	
-	public Date getGmtModify() {
-		return this.gmtModify;
+	public Date getGmtModified() {
+		return this.gmtModified;
 	}
 	
 	public void setCreateBy(String createBy) {
@@ -127,7 +127,7 @@ public class RoleDO implements java.io.Serializable {
 			.append("Name",getName())
 			.append("Enabled",getEnabled())
 			.append("GmtCreate",getGmtCreate())
-			.append("GmtModify",getGmtModify())
+			.append("GmtModified",getGmtModified())
 			.append("CreateBy",getCreateBy())
 			.append("ModifyBy",getModifyBy())
 			.toString();

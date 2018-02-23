@@ -5,13 +5,13 @@
     <!-- 不需要配置的列请删除 -->
 
     <sql id="Authorization.columns">
-        id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by
+        id, name, code, path, enabled, gmt_create, gmt_modified, create_by, modify_by
     </sql>
 
     <operation name="insert" paramtype="object">
         <sql>
             INSERT INTO authorization (
-            id ,name ,code ,path ,enabled ,gmt_create ,gmt_modify ,create_by ,modify_by
+            id ,name ,code ,path ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by
             ) VALUES (
             ? ,? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
             )
@@ -28,7 +28,7 @@
     <operation name="update" paramtype="object">
         <sql>
             UPDATE authorization SET
-            name = ? ,code = ? ,path = ? ,enabled = ? ,gmt_modify = CURRENT_TIMESTAMP ,modify_by = ?
+            name = ? ,code = ? ,path = ? ,enabled = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
             WHERE
             id = ?
         </sql>
@@ -108,7 +108,7 @@
                     enabled = #enabled#
                 </isNotEmpty>
             </dynamic>
-            ORDER BY gmt_modify DESC
+            ORDER BY gmt_modified DESC
         </sql>
     </operation>
 

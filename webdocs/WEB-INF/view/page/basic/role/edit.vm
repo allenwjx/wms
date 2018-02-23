@@ -18,8 +18,11 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">权限</label>
             <div class="col-sm-8">
-                <vue-select id="authorizations" name="authorizations" :options="authorizations" :model.sync="model.authorizations" :configs="applyTransferConfig" :transfer="true"
-                            :multiple="true" :infoText="false"></vue-select>
+                <template v-for="item in authorizations">
+                    <label class="checkbox-inline">
+                        <input name="authorization" type="checkbox" v-model="model.authorizations" v-bind:value="item.value"> {{item.text}}
+                    </label>
+                </template>
             </div>
         </div>
     </div>
