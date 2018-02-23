@@ -5,11 +5,11 @@ import java.util.Collection;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
-import com.zeh.jungle.utils.security.MD5Utils;
 import com.zeh.wms.biz.error.BizErrorFactory;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.UserBgMapper;
@@ -35,6 +35,9 @@ public class UserBgServiceImpl implements UserBgService {
     /** 后台用户DAO */
     @Resource
     private UserBgDAO                    userBgDAO;
+    /** 密码加解密服务 */
+    @Resource
+    private PasswordEncoder              passwordEncoder;
 
     /**
      * 创建后台用户
@@ -51,7 +54,8 @@ public class UserBgServiceImpl implements UserBgService {
         if (existUserBg != null) {
             throw new ServiceException(ERROR_FACTORY.userBgNameExistError(userBg.getUsername()));
         }
-        userBg.setPassword(MD5Utils.encrypt(userBg.getPassword(), "UTF-8", false));
+        String encodedPassword = passwordEncoder.encode(userBg.getPassword());
+        userBg.setPassword(encodedPassword);
         userBg.setEnabled(StateEnum.Y);
         UserBgDO userBgDO = mapper.vo2do(userBg);
         userBgDAO.insert(userBgDO);
@@ -68,19 +72,10 @@ public class UserBgServiceImpl implements UserBgService {
         if (userBg == null || userBg.getId() <= 0) {
             throw new ServiceException(ERROR_FACTORY.updateUserBgError());
         }
-        if (StringUtils.isNotBlank(userBg.getUsername())) {
-            UserBgDO existUserBg = userBgDAO.queryByUsername(userBg.getUsername());
-            if (existUserBg != null && existUserBg.getId() != userBg.getId()) {
-                throw new ServiceException(ERROR_FACTORY.userBgNameExistError(userBg.getUsername()));
-            }
-        }
-
         UserBgDO userBgDO = userBgDAO.queryById(userBg.getId());
         if (StringUtils.isNotBlank(userBg.getPassword())) {
-            String encodedPassword = MD5Utils.encrypt(userBg.getPassword(), "UTF-8", false);
-            if (!StringUtils.equals(encodedPassword, userBgDO.getPassword())) {
-                userBgDO.setPassword(encodedPassword);
-            }
+            String encodedPassword = passwordEncoder.encode(userBg.getPassword());
+            userBgDO.setPassword(encodedPassword);
         }
         userBgDO.setEnabled(userBg.getEnabled() != null ? userBg.getEnabled().getCode() : userBgDO.getEnabled());
         userBgDO.setModifyBy(userBg.getModifyBy());

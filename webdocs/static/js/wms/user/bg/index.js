@@ -67,6 +67,13 @@ $(document).ready(function () {
                     backdrop: 'static'
                 });
             },
+            changePwd: function (id) {
+                $("#formModal").modal({
+                    show: true,
+                    remote: __ctx + "/page/user/bg/changePwd?id=" + id,
+                    backdrop: 'static'
+                });
+            },
             delete: function (id, enabled) {
                 var self = this;
                 var p = "";

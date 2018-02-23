@@ -2,15 +2,13 @@ package com.zeh.wms.web.controller.user.bg;
 
 import javax.annotation.Resource;
 
-import com.zeh.jungle.utils.page.SingleResult;
-import com.zeh.wms.biz.model.CommodityVO;
-import com.zeh.wms.web.form.CommodityForm;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.Paginator;
+import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.UserBgVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
@@ -42,9 +40,19 @@ public class UserBgController extends BaseController {
         UserBgForm form = new UserBgForm();
         if (id != null) {
             UserBgVO userBgVO = userBgService.findUserBgById(id);
+            form.setId(userBgVO.getId());
             form.setUsername(userBgVO.getUsername());
-            form.setPassword(userBgVO.getPassword());
-            form.setEnabled(userBgVO.getEnabled().getCode());
+        }
+        return form;
+    }
+
+    @RequestMapping("changePwd")
+    @ResponseBody
+    public UserBgForm changePwd(Long id) throws ServiceException {
+        UserBgForm form = new UserBgForm();
+        if (id != null) {
+            UserBgVO userBgVO = userBgService.findUserBgById(id);
+            form.setUsername(userBgVO.getUsername());
             form.setId(userBgVO.getId());
         }
         return form;

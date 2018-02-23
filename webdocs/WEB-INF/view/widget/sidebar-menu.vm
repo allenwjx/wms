@@ -19,12 +19,6 @@
             data-auto-scroll="true" data-slide-speed="200" style="width:270px; position: fixed; z-index: 2000;">
             <input class="form-control" id="menuName" name="menuName" v-model="menuName" placeholder="请输入..."></input>
             <li>
-                <a href="javascript:;"><i class="icon-diamond"></i><span class="title">基础数据管理</span><span class="arrow open"></span></a>
-                <ul class="sub-menu ul-sec">
-                    <li><a href="${rc.contextPath}/page/basic/regions/index"><i class="fa fa-cab"></i>省市区管理</a></li>
-                </ul>
-            </li>
-            <li>
                 <a href="javascript:;"><i class="icon-plane"></i><span class="title">销售管理</span><span class="arrow "></span></a>
                 <ul class="sub-menu ul-sec">
                     <li><a href="${rc.contextPath}/page/sale/commodity/index"><i class="fa fa-cab"></i>商品管理</a></li>
@@ -32,7 +26,22 @@
                     <li><a href="${rc.contextPath}/page/sale/auxiliary/index"><i class="fa fa-cab"></i>辅材价格管理</a></li>
                 </ul>
             </li>
-
+            <li>
+                <a href="javascript:;"><i class="icon-plane"></i><span class="title">订单管理</span><span class="arrow "></span></a>
+                <ul class="sub-menu ul-sec">
+                    <li><a href="#"  ><i class="fa fa-cab"></i>验证单管理</a></li>
+                    <li><a href="${rc.contextPath}/page/order/express/index"  ><i class="fa fa-cab"></i>快递单管理</a></li>
+                    <li><a href="${rc.contextPath}/page/order/payment/index"  ><i class="fa fa-cab"></i>支付单管理</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;"><i class="icon-energy"></i><span class="title">二维码管理</span><span class="arrow "></span></a>
+                <ul class="sub-menu ul-sec">
+                    <li><a href="#"><i class="fa fa-cab"></i>二维码管理</a></li>
+                    <li><a href="${rc.contextPath}/page/qr/batch/index"><i class="fa fa-cab"></i>二维码批次管理</a></li>
+                    <li><a href="#"><i class="fa fa-cab"></i>二维码生成</a></li>
+                </ul>
+            </li>
             <li>
                 <a href="javascript:;"><i class="icon-plane"></i><span class="title">客户管理</span><span class="arrow "></span></a>
                 <ul class="sub-menu ul-sec">
@@ -48,19 +57,9 @@
                 </ul>
             </li>
             <li>
-                <a href="javascript:;"><i class="icon-energy"></i><span class="title">二维码管理</span><span class="arrow "></span></a>
+                <a href="javascript:;"><i class="icon-diamond"></i><span class="title">基础数据管理</span><span class="arrow open"></span></a>
                 <ul class="sub-menu ul-sec">
-                    <li><a href="#"><i class="fa fa-cab"></i>二维码管理</a></li>
-                    <li><a href="${rc.contextPath}/page/qr/batch/index"><i class="fa fa-cab"></i>二维码批次管理</a></li>
-                    <li><a href="#"><i class="fa fa-cab"></i>二维码生成</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;"><i class="icon-plane"></i><span class="title">订单管理</span><span class="arrow "></span></a>
-                <ul class="sub-menu ul-sec">
-                    <li><a href="#"  ><i class="fa fa-cab"></i>验证单管理</a></li>
-                    <li><a href="${rc.contextPath}/page/order/express/index"  ><i class="fa fa-cab"></i>快递单管理</a></li>
-                    <li><a href="${rc.contextPath}/page/order/payment/index"  ><i class="fa fa-cab"></i>支付单管理</a></li>
+                    <li><a href="${rc.contextPath}/page/basic/regions/index"><i class="fa fa-cab"></i>省市区管理</a></li>
                 </ul>
             </li>
             <li>
