@@ -42,7 +42,7 @@ public class IbatisExpressOrderDAO extends SqlMapClientDaoSupport implements Exp
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         express_order         (           id ,order_no ,other_order_no ,code ,status ,sender_name ,sender_tel ,sender_province ,sender_city ,sender_region ,sender_address_detail ,sender_zip_code ,receiver_name ,receiver_tel ,receiver_province ,receiver_city ,receiver_region ,receiver_address_detail ,receiver_zip_code ,express_type ,total_price ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         express_order         (           id ,order_no ,other_order_no ,code ,status ,sender_name ,sender_tel ,sender_province ,sender_city ,sender_region ,sender_address_detail ,sender_zip_code ,receiver_name ,receiver_tel ,receiver_province ,receiver_city ,receiver_region ,receiver_address_detail ,receiver_zip_code ,express_type ,total_price ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(ExpressOrderDO expressOrder) throws DataAccessException {
 		if(expressOrder == null) {
@@ -64,7 +64,7 @@ public class IbatisExpressOrderDAO extends SqlMapClientDaoSupport implements Exp
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         express_order      SET         order_no = ? ,other_order_no = ? ,code = ? ,status = ? ,sender_name = ? ,sender_tel = ? ,sender_province = ? ,sender_city = ? ,sender_region = ? ,sender_address_detail = ? ,sender_zip_code = ? ,receiver_name = ? ,receiver_tel = ? ,receiver_province = ? ,receiver_city = ? ,receiver_region = ? ,receiver_address_detail = ? ,receiver_zip_code = ? ,express_type = ? ,total_price = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre>
+	 * <pre>UPDATE         express_order      SET         order_no = ? ,other_order_no = ? ,code = ? ,status = ? ,sender_name = ? ,sender_tel = ? ,sender_province = ? ,sender_city = ? ,sender_region = ? ,sender_address_detail = ? ,sender_zip_code = ? ,receiver_name = ? ,receiver_tel = ? ,receiver_province = ? ,receiver_city = ? ,receiver_region = ? ,receiver_address_detail = ? ,receiver_zip_code = ? ,express_type = ? ,total_price = ? ,gmt_modified = CURRENT_TIMESTAMP ,create_by = ? ,modify_by = ?               WHERE         id = ?</pre>
 	 */
 	public int update(ExpressOrderDO expressOrder) throws DataAccessException {
 		if(expressOrder == null) {

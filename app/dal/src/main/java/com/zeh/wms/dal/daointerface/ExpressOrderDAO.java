@@ -2,13 +2,21 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.wms.dal.dataobject.ExpressOrderDO;
-import com.zeh.wms.dal.operation.expressorder.FindPageQuery;
-import com.zeh.wms.dal.operation.expressorder.GetAllByParsQuery;
 import org.springframework.dao.DataAccessException;
+import com.zeh.wms.dal.operation.expressorder.*;
+import com.zeh.wms.dal.dataobject.*;
 
-import java.util.List;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * ExpressOrderDAO
  * database table: express_order
@@ -27,7 +35,7 @@ public interface ExpressOrderDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         express_order         (           id ,order_no ,other_order_no ,code ,status ,sender_name ,sender_tel ,sender_province ,sender_city ,sender_region ,sender_address_detail ,sender_zip_code ,receiver_name ,receiver_tel ,receiver_province ,receiver_city ,receiver_region ,receiver_address_detail ,receiver_zip_code ,express_type ,total_price ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         express_order         (           id ,order_no ,other_order_no ,code ,status ,sender_name ,sender_tel ,sender_province ,sender_city ,sender_region ,sender_address_detail ,sender_zip_code ,receiver_name ,receiver_tel ,receiver_province ,receiver_city ,receiver_region ,receiver_address_detail ,receiver_zip_code ,express_type ,total_price ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre> 
 	 */
 	public long insert(ExpressOrderDO expressOrder) throws DataAccessException;
 
@@ -41,7 +49,7 @@ public interface ExpressOrderDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         express_order      SET         order_no = ? ,other_order_no = ? ,code = ? ,status = ? ,sender_name = ? ,sender_tel = ? ,sender_province = ? ,sender_city = ? ,sender_region = ? ,sender_address_detail = ? ,sender_zip_code = ? ,receiver_name = ? ,receiver_tel = ? ,receiver_province = ? ,receiver_city = ? ,receiver_region = ? ,receiver_address_detail = ? ,receiver_zip_code = ? ,express_type = ? ,total_price = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         express_order      SET         order_no = ? ,other_order_no = ? ,code = ? ,status = ? ,sender_name = ? ,sender_tel = ? ,sender_province = ? ,sender_city = ? ,sender_region = ? ,sender_address_detail = ? ,sender_zip_code = ? ,receiver_name = ? ,receiver_tel = ? ,receiver_province = ? ,receiver_city = ? ,receiver_region = ? ,receiver_address_detail = ? ,receiver_zip_code = ? ,express_type = ? ,total_price = ? ,gmt_modified = CURRENT_TIMESTAMP ,create_by = ? ,modify_by = ?               WHERE         id = ?</pre> 
 	 */
 	public int update(ExpressOrderDO expressOrder) throws DataAccessException;
 

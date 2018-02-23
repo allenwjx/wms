@@ -53,7 +53,7 @@ public class QRCodeBatchServiceImpl implements QRCodeBatchService {
             throw new ServiceException(ERROR_FACTORY.createQRCodeBatchError());
         }
         qrCodeBatch.setBatchSerial(UUID.generateTimeBasedUUID());
-        qrCodeBatch.setQrcodeSerial(qrCodeBatch.getQrcodeSerial());
+        qrCodeBatch.setAmount (qrCodeBatch.getAmount());
         qrCodeBatch.setState(StateEnum.N);
         QrcodeBatchDO commodityDO = mapper.v2d(qrCodeBatch);
         qrcodeBatchDAO.insert(commodityDO);
@@ -105,7 +105,7 @@ public class QRCodeBatchServiceImpl implements QRCodeBatchService {
         QueryByPageQuery query = new QueryByPageQuery();
         query.setState(qrCodeBatch.getState() == null ? null : qrCodeBatch.getState().getCode());
         query.setBatchSerial(qrCodeBatch.getBatchSerial());
-        query.setQrcodeSerial(qrCodeBatch.getQrcodeSerial());
+        query.setAmount (qrCodeBatch.getAmount ());
         query.setPage(currentPage);
         query.setPageSize(size);
         PageList<QrcodeBatchDO> ret = qrcodeBatchDAO.queryByPage(query);

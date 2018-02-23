@@ -17,8 +17,8 @@ public class QRCodeBatchVO extends BaseVO {
     private static final long serialVersionUID = 1L;
     /** 批次号 */
     private String            batchSerial;
-    /** 二维码ID */
-    private String            qrcodeSerial;
+    /** 数量 */
+    private Integer           amount;
     /** 批次状态； 0-未使用，1-已使用 */
     private StateEnum         state;
 }

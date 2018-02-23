@@ -20,9 +20,9 @@
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <label class="control-label col-md-4">二维码编号</label>
+                                <label class="control-label col-md-4">数量</label>
                                 <div class="col-md-8">
-                                    <input class="form-control" id="qrcodeSerial" name="qrcodeSerial" type="text" v-model.trim="queryForm.qrcodeSerial"/>
+                                    <input class="form-control" id="amount" name="amount" type="int" v-model.trim="queryForm.amount"/>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
         <tr>
             <th>ID</th>
             <th>批次号</th>
-            <th>二维码编号</th>
+            <th>数量</th>
             <th>状态</th>
             <th>创建时间</th>
             <th>修改时间</th>
@@ -61,7 +61,7 @@
         <tr v-cloak v-for="item in pageResult.data">
             <td v-html="item.id"></td>
             <td v-html="item.batchSerial"></td>
-            <td v-html="item.qrcodeSerial"></td>
+            <td v-html="item.amount"></td>
             <td v-html="item.state | enumFormat states"></td>
             <td v-html="item.gmtCreate | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>

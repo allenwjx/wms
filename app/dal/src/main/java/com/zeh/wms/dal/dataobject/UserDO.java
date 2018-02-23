@@ -72,7 +72,7 @@ public class UserDO implements java.io.Serializable {
 	 */
 	private String modifyBy;
 	/**
-	 * 客户类型； 代理商：A； 厂商：B； 散客: C； 		db_column: type 
+	 * 客户类型；代理商：A；厂商：B；散客: C； 		db_column: type 
 	 */
 	private String type;
 

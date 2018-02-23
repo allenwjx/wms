@@ -2,21 +2,11 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import org.springframework.dao.DataAccessException;
-import com.zeh.wms.dal.operation.qrcode.*;
-import com.zeh.wms.dal.dataobject.*;
 
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import com.zeh.wms.dal.dataobject.QrcodeDO;
+import com.zeh.wms.dal.operation.qrcode.QueryPageByConditionsQuery;
+import org.springframework.dao.DataAccessException;
 /**
  * QrcodeDAO
  * database table: qrcode
@@ -35,7 +25,7 @@ public interface QrcodeDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         qrcode         (           id ,serial_no ,commodity_id ,data ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         qrcode         (           id ,serial_no ,commodity_id , batch_id, data ,gmt_create ,gmt_modified ,create_by ,modify_by          )      VALUES         (?,?,?,?,?,?,?,?,?)</pre> 
 	 */
 	public long insert(QrcodeDO qrcode) throws DataAccessException;
 
@@ -49,30 +39,44 @@ public interface QrcodeDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         qrcode      SET         serial_no = ? ,commodity_id = ? ,data = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         qrcode      SET         serial_no = ? ,commodity_id = ? , batch_id = ?, data = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?               WHERE         id = ?</pre> 
 	 */
 	public int update(QrcodeDO qrcode) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, serial_no, commodity_id, data, gmt_create, gmt_modified, create_by, modify_by                  FROM         qrcode                WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, serial_no, commodity_id, batch_id, data, gmt_create, gmt_modified, create_by, modify_by                 FROM         qrcode                WHERE         id = ?</pre> 
 	 */
 	public QrcodeDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, serial_no, commodity_id, data, gmt_create, gmt_modified, create_by, modify_by            FROM         qrcode</pre> 
+	 * <pre>SELECT         id, serial_no, commodity_id, batch_id, data, gmt_create, gmt_modified, create_by, modify_by           FROM         qrcode</pre> 
 	 */
 	public PageList<QrcodeDO> findPage(int pageSize,int pageNum) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, serial_no, commodity_id, data, gmt_create, gmt_modified, create_by, modify_by            FROM         qrcode         WHERE         commodity_id = ?</pre> 
+	 * <pre>SELECT         id, serial_no, commodity_id, batch_id, data, gmt_create, gmt_modified, create_by, modify_by           FROM         qrcode         WHERE         commodity_id = ?</pre> 
 	 */
 	public PageList<QrcodeDO> findByCommodityId(Long commodityId,int pageSize,int pageNum) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, serial_no, commodity_id, batch_id, data, gmt_create, gmt_modified, create_by, modify_by           FROM         qrcode         ORDER BY         gmt_modified DESC</pre> 
+	 */
+	public PageList<QrcodeDO> queryPageAll(int pageSize,int pageNum) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, serial_no, commodity_id, batch_id, data, gmt_create, gmt_modified, create_by, modify_by           FROM         qrcode         WHERE         commodity_id = ?                    AND       batch_id = ?                  ORDER BY         gmt_modified DESC</pre> 
+	 */
+	public PageList<QrcodeDO> queryPageByConditions(QueryPageByConditionsQuery param) throws DataAccessException;
 
 }
 

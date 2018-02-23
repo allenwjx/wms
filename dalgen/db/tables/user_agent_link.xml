@@ -13,7 +13,7 @@
 			INSERT INTO user_agent_link (
 	        	id ,user_id ,code ,type ,link_status ,gmt_create ,gmt_modified ,create_by ,modify_by 
 	        ) VALUES (
-	        	? ,? ,? ,? ,? ,? ,? ,? ,?         
+	        	? ,? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
 	        )
 		</sql>		
 	</operation>
@@ -28,10 +28,10 @@
 	<operation name="update" paramtype="object">
 		<sql>
 	        UPDATE user_agent_link SET
-		        user_id = ? ,code = ? ,type = ? ,link_status = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
+		        type = ? , code = ?, link_status = ? ,gmt_modified = CURRENT_TIMESTAMP , modify_by = ?
 	        WHERE 
-	        	id = ? 
-		</sql>					
+	        	id = ?
+		</sql>
 	</operation>
 
 	<operation name="queryById" multiplicity="one">
@@ -41,6 +41,41 @@
 	        FROM user_agent_link 
 	        WHERE 
 		        id = ? 
+		</sql>
+	</operation>
+
+	<operation name="queryByPar" multiplicity="one" paramtype="parameterObject">
+		<sql>
+			SELECT
+			<include refid="UserAgentLink.columns"/>
+			FROM user_agent_link
+			WHERE 1=1
+			<dynamic>
+				<isNotEmpty prepend="AND" property="userId">
+					user_id = #userId#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="AND" property="code">
+					code = #code#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="AND" property="type">
+					type = #type#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="linkStatus">
+					link_status = #linkStatus#
+				</isNotEmpty>
+			</dynamic>
+		</sql>
+	</operation>
+
+	<operation name="queryByUserId" multiplicity="one">
+		<sql>
+			SELECT
+			<include refid="UserAgentLink.columns"/>
+			FROM user_agent_link
+			WHERE
+			user_id = ? and link_status = ?
 		</sql>
 	</operation>
 

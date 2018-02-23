@@ -2,13 +2,21 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.wms.dal.dataobject.PaymentOrderDO;
-import com.zeh.wms.dal.operation.paymentorder.GetAllDataQuery;
-import com.zeh.wms.dal.operation.paymentorder.GetPageDataQuery;
 import org.springframework.dao.DataAccessException;
+import com.zeh.wms.dal.operation.paymentorder.*;
+import com.zeh.wms.dal.dataobject.*;
 
-import java.util.List;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * PaymentOrderDAO
  * database table: payment_order
@@ -27,7 +35,7 @@ public interface PaymentOrderDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         payment_order         (           id ,order_no ,other_order_no ,user_id ,code ,payment_order_no ,other_payment_no ,amount ,channel ,status ,pay_limited ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         payment_order         (           id ,order_no ,other_order_no ,user_id ,code ,payment_order_no ,other_payment_no ,amount ,channel ,status ,pay_limited ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre> 
 	 */
 	public long insert(PaymentOrderDO paymentOrder) throws DataAccessException;
 
@@ -41,7 +49,7 @@ public interface PaymentOrderDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         payment_order      SET         order_no = ? ,other_order_no = ? ,user_id = ? ,code = ? ,payment_order_no = ? ,other_payment_no = ? ,amount = ? ,channel = ? ,status = ? ,pay_limited = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         payment_order      SET         order_no = ? ,other_order_no = ? ,user_id = ? ,code = ? ,payment_order_no = ? ,other_payment_no = ? ,amount = ? ,channel = ? ,status = ? ,pay_limited = ? ,gmt_modified = CURRENT_TIMESTAMP ,create_by = ? ,modify_by = ?               WHERE         id = ?</pre> 
 	 */
 	public int update(PaymentOrderDO paymentOrder) throws DataAccessException;
 

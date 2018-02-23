@@ -1,4 +1,4 @@
-#应用信息
+#\u5E94\u7528\u4FE1\u606F
 jungle.version=1.0.0
 app.name=wms
 app.version=1.0.0
@@ -8,7 +8,7 @@ jungle-env=dev
 
 #database
 db.name=sample
-db.url=jdbc:mysql://47.97.222.254:6666/wms_test
+db.url=jdbc:mysql://47.97.222.254:6666/wms_dev
 db.driverClassName=com.mysql.jdbc.Driver
 db.username=root
 db.password=zhuoerhang888!
@@ -28,5 +28,5 @@ db.removeAbandoned=true
 db.removeAbandonedTimeout=1800
 db.logAbandoned=true
 
-#RocketMQ配置，项目没有mq，可以删除
+#RocketMQ\u914D\u7F6E\uFF0C\u9879\u76EE\u6CA1\u6709mq\uFF0C\u53EF\u4EE5\u5220\u9664
 mq.namesrv.addr=10.100.159.200:9876;10.100.157.34:9876
