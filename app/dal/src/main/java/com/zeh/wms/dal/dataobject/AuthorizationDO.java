@@ -52,13 +52,17 @@ public class AuthorizationDO implements java.io.Serializable {
 	 */
 	private String path;
 	/**
+	 * 启用状态，0-未启用，1-已启用 		db_column: enabled 
+	 */
+	private int enabled;
+	/**
 	 * gmtCreate 		db_column: gmt_create 
 	 */
 	private Date gmtCreate;
 	/**
-	 * gmtModifeid 		db_column: gmt_modifeid 
+	 * gmtModify 		db_column: gmt_modify 
 	 */
-	private Date gmtModifeid;
+	private Date gmtModify;
 	/**
 	 * createBy 		db_column: create_by 
 	 */
@@ -101,6 +105,14 @@ public class AuthorizationDO implements java.io.Serializable {
 		return this.path;
 	}
 	
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+	
+	public int getEnabled() {
+		return this.enabled;
+	}
+	
 	public void setGmtCreate(Date gmtCreate) {
 		this.gmtCreate = gmtCreate;
 	}
@@ -109,12 +121,12 @@ public class AuthorizationDO implements java.io.Serializable {
 		return this.gmtCreate;
 	}
 	
-	public void setGmtModifeid(Date gmtModifeid) {
-		this.gmtModifeid = gmtModifeid;
+	public void setGmtModify(Date gmtModify) {
+		this.gmtModify = gmtModify;
 	}
 	
-	public Date getGmtModifeid() {
-		return this.gmtModifeid;
+	public Date getGmtModify() {
+		return this.gmtModify;
 	}
 	
 	public void setCreateBy(String createBy) {
@@ -139,8 +151,9 @@ public class AuthorizationDO implements java.io.Serializable {
 			.append("Name",getName())
 			.append("Code",getCode())
 			.append("Path",getPath())
+			.append("Enabled",getEnabled())
 			.append("GmtCreate",getGmtCreate())
-			.append("GmtModifeid",getGmtModifeid())
+			.append("GmtModify",getGmtModify())
 			.append("CreateBy",getCreateBy())
 			.append("ModifyBy",getModifyBy())
 			.toString();

@@ -2,9 +2,21 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.wms.dal.dataobject.AuthorizationDO;
 import org.springframework.dao.DataAccessException;
+import com.zeh.wms.dal.operation.authorization.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * AuthorizationDAO
  * database table: authorization
@@ -23,7 +35,7 @@ public interface AuthorizationDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         authorization         (           id ,name ,code ,path ,gmt_create ,gmt_modifeid ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         authorization         (             id ,name ,code ,path ,enabled ,gmt_create ,gmt_modify ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre> 
 	 */
 	public long insert(AuthorizationDO authorization) throws DataAccessException;
 
@@ -37,23 +49,51 @@ public interface AuthorizationDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         authorization      SET         name = ? ,code = ? ,path = ? ,gmt_create = ? ,gmt_modifeid = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre> 
+	 * <pre>UPDATE         authorization      SET         name = ? ,code = ? ,path = ? ,enabled = ? ,gmt_modify = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre> 
 	 */
 	public int update(AuthorizationDO authorization) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, name, code, path, gmt_create, gmt_modifeid, create_by, modify_by                  FROM         authorization                WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         id = ?</pre> 
 	 */
 	public AuthorizationDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, name, code, path, gmt_create, gmt_modifeid, create_by, modify_by            FROM         authorization</pre> 
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         code = ?          AND enabled = 1</pre> 
 	 */
-	public PageList<AuthorizationDO> findPage(int pageSize,int pageNum) throws DataAccessException;
+	public AuthorizationDO queryByCode(String code) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         name = ?          AND enabled = 1</pre> 
+	 */
+	public AuthorizationDO queryByName(String name) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         path = ?          AND enabled = 1</pre> 
+	 */
+	public AuthorizationDO queryByPath(String path) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         1=1                                        AND                      name = ?                                            AND                      code = ?                                            AND                      path = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modify DESC</pre> 
+	 */
+	public PageList<AuthorizationDO> queryByPage(QueryByPageQuery param) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, name, code, path, enabled, gmt_create, gmt_modify, create_by, modify_by                       FROM         authorization                  WHERE         enabled = 1;</pre> 
+	 */
+	public List<AuthorizationDO> queryAllEnabled() throws DataAccessException;
 
 }
 

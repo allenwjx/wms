@@ -1,5 +1,7 @@
 package com.zeh.wms.biz.model;
 
+import com.zeh.wms.biz.model.enums.StateEnum;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,4 +23,6 @@ public class AuthorizationVO extends BaseVO {
     private String            code;
     /** 页面路径 */
     private String            path;
+    /** 权限状态 */
+    private StateEnum         enabled;
 }

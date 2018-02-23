@@ -285,6 +285,63 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * JG0510018001=资源权限创建失败，资源权限数据不能为空
+     *
+     * @return JGError
+     */
+    public JGError createAuthorizatonError() {
+        return createError("JG0510018001");
+    }
+
+    /**
+     * JG0510018002=资源权限更新失败，资源权限ID不能为空
+     *
+     * @return JGError
+     */
+    public JGError updateAuthorizatonError() {
+        return createError("JG0510018002");
+    }
+
+    /**
+     * JG0510018003=资源权限查询失败，查询条件不能为空
+     *
+     * @return JGError
+     */
+    public JGError queryAuthorizatonError() {
+        return createError("JG0510018003");
+    }
+
+    /**
+     * JG0510018004=资源权限编码【{0}】已存在
+     *
+     * @param code
+     * @return
+     */
+    public JGError authorizatonCodeExistError(String code) {
+        return createError("JG0510018004", code);
+    }
+
+    /**
+     * JG0510018005=资源权限名称{0}已存在
+     * 
+     * @param name
+     * @return
+     */
+    public JGError authorizatonNameExistError(String name) {
+        return createError("JG0510018005", name);
+    }
+
+    /**
+     * JG0510018006=资源{0}已存在
+     * 
+     * @param resource
+     * @return
+     */
+    public JGError authorizatonResourceExistError(String resource) {
+        return createError("JG0510018006", resource);
+    }
+
+    /**
      * 未找到快递单详情。id: {0}
      * @param id 主键
      * @return
@@ -340,17 +397,23 @@ public class BizErrorFactory extends AbstractErrorFactory {
      * JG0510016011=查询参数为空
      * @return
      */
-    public JGError queryQRCodeError () {return createError ("JG0510016011"); }
+    public JGError queryQRCodeError() {
+        return createError("JG0510016011");
+    }
 
     /**
      * JG0510016012=更新二维码失败
      * @return
      */
-    public JGError updateQRCodeError () {return createError ("JG0510016012"); }
+    public JGError updateQRCodeError() {
+        return createError("JG0510016012");
+    }
 
     /**
      * JG0510016013=二维码绑定商品失败
      * @return
      */
-    public JGError bindCommodityError (String message) {return createError ("JG0510016013", message); }
+    public JGError bindCommodityError(String message) {
+        return createError("JG0510016013", message);
+    }
 }

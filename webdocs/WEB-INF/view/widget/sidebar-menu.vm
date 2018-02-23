@@ -60,13 +60,18 @@
                 <a href="javascript:;"><i class="icon-diamond"></i><span class="title">基础数据管理</span><span class="arrow open"></span></a>
                 <ul class="sub-menu ul-sec">
                     <li><a href="${rc.contextPath}/page/basic/regions/index"><i class="fa fa-cab"></i>省市区管理</a></li>
+                    <li>
+                        <a href="javascript:;"><i class="icon-diamond"></i><span class="title">权限管理</span><span class="arrow"></span></a>
+                        <ul class="sub-menu ul-third">
+                            <li><a href="${rc.contextPath}/page/basic/auth/authIndex"><i class="fa fa-cab"></i>资源权限管理</a></li>
+                            <li><a href="${rc.contextPath}/page/basic/role/roleIndex"><i class="fa fa-cab"></i>用户角色管理</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li>
                 <a href="javascript:;"><i class="icon-energy"></i><span class="title">系统管理</span><span class="arrow "></span></a>
                 <ul class="sub-menu ul-sec">
-                    <li><a href="#"><i class="fa fa-cab"></i>权限管理</a></li>
-                    <li><a href="#"><i class="fa fa-cab"></i>菜单二</a></li>
                     <li><a href="#"><i class="fa fa-cab"></i>菜单三</a></li>
                     <li><a href="#"><i class="fa fa-cab"></i>菜单四</a></li>
                     <li><a href="#"><i class="fa fa-cab"></i>菜单五</a></li>
