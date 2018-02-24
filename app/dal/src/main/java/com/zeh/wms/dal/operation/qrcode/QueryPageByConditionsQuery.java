@@ -37,7 +37,7 @@ public class QueryPageByConditionsQuery  extends PageQuery implements java.io.Se
 	
 	/** 商品id */
 	private Long commodityId;
-	/** 批次号id */
+	/** batchId */
 	private Long batchId;
 	
 	public QueryPageByConditionsQuery() {

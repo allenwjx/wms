@@ -13,20 +13,12 @@ import com.zeh.wms.dal.dataobject.ExpressOrderDO;
 import com.zeh.wms.dal.dataobject.ExpressOrderItemDO;
 import com.zeh.wms.dal.operation.expressorder.FindPageQuery;
 import com.zeh.wms.dal.operation.expressorder.GetAllByParsQuery;
-import org.jxls.common.Context;
-import org.jxls.util.JxlsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,7 +27,7 @@ import java.util.List;
  * @version $Id: ExpressOrderServiceImpl, v 0.1 2018/2/7 21:48 hzy24985 Exp $
  */
 @Service
-public class ExpressOrderServiceImpl implements ExpressOrderService {
+public class ExpressOrderServiceImpl extends AbstractService implements ExpressOrderService {
     /** 错误工厂 */
     private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
 
@@ -72,21 +64,7 @@ public class ExpressOrderServiceImpl implements ExpressOrderService {
     public ResponseEntity<byte[]> export(GetAllByParsQuery query, String templatePath) throws ServiceException {
         List<ExpressOrderDO> list = expressOrderDAO.getAllByPars(query);
         Collection<ExpressOrderVO> result = expressOrderMapper.d2vs(list);
-        try (InputStream is = new FileInputStream(templatePath)) {
-            try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
-                Context context = new Context();
-                context.putVar("lists", result);
-                JxlsHelper.getInstance().processTemplate(is, os, context);
-
-                HttpHeaders headers = new HttpHeaders();
-                String fileName = "导出" + System.currentTimeMillis() + ".xlsx";
-                headers.setContentDispositionFormData("attachment", java.net.URLEncoder.encode(fileName, "UTF-8"));
-                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-                return new ResponseEntity<>(os.toByteArray(), headers, HttpStatus.CREATED);
-            }
-        } catch (Exception e) {
-            logger.error("错误原因", e);
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        }
+        String fileName = "订单信息导出" + System.currentTimeMillis() + ".xlsx";
+        return getExcel(templatePath, fileName, result);
     }
 }

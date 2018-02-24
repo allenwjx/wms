@@ -22,6 +22,7 @@ $(document).ready(function () {
                 }).done(function (result) {
                     self.model = result;
                 });
+                console.log ('- init model is ' + self.model);
             },
 
             // 提交数据

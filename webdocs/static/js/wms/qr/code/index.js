@@ -1,5 +1,6 @@
 var qrCode_vm;
 $(document).ready(function () {
+    debugger;
     qrCode_vm = new Vue({
         el: '#qrCode',
         data: {

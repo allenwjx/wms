@@ -20,6 +20,7 @@ import com.zeh.wms.dal.operation.useragentlink.QueryByParQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -52,6 +53,11 @@ public class UserServiceImpl implements UserService {
      */
     @Resource
     private UserMapper                   userMapper;
+    /**
+     * The Password encoder.
+     */
+    @Resource
+    private PasswordEncoder              passwordEncoder;
 
     /**
      * Page query user page list.
@@ -62,9 +68,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public PageList<UserVO> pageQueryUser(GetAllUserPageQuery userQuery) throws ServiceException {
-        PageList<UserDO> userdos = userDAO.getAllUserPage(userQuery);
-        Collection<UserVO> userVOS = userMapper.d2vs(userdos.getData());
-        return PageUtils.createPageList(userVOS, userdos.getPaginator());
+        PageList<UserDO> userDos = userDAO.getAllUserPage(userQuery);
+        Collection<UserVO> userVOS = userMapper.d2vs(userDos.getData());
+        return PageUtils.createPageList(userVOS, userDos.getPaginator());
     }
 
     /**
@@ -98,8 +104,8 @@ public class UserServiceImpl implements UserService {
         }
         UpdateByParsParameter updateByParsParameter = new UpdateByParsParameter();
         updateByParsParameter.setId(id);
-        // TODO: 2018/2/11 the password by md5 with salt
-        updateByParsParameter.setPassword(newPassword);
+
+        updateByParsParameter.setPassword(passwordEncoder.encode(newPassword));
         int count = userDAO.updateByPars(updateByParsParameter);
         if (count <= 0) {
             throw new ServiceException(ERROR_FACTORY.updateUserPasswordError());

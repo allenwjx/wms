@@ -174,6 +174,7 @@ public class QRCodeServiceImpl implements QRCodeService {
      */
     @Override
     public QrcodeVO queryById (Long code_id) throws ServiceException {
+        if (code_id == null) throw new ServiceException (ERROR_FACTORY.queryQRCodeError ("未指定二维码"));
         QrcodeDO _do = qrcodeDAO.queryById (code_id);
         return mapper.d2v (_do);
     }
