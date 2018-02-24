@@ -1,0 +1,34 @@
+<style>
+    .margin-5 {
+        margin-left: 5%;
+    }
+
+    .font-blod {
+        font-weight: bold;
+    }
+
+    .detail-item {
+        float: left;
+        width: 21%;
+    }
+
+    .change {
+        float: left;
+        margin-right: 30px;
+    }
+
+    .remark {
+        background-color: #0099cc;
+        color: white;
+        border-radius: 5px;
+        padding: 1px;
+    }
+</style>
+<div id="permissionDetail">
+	<link rel="stylesheet" href="${rc.contextPath}/css/error.css"/>
+	<div style="display: flex;justify-content: center;">
+	    <img src="${rc.contextPath}/img/403.gif">
+	    <h1>没有权限，请联系管理员</h1>
+	</div>
+</div>
+<script type="text/javascript" src="${rc.contextPath}/js/wms/error/403.js"></script>

@@ -379,6 +379,16 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * JG0510018011=根据【{0}】资源无法获取对应的资源权限
+     * 
+     * @param resource
+     * @return
+     */
+    public JGError authNotFoundByResourceError(String resource) {
+        return createError("JG0510018011", resource);
+    }
+
+    /**
      * 未找到快递单详情。id: {0}
      * @param id 主键
      * @return
@@ -403,6 +413,15 @@ public class BizErrorFactory extends AbstractErrorFactory {
      */
     public JGError passwordInvalid() {
         return createError("JG0510031002");
+    }
+
+    /**
+     * JG0510031003=无权限访问该资源
+     *
+     * @return
+     */
+    public JGError accessDenied() {
+        return createError("JG0510031003");
     }
 
     /**

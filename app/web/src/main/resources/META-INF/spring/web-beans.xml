@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:jungle="http://schema.jungle.com/schema/jungle"
-       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
        xsi:schemaLocation="
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-	http://schema.jungle.com/schema/jungle http://schema.jungle.com/schema/jungle.xsd"
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd"
        default-autowire="byName">
 
     <bean class="com.zeh.jungle.web.handler.AjaxExceptionHandler">
@@ -19,5 +16,36 @@
                 <prop key="import com.zeh.jungle.core.exception.JGRuntimeException">/error/500</prop>
             </props>
         </property>
+    </bean>
+
+    <bean id="innerAnonymousResourceProvider" class="com.zeh.wms.biz.security.SimpleAnonymousResourceProvider">
+        <property name="anonymousUrls">
+            <set>
+                <value>/page/error/**/*</value>
+                <value>/common/**/*</value>
+                <value>/combo/**/*</value>
+                <value>/page/login/index</value>
+                <value>/index</value>
+                <value>/login</value>
+            </set>
+        </property>
+    </bean>
+
+    <!-- security="none" 直接放过，是不走拦截器链的，和anonymousUrls是有区别的 -->
+    <security:http pattern="/css/**" security="none"/>
+    <security:http pattern="/js/**" security="none"/>
+    <security:http pattern="/img/**" security="none"/>
+    <security:http pattern="/fonts/**" security="none"/>
+    <security:http pattern="/json/**" security="none"/>
+    <security:http pattern="/error/**" security="none"/>
+
+    <security:http servlet-api-provision="true" auto-config="true" use-expressions="true">
+        <security:logout logout-url="/login/index" logout-success-url="/logout"/>
+        <security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="bgSecurityFilter"/>
+        <security:access-denied-handler ref="accessDeniedHandler"/>
+    </security:http>
+    <bean id="logoutHandler" class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+    <bean id="accessDeniedHandler" class="com.zeh.wms.biz.security.BGAccessDeniedHandler">
+        <property name="errorPage" value="/page/error/403"/>
     </bean>
 </beans>

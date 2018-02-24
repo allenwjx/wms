@@ -39,6 +39,16 @@
     $(document).ajaxStop(function () {
         Metronic.unblockUI();
     });
+    $(document).ajaxError(function (event, xhr, options) {
+        try {
+            var returnMsg = xhr.responseText;
+            var returnObj = JSON.parse(returnMsg);
+            if (returnObj.code == 'JG0510031003') {
+                window.location.href = __ctx + '/page/error/403';
+            }
+        } catch (e) {
+        }
+    });
     jQuery(document).ready(function () {
         Metronic.init();
         Layout.init();

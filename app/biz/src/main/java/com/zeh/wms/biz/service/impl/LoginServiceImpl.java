@@ -2,7 +2,6 @@ package com.zeh.wms.biz.service.impl;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -47,8 +46,8 @@ public class LoginServiceImpl implements LoginService {
         if (userBgDO == null) {
             throw new LoginException(ERROR_FACTORY.usernameInvalid());
         }
-        String encodedPassword = passwordEncoder.encode(password);
-        if (!StringUtils.equals(userBgDO.getPassword(), encodedPassword)) {
+        boolean valid = passwordEncoder.matches(password, userBgDO.getPassword());
+        if (!valid) {
             throw new LoginException(ERROR_FACTORY.passwordInvalid());
         }
         UserBgVO userBg = mapper.do2vo(userBgDO);

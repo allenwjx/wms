@@ -28,7 +28,7 @@ import com.zeh.wms.dal.operation.authorization.QueryByPageQuery;
  * @create $ ID: AuthorizationServiceImpl, 18/2/23 13:47 allen Exp $
  * @since 1.0.0
  */
-@Service
+@Service("authorizationService")
 public class AuthorizationServiceImpl implements AuthorizationService {
     /** 错误工厂 */
     private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
@@ -180,5 +180,24 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         authorizationDO.setModifyBy(modifyBy);
         authorizationDO.setEnabled(enabled.getCode());
         authorizationDAO.update(authorizationDO);
+    }
+
+    /**
+     * 根据资源查找权限信息
+     *
+     * @param resource 资源
+     * @return 资源权限
+     * @throws ServiceException 资源权限查询异常
+     */
+    @Override
+    public AuthorizationVO findAuthorizationByResource(String resource) throws ServiceException {
+        if (StringUtils.isBlank(resource)) {
+            throw new IllegalArgumentException("Resource cannot be null");
+        }
+        AuthorizationDO authorizationDO = authorizationDAO.queryByPath(resource);
+        if (authorizationDO == null) {
+            throw new ServiceException(ERROR_FACTORY.authNotFoundByResourceError(resource));
+        }
+        return mapper.do2vo(authorizationDO);
     }
 }

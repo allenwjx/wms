@@ -170,6 +170,26 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
+     * 根据角色ID集合查询角色信息
+     *
+     * @param roleIds 角色ID集合
+     * @return 角色信息集合
+     * @throws ServiceException 角色查询异常
+     */
+    @Override
+    public Collection<RoleVO> findRoleDetailsByIds(List<Long> roleIds) throws ServiceException {
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return Lists.newArrayList();
+        }
+        Collection<RoleVO> roles = Lists.newArrayList();
+        for (Long roleId : roleIds) {
+            RoleVO role = findRoleDetailsById(roleId);
+            roles.add(role);
+        }
+        return roles;
+    }
+
+    /**
      * 分页查询角色信息
      *
      * @param role        角色查询条件

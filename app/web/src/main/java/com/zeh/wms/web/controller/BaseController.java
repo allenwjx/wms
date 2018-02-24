@@ -1,16 +1,19 @@
 package com.zeh.wms.web.controller;
 
-import com.zeh.jungle.core.support.ExceptionUtils;
-import com.zeh.jungle.utils.page.SingleResult;
-import com.zeh.wms.biz.model.UserBgVO;
-import com.zeh.wms.web.error.WebErrorFactory;
-import com.zeh.wms.web.exception.WebException;
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
+import com.zeh.jungle.core.support.ExceptionUtils;
+import com.zeh.jungle.utils.page.SingleResult;
+import com.zeh.wms.biz.model.UserBgVO;
+import com.zeh.wms.biz.utils.SessionUtils;
+import com.zeh.wms.web.error.WebErrorFactory;
+import com.zeh.wms.web.exception.WebException;
 
 /**
  * The type Base controller.
@@ -45,8 +48,7 @@ public abstract class BaseController {
      * @return 登录用户ID current user id
      */
     protected String getCurrentUserID() {
-        // TODO
-        return "TODO";
+        return String.valueOf(SessionUtils.getLoginedUserId());
     }
 
     /**
@@ -55,8 +57,7 @@ public abstract class BaseController {
      * @return 登录用户名称 current user name
      */
     protected String getCurrentUserName() {
-        // TODO
-        return "TODO";
+        return String.valueOf(SessionUtils.getLoginedUsername());
     }
 
     /**
@@ -65,11 +66,7 @@ public abstract class BaseController {
      * @return operator current user
      */
     protected UserBgVO getCurrentUser() {
-        // TODO
-        UserBgVO bgVO = new UserBgVO();
-        bgVO.setPassword("TODO");
-        bgVO.setUsername("TODO");
-        return bgVO;
+        return SessionUtils.getLoginedUser();
     }
 
     /**
@@ -117,7 +114,7 @@ public abstract class BaseController {
      */
     protected <T> SingleResult<T> createErrorResult(String errorMessage) {
         SingleResult<T> result = new SingleResult<>();
-        result.setSuccess(true);
+        result.setSuccess(false);
         result.setErrorCode("-1");
         result.setErrorMessage(errorMessage);
         return result;
@@ -187,7 +184,7 @@ public abstract class BaseController {
      * @throws WebException the web exception
      */
     protected void assertEquals(String one, String two, String message) throws WebException {
-        if (!StringUtils.equals(one, two)){
+        if (!StringUtils.equals(one, two)) {
             throw new WebException(ERROR_FACTORY.parameterNotEqualsError(message));
         }
     }

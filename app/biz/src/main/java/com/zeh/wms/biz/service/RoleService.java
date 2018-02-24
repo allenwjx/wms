@@ -50,6 +50,15 @@ public interface RoleService {
     Collection<RoleVO> findRoleByIds(List<Long> roleIds) throws ServiceException;
 
     /**
+     * 根据角色ID集合查询角色信息
+     *
+     * @param roleIds 角色ID集合
+     * @return 角色信息集合
+     * @throws ServiceException 角色查询异常
+     */
+    Collection<RoleVO> findRoleDetailsByIds(List<Long> roleIds) throws ServiceException;
+
+    /**
      * 根据角色ID查询角色信息，含角色关联的权限信息
      *
      * @param id

@@ -75,4 +75,13 @@ public interface AuthorizationService {
      * @throws ServiceException 资源权限状态更新异常
      */
     void updateAuthorizationState(long id, String modifyBy, StateEnum enabled) throws ServiceException;
+
+    /**
+     * 根据资源查找权限信息
+     * 
+     * @param resource 资源
+     * @return 资源权限
+     * @throws ServiceException 资源权限查询异常
+     */
+    AuthorizationVO findAuthorizationByResource(String resource) throws ServiceException;
 }

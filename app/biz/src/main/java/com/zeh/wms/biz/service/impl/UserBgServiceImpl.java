@@ -5,11 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.zeh.wms.biz.model.AuthorizationVO;
-import com.zeh.wms.biz.model.enums.UserTypeEnum;
-import com.zeh.wms.dal.dataobject.RoleAuthorizationLinkDO;
-import com.zeh.wms.dal.dataobject.RoleDO;
-import com.zeh.wms.dal.dataobject.UserRoleLinkDO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,11 +18,13 @@ import com.zeh.wms.biz.mapper.UserBgMapper;
 import com.zeh.wms.biz.model.RoleVO;
 import com.zeh.wms.biz.model.UserBgVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
+import com.zeh.wms.biz.model.enums.UserTypeEnum;
 import com.zeh.wms.biz.service.RoleService;
 import com.zeh.wms.biz.service.UserBgService;
 import com.zeh.wms.dal.daointerface.UserBgDAO;
 import com.zeh.wms.dal.daointerface.UserRoleLinkDAO;
 import com.zeh.wms.dal.dataobject.UserBgDO;
+import com.zeh.wms.dal.dataobject.UserRoleLinkDO;
 import com.zeh.wms.dal.operation.userbg.QueryByPageQuery;
 
 /**
@@ -35,7 +32,7 @@ import com.zeh.wms.dal.operation.userbg.QueryByPageQuery;
  * @create $ ID: UserBgServiceImpl, 18/2/11 14:58 allen Exp $
  * @since 1.0.0
  */
-@Service
+@Service("userBgService")
 public class UserBgServiceImpl implements UserBgService {
     /** 错误工厂 */
     private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
@@ -143,6 +140,9 @@ public class UserBgServiceImpl implements UserBgService {
             throw new ServiceException(ERROR_FACTORY.queryUserBgError());
         }
         UserBgDO userBgDO = userBgDAO.queryByUsername(username);
+        if (userBgDO == null) {
+            throw new ServiceException(ERROR_FACTORY.usernameInvalid());
+        }
         return mapper.do2vo(userBgDO);
     }
 
@@ -210,11 +210,11 @@ public class UserBgServiceImpl implements UserBgService {
     @Override
     public UserBgVO findUserBgDetailsByUsername(String username) throws ServiceException {
         UserBgVO user = findUserBgByUsername(username);
-        if (user != null) {
+        if (user == null) {
             throw new ServiceException(ERROR_FACTORY.usernameInvalid());
         }
         List<Long> roleIds = userRoleLinkDAO.queryByUserId(user.getId());
-        Collection<RoleVO> roles = roleService.findRoleByIds(roleIds);
+        Collection<RoleVO> roles = roleService.findRoleDetailsByIds(roleIds);
         user.setRoles(roles);
         return user;
     }
