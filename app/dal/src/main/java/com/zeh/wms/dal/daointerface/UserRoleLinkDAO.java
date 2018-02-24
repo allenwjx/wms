@@ -2,21 +2,10 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
+import com.zeh.wms.dal.dataobject.UserRoleLinkDO;
 import org.springframework.dao.DataAccessException;
-import com.zeh.wms.dal.operation.userrolelink.*;
-import com.zeh.wms.dal.dataobject.*;
 
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import java.util.List;
 /**
  * UserRoleLinkDAO
  * database table: user_role_link
