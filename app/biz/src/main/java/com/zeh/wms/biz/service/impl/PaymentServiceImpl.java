@@ -1,5 +1,9 @@
 package com.zeh.wms.biz.service.impl;
 
+import com.github.binarywang.wxpay.bean.notify.WxPayNotifyResponse;
+import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
+import com.github.binarywang.wxpay.exception.WxPayException;
+import com.github.binarywang.wxpay.service.WxPayService;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.wms.biz.error.BizErrorFactory;
@@ -35,6 +39,8 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
     private PaymentOrderDAO              paymentOrderDAO;
     @Resource
     private PaymentOrderMapper           paymentOrderMapper;
+    @Resource
+    private WxPayService                 wxPayService;
 
     @Override
     public PageList<PaymentOrderVO> pageQueryPaymentOrders(GetPageDataQuery orderQuery) throws ServiceException {
@@ -49,6 +55,14 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
         if (paymentOrderDO == null) {
             throw new ServiceException(ERROR_FACTORY.notFindExpressOrderDetail(id));
         }
+        // TODO: 2018/2/24 是否需要查询微信的订单详情。
+//        WxPayOrderQueryResult payResult = null;
+//        try {
+//            payResult = wxPayService.queryOrder(paymentOrderDO.getOtherPaymentNo(), paymentOrderDO.getPaymentOrderNo());
+//        } catch (WxPayException e) {
+//            e.printStackTrace();
+//
+//        }
         return paymentOrderMapper.d2v(paymentOrderDO);
     }
 
@@ -58,6 +72,17 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
         Collection<PaymentOrderVO> result = paymentOrderMapper.d2vs(list);
         String fileName = "支付信息导出" + System.currentTimeMillis() + ".xlsx";
         return getExcel(templatePath, fileName, result);
+    }
+
+    @Override
+    public String payCallback(String xmlData) {
+        try {
+            WxPayOrderNotifyResult result = wxPayService.parseOrderNotifyResult(xmlData);
+            // TODO: 2018/2/24 待确认。
+        } catch (WxPayException e) {
+            e.printStackTrace();
+        }
+        return WxPayNotifyResponse.success("OK");
     }
 
 }

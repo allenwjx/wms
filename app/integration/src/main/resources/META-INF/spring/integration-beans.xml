@@ -9,4 +9,24 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://schema.jungle.com/schema/jungle http://schema.jungle.com/schema/jungle.xsd"
        default-autowire="byName">
+
+
+    <bean id="payConfig" class="com.github.binarywang.wxpay.config.WxPayConfig">
+        <property name="appId" value="wxd9bc788c2667c728" />
+        <property name="notifyUrl" value="${wechat.notifyUrl}" />
+        <property name="useSandboxEnv" value="${wechat.useSandboxEnv}" />
+    </bean>
+
+    <bean id="wxPayService" class="com.github.binarywang.wxpay.service.impl.WxPayServiceImpl">
+        <property name="config" ref="payConfig" />
+    </bean>
+
+    <bean id="wxMaConfig" class="cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig" >
+        <property name="appid" value="wxd9bc788c2667c728" />
+        <property name="secret" value="a7f65cfbe721773445f05ab2680d3dda" />
+    </bean>
+
+    <bean id="wxService" class="cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl" >
+        <property name="wxMaConfig" ref="wxMaConfig" />
+    </bean>
 </beans>

@@ -43,4 +43,12 @@ public interface PaymentService {
      * @throws ServiceException the service exception
      */
     ResponseEntity<byte[]> export(GetAllDataQuery query, String templatePath) throws ServiceException;
+
+    /**
+     * 微信支付回调解析
+     * @param xmlData
+     * @return
+     * @throws ServiceException
+     */
+    String payCallback(String xmlData) ;
 }

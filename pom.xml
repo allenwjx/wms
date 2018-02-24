@@ -47,6 +47,8 @@
         <swagger2.version>2.6.1</swagger2.version>
         <swagger.springmvc.version>1.0.2</swagger.springmvc.version>
         <jjwt.version>0.7.0</jjwt.version>
+        <weixin-java-tools.version>2.9.0</weixin-java-tools.version>
+        <commons-lang3.version>3.7</commons-lang3.version>
     </properties>
 
     <modules>
@@ -374,6 +376,24 @@
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>${jjwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-pay</artifactId>
+                <version>${weixin-java-tools.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-miniapp</artifactId>
+                <version>${weixin-java-tools.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
 
             <dependency>
