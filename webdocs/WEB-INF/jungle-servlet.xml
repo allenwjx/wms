@@ -31,6 +31,7 @@
     <mvc:resources mapping="/js/**" location="/static/js/"/>
     <mvc:resources mapping="/img/**" location="/static/img/"/>
     <mvc:resources mapping="/html/**" location="/static/html/"/>
+    <mvc:resources mapping="/api/**" location="/static/swagger/"/>
 
     <!--默认跳转路径 -->
     <mvc:view-controller path="/" view-name="redirect:/index"/>
