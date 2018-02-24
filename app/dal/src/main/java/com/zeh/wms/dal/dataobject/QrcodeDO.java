@@ -48,7 +48,7 @@ public class QrcodeDO implements java.io.Serializable {
 	 */
 	private long commodityId;
 	/**
-	 * 批次号id 		db_column: batch_id 
+	 * batchId 		db_column: batch_id 
 	 */
 	private long batchId;
 	/**

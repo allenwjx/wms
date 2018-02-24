@@ -3,53 +3,53 @@
 
 <table sqlname="qrcode">
 	<!-- 不需要配置的列请删除 -->
-	
+
 	<sql id="Qrcode.columns">
 		id, serial_no, commodity_id, batch_id, data, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
-	
+
 	<operation name="insert" paramtype="object">
 		<sql>
 			INSERT INTO qrcode (
-	        	id ,serial_no ,commodity_id , batch_id, data ,gmt_create ,gmt_modified ,create_by ,modify_by
-	        ) VALUES (
-	        	? ,? ,? ,? ,? ,? ,? ,? ,?
-	        )
-		</sql>		
+			id ,serial_no ,commodity_id ,batch_id ,data ,gmt_create ,gmt_modified ,create_by ,modify_by
+			) VALUES (
+			? ,? ,? ,? ,? ,? ,? ,? ,?
+			)
+		</sql>
 	</operation>
 
 	<operation name="delete">
 		<sql>
-	        DELETE FROM qrcode WHERE
-	        id = ? 
+			DELETE FROM qrcode WHERE
+			id = ?
 		</sql>
 	</operation>
-	
+
 	<operation name="update" paramtype="object">
 		<sql>
-	        UPDATE qrcode SET
-		        serial_no = ? ,commodity_id = ? , batch_id = ?, data = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?
-	        WHERE 
-	        	id = ? 
-		</sql>					
+			UPDATE qrcode SET
+			serial_no = ? ,commodity_id = ? ,batch_id = ? ,data = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?
+			WHERE
+			id = ?
+		</sql>
 	</operation>
 
 	<operation name="queryById" multiplicity="one">
 		<sql>
-	    	SELECT
-		    <include refid="Qrcode.columns"/>
-	        FROM qrcode 
-	        WHERE 
-		        id = ? 
+			SELECT
+			<include refid="Qrcode.columns"/>
+			FROM qrcode
+			WHERE
+			id = ?
 		</sql>
 	</operation>
 
-	
+
 	<operation name="findPage" multiplicity="paging">
 		<sql>
-			SELECT 
+			SELECT
 			<include refid="Qrcode.columns"/>
-			FROM qrcode 
+			FROM qrcode
 		</sql>
 	</operation>
 
@@ -77,7 +77,7 @@
 			SELECT
 			<include refid="Qrcode.columns"/>
 			FROM qrcode
-			WHERE
+			WHERE 1 = 1
 			<dynamic>
 				<isNotEmpty prepend="AND" property="commodityId">
 					commodity_id = #commodityId#

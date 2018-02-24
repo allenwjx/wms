@@ -37,25 +37,19 @@ public class QRCodeController extends BaseController {
     @RequestMapping ("one")
     @ResponseBody
     public QrcodeVO one (Long id) throws ServiceException {
-        QrcodeVO qrcodeVO = new QrcodeVO();
-        if (id != null) {
-            qrcodeVO = qrCodeService.queryById (id);
-        }
-        return qrcodeVO;
+        return qrCodeService.queryById (id);
     }
 
     @RequestMapping ("bind")
     public String bind (Long id, Model model) throws ServiceException {
-        QrcodeVO qrcodeVO = null;
-        if (id != null) {
-            qrcodeVO = qrCodeService.queryById (id);
+        QrcodeVO qrcodeVO = qrCodeService.queryById (id);
 
-            QRCodeForm form = new QRCodeForm ();
-            form.setId (qrcodeVO.getId ());
+        QRCodeForm form = new QRCodeForm ();
+        form.setId (qrcodeVO.getId ());
 
-            String modelData = FastJsonUtils.toJSONString (form);
-            model.addAttribute ("modelData", modelData);
-        }
+        String modelData = FastJsonUtils.toJSONString (form);
+        model.addAttribute ("modelData", modelData);
+
         return "qr/code/view";
     }
 
