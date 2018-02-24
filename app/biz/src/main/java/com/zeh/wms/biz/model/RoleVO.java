@@ -1,5 +1,10 @@
 package com.zeh.wms.biz.model;
 
+import java.util.Collection;
+
+import com.google.common.collect.Lists;
+import com.zeh.wms.biz.model.enums.StateEnum;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +19,11 @@ import lombok.Setter;
 @Setter
 public class RoleVO extends BaseVO {
     /**  */
-    private static final long serialVersionUID = 1L;
+    private static final long           serialVersionUID = 1L;
     /** 角色名称 */
-    private String            name;
+    private String                      name;
+    /** 角色状态 */
+    private StateEnum                   enabled;
+    /** 角色包含的权限 */
+    private Collection<AuthorizationVO> authorizations   = Lists.newArrayList();
 }

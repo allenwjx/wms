@@ -2,9 +2,10 @@ package com.zeh.wms.biz.service.impl;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.zeh.jungle.utils.security.MD5Utils;
 import com.zeh.wms.biz.error.BizErrorFactory;
 import com.zeh.wms.biz.exception.LoginException;
 import com.zeh.wms.biz.mapper.UserBgMapper;
@@ -22,8 +23,13 @@ import com.zeh.wms.dal.dataobject.UserBgDO;
 public class LoginServiceImpl implements LoginService {
     /** 错误工厂 */
     private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
+    /** 密码加解密服务 */
+    @Resource
+    private PasswordEncoder              passwordEncoder;
     /** 后台用户DAO */
+    @Resource
     private UserBgDAO                    userBgDAO;
+    /** mapper */
     @Resource
     private UserBgMapper                 mapper;
 
@@ -37,14 +43,12 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public UserBgVO loginBg(String username, String password) throws LoginException {
-        String encodedPassword = MD5Utils.encrypt(username, "UTF-8", false);
-
         UserBgDO userBgDO = userBgDAO.queryByUsername(username);
         if (userBgDO == null) {
             throw new LoginException(ERROR_FACTORY.usernameInvalid());
         }
-        userBgDO = userBgDAO.queryByLogin(username, encodedPassword);
-        if (userBgDO == null) {
+        String encodedPassword = passwordEncoder.encode(password);
+        if (!StringUtils.equals(userBgDO.getPassword(), encodedPassword)) {
             throw new LoginException(ERROR_FACTORY.passwordInvalid());
         }
         UserBgVO userBg = mapper.do2vo(userBgDO);

@@ -59,8 +59,8 @@
             <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td>
                 <template v-if="item.commodityId <= 0">
-                    <a class="a-icon" v-on:click="bind(item.id, item.state)"><i class="fa fa-remove"></i>绑定商品1</a>
-                    <a class="a-icon" v-on:click="edit(item.id)"><i class="fa fa-remove"></i>绑定商品</a>
+                    <!-- <a class="a-icon" v-on:click="bind(item.id, item.state)"><i class="fa fa-remove"></i>绑定商品1</a> -->
+                    <a class="a-icon" v-on:click="bind (item.id)"><i class="fa fa-remove"></i>绑定商品</a>
                 </template>
             </td>
         </tr>

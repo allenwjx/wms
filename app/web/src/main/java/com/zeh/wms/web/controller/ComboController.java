@@ -4,18 +4,12 @@
  */
 package com.zeh.wms.web.controller;
 
-import com.google.common.collect.Lists;
-import com.zeh.jungle.web.basic.EnumUtil;
-import com.zeh.jungle.web.basic.TextValue;
-import com.zeh.wms.biz.exception.ServiceException;
-import com.zeh.wms.biz.model.AgentVO;
-import com.zeh.wms.biz.model.CommodityVO;
-import com.zeh.wms.biz.model.ManufacturerVO;
-import com.zeh.wms.biz.model.RegionsVO;
-import com.zeh.wms.biz.service.AgentService;
-import com.zeh.wms.biz.service.CommodityService;
-import com.zeh.wms.biz.service.ManufacturerService;
-import com.zeh.wms.biz.service.RegionsService;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.google.common.collect.Lists;
+import com.zeh.jungle.web.basic.EnumUtil;
+import com.zeh.jungle.web.basic.TextValue;
+import com.zeh.wms.biz.exception.ServiceException;
+import com.zeh.wms.biz.model.*;
+import com.zeh.wms.biz.service.*;
 
 /**
  * 下拉框Controller
@@ -39,15 +35,19 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/combo")
 public class ComboController extends BaseController {
-    private static Logger       logger = LoggerFactory.getLogger(ComboController.class);
+    private static Logger        logger = LoggerFactory.getLogger(ComboController.class);
     @Resource
-    private ManufacturerService manufacturerService;
+    private ManufacturerService  manufacturerService;
     @Resource
-    private AgentService agentService;
+    private AgentService         agentService;
     @Resource
-    private RegionsService      regionsService;
+    private RegionsService       regionsService;
     @Resource
-    private CommodityService    commodityService;
+    private CommodityService     commodityService;
+    @Resource
+    private AuthorizationService authorizationService;
+    @Resource
+    private RoleService          roleService;
 
     /**
      * 获取枚举作为下拉列表选项.
@@ -233,6 +233,46 @@ public class ComboController extends BaseController {
             Collection<CommodityVO> commodities = commodityService.findAllCommodities();
             if (CollectionUtils.isNotEmpty(commodities)) {
                 result.addAll(commodities.stream().map(item -> new TextValue(item.getId(), item.getName())).collect(Collectors.toList()));
+            }
+        } catch (ServiceException e) {
+            logger.error("异常", e);
+        }
+        return result;
+    }
+
+    /**
+     * 获取有效权限信息
+     *
+     * @return list list
+     */
+    @RequestMapping(value = "/authorizations", method = RequestMethod.GET)
+    @ResponseBody
+    public List<TextValue> loadAuthorizations() {
+        List<TextValue> result = Lists.newArrayList();
+        try {
+            Collection<AuthorizationVO> auths = authorizationService.findAllAuthorizations();
+            if (CollectionUtils.isNotEmpty(auths)) {
+                result.addAll(auths.stream().map(item -> new TextValue(String.valueOf(item.getId()), item.getName())).collect(Collectors.toList()));
+            }
+        } catch (ServiceException e) {
+            logger.error("异常", e);
+        }
+        return result;
+    }
+
+    /**
+     * 获取有效角色信息
+     *
+     * @return list list
+     */
+    @RequestMapping(value = "/roles", method = RequestMethod.GET)
+    @ResponseBody
+    public List<TextValue> loadRoles() {
+        List<TextValue> result = Lists.newArrayList();
+        try {
+            Collection<RoleVO> roles = roleService.findAllRoles();
+            if (CollectionUtils.isNotEmpty(roles)) {
+                result.addAll(roles.stream().map(item -> new TextValue(String.valueOf(item.getId()), item.getName())).collect(Collectors.toList()));
             }
         } catch (ServiceException e) {
             logger.error("异常", e);

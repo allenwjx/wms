@@ -2,55 +2,123 @@
 <!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
 
 <table sqlname="authorization">
-	<!-- 不需要配置的列请删除 -->
-	
-	<sql id="Authorization.columns">
-		id, name, code, path, gmt_create, gmt_modifeid, create_by, modify_by 
-	</sql>
-	
-	<operation name="insert" paramtype="object">
-		<sql>
-			INSERT INTO authorization (
-	        	id ,name ,code ,path ,gmt_create ,gmt_modifeid ,create_by ,modify_by 
-	        ) VALUES (
-	        	? ,? ,? ,? ,? ,? ,? ,?         
-	        )
-		</sql>		
-	</operation>
+    <!-- 不需要配置的列请删除 -->
 
-	<operation name="delete">
-		<sql>
-	        DELETE FROM authorization WHERE
-	        id = ? 
-		</sql>
-	</operation>
-	
-	<operation name="update" paramtype="object">
-		<sql>
-	        UPDATE authorization SET
-		        name = ? ,code = ? ,path = ? ,gmt_create = ? ,gmt_modifeid = ? ,create_by = ? ,modify_by = ? 
-	        WHERE 
-	        	id = ? 
-		</sql>					
-	</operation>
+    <sql id="Authorization.columns">
+        id, name, code, path, enabled, gmt_create, gmt_modified, create_by, modify_by
+    </sql>
 
-	<operation name="queryById" multiplicity="one">
-		<sql>
-	    	SELECT
-		    <include refid="Authorization.columns"/>
-	        FROM authorization 
-	        WHERE 
-		        id = ? 
-		</sql>
-	</operation>
+    <operation name="insert" paramtype="object">
+        <sql>
+            INSERT INTO authorization (
+            id ,name ,code ,path ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (
+            ? ,? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
+            )
+        </sql>
+    </operation>
 
-	
-	<operation name="findPage" multiplicity="paging">
-		<sql>
-			SELECT 
-			<include refid="Authorization.columns"/>
-			FROM authorization 
-		</sql>
-	</operation>
+    <operation name="delete">
+        <sql>
+            DELETE FROM authorization WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="update" paramtype="object">
+        <sql>
+            UPDATE authorization SET
+            name = ? ,code = ? ,path = ? ,enabled = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByIds" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE
+            id IN
+            <iterate open="(" conjunction="," close=")" property="authIds">
+                #authIds[]#
+            </iterate>
+            AND enabled = #enabled#
+        </sql>
+    </operation>
+
+    <operation name="queryByCode" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE
+            code = ? AND enabled = 1
+        </sql>
+    </operation>
+
+    <operation name="queryByName" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE
+            name = ? AND enabled = 1
+        </sql>
+    </operation>
+
+    <operation name="queryByPath" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE
+            path = ? AND enabled = 1
+        </sql>
+    </operation>
+
+    <operation name="queryByPage" paramtype="parameterObject" multiplicity="paging">
+        <sql>
+            SELECT
+            <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="path">
+                    path = #path#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
+        </sql>
+    </operation>
+
+    <operation name="queryAllEnabled" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE enabled = 1;
+        </sql>
+    </operation>
 
 </table>

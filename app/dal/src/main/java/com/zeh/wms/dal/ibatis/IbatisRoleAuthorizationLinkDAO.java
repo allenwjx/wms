@@ -42,7 +42,7 @@ public class IbatisRoleAuthorizationLinkDAO extends SqlMapClientDaoSupport imple
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         role_authorization_link         (           id ,role_id ,auth_id           )      VALUES         (?,?,?)</pre>
+	 * <pre>INSERT      INTO         role_authorization_link         (             id ,role_id ,auth_id             )      VALUES         (?,?,?)</pre>
 	 */
 	public long insert(RoleAuthorizationLinkDO roleAuthorizationLink) throws DataAccessException {
 		if(roleAuthorizationLink == null) {
@@ -64,7 +64,16 @@ public class IbatisRoleAuthorizationLinkDAO extends SqlMapClientDaoSupport imple
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         role_authorization_link      SET         role_id = ? ,auth_id = ?                WHERE         id = ?</pre>
+	 * <pre>DELETE      FROM         role_authorization_link      WHERE         role_id = ?</pre>
+	 */
+	public int deleteByRoleId(Long roleId) throws DataAccessException {
+		return getSqlMapClientTemplate().delete("wms.RoleAuthorizationLink.deleteByRoleId", roleId);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>UPDATE         role_authorization_link      SET         role_id = ? ,auth_id = ?                  WHERE         id = ?</pre>
 	 */
 	public int update(RoleAuthorizationLinkDO roleAuthorizationLink) throws DataAccessException {
 		if(roleAuthorizationLink == null) {
@@ -76,7 +85,7 @@ public class IbatisRoleAuthorizationLinkDAO extends SqlMapClientDaoSupport imple
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, role_id, auth_id                  FROM         role_authorization_link                WHERE         id = ?</pre>
+	 * <pre>SELECT         id, role_id, auth_id                       FROM         role_authorization_link                  WHERE         id = ?</pre>
 	 */
 	public RoleAuthorizationLinkDO queryById(Long id) throws DataAccessException {
 		return (RoleAuthorizationLinkDO)getSqlMapClientTemplate().queryForObject("wms.RoleAuthorizationLink.queryById",id);
@@ -85,10 +94,19 @@ public class IbatisRoleAuthorizationLinkDAO extends SqlMapClientDaoSupport imple
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, role_id, auth_id            FROM         role_authorization_link</pre>
+	 * <pre>SELECT         auth_id                  FROM         role_authorization_link                  WHERE         role_id = ?</pre>
 	 */
-	public PageList<RoleAuthorizationLinkDO> findPage(int pageSize,int pageNum) throws DataAccessException {
-		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.RoleAuthorizationLink.findPage",null,pageNum,pageSize);
+	public List<Long> queryByRoleId(Long roleId) throws DataAccessException {
+		return (List<Long>)getSqlMapClientTemplate().queryForList("wms.RoleAuthorizationLink.queryByRoleId",roleId);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         role_id                  FROM         role_authorization_link                  WHERE         auth_id = ?</pre>
+	 */
+	public List<Long> queryByAuthId(Long authId) throws DataAccessException {
+		return (List<Long>)getSqlMapClientTemplate().queryForList("wms.RoleAuthorizationLink.queryByAuthId",authId);
 	}
 
 }

@@ -62,29 +62,11 @@ $(document).ready(function () {
             reset: function () {
                 this.queryForm = {};
             },
-            edit: function (id) {
+            bind: function (id) {
                 $("#formModal").modal({
                     show: true,
-                    remote: __ctx + "/qr/code/one?id=" + id,
+                    remote: __ctx + "/qr/code/bind?id=" + id,
                     backdrop: 'static'
-                });
-            },
-            bind: function (id, commodityId) {
-                var self = this;
-                alertify.confirm ("即将绑定商品，是否继续？", function (result) {
-                    if (result) {
-                        $.ajax({
-                            type: 'POST',
-                            url: __ctx + "/qr/coce/" + id + "/bind/" + commodityId
-                        }).done(function (data) {
-                            if (data.success) {
-                                toastr.success('操作成功', {timeOut: 1500, positionClass: "toast-top-center"});
-                                self.preQuery();
-                            } else {
-                                toastr.error(data.errorMessage, {timeOut: 1500, positionClass: "toast-top-center"});
-                            }
-                        });
-                    }
                 });
             }
         }

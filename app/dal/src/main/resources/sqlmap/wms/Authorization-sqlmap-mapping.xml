@@ -10,14 +10,15 @@
 		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="path" column="path" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="enabled" column="enabled" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
-		<result property="gmtModifeid" column="gmt_modifeid" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
     </resultMap>
     
 	<sql id="Authorization.columns">
-		id, name, code, path, gmt_create, gmt_modifeid, create_by, modify_by
+		id, name, code, path, enabled, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -26,8 +27,8 @@
     
 	<insert id="wms.Authorization.insert">
 		INSERT INTO authorization (
-	        	id ,name ,code ,path ,gmt_create ,gmt_modifeid ,create_by ,modify_by 
-	        ) VALUES (#id#,#name#,#code#,#path#,#gmtCreate#,#gmtModifeid#,#createBy#,#modifyBy#)
+            id ,name ,code ,path ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (#id#,#name#,#code#,#path#,#enabled#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -36,25 +37,25 @@
 	
 	<delete id="wms.Authorization.delete">
 		DELETE FROM authorization WHERE
-	        id = #id#
+            id = #id#
     </delete>
     
 	
 	<update id="wms.Authorization.update">
 		UPDATE authorization SET
-		        name = #name# ,code = #code# ,path = #path# ,gmt_create = #gmtCreate# ,gmt_modifeid = #gmtModifeid# ,create_by = #createBy# ,modify_by = #modifyBy# 
-	        WHERE 
-	        	id = #id#
+            name = #name# ,code = #code# ,path = #path# ,enabled = #enabled# ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+            WHERE
+            id = #id#
 	</update>
 	
     
 	
 	<select id="wms.Authorization.queryById" resultMap="RM.Authorization" >
     	SELECT
- /*wms.Authorization.queryById*/ 		    <include refid="Authorization.columns"/>
-	        FROM authorization 
-	        WHERE 
-		        id = #id#
+ /*wms.Authorization.queryById*/             <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE
+            id = #id#
 	</select>	
 
 	    
@@ -62,16 +63,115 @@
 	
     
 	
-	<select id="wms.Authorization.findPage" resultMap="RM.Authorization" >
-    	SELECT  /*wms.Authorization.findPage*/ 
-			<include refid="Authorization.columns"/>
-			FROM authorization
+	<select id="wms.Authorization.queryByIds" resultMap="RM.Authorization" >
+    	SELECT
+ /*wms.Authorization.queryByIds*/             <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE
+            id IN
+            <iterate close=")" conjunction="," open="(" property="authIds">
+                #authIds[]#
+            </iterate>
+            AND enabled = #enabled#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Authorization.queryByCode" resultMap="RM.Authorization" >
+    	SELECT
+ /*wms.Authorization.queryByCode*/             <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE
+            code = #code# AND enabled = 1
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Authorization.queryByName" resultMap="RM.Authorization" >
+    	SELECT
+ /*wms.Authorization.queryByName*/             <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE
+            name = #name# AND enabled = 1
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Authorization.queryByPath" resultMap="RM.Authorization" >
+    	SELECT
+ /*wms.Authorization.queryByPath*/             <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE
+            path = #path# AND enabled = 1
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Authorization.queryByPage" resultMap="RM.Authorization" >
+    	SELECT
+ /*wms.Authorization.queryByPage*/             <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="path">
+                    path = #path#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
 			limit #offset#,#limit#
 	</select>	
 
-	<select id="wms.Authorization.findPage.count" resultClass="long" >
-    	select  /*wms.Authorization.findPage.count*/ count(*) 	FROM authorization
+	<select id="wms.Authorization.queryByPage.count" resultClass="long" >
+    	select  /*wms.Authorization.queryByPage.count*/ count(*)  FROM authorization
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="path">
+                    path = #path#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
 	</select>
+	    
+	
+	
+    
+	
+	<select id="wms.Authorization.queryAllEnabled" resultMap="RM.Authorization" >
+    	SELECT
+ /*wms.Authorization.queryAllEnabled*/             <include refid="Authorization.columns"/>
+            FROM authorization
+            WHERE enabled = 1;
+	</select>	
+
 	    
 	
 	

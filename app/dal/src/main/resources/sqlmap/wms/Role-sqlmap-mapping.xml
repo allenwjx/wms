@@ -8,6 +8,7 @@
     <resultMap id="RM.Role" class="com.zeh.wms.dal.dataobject.RoleDO">
 		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="enabled" column="enabled" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
@@ -15,7 +16,7 @@
     </resultMap>
     
 	<sql id="Role.columns">
-		id, name, gmt_create, gmt_modified, create_by, modify_by
+		id, name, enabled, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -24,8 +25,8 @@
     
 	<insert id="wms.Role.insert">
 		INSERT INTO role (
-	        	id ,name ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (#id#,#name#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+            id ,name ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (#id#,#name#,#enabled#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -34,25 +35,25 @@
 	
 	<delete id="wms.Role.delete">
 		DELETE FROM role WHERE
-	        id = #id#
+            id = #id#
     </delete>
     
 	
 	<update id="wms.Role.update">
 		UPDATE role SET
-		        name = #name# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
-	        WHERE 
-	        	id = #id#
+            name = #name# , enabled = #enabled# ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+            WHERE
+            id = #id#
 	</update>
 	
     
 	
 	<select id="wms.Role.queryById" resultMap="RM.Role" >
     	SELECT
- /*wms.Role.queryById*/ 		    <include refid="Role.columns"/>
-	        FROM role 
-	        WHERE 
-		        id = #id#
+ /*wms.Role.queryById*/             <include refid="Role.columns"/>
+            FROM role
+            WHERE
+            id = #id#
 	</select>	
 
 	    
@@ -60,16 +61,77 @@
 	
     
 	
-	<select id="wms.Role.findPage" resultMap="RM.Role" >
-    	SELECT  /*wms.Role.findPage*/ 
-			<include refid="Role.columns"/>
-			FROM role
+	<select id="wms.Role.queryByIds" resultMap="RM.Role" >
+    	SELECT
+ /*wms.Role.queryByIds*/             <include refid="Role.columns"/>
+            FROM role
+            WHERE
+            id IN
+            <iterate close=")" conjunction="," open="(" property="roleIds">
+                #roleIds[]#
+            </iterate>
+            AND enabled = #enabled#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Role.queryByName" resultMap="RM.Role" >
+    	SELECT
+ /*wms.Role.queryByName*/             <include refid="Role.columns"/>
+            FROM role
+            WHERE
+            name = #name# AND enabled = 1
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Role.queryByPage" resultMap="RM.Role" >
+    	SELECT
+ /*wms.Role.queryByPage*/             <include refid="Role.columns"/>
+            FROM role
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
 			limit #offset#,#limit#
 	</select>	
 
-	<select id="wms.Role.findPage.count" resultClass="long" >
-    	select  /*wms.Role.findPage.count*/ count(*) 	FROM role
+	<select id="wms.Role.queryByPage.count" resultClass="long" >
+    	select  /*wms.Role.queryByPage.count*/ count(*)  FROM role
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="enabled">
+                    enabled = #enabled#
+                </isNotEmpty>
+            </dynamic>
 	</select>
+	    
+	
+	
+    
+	
+	<select id="wms.Role.queryAllEnabled" resultMap="RM.Role" >
+    	SELECT
+ /*wms.Role.queryAllEnabled*/             <include refid="Role.columns"/>
+            FROM role
+            WHERE enabled = 1;
+	</select>	
+
 	    
 	
 	

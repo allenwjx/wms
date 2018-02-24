@@ -2,55 +2,73 @@
 <!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
 
 <table sqlname="role_authorization_link">
-	<!-- 不需要配置的列请删除 -->
-	
-	<sql id="RoleAuthorizationLink.columns">
-		id, role_id, auth_id 
-	</sql>
-	
-	<operation name="insert" paramtype="object">
-		<sql>
-			INSERT INTO role_authorization_link (
-	        	id ,role_id ,auth_id 
-	        ) VALUES (
-	        	? ,? ,?         
-	        )
-		</sql>		
-	</operation>
+    <!-- 不需要配置的列请删除 -->
 
-	<operation name="delete">
-		<sql>
-	        DELETE FROM role_authorization_link WHERE
-	        id = ? 
-		</sql>
-	</operation>
-	
-	<operation name="update" paramtype="object">
-		<sql>
-	        UPDATE role_authorization_link SET
-		        role_id = ? ,auth_id = ? 
-	        WHERE 
-	        	id = ? 
-		</sql>					
-	</operation>
+    <sql id="RoleAuthorizationLink.columns">
+        id, role_id, auth_id
+    </sql>
 
-	<operation name="queryById" multiplicity="one">
-		<sql>
-	    	SELECT
-		    <include refid="RoleAuthorizationLink.columns"/>
-	        FROM role_authorization_link 
-	        WHERE 
-		        id = ? 
-		</sql>
-	</operation>
+    <operation name="insert" paramtype="object">
+        <sql>
+            INSERT INTO role_authorization_link (
+            id ,role_id ,auth_id
+            ) VALUES (
+            ? ,? ,?
+            )
+        </sql>
+    </operation>
 
-	
-	<operation name="findPage" multiplicity="paging">
-		<sql>
-			SELECT 
-			<include refid="RoleAuthorizationLink.columns"/>
-			FROM role_authorization_link 
-		</sql>
-	</operation>
+    <operation name="delete">
+        <sql>
+            DELETE FROM role_authorization_link WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="deleteByRoleId">
+        <sql>
+            DELETE FROM role_authorization_link WHERE
+            role_id = ?
+        </sql>
+    </operation>
+
+    <operation name="update" paramtype="object">
+        <sql>
+            UPDATE role_authorization_link SET
+            role_id = ? ,auth_id = ?
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="RoleAuthorizationLink.columns"/>
+            FROM role_authorization_link
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByRoleId" multiplicity="many">
+        <sql>
+            SELECT
+            auth_id
+            FROM role_authorization_link
+            WHERE
+            role_id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByAuthId" multiplicity="many">
+        <sql>
+            SELECT
+            role_id
+            FROM role_authorization_link
+            WHERE
+            auth_id = ?
+        </sql>
+    </operation>
 
 </table>

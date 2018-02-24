@@ -9,6 +9,8 @@ import java.io.Serializable;
 @Setter
 public class QRCodeForm implements Serializable {
     private static final long serialVersionUID = 1L;
+    /** 二维码ID */
+    private Long            id;
     /** 商品ID */
     private Long            commodityId;
     /** 批次号ID */

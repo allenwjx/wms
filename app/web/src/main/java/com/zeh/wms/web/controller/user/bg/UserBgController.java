@@ -2,16 +2,16 @@ package com.zeh.wms.web.controller.user.bg;
 
 import javax.annotation.Resource;
 
-import com.zeh.jungle.utils.page.SingleResult;
-import com.zeh.wms.biz.model.CommodityVO;
-import com.zeh.wms.web.form.CommodityForm;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.Paginator;
+import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.exception.ServiceException;
+import com.zeh.wms.biz.model.RoleVO;
 import com.zeh.wms.biz.model.UserBgVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.service.UserBgService;
@@ -42,9 +42,41 @@ public class UserBgController extends BaseController {
         UserBgForm form = new UserBgForm();
         if (id != null) {
             UserBgVO userBgVO = userBgService.findUserBgById(id);
+            form.setId(userBgVO.getId());
             form.setUsername(userBgVO.getUsername());
-            form.setPassword(userBgVO.getPassword());
-            form.setEnabled(userBgVO.getEnabled().getCode());
+        }
+        return form;
+    }
+
+    /**
+     * 权限设置页面
+     *
+     * @param id
+     * @return
+     * @throws ServiceException
+     */
+    @RequestMapping("role")
+    @ResponseBody
+    public UserBgForm role(Long id) throws ServiceException {
+        UserBgForm form = new UserBgForm();
+        if (id != null) {
+            UserBgVO userBgVO = userBgService.findUserBgDetailsById(id);
+            form.setId(userBgVO.getId());
+            form.setUsername(userBgVO.getUsername());
+            for (RoleVO role : userBgVO.getRoles()) {
+                form.getRoles().add(String.valueOf(role.getId()));
+            }
+        }
+        return form;
+    }
+
+    @RequestMapping("changePwd")
+    @ResponseBody
+    public UserBgForm changePwd(Long id) throws ServiceException {
+        UserBgForm form = new UserBgForm();
+        if (id != null) {
+            UserBgVO userBgVO = userBgService.findUserBgById(id);
+            form.setUsername(userBgVO.getUsername());
             form.setId(userBgVO.getId());
         }
         return form;
@@ -110,6 +142,33 @@ public class UserBgController extends BaseController {
             userBg.setPassword(form.getPassword());
             userBg.setModifyBy(getCurrentUserName());
             userBgService.updateUserBg(userBg);
+            return createSuccessResult();
+        } catch (ServiceException e) {
+            return createErrorResult(e);
+        }
+    }
+
+    /**
+     * 设置用户权限
+     *
+     * @param form
+     * @return
+     */
+    @RequestMapping(value = "/roleSetup", method = RequestMethod.POST)
+    @ResponseBody
+    public SingleResult setupRoles(@RequestBody UserBgForm form) {
+        try {
+            UserBgVO userBg = new UserBgVO();
+            userBg.setId(form.getId());
+            userBg.setModifyBy(getCurrentUserName());
+            if (CollectionUtils.isNotEmpty(form.getRoles())) {
+                for (String roleId : form.getRoles()) {
+                    RoleVO role = new RoleVO();
+                    role.setId(Long.valueOf(roleId));
+                    userBg.getRoles().add(role);
+                }
+            }
+            userBgService.updateUserRoles(userBg);
             return createSuccessResult();
         } catch (ServiceException e) {
             return createErrorResult(e);

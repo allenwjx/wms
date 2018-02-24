@@ -42,7 +42,7 @@ public class IbatisUserRoleLinkDAO extends SqlMapClientDaoSupport implements Use
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         user_role_link         (           id ,user_id ,role_id ,type           )      VALUES         (?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         user_role_link         (             id ,user_id ,role_id ,type             )      VALUES         (?,?,?,?)</pre>
 	 */
 	public long insert(UserRoleLinkDO userRoleLink) throws DataAccessException {
 		if(userRoleLink == null) {
@@ -64,7 +64,16 @@ public class IbatisUserRoleLinkDAO extends SqlMapClientDaoSupport implements Use
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         user_role_link      SET         user_id = ? ,role_id = ? ,type = ?                WHERE         id = ?</pre>
+	 * <pre>DELETE      FROM         user_role_link      WHERE         user_id = ?</pre>
+	 */
+	public int deleteByUserId(Long userId) throws DataAccessException {
+		return getSqlMapClientTemplate().delete("wms.UserRoleLink.deleteByUserId", userId);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>UPDATE         user_role_link      SET         user_id = ? ,role_id = ? ,type = ?                  WHERE         id = ?</pre>
 	 */
 	public int update(UserRoleLinkDO userRoleLink) throws DataAccessException {
 		if(userRoleLink == null) {
@@ -76,7 +85,7 @@ public class IbatisUserRoleLinkDAO extends SqlMapClientDaoSupport implements Use
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, user_id, role_id, type                  FROM         user_role_link                WHERE         id = ?</pre>
+	 * <pre>SELECT         id, user_id, role_id, type                       FROM         user_role_link                  WHERE         id = ?</pre>
 	 */
 	public UserRoleLinkDO queryById(Long id) throws DataAccessException {
 		return (UserRoleLinkDO)getSqlMapClientTemplate().queryForObject("wms.UserRoleLink.queryById",id);
@@ -85,10 +94,19 @@ public class IbatisUserRoleLinkDAO extends SqlMapClientDaoSupport implements Use
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, user_id, role_id, type            FROM         user_role_link</pre>
+	 * <pre>SELECT         user_id                  FROM         user_role_link                  WHERE         role_id = ?</pre>
 	 */
-	public PageList<UserRoleLinkDO> findPage(int pageSize,int pageNum) throws DataAccessException {
-		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.UserRoleLink.findPage",null,pageNum,pageSize);
+	public List<Long> queryByRoleId(Long roleId) throws DataAccessException {
+		return (List<Long>)getSqlMapClientTemplate().queryForList("wms.UserRoleLink.queryByRoleId",roleId);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         role_id                  FROM         user_role_link                  WHERE         user_id = ?</pre>
+	 */
+	public List<Long> queryByUserId(Long userId) throws DataAccessException {
+		return (List<Long>)getSqlMapClientTemplate().queryForList("wms.UserRoleLink.queryByUserId",userId);
 	}
 
 }

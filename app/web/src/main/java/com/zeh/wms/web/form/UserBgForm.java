@@ -1,7 +1,9 @@
 package com.zeh.wms.web.form;
 
 import java.io.Serializable;
+import java.util.List;
 
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,4 +27,6 @@ public class UserBgForm implements Serializable {
     private String            confirmedPassword;
     /** 用户状态 */
     private Integer           enabled;
+    /** 用户包含的角色 */
+    private List<String>      roles            = Lists.newArrayList();
 }

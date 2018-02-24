@@ -44,6 +44,10 @@ public class RoleDO implements java.io.Serializable {
 	 */
 	private String name;
 	/**
+	 * 启用状态，0-未启用，1-已启用 		db_column: enabled 
+	 */
+	private int enabled;
+	/**
 	 * gmtCreate 		db_column: gmt_create 
 	 */
 	private Date gmtCreate;
@@ -75,6 +79,14 @@ public class RoleDO implements java.io.Serializable {
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+	
+	public int getEnabled() {
+		return this.enabled;
 	}
 	
 	public void setGmtCreate(Date gmtCreate) {
@@ -113,6 +125,7 @@ public class RoleDO implements java.io.Serializable {
 		return new ToStringBuilder(this)
 			.append("Id",getId())
 			.append("Name",getName())
+			.append("Enabled",getEnabled())
 			.append("GmtCreate",getGmtCreate())
 			.append("GmtModified",getGmtModified())
 			.append("CreateBy",getCreateBy())

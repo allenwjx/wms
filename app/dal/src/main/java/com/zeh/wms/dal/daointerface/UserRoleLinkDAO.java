@@ -35,7 +35,7 @@ public interface UserRoleLinkDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         user_role_link         (           id ,user_id ,role_id ,type           )      VALUES         (?,?,?,?)</pre> 
+	 * <pre>INSERT      INTO         user_role_link         (             id ,user_id ,role_id ,type             )      VALUES         (?,?,?,?)</pre> 
 	 */
 	public long insert(UserRoleLinkDO userRoleLink) throws DataAccessException;
 
@@ -49,23 +49,37 @@ public interface UserRoleLinkDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         user_role_link      SET         user_id = ? ,role_id = ? ,type = ?                WHERE         id = ?</pre> 
+	 * <pre>DELETE      FROM         user_role_link      WHERE         user_id = ?</pre> 
+	 */
+	public int deleteByUserId(Long userId) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>UPDATE         user_role_link      SET         user_id = ? ,role_id = ? ,type = ?                  WHERE         id = ?</pre> 
 	 */
 	public int update(UserRoleLinkDO userRoleLink) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, user_id, role_id, type                  FROM         user_role_link                WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, user_id, role_id, type                       FROM         user_role_link                  WHERE         id = ?</pre> 
 	 */
 	public UserRoleLinkDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, user_id, role_id, type            FROM         user_role_link</pre> 
+	 * <pre>SELECT         user_id                  FROM         user_role_link                  WHERE         role_id = ?</pre> 
 	 */
-	public PageList<UserRoleLinkDO> findPage(int pageSize,int pageNum) throws DataAccessException;
+	public List<Long> queryByRoleId(Long roleId) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         role_id                  FROM         user_role_link                  WHERE         user_id = ?</pre> 
+	 */
+	public List<Long> queryByUserId(Long userId) throws DataAccessException;
 
 }
 

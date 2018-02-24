@@ -8,7 +8,7 @@ jungle-env=default
 
 #database
 db.name=sample
-db.url=jdbc:mysql://47.97.222.254:6666/wms_test
+db.url=jdbc:mysql://47.97.222.254:6666/wms_dev
 db.driverClassName=com.mysql.jdbc.Driver
 db.username=root
 db.password=zhuoerhang888!

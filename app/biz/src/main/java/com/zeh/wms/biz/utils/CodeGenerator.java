@@ -26,4 +26,10 @@ public class CodeGenerator {
         String code = g.generate();
         return "CM" + code;
     }
+
+    public static final String generateAuthCode() {
+        RandomGenerator g = new RandomGenerator(6);
+        String code = g.generate();
+        return "R" + code;
+    }
 }
