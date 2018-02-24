@@ -6,7 +6,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.zeh.jungle.utils.page.SingleResult;
+import com.zeh.wms.biz.utils.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.SecurityMetadataSource;
@@ -15,7 +15,6 @@ import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
 
 import com.zeh.jungle.utils.common.LoggerUtils;
-import com.zeh.wms.biz.utils.SessionUtils;
 
 /**
  * @author allen
@@ -38,20 +37,20 @@ public class BGSecurityInterceptor extends AbstractSecurityInterceptor implement
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        String url = SessionUtils.getUserAccessUrl(httpRequest);
+        String url = SecurityUtils.getUserAccessUrl(httpRequest);
         // 检查是否白名单资源
         if (providerManager.isAnonymous(httpRequest)) {
             chain.doFilter(request, response);
             return;
         }
         // 检查用户是否已登录
-        if (!SessionUtils.isLogined() && !isAjaxRequest(httpRequest)) {
+        if (!SecurityUtils.isLogined() && !isAjaxRequest(httpRequest)) {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/page/login/index");
             LoggerUtils.warn(logger, "User did not login, access URI {}", url);
             return;
         }
         // 超级管理员放行
-        if (SessionUtils.isAdmin()) {
+        if (SecurityUtils.isAdmin()) {
             chain.doFilter(request, response);
             return;
         }
@@ -89,8 +88,8 @@ public class BGSecurityInterceptor extends AbstractSecurityInterceptor implement
         } catch (IllegalArgumentException e) {
             HttpServletRequest httpRequest = filterInvocation.getRequest();
             HttpServletResponse httpResponse = filterInvocation.getResponse();
-            String url = SessionUtils.getUserAccessUrl(httpRequest);
-            LoggerUtils.warn(logger, "User [{}] access unauthorized resource {}", SessionUtils.getLoginedUsername(), url);
+            String url = SecurityUtils.getUserAccessUrl(httpRequest);
+            LoggerUtils.warn(logger, "User [{}] access unauthorized resource {}", SecurityUtils.getLoginedUsername(), url);
             httpResponse.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
             RequestDispatcher dispatcher = httpRequest.getRequestDispatcher("/page/error/403");
             dispatcher.forward(httpRequest, httpResponse);

@@ -32,7 +32,7 @@
     <mvc:resources mapping="/img/**" location="/static/img/"/>
     <mvc:resources mapping="/html/**" location="/static/html/"/>
     <mvc:resources mapping="/api/**" location="/static/swagger/"/>
-    <mvc:resources mapping="/error/**" location="/WEB-INF/view/page/error/" />
+    <mvc:resources mapping="/error/**" location="/WEB-INF/view/page/error/"/>
 
     <!--默认跳转路径 -->
     <mvc:view-controller path="/" view-name="redirect:/index"/>
@@ -58,6 +58,13 @@
         <property name="exposeSpringMacroHelpers" value="true"/><!--是否使用spring对宏定义的支持 -->
         <property name="exposeRequestAttributes" value="true"/><!--是否开放request属性 -->
         <property name="requestContextAttribute" value="rc"/><!--request属性引用名称 -->
+        <property name="attributesMap">
+            <map>
+                <entry key="security">
+                    <bean class="com.zeh.wms.biz.utils.SecurityUtils"/>
+                </entry>
+            </map>
+        </property>
     </bean>
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 

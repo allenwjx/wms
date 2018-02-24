@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.zeh.wms.biz.utils.SecurityUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import com.zeh.jungle.core.support.ExceptionUtils;
 import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.model.UserBgVO;
-import com.zeh.wms.biz.utils.SessionUtils;
 import com.zeh.wms.web.error.WebErrorFactory;
 import com.zeh.wms.web.exception.WebException;
 
@@ -48,7 +48,7 @@ public abstract class BaseController {
      * @return 登录用户ID current user id
      */
     protected String getCurrentUserID() {
-        return String.valueOf(SessionUtils.getLoginedUserId());
+        return String.valueOf(SecurityUtils.getLoginedUserId());
     }
 
     /**
@@ -57,7 +57,7 @@ public abstract class BaseController {
      * @return 登录用户名称 current user name
      */
     protected String getCurrentUserName() {
-        return String.valueOf(SessionUtils.getLoginedUsername());
+        return String.valueOf(SecurityUtils.getLoginedUsername());
     }
 
     /**
@@ -66,7 +66,7 @@ public abstract class BaseController {
      * @return operator current user
      */
     protected UserBgVO getCurrentUser() {
-        return SessionUtils.getLoginedUser();
+        return SecurityUtils.getLoginedUser();
     }
 
     /**

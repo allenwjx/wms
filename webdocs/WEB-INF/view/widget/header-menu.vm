@@ -20,25 +20,13 @@
 
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
-                <li>
-                    <a target="_blank" href="https://v.qq.com/"
-                       data-hover="dropdown">
-                        <span>QQ视频</span>
-                    </a>
-                </li>
-                <li>
-                    <a target="_blank" href="www.baidu.com"
-                       data-hover="dropdown">
-                        <span>百度</span>
-                    </a>
-                </li>
                 <li class="dropdown dropdown-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                        <span class="username username-hide-on-mobile">Mr.Jungle</span>
+                        <span class="username username-hide-on-mobile">${security.loginedUsername}</span>
                     </a>
                 </li>
                 <li class="dropdown dropdown-quick-sidebar-toggler">
-                    <a href="${rc.contextPath}/j_spring_cas_security_logout" class="dropdown-toggle">
+                    <a href="${rc.contextPath}/logout" class="dropdown-toggle">
                         <i class="icon-logout"></i>
                     </a>
                 </li>

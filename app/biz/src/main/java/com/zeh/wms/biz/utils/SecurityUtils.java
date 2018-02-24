@@ -14,10 +14,10 @@ import com.zeh.wms.biz.security.UserWrapper;
 
 /**
  * @author allen
- * @create $ ID: SessionUtils, 18/2/24 16:35 allen Exp $
+ * @create $ ID: SecurityUtils, 18/2/24 16:35 allen Exp $
  * @since 1.0.0
  */
-public class SessionUtils {
+public class SecurityUtils {
     private static List<String> ADMIN_USERNAMES = Lists.newArrayList();
     static {
         ADMIN_USERNAMES.add("zehadmin1qaz2wsx");
@@ -92,4 +92,5 @@ public class SessionUtils {
     public static String getUserAccessUrl(HttpServletRequest request) {
         return request.getRequestURI().replaceFirst(request.getContextPath(), "");
     }
+
 }

@@ -41,10 +41,10 @@ public class QRCodeServiceImpl implements QRCodeService {
     private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
 
     @Resource
-    private QrcodeDAO qrcodeDAO;
+    private QrcodeDAO                    qrcodeDAO;
 
     @Resource
-    private QRCodeMapper mapper;
+    private QRCodeMapper                 mapper;
 
     /**
      * 生成二维码，默认配置参数
@@ -123,29 +123,33 @@ public class QRCodeServiceImpl implements QRCodeService {
     }
 
     @Override
-    public PageList <QrcodeVO> queryAll (int currentPage, int size) throws ServiceException {
-        PageList <QrcodeDO> dos = qrcodeDAO.queryPageAll (size, currentPage);
-        return PageUtils.createPageList (mapper.d2vs (dos.getData ()), dos.getPaginator ());
+    public PageList<QrcodeVO> queryAll(int currentPage, int size) throws ServiceException {
+        PageList<QrcodeDO> dos = qrcodeDAO.queryPageAll(size, currentPage);
+        return PageUtils.createPageList(mapper.d2vs(dos.getData()), dos.getPaginator());
     }
 
     @Override
-    public PageList <QrcodeVO> queryByConditions (QrcodeVO vo, int currentPage, int size) throws ServiceException {
-        if (currentPage <= 0)
+    public PageList<QrcodeVO> queryByConditions(QrcodeVO vo, int currentPage, int size) throws ServiceException {
+        if (currentPage <= 0) {
             currentPage = 1;
-        if (size <= 0)
-            size = 20;
-        QueryPageByConditionsQuery query = new QueryPageByConditionsQuery ();
-        if (vo != null) {
-            if (vo.getCommodityId () != null)
-                query.setCommodityId (vo.getCommodityId ());
-            if (vo.getBatchId () != null)
-                query.setBatchId (vo.getBatchId ());
         }
-        query.setPage (currentPage);
-        query.setPageSize (size);
+        if (size <= 0) {
+            size = 20;
+        }
+        QueryPageByConditionsQuery query = new QueryPageByConditionsQuery();
+        if (vo != null) {
+            if (vo.getCommodityId() != null) {
+                query.setCommodityId(vo.getCommodityId());
+            }
+            if (vo.getBatchId() != null) {
+                query.setBatchId(vo.getBatchId());
+            }
+        }
+        query.setPage(currentPage);
+        query.setPageSize(size);
 
-        PageList <QrcodeDO> dos = qrcodeDAO.queryPageByConditions (query);
-        return PageUtils.createPageList (mapper.d2vs (dos.getData ()), dos.getPaginator ());
+        PageList<QrcodeDO> dos = qrcodeDAO.queryPageByConditions(query);
+        return PageUtils.createPageList(mapper.d2vs(dos.getData()), dos.getPaginator());
     }
 
     /**
@@ -156,14 +160,18 @@ public class QRCodeServiceImpl implements QRCodeService {
      * @throws ServiceException
      */
     @Override
-    public void bindCommodity (Long code_id, Long commodity_id) throws ServiceException {
-        if (code_id == null || commodity_id == null) throw new ServiceException (ERROR_FACTORY.bindCommodityError ("查询参数为空"));
+    public void bindCommodity(Long code_id, Long commodity_id) throws ServiceException {
+        if (code_id == null || commodity_id == null) {
+            throw new ServiceException(ERROR_FACTORY.bindCommodityError("查询参数为空"));
+        }
 
-        QrcodeDO code = qrcodeDAO.queryById (code_id);
-        if (code == null || code.getCommodityId () > 0) throw new ServiceException (ERROR_FACTORY.bindCommodityError ("指定二维码不存在，或是已绑定商品"));
+        QrcodeDO code = qrcodeDAO.queryById(code_id);
+        if (code == null || code.getCommodityId() > 0) {
+            throw new ServiceException(ERROR_FACTORY.bindCommodityError("指定二维码不存在，或是已绑定商品"));
+        }
 
-        code.setCommodityId (commodity_id);
-        qrcodeDAO.update (code);
+        code.setCommodityId(commodity_id);
+        qrcodeDAO.update(code);
     }
 
     /**
@@ -173,9 +181,11 @@ public class QRCodeServiceImpl implements QRCodeService {
      * @throws ServiceException
      */
     @Override
-    public QrcodeVO queryById (Long code_id) throws ServiceException {
-        if (code_id == null) throw new ServiceException (ERROR_FACTORY.queryQRCodeError ("未指定二维码"));
-        QrcodeDO _do = qrcodeDAO.queryById (code_id);
-        return mapper.d2v (_do);
+    public QrcodeVO queryById(Long code_id) throws ServiceException {
+        if (code_id == null) {
+            throw new ServiceException(ERROR_FACTORY.queryQRCodeError());
+        }
+        QrcodeDO _do = qrcodeDAO.queryById(code_id);
+        return mapper.d2v(_do);
     }
 }
