@@ -44,6 +44,16 @@
         </sql>
     </operation>
 
+    <operation name="queryBySerialno" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Qrcode.columns"/>
+            FROM qrcode
+            WHERE
+            serial_no = ?
+        </sql>
+    </operation>
+
     <operation name="findByCommodityId" multiplicity="paging">
         <sql>
             SELECT

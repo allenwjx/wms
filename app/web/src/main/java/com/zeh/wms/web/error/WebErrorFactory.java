@@ -53,4 +53,9 @@ public class WebErrorFactory extends AbstractErrorFactory {
     public JGError parameterNotEqualsError(String parameterName) {
         return createError("JG0510101002", parameterName);
     }
+
+    public JGError qrcodeCommodityIdNotEqualsError() {
+        return createError("JG0510102001");
+    }
+
 }

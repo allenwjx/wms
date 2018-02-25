@@ -4,12 +4,25 @@
  */ 
 package com.zeh.wms.dal.ibatis;
 
+import com.zeh.wms.dal.operation.shiprecord.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageQueryUtils;
-import com.zeh.wms.dal.daointerface.ShipRecordDAO;
-import com.zeh.wms.dal.dataobject.ShipRecordDO;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+
+import com.zeh.wms.dal.dataobject.ShipRecordDO;
+import com.zeh.wms.dal.daointerface.ShipRecordDAO;
 
 /**
  * ShipRecordDAO
@@ -29,7 +42,7 @@ public class IbatisShipRecordDAO extends SqlMapClientDaoSupport implements ShipR
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         ship_record         (           id ,agent_id ,commodity_id ,qrcode_no ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?)</pre>
+	 * <pre>INSERT      INTO         ship_record         (           id ,agent_id ,commodity_id ,qrcode_no ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(ShipRecordDO shipRecord) throws DataAccessException {
 		if(shipRecord == null) {
@@ -51,13 +64,10 @@ public class IbatisShipRecordDAO extends SqlMapClientDaoSupport implements ShipR
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         ship_record      SET         agent_id = ? ,commodity_id = ? ,qrcode_no = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?                WHERE         id = ?</pre>
+	 * <pre>DELETE      FROM         ship_record      WHERE         qrcode_no = ?</pre>
 	 */
-	public int update(ShipRecordDO shipRecord) throws DataAccessException {
-		if(shipRecord == null) {
-			throw new IllegalArgumentException("Can't update by a null data object.");
-		}
-		return getSqlMapClientTemplate().update("wms.ShipRecord.update", shipRecord);
+	public int deleteByQRCode(String qrcodeNo) throws DataAccessException {
+		return getSqlMapClientTemplate().delete("wms.ShipRecord.deleteByQRCode", qrcodeNo);
 	}
 
 	/**
@@ -72,10 +82,10 @@ public class IbatisShipRecordDAO extends SqlMapClientDaoSupport implements ShipR
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, agent_id, commodity_id, qrcode_no, gmt_create, gmt_modified, create_by, modify_by            FROM         ship_record</pre>
+	 * <pre>SELECT         id, agent_id, commodity_id, qrcode_no, gmt_create, gmt_modified, create_by, modify_by            FROM         ship_record         WHERE         qrcode_no = ?</pre>
 	 */
-	public PageList<ShipRecordDO> findPage(int pageSize,int pageNum) throws DataAccessException {
-		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.ShipRecord.findPage",null,pageNum,pageSize);
+	public ShipRecordDO queryByQRCode(String qrcodeNo) throws DataAccessException {
+		return (ShipRecordDO)getSqlMapClientTemplate().queryForObject("wms.ShipRecord.queryByQRCode",qrcodeNo);
 	}
 
 }

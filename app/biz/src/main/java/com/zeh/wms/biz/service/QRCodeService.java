@@ -85,4 +85,6 @@ public interface QRCodeService {
      * @throws ServiceException
      */
     QrcodeVO queryById(Long code_id) throws ServiceException;
+
+    QrcodeVO queryBySerialNo(String serialNo) throws ServiceException;
 }

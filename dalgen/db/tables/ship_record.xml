@@ -13,7 +13,7 @@
 			INSERT INTO ship_record (
 	        	id ,agent_id ,commodity_id ,qrcode_no ,gmt_create ,gmt_modified ,create_by ,modify_by 
 	        ) VALUES (
-	        	? ,? ,? ,? ,? ,? ,? ,?         
+	        	? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
 	        )
 		</sql>		
 	</operation>
@@ -24,14 +24,12 @@
 	        id = ? 
 		</sql>
 	</operation>
-	
-	<operation name="update" paramtype="object">
+
+	<operation name="deleteByQRCode">
 		<sql>
-	        UPDATE ship_record SET
-		        agent_id = ? ,commodity_id = ? ,qrcode_no = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
-	        WHERE 
-	        	id = ? 
-		</sql>					
+			DELETE FROM ship_record WHERE
+			qrcode_no = ?
+		</sql>
 	</operation>
 
 	<operation name="queryById" multiplicity="one">
@@ -44,12 +42,13 @@
 		</sql>
 	</operation>
 
-	
-	<operation name="findPage" multiplicity="paging">
+	<operation name="queryByQRCode" multiplicity="one">
 		<sql>
-			SELECT 
+			SELECT
 			<include refid="ShipRecord.columns"/>
-			FROM ship_record 
+			FROM ship_record
+			WHERE
+			qrcode_no = ?
 		</sql>
 	</operation>
 

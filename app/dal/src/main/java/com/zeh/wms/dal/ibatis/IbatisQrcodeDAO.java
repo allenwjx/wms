@@ -85,6 +85,15 @@ public class IbatisQrcodeDAO extends SqlMapClientDaoSupport implements QrcodeDAO
 	/**
 	 * 
 	 * sql: 
+	 * <pre>SELECT         id, serial_no, commodity_id, batch_id, data, state, gmt_create, gmt_modified, create_by, modify_by                       FROM         qrcode                  WHERE         serial_no = ?</pre>
+	 */
+	public QrcodeDO queryBySerialno(String serialNo) throws DataAccessException {
+		return (QrcodeDO)getSqlMapClientTemplate().queryForObject("wms.Qrcode.queryBySerialno",serialNo);
+	}
+
+	/**
+	 * 
+	 * sql: 
 	 * <pre>SELECT         id, serial_no, commodity_id, batch_id, data, state, gmt_create, gmt_modified, create_by, modify_by                       FROM         qrcode                  WHERE         commodity_id = ?</pre>
 	 */
 	public PageList<QrcodeDO> findByCommodityId(Long commodityId,int pageSize,int pageNum) throws DataAccessException {

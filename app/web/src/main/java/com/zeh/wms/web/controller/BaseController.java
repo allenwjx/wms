@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.zeh.jungle.core.error.JGError;
 import com.zeh.wms.biz.utils.SecurityUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -117,6 +118,14 @@ public abstract class BaseController {
         result.setSuccess(false);
         result.setErrorCode("-1");
         result.setErrorMessage(errorMessage);
+        return result;
+    }
+
+    protected <T> SingleResult<T> createErrorResult(JGError error) {
+        SingleResult<T> result = new SingleResult<>();
+        result.setSuccess(false);
+        result.setErrorCode(error.getCode());
+        result.setErrorMessage(error.getMessage());
         return result;
     }
 

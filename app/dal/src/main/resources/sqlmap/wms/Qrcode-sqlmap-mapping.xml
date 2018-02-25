@@ -64,6 +64,19 @@
 	
     
 	
+	<select id="wms.Qrcode.queryBySerialno" resultMap="RM.Qrcode" >
+    	SELECT
+ /*wms.Qrcode.queryBySerialno*/             <include refid="Qrcode.columns"/>
+            FROM qrcode
+            WHERE
+            serial_no = #serialNo#
+	</select>	
+
+	    
+	
+	
+    
+	
 	<select id="wms.Qrcode.findByCommodityId" resultMap="RM.Qrcode" >
     	SELECT
  /*wms.Qrcode.findByCommodityId*/             <include refid="Qrcode.columns"/>

@@ -71,10 +71,10 @@ $(document).ready(function () {
             reset: function () {
                 this.queryForm = {};
             },
-            relate: function (id) {
+            relate: function (serialNo) {
                 $("#formModal").modal({
                     show: true,
-                    remote: __ctx + "/page/qr/code/relate?id=" + id,
+                    remote: __ctx + "/page/qr/code/details?serialNo=" + serialNo,
                     backdrop: 'static'
                 });
             },

@@ -9,8 +9,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 
-import com.zeh.jungle.core.configuration.AppConfiguration;
-import com.zeh.jungle.core.configuration.AppConfigurationAware;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -21,6 +19,8 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.zeh.jungle.core.configuration.AppConfiguration;
+import com.zeh.jungle.core.configuration.AppConfigurationAware;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.jungle.utils.common.FastBase64;
@@ -196,6 +196,15 @@ public class QRCodeServiceImpl implements QRCodeService, AppConfigurationAware {
             throw new ServiceException(ERROR_FACTORY.queryQRCodeError());
         }
         QrcodeDO _do = qrcodeDAO.queryById(codeId);
+        return mapper.d2v(_do);
+    }
+
+    @Override
+    public QrcodeVO queryBySerialNo(String serialNo) throws ServiceException {
+        if (StringUtils.isBlank(serialNo)) {
+            throw new ServiceException(ERROR_FACTORY.queryQRCodeError());
+        }
+        QrcodeDO _do = qrcodeDAO.queryBySerialno(serialNo);
         return mapper.d2v(_do);
     }
 }

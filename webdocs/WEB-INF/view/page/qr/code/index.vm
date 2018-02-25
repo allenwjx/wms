@@ -54,7 +54,7 @@
             <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td>
                 <template v-if="item.state == 1">
-                    <a class="a-icon" v-on:click="relate(item.id)"><i class="fa fa-remove"></i>查看关联信息</a>
+                    <a class="a-icon" v-on:click="details(item.serialNo)"><i class="fa fa-remove"></i>查看关联信息</a>
                 </template>
                 <a class="a-icon" v-on:click="viewCode(item.id)"><i class="fa fa-remove"></i>查看二维码</a>
             </td>

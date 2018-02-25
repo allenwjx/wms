@@ -462,7 +462,7 @@ public class BizErrorFactory extends AbstractErrorFactory {
      * @param message
      * @return
      */
-    public JGError queryQRCodeError (String message) {
+    public JGError queryQRCodeError(String message) {
         return createError("JG0510016011", message);
     }
 
@@ -480,5 +480,45 @@ public class BizErrorFactory extends AbstractErrorFactory {
      */
     public JGError bindCommodityError(String message) {
         return createError("JG0510016013", message);
+    }
+
+    /**
+     * JG0510051001=无效代理人信息
+     * @return
+     */
+    public JGError invalidAgent() {
+        return createError("JG0510051001");
+    }
+
+    /**
+     * JG0510051002=无效二维码信息
+     * @return
+     */
+    public JGError invalidQRCode() {
+        return createError("JG0510051002");
+    }
+
+    /**
+     * JG0510051003=无效商品信息
+     * @return
+     */
+    public JGError invalidCommodity() {
+        return createError("JG0510051003");
+    }
+
+    /**
+     * JG0510051004=二维码已使用
+     * @return
+     */
+    public JGError qrCodeUsed() {
+        return createError("JG0510051004");
+    }
+
+    /**
+     * JG0510051005=未能获取关联货品信息
+     * @return
+     */
+    public JGError shipRecordNotFound() {
+        return createError("JG0510051005");
     }
 }

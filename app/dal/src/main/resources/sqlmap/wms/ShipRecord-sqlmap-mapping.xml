@@ -27,7 +27,7 @@
 	<insert id="wms.ShipRecord.insert">
 		INSERT INTO ship_record (
 	        	id ,agent_id ,commodity_id ,qrcode_no ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (#id#,#agentId#,#commodityId#,#qrcodeNo#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+	        ) VALUES (#id#,#agentId#,#commodityId#,#qrcodeNo#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -40,13 +40,11 @@
     </delete>
     
 	
-	<update id="wms.ShipRecord.update">
-		UPDATE ship_record SET
-		        agent_id = #agentId# ,commodity_id = #commodityId# ,qrcode_no = #qrcodeNo# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
-	        WHERE 
-	        	id = #id#
-	</update>
 	
+	<delete id="wms.ShipRecord.deleteByQRCode">
+		DELETE FROM ship_record WHERE
+			qrcode_no = #qrcodeNo#
+    </delete>
     
 	
 	<select id="wms.ShipRecord.queryById" resultMap="RM.ShipRecord" >
@@ -62,16 +60,14 @@
 	
     
 	
-	<select id="wms.ShipRecord.findPage" resultMap="RM.ShipRecord" >
-    	SELECT  /*wms.ShipRecord.findPage*/ 
-			<include refid="ShipRecord.columns"/>
+	<select id="wms.ShipRecord.queryByQRCode" resultMap="RM.ShipRecord" >
+    	SELECT
+ /*wms.ShipRecord.queryByQRCode*/ 			<include refid="ShipRecord.columns"/>
 			FROM ship_record
-			limit #offset#,#limit#
+			WHERE
+			qrcode_no = #qrcodeNo#
 	</select>	
 
-	<select id="wms.ShipRecord.findPage.count" resultClass="long" >
-    	select  /*wms.ShipRecord.findPage.count*/ count(*) 	FROM ship_record
-	</select>
 	    
 	
 	
