@@ -37,14 +37,17 @@ public class QueryByPageQuery  extends PageQuery implements java.io.Serializable
 	
 	/** batchSerial */
 	private String batchSerial;
+	/** 商品ID */
+	private Long commodityId;
 	/** 批次状态； 0-未使用，1-已使用 */
 	private Integer state;
 	
 	public QueryByPageQuery() {
 	}
 	
-	public QueryByPageQuery(String batchSerial ,Integer state ) {
+	public QueryByPageQuery(String batchSerial ,Long commodityId ,Integer state ) {
 		this.batchSerial = batchSerial;
+		this.commodityId = commodityId;
 		this.state = state;
 	}
 	
@@ -53,6 +56,12 @@ public class QueryByPageQuery  extends PageQuery implements java.io.Serializable
 	}
 	public void setBatchSerial(String batchSerial) {
 		this.batchSerial = batchSerial;
+	}
+	public Long getCommodityId() {
+		return commodityId;
+	}
+	public void setCommodityId(Long commodityId) {
+		this.commodityId = commodityId;
 	}
 	public Integer getState() {
 		return state;

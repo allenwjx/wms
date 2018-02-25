@@ -8,21 +8,14 @@
         </div>
         <div class="portlet-body form small">
             <form action="#" class="form-horizontal">
+                <input type="hidden" id="batchId" value="$!{batchId}">
                 <div class="form-body">
                     <div class="row">
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <label class="control-label col-md-4">批次号</label>
+                                <label class="control-label col-md-4">商品</label>
                                 <div class="col-md-8">
-                                    <input class="form-control" id="batchSerial" name="batchSerial" type="text" v-model.trim="queryForm.batchSerial"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-md-4">商品编号</label>
-                                <div class="col-md-8">
-                                    <input class="form-control" id="qrcodeSerial" name="qrcodeSerial" type="text" v-model.trim="queryForm.qrcodeSerial"/>
+                                    <vue-select :options="commodities" :model.sync="queryForm.commodityId" :configs="{placeholder:'全部'}"></vue-select>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +36,8 @@
             <th>ID</th>
             <th>二维码值</th>
             <th>批次号</th>
-            <th>关联商品ID</th>
+            <th>关联商品</th>
+            <th>关联状态</th>
             <th>创建时间</th>
             <th>修改时间</th>
             <th>操作</th>
@@ -54,14 +48,15 @@
             <td v-html="item.id"></td>
             <td v-html="item.serialNo"></td>
             <td v-html="item.batchId"></td>
-            <td v-html="item.commodityId"></td>
+            <td v-html="item.commodityId  | enumFormat commodities"></td>
+            <td v-html="item.state | enumFormat states"></td>
             <td v-html="item.gmtCreate | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td>
-                <template v-if="item.commodityId <= 0">
-                    <!-- <a class="a-icon" v-on:click="bind(item.id, item.state)"><i class="fa fa-remove"></i>绑定商品1</a> -->
-                    <a class="a-icon" v-on:click="bind (item.id)"><i class="fa fa-remove"></i>绑定商品</a>
+                <template v-if="item.state == 1">
+                    <a class="a-icon" v-on:click="relate(item.id)"><i class="fa fa-remove"></i>查看关联信息</a>
                 </template>
+                <a class="a-icon" v-on:click="viewCode(item.id)"><i class="fa fa-remove"></i>查看二维码</a>
             </td>
         </tr>
         </tbody>

@@ -1,5 +1,7 @@
 package com.zeh.wms.biz.model;
 
+import com.zeh.wms.biz.model.enums.StateEnum;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,4 +25,6 @@ public class QrcodeVO extends BaseVO {
     private Long              batchId;
     /** 二维码图片数据，base64编码 */
     private String            data;
+    /** 批次状态； 0-未关联，1-已关联 */
+    private StateEnum         state;
 }

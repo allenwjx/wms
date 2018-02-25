@@ -13,16 +13,24 @@ $(document).ready(function () {
                 }
             },
             queryForm: {},
+            commodities: [],
             states: []
         },
         ready: function () {
             this.init();
             this.queryForm = {};
-            this.query();
+            this.preQuery();
         },
         methods: {
             init: function () {
                 var self = this;
+                $.ajax({
+                    type: 'GET',
+                    url: __ctx + "/combo/commodities"
+                }).done(function (resp) {
+                    self.commodities = resp;
+                });
+
                 $.ajax({
                     type: 'GET',
                     url: __ctx + "/combo/fromBizEnum",
@@ -61,6 +69,13 @@ $(document).ready(function () {
             },
             reset: function () {
                 this.queryForm = {};
+            },
+            create: function () {
+                $("#formModal").modal({
+                    show: true,
+                    remote: __ctx + "/page/qr/batch/edit",
+                    backdrop: 'static'
+                });
             },
             delete: function (id, enabled) {
                 var self = this;

@@ -9,16 +9,20 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.jungle.utils.common.UUID;
 import com.zeh.wms.biz.error.BizErrorFactory;
+import com.zeh.wms.biz.exception.QRCodeException;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.QRCodeBatchMapper;
 import com.zeh.wms.biz.model.QRCodeBatchVO;
+import com.zeh.wms.biz.model.QrcodeVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.service.QRCodeBatchService;
+import com.zeh.wms.biz.service.QRCodeService;
 import com.zeh.wms.dal.daointerface.QrcodeBatchDAO;
 import com.zeh.wms.dal.dataobject.QrcodeBatchDO;
 import com.zeh.wms.dal.operation.qrcodebatch.QueryByPageQuery;
@@ -40,6 +44,8 @@ public class QRCodeBatchServiceImpl implements QRCodeBatchService {
     /** mapper */
     @Resource
     private QRCodeBatchMapper            mapper;
+    @Resource
+    private QRCodeService                qrCodeService;
 
     /**
      * 创建二维码批次记录
@@ -47,16 +53,47 @@ public class QRCodeBatchServiceImpl implements QRCodeBatchService {
      * @param qrCodeBatch 二维码批次
      * @throws ServiceException 创建二维码批次异常
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void createQRCodeBatch(QRCodeBatchVO qrCodeBatch) throws ServiceException {
         if (qrCodeBatch == null) {
             throw new ServiceException(ERROR_FACTORY.createQRCodeBatchError());
         }
-        qrCodeBatch.setBatchSerial(UUID.generateTimeBasedUUID());
-        qrCodeBatch.setAmount (qrCodeBatch.getAmount());
+        qrCodeBatch.setBatchSerial(UUID.generateRandomUUID());
+        qrCodeBatch.setAmount(qrCodeBatch.getAmount());
         qrCodeBatch.setState(StateEnum.N);
         QrcodeBatchDO commodityDO = mapper.v2d(qrCodeBatch);
-        qrcodeBatchDAO.insert(commodityDO);
+        long id = qrcodeBatchDAO.insert(commodityDO);
+        qrCodeBatch.setId(id);
+
+        for (int i = 0; i < qrCodeBatch.getAmount(); i++) {
+            QrcodeVO qrCode = createQrCodeVO(qrCodeBatch);
+            qrCodeService.createQRCode(qrCode);
+        }
+    }
+
+    /**
+     * 生成二维码数据
+     *
+     * @param qrCodeBatch 二维码批次
+     * @return
+     */
+    private QrcodeVO createQrCodeVO(QRCodeBatchVO qrCodeBatch) throws ServiceException {
+        QrcodeVO qrCode = new QrcodeVO();
+        qrCode.setBatchId(qrCodeBatch.getId());
+        qrCode.setCommodityId(qrCodeBatch.getCommodityId());
+        qrCode.setCreateBy(qrCodeBatch.getCreateBy());
+        qrCode.setModifyBy(qrCodeBatch.getModifyBy());
+        qrCode.setSerialNo(UUID.generateRandomUUID());
+        qrCode.setState(StateEnum.N);
+        String content = qrCodeService.generateQRCodeContent(qrCode);
+        try {
+            String data = qrCodeService.encode(content, 90, 90);
+            qrCode.setData(data);
+            return qrCode;
+        } catch (QRCodeException e) {
+            throw new ServiceException(e.getError(), e);
+        }
     }
 
     /**
@@ -105,7 +142,7 @@ public class QRCodeBatchServiceImpl implements QRCodeBatchService {
         QueryByPageQuery query = new QueryByPageQuery();
         query.setState(qrCodeBatch.getState() == null ? null : qrCodeBatch.getState().getCode());
         query.setBatchSerial(qrCodeBatch.getBatchSerial());
-        query.setAmount (qrCodeBatch.getAmount ());
+        query.setCommodityId(qrCodeBatch.getCommodityId());
         query.setPage(currentPage);
         query.setPageSize(size);
         PageList<QrcodeBatchDO> ret = qrcodeBatchDAO.queryByPage(query);

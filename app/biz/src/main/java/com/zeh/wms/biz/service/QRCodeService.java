@@ -1,12 +1,14 @@
 package com.zeh.wms.biz.service;
 
+import java.util.Map;
+
 import com.google.zxing.EncodeHintType;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.QRCodeException;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.QrcodeVO;
 
-import java.util.Map;
+import javax.xml.ws.Service;
 
 /**
  * @author allen
@@ -48,14 +50,21 @@ public interface QRCodeService {
     String decode(String qrCode) throws QRCodeException;
 
     /**
-     * 查询全部数据
-     *
-     * @param currentPage
-     * @param size
+     * 创建二维码，并入库
+     * 
+     * @param qrCode 二维码查询对象
+     * @throws ServiceException
+     */
+    void createQRCode(QrcodeVO qrCode) throws ServiceException;
+
+    /**
+     * 生成二维码内容
+     * 
+     * @param qrCode
      * @return
      * @throws ServiceException
      */
-    PageList <QrcodeVO> queryAll (int currentPage, int size) throws ServiceException;
+    String generateQRCodeContent(QrcodeVO qrCode) throws ServiceException;
 
     /**
      * 条件查询二维码列表
@@ -66,16 +75,7 @@ public interface QRCodeService {
      * @return
      * @throws QRCodeException
      */
-    PageList <QrcodeVO> queryByConditions (QrcodeVO vo, int currentPage, int size) throws ServiceException;
-
-    /**
-     * 建立二维码与商品的绑定关系
-     *
-     * @param code_id   二维码ID
-     * @param commodity_id  商品ID
-     * @throws ServiceException
-     */
-    void bindCommodity (Long code_id, Long commodity_id) throws ServiceException;
+    PageList<QrcodeVO> queryByConditions(QrcodeVO vo, int currentPage, int size) throws ServiceException;
 
     /**
      * 通过主键查询
@@ -84,5 +84,5 @@ public interface QRCodeService {
      * @return
      * @throws ServiceException
      */
-    QrcodeVO queryById (Long code_id) throws ServiceException;
+    QrcodeVO queryById(Long code_id) throws ServiceException;
 }

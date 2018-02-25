@@ -1,5 +1,20 @@
 package com.zeh.wms.biz.service.impl;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+
+import com.zeh.jungle.core.configuration.AppConfiguration;
+import com.zeh.jungle.core.configuration.AppConfigurationAware;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -18,17 +33,6 @@ import com.zeh.wms.biz.service.QRCodeService;
 import com.zeh.wms.dal.daointerface.QrcodeDAO;
 import com.zeh.wms.dal.dataobject.QrcodeDO;
 import com.zeh.wms.dal.operation.qrcode.QueryPageByConditionsQuery;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author allen
@@ -36,7 +40,7 @@ import java.util.Map;
  * @since 1.0.0
  */
 @Service
-public class QRCodeServiceImpl implements QRCodeService {
+public class QRCodeServiceImpl implements QRCodeService, AppConfigurationAware {
     /** ERROR Factory */
     private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
 
@@ -45,6 +49,18 @@ public class QRCodeServiceImpl implements QRCodeService {
 
     @Resource
     private QRCodeMapper                 mapper;
+
+    private AppConfiguration             appConfiguration;
+
+    /**
+     * 设置应用配置信息
+     *
+     * @param appConfiguration
+     */
+    @Override
+    public void setAppConfiguration(AppConfiguration appConfiguration) {
+        this.appConfiguration = appConfiguration;
+    }
 
     /**
      * 生成二维码，默认配置参数
@@ -78,6 +94,7 @@ public class QRCodeServiceImpl implements QRCodeService {
         try {
             BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
             BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+            ImageIO.setUseCache(false);
             ImageIO.write(bufferedImage, "png", os);
             String data = FastBase64.encodeToString(os.toByteArray(), true);
             return data;
@@ -122,70 +139,63 @@ public class QRCodeServiceImpl implements QRCodeService {
         }
     }
 
+    /**
+     * 创建二维码，并入库
+     *
+     * @param qrCode 二维码查询对象
+     * @throws ServiceException
+     */
     @Override
-    public PageList<QrcodeVO> queryAll(int currentPage, int size) throws ServiceException {
-        PageList<QrcodeDO> dos = qrcodeDAO.queryPageAll(size, currentPage);
-        return PageUtils.createPageList(mapper.d2vs(dos.getData()), dos.getPaginator());
+    public void createQRCode(QrcodeVO qrCode) throws ServiceException {
+        if (qrCode == null) {
+            throw new IllegalArgumentException("QRCode cannot be null");
+        }
+        QrcodeDO qrCodeDO = mapper.v2d(qrCode);
+        qrcodeDAO.insert(qrCodeDO);
+    }
+
+    /**
+     * 生成二维码内容
+     *
+     * @param qrCode
+     * @return
+     * @throws ServiceException
+     */
+    @Override
+    public String generateQRCodeContent(QrcodeVO qrCode) throws ServiceException {
+        String serialNo = qrCode.getSerialNo();
+        Long commodityId = qrCode.getCommodityId();
+        String webRoot = appConfiguration.getPropertyValue("qrcode.web.root");
+        return webRoot + "?serialNo=" + serialNo + "&commodityId=" + commodityId;
     }
 
     @Override
     public PageList<QrcodeVO> queryByConditions(QrcodeVO vo, int currentPage, int size) throws ServiceException {
-        if (currentPage <= 0) {
-            currentPage = 1;
-        }
-        if (size <= 0) {
-            size = 20;
+        if (vo == null) {
+            throw new ServiceException(ERROR_FACTORY.queryQRCodeError());
         }
         QueryPageByConditionsQuery query = new QueryPageByConditionsQuery();
-        if (vo != null) {
-            if (vo.getCommodityId() != null) {
-                query.setCommodityId(vo.getCommodityId());
-            }
-            if (vo.getBatchId() != null) {
-                query.setBatchId(vo.getBatchId());
-            }
-        }
+        query.setCommodityId(vo.getCommodityId() == null ? null : vo.getCommodityId());
+        query.setBatchId(vo.getBatchId() == null ? null : vo.getBatchId());
+        query.setState(vo.getState() == null ? null : vo.getState().getCode());
         query.setPage(currentPage);
         query.setPageSize(size);
-
         PageList<QrcodeDO> dos = qrcodeDAO.queryPageByConditions(query);
         return PageUtils.createPageList(mapper.d2vs(dos.getData()), dos.getPaginator());
     }
 
     /**
-     * 建立二维码与商品间的绑定关系
-     *
-     * @param code_id   二维码ID
-     * @param commodity_id  商品ID
-     * @throws ServiceException
-     */
-    @Override
-    public void bindCommodity(Long code_id, Long commodity_id) throws ServiceException {
-        if (code_id == null || commodity_id == null) {
-            throw new ServiceException(ERROR_FACTORY.bindCommodityError("查询参数为空"));
-        }
-
-        QrcodeDO code = qrcodeDAO.queryById(code_id);
-        if (code == null || code.getCommodityId() > 0) {
-            throw new ServiceException(ERROR_FACTORY.bindCommodityError("指定二维码不存在，或是已绑定商品"));
-        }
-
-        code.setCommodityId(commodity_id);
-        qrcodeDAO.update(code);
-    }
-
-    /**
      * 通过主键查询
-     * @param code_id   二维码ID
+     * @param codeId   二维码ID
      * @return
      * @throws ServiceException
      */
     @Override
-    public QrcodeVO queryById(Long code_id) throws ServiceException {
-        if (code_id == null) {
+    public QrcodeVO queryById(Long codeId) throws ServiceException {
+        if (codeId == null) {
             throw new ServiceException(ERROR_FACTORY.queryQRCodeError());
         }
-        QrcodeDO _do = qrcodeDAO.queryById(code_id);
+        QrcodeDO _do = qrcodeDAO.queryById(codeId);
         return mapper.d2v(_do);
     }
 }

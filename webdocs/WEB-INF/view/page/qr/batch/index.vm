@@ -20,9 +20,9 @@
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <label class="control-label col-md-4">数量</label>
+                                <label class="control-label col-md-4">商品</label>
                                 <div class="col-md-8">
-                                    <input class="form-control" id="amount" name="amount" type="int" v-model.trim="queryForm.amount"/>
+                                    <vue-select :options="commodities" :model.sync="queryForm.commodityId" :configs="{placeholder:'全部'}"></vue-select>
                                 </div>
                             </div>
                         </div>
@@ -39,6 +39,7 @@
                 <div class="form-actions">
                     <div class="button-group" align="center">
                         <button type="button" class="btn green-meadow" v-on:click="preQuery"><i class="fa fa-search"></i>搜索</button>
+                        <button type="button" class="btn default" v-on:click="create"><i class="fa fa-plus"></i>生成二维码</button>
                         <button type="button" class="btn" v-on:click="reset"><i class="fa fa-refresh"></i>重置</button>
                     </div>
                 </div>
@@ -50,7 +51,8 @@
         <tr>
             <th>ID</th>
             <th>批次号</th>
-            <th>数量</th>
+            <th>二维码数量</th>
+            <th>商品</th>
             <th>状态</th>
             <th>创建时间</th>
             <th>修改时间</th>
@@ -59,9 +61,14 @@
         </thead>
         <tbody>
         <tr v-cloak v-for="item in pageResult.data">
-            <td v-html="item.id"></td>
+            <td>
+                 <span>
+                    <a target="_blank" href="${rc.contextPath}/page/qr/code/index?batchId={{item.id}}">{{item.id}}</a>
+                </span>
+            </td>
             <td v-html="item.batchSerial"></td>
             <td v-html="item.amount"></td>
+            <td v-html="item.commodityId  | enumFormat commodities"></td>
             <td v-html="item.state | enumFormat states"></td>
             <td v-html="item.gmtCreate | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>

@@ -14,16 +14,24 @@ $(document).ready(function () {
                 }
             },
             queryForm: {},
+            commodities: [],
             states: []
         },
         ready: function () {
             this.init();
-            this.queryForm = {};
-            this.query();
+            this.preQuery();
         },
         methods: {
             init: function () {
                 var self = this;
+                self.queryForm.batchId = $("#batchId").val();
+                $.ajax({
+                    type: 'GET',
+                    url: __ctx + "/combo/commodities"
+                }).done(function (resp) {
+                    self.commodities = resp;
+                });
+
                 $.ajax({
                     type: 'GET',
                     url: __ctx + "/combo/fromBizEnum",
@@ -32,9 +40,9 @@ $(document).ready(function () {
                     if (resp.length > 0) {
                         for (var i = 0; i < resp.length; i++) {
                             if (resp[i].value == 0) {
-                                resp[i].text = "未使用";
+                                resp[i].text = "未关联";
                             } else {
-                                resp[i].text = "已使用";
+                                resp[i].text = "已关联";
                             }
                         }
                     }
@@ -63,13 +71,21 @@ $(document).ready(function () {
             reset: function () {
                 this.queryForm = {};
             },
-            bind: function (id) {
+            relate: function (id) {
                 $("#formModal").modal({
                     show: true,
-                    remote: __ctx + "/qr/code/bind?id=" + id,
+                    remote: __ctx + "/page/qr/code/relate?id=" + id,
+                    backdrop: 'static'
+                });
+            },
+            viewCode: function(id) {
+                $("#formModal").modal({
+                    show: true,
+                    remote: __ctx + "/page/qr/code/viewCode?id=" + id,
                     backdrop: 'static'
                 });
             }
+
         }
     });
 });

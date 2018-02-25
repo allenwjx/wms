@@ -1,12 +1,9 @@
-/**
- * Created by hzy24985 on 2018/2/8.
- */
-
 $(document).ready(function () {
     debugger;
-    new Vue({
+    var qrCodeBatch_edit_vm = new Vue({
         el: '#modalForm',
         data: {
+            commodities: [],
             model: {}
         },
         ready: function () {
@@ -17,27 +14,23 @@ $(document).ready(function () {
                 var self = this;
                 $.ajax({
                     type: 'GET',
-                    url: __ctx + "/qr/code/one",
-                    data: {id: formData.id}
-                }).done(function (result) {
-                    self.model = result;
+                    url: __ctx + "/combo/commodities"
+                }).done(function (resp) {
+                    self.commodities = resp;
                 });
-                console.log ('- init model is ' + self.model);
             },
-
-            // 提交数据
             submitData: function () {
                 $("#modalForm").data('bootstrapValidator', null);
                 this.validator();
                 var me = this.model;
-                var url = __ctx + "/qr/code/doBind";
+                var url = __ctx + "/qr/batch/save";
                 var method = "POST";
                 $("#modalForm").data('bootstrapValidator').validate();
                 if ($("#modalForm").data('bootstrapValidator').isValid()) {
                     $.ajax({
                         type: method,
                         url: url,
-                        data: JSON.stringify (me),
+                        data: JSON.stringify(me),
                         dataType: "json",
                         contentType: "application/json",
                         //成功返回之后调用的函数
@@ -45,7 +38,7 @@ $(document).ready(function () {
                             if (data && data.success) {
                                 $('#formModal').modal('hide');
                                 toastr.success('操作成功', {timeOut: 1500, positionClass: "toast-top-center"});
-                                qrCode_vm.preQuery();
+                                qrCodeBatch_vm.preQuery();
                             } else {
                                 toastr.error(data.errorMessage, {timeOut: 1500, positionClass: "toast-top-center"});
                             }
@@ -56,22 +49,28 @@ $(document).ready(function () {
                     });
                 }
             },
-
-            // 校验数据
             validator: function () {
-                $('#modalForm').bootstrapValidator ({
+                $('#modalForm').bootstrapValidator({
                     message: 'This value is not valid',
                     fields: {
                         commodityId: {
                             validators: {
                                 notEmpty: {
-                                    message: '请选择商品ID'
+                                    message: '请选择商品'
+                                }
+                            }
+                        },
+                        amount: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请输入生成二维码数量'
                                 }
                             }
                         }
                     }
                 });
             }
+            ,
         }
     });
 

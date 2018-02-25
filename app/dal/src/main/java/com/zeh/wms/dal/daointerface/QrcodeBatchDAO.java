@@ -70,7 +70,7 @@ public interface QrcodeBatchDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, batch_serial, commodity_id, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         1=1                                        AND                      batch_serial = ?                                            AND                      state = ?                                                ORDER BY         gmt_modified DESC</pre> 
+	 * <pre>SELECT         id, batch_serial, commodity_id, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         1=1                                        AND                      batch_serial = ?                                            AND                      commodity_id = ?                                            AND                      state = ?                                                ORDER BY         gmt_modified DESC</pre> 
 	 */
 	public PageList<QrcodeBatchDO> queryByPage(QueryByPageQuery param) throws DataAccessException;
 

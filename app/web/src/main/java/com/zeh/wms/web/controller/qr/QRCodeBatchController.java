@@ -3,10 +3,7 @@ package com.zeh.wms.web.controller.qr;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.Paginator;
@@ -40,10 +37,33 @@ public class QRCodeBatchController extends BaseController {
     @ResponseBody
     public PageList<QRCodeBatchVO> list(QRCodeBatchForm form, Paginator paginator) throws ServiceException {
         QRCodeBatchVO qrCodeBatch = new QRCodeBatchVO();
-        qrCodeBatch.setAmount (form.getAmount ());
+        qrCodeBatch.setAmount(form.getAmount());
         qrCodeBatch.setBatchSerial(form.getBatchSerial());
+        qrCodeBatch.setCommodityId(form.getCommodityId());
         qrCodeBatch.setState(form.getState() == null ? null : StateEnum.getEnumByCode(form.getState()));
         return qrCodeBatchService.pageQueryQRCodeBatchs(qrCodeBatch, paginator.getCurrentPage(), paginator.getPageSize());
+    }
+
+    /**
+     * 批量生成二维码
+     *
+     * @param form
+     * @return
+     */
+    @RequestMapping(value = "save", method = RequestMethod.POST)
+    @ResponseBody
+    public SingleResult add(@RequestBody QRCodeBatchForm form) {
+        try {
+            QRCodeBatchVO qrCodeBatch = new QRCodeBatchVO();
+            qrCodeBatch.setAmount(form.getAmount());
+            qrCodeBatch.setCommodityId(form.getCommodityId());
+            qrCodeBatch.setCreateBy(getCurrentUserName());
+            qrCodeBatch.setModifyBy(getCurrentUserName());
+            qrCodeBatchService.createQRCodeBatch(qrCodeBatch);
+            return createSuccessResult();
+        } catch (ServiceException e) {
+            return createErrorResult(e);
+        }
     }
 
     /**

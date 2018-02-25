@@ -64,6 +64,9 @@
                 <isNotEmpty prepend="AND" property="batchSerial">
                     batch_serial = #batchSerial#
                 </isNotEmpty>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    commodity_id = #commodityId#
+                </isNotEmpty>
                 <isNotEmpty prepend="AND" property="state">
                     state = #state#
                 </isNotEmpty>
