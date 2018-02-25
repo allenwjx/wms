@@ -16,7 +16,7 @@
 <div class="page-sidebar-wrapper" id="leftHead">
     <div class="page-sidebar navbar-collapse collapse">
         <ul id="ulMenu" class="page-sidebar-menu page-sidebar-menu-closed sidebar-defined" data-keep-expanded="false"
-            data-auto-scroll="true" data-slide-speed="200" style="width:270px; position: fixed; z-index: 2000;">
+            data-auto-scroll="true" data-slide-speed="200" style="width:210px; position: fixed; z-index: 2000;">
             <input class="form-control" id="menuName" name="menuName" v-model="menuName" placeholder="请输入..."></input>
             <li>
                 <a href="javascript:;"><i class="icon-plane"></i><span class="title">销售管理</span><span class="arrow "></span></a>
