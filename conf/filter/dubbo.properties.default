@@ -34,6 +34,6 @@ wechat.notifyUrl=https://47.97.222.254:8080/wms/api/callback/paynotify
 wechat.useSandboxEnv=true
 
 #二维码web地址
-qrcode.web.root=http://127.0.0.1:8080/wms/api/qrcode
+qrcode.web.root=http://47.97.222.254:8080/wms/api/qrcode
 
 
