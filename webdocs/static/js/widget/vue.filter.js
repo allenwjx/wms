@@ -28,7 +28,7 @@ Vue.filter('toDate', {
 Vue.filter('toMoney', {
     read: function (value) {
         if (value) {
-            return "￥" + parseFloat(value)/100;
+            return parseFloat(value)/100 + " ￥";
         } else {
             return value;
         }
@@ -49,7 +49,7 @@ Vue.filter('toMoney', {
 Vue.filter('toKG', {
     read: function (value) {
         if (value) {
-            return "KG" + parseFloat(value)/1000;
+            return parseFloat(value)/1000 + " KG";
         } else {
             return value;
         }

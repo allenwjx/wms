@@ -71,14 +71,14 @@ $(document).ready(function () {
             reset: function () {
                 this.queryForm = {};
             },
-            relate: function (serialNo) {
+            details: function (serialNo) {
                 $("#formModal").modal({
                     show: true,
                     remote: __ctx + "/page/qr/code/details?serialNo=" + serialNo,
                     backdrop: 'static'
                 });
             },
-            details: function(id) {
+            viewCode: function(id) {
                 $("#formModal").modal({
                     show: true,
                     remote: __ctx + "/page/qr/code/viewCode?id=" + id,

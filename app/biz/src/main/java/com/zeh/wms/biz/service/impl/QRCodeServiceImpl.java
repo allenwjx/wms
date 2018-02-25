@@ -29,6 +29,7 @@ import com.zeh.wms.biz.exception.QRCodeException;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.QRCodeMapper;
 import com.zeh.wms.biz.model.QrcodeVO;
+import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.service.QRCodeService;
 import com.zeh.wms.dal.daointerface.QrcodeDAO;
 import com.zeh.wms.dal.dataobject.QrcodeDO;
@@ -206,5 +207,24 @@ public class QRCodeServiceImpl implements QRCodeService, AppConfigurationAware {
         }
         QrcodeDO _do = qrcodeDAO.queryBySerialno(serialNo);
         return mapper.d2v(_do);
+    }
+
+    /**
+     * 更新运价启用、禁用状态
+     *
+     * @param id       二维码ID
+     * @param modifyBy 修改人
+     * @param enabled  状态
+     * @throws ServiceException 运价状态更新异常
+     */
+    @Override
+    public void updateQRCodeState(long id, String modifyBy, StateEnum enabled) throws ServiceException {
+        QrcodeDO qrCode = qrcodeDAO.queryById(id);
+        if (qrCode == null) {
+            throw new ServiceException(ERROR_FACTORY.queryQRCodeError());
+        }
+        qrCode.setState(enabled.getCode());
+        qrCode.setModifyBy(modifyBy);
+        qrcodeDAO.update(qrCode);
     }
 }

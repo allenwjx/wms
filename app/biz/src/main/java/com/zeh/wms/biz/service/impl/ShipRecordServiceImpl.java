@@ -9,6 +9,7 @@ import com.zeh.wms.biz.service.*;
 import com.zeh.wms.dal.daointerface.ShipRecordDAO;
 import com.zeh.wms.dal.dataobject.ShipRecordDO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -40,6 +41,7 @@ public class ShipRecordServiceImpl implements ShipRecordService {
      * @throws ServiceException
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void bind(ShipRecordVO shipRecord) throws ServiceException {
         AgentVO agent = agentService.findAgentById(shipRecord.getAgentId());
         if (agent == null) {
@@ -59,6 +61,7 @@ public class ShipRecordServiceImpl implements ShipRecordService {
         // 生成邦定记录
         ShipRecordDO shipRecordDO = mapper.vo2do(shipRecord);
         shipRecordDAO.insert(shipRecordDO);
+        qrCodeService.updateQRCodeState(qrcode.getId(), shipRecord.getModifyBy(), StateEnum.Y);
     }
 
     /**

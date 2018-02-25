@@ -7,8 +7,7 @@ import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.QRCodeException;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.QrcodeVO;
-
-import javax.xml.ws.Service;
+import com.zeh.wms.biz.model.enums.StateEnum;
 
 /**
  * @author allen
@@ -87,4 +86,14 @@ public interface QRCodeService {
     QrcodeVO queryById(Long code_id) throws ServiceException;
 
     QrcodeVO queryBySerialNo(String serialNo) throws ServiceException;
+
+    /**
+     * 更新运价启用、禁用状态
+     *
+     * @param id       二维码ID
+     * @param modifyBy 修改人
+     * @param enabled  状态
+     * @throws ServiceException 运价状态更新异常
+     */
+    void updateQRCodeState(long id, String modifyBy, StateEnum enabled) throws ServiceException;
 }
