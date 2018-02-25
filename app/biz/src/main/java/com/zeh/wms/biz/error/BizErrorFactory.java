@@ -458,6 +458,15 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * JG0510016011=带消息查询参数错误
+     * @param message
+     * @return
+     */
+    public JGError queryQRCodeError (String message) {
+        return createError("JG0510016011", message);
+    }
+
+    /**
      * JG0510016012=更新二维码失败
      * @return
      */
