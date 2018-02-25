@@ -32,6 +32,7 @@
                 <value>/index</value>
                 <value>/login</value>
                 <value>/logout</value>
+                <value>/api-docs/**/*</value>
             </set>
         </property>
     </bean>
