@@ -52,7 +52,6 @@ $(document).ready(function () {
 
                     errorPlacement: function (error, element) {
                         error.insertAfter(element.closest('.input-icon'));
-                        $('.alert-danger', $('.login-form')).hide(500);
                     }
                 });
 
@@ -70,7 +69,7 @@ $(document).ready(function () {
                     this.doLogin();
                 }
             },
-            doLogin: function() {
+            doLogin: function () {
                 var me = this.model;
                 var url = "/wms/login";
                 var method = "POST";
