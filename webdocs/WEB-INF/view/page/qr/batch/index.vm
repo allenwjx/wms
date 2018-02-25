@@ -38,8 +38,9 @@
                 </div>
                 <div class="form-actions">
                     <div class="button-group" align="center">
-                        <button type="button" class="btn green-meadow" v-on:click="preQuery"><i class="fa fa-search"></i>搜索</button>
-                        <button type="button" class="btn default" v-on:click="create"><i class="fa fa-plus"></i>生成二维码</button>
+                        <button type="button" class="btn green-meadow" v-on:click="preQuery"><i class="fa fa-search"></i> 搜索</button>
+                        <button type="button" class="btn default" v-on:click="create"><i class="glyphicon glyphicon-qrcode"></i> 生成二维码</button>
+                        <button type="button" class="btn default" v-on:click="export"><i class="glyphicon glyphicon-download-alt"></i> 导出二维码</button>
                         <button type="button" class="btn" v-on:click="reset"><i class="fa fa-refresh"></i>重置</button>
                     </div>
                 </div>
@@ -49,6 +50,7 @@
     <table id="table" class="table table-bordered table-hover table-striped">
         <thead>
         <tr>
+            <th></th>
             <th>ID</th>
             <th>批次号</th>
             <th>二维码数量</th>
@@ -62,6 +64,9 @@
         <tbody>
         <tr v-cloak v-for="item in pageResult.data">
             <td>
+                <input name="selectedBatchs" type="checkbox" v-model="model.selectedBatchs" v-bind:value="item.id">
+            </td>
+            <td>
                  <span>
                     <a href="${rc.contextPath}/page/qr/code/index?batchId={{item.id}}">{{item.id}}</a>
                 </span>
@@ -74,7 +79,7 @@
             <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td>
                 <template v-if="item.state == 0">
-                    <a class="a-icon" v-on:click="delete(item.id, item.state)"><i class="fa fa-remove"></i>使用</a>
+                    <a class="a-icon" v-on:click="delete(item.id, item.state)"><i class="glyphicon glyphicon-ok"></i>使用</a>
                 </template>
             </td>
         </tr>

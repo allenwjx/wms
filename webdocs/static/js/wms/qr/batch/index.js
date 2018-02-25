@@ -14,7 +14,8 @@ $(document).ready(function () {
             },
             queryForm: {},
             commodities: [],
-            states: []
+            states: [],
+            model: {selectedBatchs: []}
         },
         ready: function () {
             this.init();
@@ -97,6 +98,14 @@ $(document).ready(function () {
                                 toastr.error(data.errorMessage, {timeOut: 1500, positionClass: "toast-top-center"});
                             }
                         });
+                    }
+                });
+            },
+            export: function () {
+                var self = this;
+                alertify.confirm("确定导出选择批次的二维码数据？", function (result) {
+                    if (result) {
+                        alert("【魏军待开发】选择导出的二维批次为：" + JSON.stringify(self.model));
                     }
                 });
             }
