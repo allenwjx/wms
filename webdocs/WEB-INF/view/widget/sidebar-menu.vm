@@ -39,7 +39,6 @@
                 <ul class="sub-menu ul-sec">
                     <li><a href="${rc.contextPath}/page/qr/code/index"><i class="fa fa-cab"></i>二维码管理</a></li>
                     <li><a href="${rc.contextPath}/page/qr/batch/index"><i class="fa fa-cab"></i>二维码批次管理</a></li>
-                    <li><a href="#"><i class="fa fa-cab"></i>二维码生成</a></li>
                 </ul>
             </li>
             <li>

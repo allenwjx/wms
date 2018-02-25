@@ -88,7 +88,7 @@ public class QRCodeBatchServiceImpl implements QRCodeBatchService {
         qrCode.setState(StateEnum.N);
         String content = qrCodeService.generateQRCodeContent(qrCode);
         try {
-            String data = qrCodeService.encode(content, 90, 90);
+            String data = qrCodeService.encode(content, 256, 256);
             qrCode.setData(data);
             return qrCode;
         } catch (QRCodeException e) {

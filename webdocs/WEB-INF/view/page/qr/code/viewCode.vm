@@ -9,7 +9,7 @@
     <input type="hidden" id="id" value="$!{id}">
     <div id="viewCode" class="col-sm-12" style="">
         <center>
-            <img src='data:image/jpeg;base64,{{model.data}}'>
+            <img height="256" width="256" src='data:image/jpeg;base64,{{model.data}}'>
         </center>
     </div>
 </div>
