@@ -44,17 +44,21 @@ public class QrcodeDO implements java.io.Serializable {
 	 */
 	private String serialNo;
 	/**
-	 * 商品id 		db_column: commodity_id 
-	 */
-	private long commodityId;
-	/**
 	 * batchId 		db_column: batch_id 
 	 */
 	private long batchId;
 	/**
+	 * 商品id 		db_column: commodity_id 
+	 */
+	private long commodityId;
+	/**
 	 * 二维码图片数据，base64编码 		db_column: data 
 	 */
 	private String data;
+	/**
+	 * 0-未关联，1-已关联 		db_column: state 
+	 */
+	private int state;
 	/**
 	 * 创建时间 		db_column: gmt_create 
 	 */
@@ -89,14 +93,6 @@ public class QrcodeDO implements java.io.Serializable {
 		return this.serialNo;
 	}
 	
-	public void setCommodityId(long commodityId) {
-		this.commodityId = commodityId;
-	}
-	
-	public long getCommodityId() {
-		return this.commodityId;
-	}
-	
 	public void setBatchId(long batchId) {
 		this.batchId = batchId;
 	}
@@ -105,12 +101,28 @@ public class QrcodeDO implements java.io.Serializable {
 		return this.batchId;
 	}
 	
+	public void setCommodityId(long commodityId) {
+		this.commodityId = commodityId;
+	}
+	
+	public long getCommodityId() {
+		return this.commodityId;
+	}
+	
 	public void setData(String data) {
 		this.data = data;
 	}
 	
 	public String getData() {
 		return this.data;
+	}
+	
+	public void setState(int state) {
+		this.state = state;
+	}
+	
+	public int getState() {
+		return this.state;
 	}
 	
 	public void setGmtCreate(Date gmtCreate) {
@@ -149,9 +161,10 @@ public class QrcodeDO implements java.io.Serializable {
 		return new ToStringBuilder(this)
 			.append("Id",getId())
 			.append("SerialNo",getSerialNo())
-			.append("CommodityId",getCommodityId())
 			.append("BatchId",getBatchId())
+			.append("CommodityId",getCommodityId())
 			.append("Data",getData())
+			.append("State",getState())
 			.append("GmtCreate",getGmtCreate())
 			.append("GmtModified",getGmtModified())
 			.append("CreateBy",getCreateBy())

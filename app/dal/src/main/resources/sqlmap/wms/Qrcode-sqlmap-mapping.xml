@@ -8,9 +8,10 @@
     <resultMap id="RM.Qrcode" class="com.zeh.wms.dal.dataobject.QrcodeDO">
 		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="serialNo" column="serial_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="commodityId" column="commodity_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="batchId" column="batch_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="commodityId" column="commodity_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="data" column="data" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="state" column="state" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
@@ -18,7 +19,7 @@
     </resultMap>
     
 	<sql id="Qrcode.columns">
-		id, serial_no, commodity_id, batch_id, data, gmt_create, gmt_modified, create_by, modify_by
+		id, serial_no, commodity_id, batch_id, data, state, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -27,8 +28,8 @@
     
 	<insert id="wms.Qrcode.insert">
 		INSERT INTO qrcode (
-			id ,serial_no ,commodity_id ,batch_id ,data ,gmt_create ,gmt_modified ,create_by ,modify_by
-			) VALUES (#id#,#serialNo#,#commodityId#,#batchId#,#data#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+            id ,serial_no ,commodity_id ,batch_id ,data , state, gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (#id#,#serialNo#,#commodityId#,#batchId#,#data#,#state#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -37,42 +38,27 @@
 	
 	<delete id="wms.Qrcode.delete">
 		DELETE FROM qrcode WHERE
-			id = #id#
+            id = #id#
     </delete>
     
 	
 	<update id="wms.Qrcode.update">
 		UPDATE qrcode SET
-			serial_no = #serialNo# ,commodity_id = #commodityId# ,batch_id = #batchId# ,data = #data# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy#
-			WHERE
-			id = #id#
+            serial_no = #serialNo# ,commodity_id = #commodityId# ,batch_id = #batchId# ,data = #data# ,state = #state# ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+            WHERE
+            id = #id#
 	</update>
 	
     
 	
 	<select id="wms.Qrcode.queryById" resultMap="RM.Qrcode" >
     	SELECT
- /*wms.Qrcode.queryById*/ 			<include refid="Qrcode.columns"/>
-			FROM qrcode
-			WHERE
-			id = #id#
+ /*wms.Qrcode.queryById*/             <include refid="Qrcode.columns"/>
+            FROM qrcode
+            WHERE
+            id = #id#
 	</select>	
 
-	    
-	
-	
-    
-	
-	<select id="wms.Qrcode.findPage" resultMap="RM.Qrcode" >
-    	SELECT
- /*wms.Qrcode.findPage*/ 			<include refid="Qrcode.columns"/>
-			FROM qrcode
-			limit #offset#,#limit#
-	</select>	
-
-	<select id="wms.Qrcode.findPage.count" resultClass="long" >
-    	select  /*wms.Qrcode.findPage.count*/ count(*) 	FROM qrcode
-	</select>
 	    
 	
 	
@@ -80,33 +66,17 @@
 	
 	<select id="wms.Qrcode.findByCommodityId" resultMap="RM.Qrcode" >
     	SELECT
- /*wms.Qrcode.findByCommodityId*/ 			<include refid="Qrcode.columns"/>
-			FROM qrcode
-			WHERE
-				commodity_id = #commodityId#
+ /*wms.Qrcode.findByCommodityId*/             <include refid="Qrcode.columns"/>
+            FROM qrcode
+            WHERE
+            commodity_id = #commodityId#
 			limit #offset#,#limit#
 	</select>	
 
 	<select id="wms.Qrcode.findByCommodityId.count" resultClass="long" >
-    	select  /*wms.Qrcode.findByCommodityId.count*/ count(*) 	FROM qrcode
-			WHERE
-				commodity_id = #commodityId#
-	</select>
-	    
-	
-	
-    
-	
-	<select id="wms.Qrcode.queryPageAll" resultMap="RM.Qrcode" >
-    	SELECT
- /*wms.Qrcode.queryPageAll*/ 			<include refid="Qrcode.columns"/>
-			FROM qrcode
-			ORDER BY gmt_modified DESC
-			limit #offset#,#limit#
-	</select>	
-
-	<select id="wms.Qrcode.queryPageAll.count" resultClass="long" >
-    	select  /*wms.Qrcode.queryPageAll.count*/ count(*) 	FROM qrcode
+    	select  /*wms.Qrcode.findByCommodityId.count*/ count(*)  FROM qrcode
+            WHERE
+            commodity_id = #commodityId#
 	</select>
 	    
 	
@@ -115,32 +85,38 @@
 	
 	<select id="wms.Qrcode.queryPageByConditions" resultMap="RM.Qrcode" >
     	SELECT
- /*wms.Qrcode.queryPageByConditions*/ 			<include refid="Qrcode.columns"/>
-			FROM qrcode
-			WHERE 1 = 1
-			<dynamic>
-				<isNotEmpty prepend="AND" property="commodityId">
-					commodity_id = #commodityId#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="batchId">
-					batch_id = #batchId#
-				</isNotEmpty>
-			</dynamic>
-			ORDER BY gmt_modified DESC
+ /*wms.Qrcode.queryPageByConditions*/             <include refid="Qrcode.columns"/>
+            FROM qrcode
+            WHERE 1 = 1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    commodity_id = #commodityId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="batchId">
+                    batch_id = #batchId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="state">
+                    state = #state#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
 			limit #offset#,#limit#
 	</select>	
 
 	<select id="wms.Qrcode.queryPageByConditions.count" resultClass="long" >
-    	select  /*wms.Qrcode.queryPageByConditions.count*/ count(*) 	FROM qrcode
-			WHERE 1 = 1
-			<dynamic>
-				<isNotEmpty prepend="AND" property="commodityId">
-					commodity_id = #commodityId#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="batchId">
-					batch_id = #batchId#
-				</isNotEmpty>
-			</dynamic>
+    	select  /*wms.Qrcode.queryPageByConditions.count*/ count(*)  FROM qrcode
+            WHERE 1 = 1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    commodity_id = #commodityId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="batchId">
+                    batch_id = #batchId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="state">
+                    state = #state#
+                </isNotEmpty>
+            </dynamic>
 	</select>
 	    
 	

@@ -8,6 +8,7 @@
     <resultMap id="RM.QrcodeBatch" class="com.zeh.wms.dal.dataobject.QrcodeBatchDO">
 		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="batchSerial" column="batch_serial" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="commodityId" column="commodity_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="amount" column="amount" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="state" column="state" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
@@ -15,7 +16,7 @@
     </resultMap>
     
 	<sql id="QrcodeBatch.columns">
-		id, batch_serial, amount, state, gmt_create, gmt_modified
+		id, batch_serial, commodity_id, amount, state, gmt_create, gmt_modified
 	</sql>
 		
 
@@ -24,8 +25,8 @@
     
 	<insert id="wms.QrcodeBatch.insert">
 		INSERT INTO qrcode_batch (
-            id ,batch_serial ,amount ,state ,gmt_create ,gmt_modified
-            ) VALUES (#id#,#batchSerial#,#amount#,#state#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+            id ,batch_serial ,commodity_id ,amount ,state ,gmt_create ,gmt_modified
+            ) VALUES (#id#,#batchSerial#,#commodityId#,#amount#,#state#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        

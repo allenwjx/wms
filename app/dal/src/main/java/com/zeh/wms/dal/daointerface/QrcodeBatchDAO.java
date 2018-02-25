@@ -2,12 +2,21 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.wms.dal.dataobject.QrcodeBatchDO;
-import com.zeh.wms.dal.operation.qrcodebatch.QueryByPageQuery;
 import org.springframework.dao.DataAccessException;
+import com.zeh.wms.dal.operation.qrcodebatch.*;
+import com.zeh.wms.dal.dataobject.*;
 
-import java.util.List;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * QrcodeBatchDAO
  * database table: qrcode_batch
@@ -26,7 +35,7 @@ public interface QrcodeBatchDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>INSERT      INTO         qrcode_batch         (             id ,batch_serial ,amount ,state ,gmt_create ,gmt_modified             )      VALUES         (?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)</pre> 
+	 * <pre>INSERT      INTO         qrcode_batch         (             id ,batch_serial ,commodity_id ,amount ,state ,gmt_create ,gmt_modified             )      VALUES         (?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)</pre> 
 	 */
 	public long insert(QrcodeBatchDO qrcodeBatch) throws DataAccessException;
 
@@ -47,21 +56,21 @@ public interface QrcodeBatchDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, batch_serial, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         id = ?</pre> 
+	 * <pre>SELECT         id, batch_serial, commodity_id, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         id = ?</pre> 
 	 */
 	public QrcodeBatchDO queryById(Long id) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, batch_serial, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         batch_serial = ?</pre> 
+	 * <pre>SELECT         id, batch_serial, commodity_id, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         batch_serial = ?</pre> 
 	 */
 	public List<QrcodeBatchDO> queryAllQRcodesByBatchSerial(String batchSerial) throws DataAccessException;
 
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, batch_serial, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         1=1                                        AND                      batch_serial = ?                                            AND                      state = ?                                                ORDER BY         gmt_modified DESC</pre> 
+	 * <pre>SELECT         id, batch_serial, commodity_id, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         1=1                                        AND                      batch_serial = ?                                            AND                      state = ?                                                ORDER BY         gmt_modified DESC</pre> 
 	 */
 	public PageList<QrcodeBatchDO> queryByPage(QueryByPageQuery param) throws DataAccessException;
 

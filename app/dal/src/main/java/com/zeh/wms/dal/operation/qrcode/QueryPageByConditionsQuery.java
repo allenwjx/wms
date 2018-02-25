@@ -39,13 +39,16 @@ public class QueryPageByConditionsQuery  extends PageQuery implements java.io.Se
 	private Long commodityId;
 	/** batchId */
 	private Long batchId;
+	/** 0-未关联，1-已关联 */
+	private Integer state;
 	
 	public QueryPageByConditionsQuery() {
 	}
 	
-	public QueryPageByConditionsQuery(Long commodityId ,Long batchId ) {
+	public QueryPageByConditionsQuery(Long commodityId ,Long batchId ,Integer state ) {
 		this.commodityId = commodityId;
 		this.batchId = batchId;
+		this.state = state;
 	}
 	
 	public Long getCommodityId() {
@@ -59,6 +62,12 @@ public class QueryPageByConditionsQuery  extends PageQuery implements java.io.Se
 	}
 	public void setBatchId(Long batchId) {
 		this.batchId = batchId;
+	}
+	public Integer getState() {
+		return state;
+	}
+	public void setState(Integer state) {
+		this.state = state;
 	}
 	
 	public String toString() {

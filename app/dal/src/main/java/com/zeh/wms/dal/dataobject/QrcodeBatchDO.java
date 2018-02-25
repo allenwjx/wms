@@ -40,11 +40,15 @@ public class QrcodeBatchDO implements java.io.Serializable {
 	 */
 	private long id;
 	/**
-	 * 批次号 		db_column: batch_serial 
+	 * batchSerial 		db_column: batch_serial 
 	 */
 	private String batchSerial;
 	/**
-	 * 批次数量 		db_column: amount 
+	 * 商品ID 		db_column: commodity_id 
+	 */
+	private long commodityId;
+	/**
+	 * amount 		db_column: amount 
 	 */
 	private int amount;
 	/**
@@ -52,11 +56,11 @@ public class QrcodeBatchDO implements java.io.Serializable {
 	 */
 	private int state;
 	/**
-	 * 创建时间 		db_column: gmt_create 
+	 * gmtCreate 		db_column: gmt_create 
 	 */
 	private Date gmtCreate;
 	/**
-	 * 更新时间 		db_column: gmt_modified 
+	 * 批次数量 		db_column: gmt_modified 
 	 */
 	private Date gmtModified;
 
@@ -75,6 +79,14 @@ public class QrcodeBatchDO implements java.io.Serializable {
 	
 	public String getBatchSerial() {
 		return this.batchSerial;
+	}
+	
+	public void setCommodityId(long commodityId) {
+		this.commodityId = commodityId;
+	}
+	
+	public long getCommodityId() {
+		return this.commodityId;
 	}
 	
 	public void setAmount(int amount) {
@@ -113,6 +125,7 @@ public class QrcodeBatchDO implements java.io.Serializable {
 		return new ToStringBuilder(this)
 			.append("Id",getId())
 			.append("BatchSerial",getBatchSerial())
+			.append("CommodityId",getCommodityId())
 			.append("Amount",getAmount())
 			.append("State",getState())
 			.append("GmtCreate",getGmtCreate())

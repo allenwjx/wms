@@ -5,15 +5,15 @@
     <!-- 不需要配置的列请删除 -->
 
     <sql id="QrcodeBatch.columns">
-        id, batch_serial, amount, state, gmt_create, gmt_modified
+        id, batch_serial, commodity_id, amount, state, gmt_create, gmt_modified
     </sql>
 
     <operation name="insert" paramtype="object">
         <sql>
             INSERT INTO qrcode_batch (
-            id ,batch_serial ,amount ,state ,gmt_create ,gmt_modified
+            id ,batch_serial ,commodity_id ,amount ,state ,gmt_create ,gmt_modified
             ) VALUES (
-            ? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
+            ? ,?, ? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP
             )
         </sql>
     </operation>

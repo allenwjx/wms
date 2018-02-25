@@ -42,7 +42,7 @@ public class IbatisQrcodeBatchDAO extends SqlMapClientDaoSupport implements Qrco
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         qrcode_batch         (             id ,batch_serial ,amount ,state ,gmt_create ,gmt_modified             )      VALUES         (?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)</pre>
+	 * <pre>INSERT      INTO         qrcode_batch         (             id ,batch_serial ,commodity_id ,amount ,state ,gmt_create ,gmt_modified             )      VALUES         (?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)</pre>
 	 */
 	public long insert(QrcodeBatchDO qrcodeBatch) throws DataAccessException {
 		if(qrcodeBatch == null) {
@@ -76,7 +76,7 @@ public class IbatisQrcodeBatchDAO extends SqlMapClientDaoSupport implements Qrco
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, batch_serial, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         id = ?</pre>
+	 * <pre>SELECT         id, batch_serial, commodity_id, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         id = ?</pre>
 	 */
 	public QrcodeBatchDO queryById(Long id) throws DataAccessException {
 		return (QrcodeBatchDO)getSqlMapClientTemplate().queryForObject("wms.QrcodeBatch.queryById",id);
@@ -85,7 +85,7 @@ public class IbatisQrcodeBatchDAO extends SqlMapClientDaoSupport implements Qrco
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, batch_serial, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         batch_serial = ?</pre>
+	 * <pre>SELECT         id, batch_serial, commodity_id, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         batch_serial = ?</pre>
 	 */
 	public List<QrcodeBatchDO> queryAllQRcodesByBatchSerial(String batchSerial) throws DataAccessException {
 		return (List<QrcodeBatchDO>)getSqlMapClientTemplate().queryForList("wms.QrcodeBatch.queryAllQRcodesByBatchSerial",batchSerial);
@@ -94,7 +94,7 @@ public class IbatisQrcodeBatchDAO extends SqlMapClientDaoSupport implements Qrco
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, batch_serial, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         1=1                                        AND                      batch_serial = ?                                            AND                      state = ?                                                ORDER BY         gmt_modified DESC</pre>
+	 * <pre>SELECT         id, batch_serial, commodity_id, amount, state, gmt_create, gmt_modified                       FROM         qrcode_batch                  WHERE         1=1                                        AND                      batch_serial = ?                                            AND                      state = ?                                                ORDER BY         gmt_modified DESC</pre>
 	 */
 	public PageList<QrcodeBatchDO> queryByPage(QueryByPageQuery param) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.QrcodeBatch.queryByPage",param);

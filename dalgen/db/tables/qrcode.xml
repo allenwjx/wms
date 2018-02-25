@@ -2,92 +2,77 @@
 <!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
 
 <table sqlname="qrcode">
-	<!-- 不需要配置的列请删除 -->
+    <!-- 不需要配置的列请删除 -->
 
-	<sql id="Qrcode.columns">
-		id, serial_no, commodity_id, batch_id, data, gmt_create, gmt_modified, create_by, modify_by
-	</sql>
+    <sql id="Qrcode.columns">
+        id, serial_no, commodity_id, batch_id, data, state, gmt_create, gmt_modified, create_by, modify_by
+    </sql>
 
-	<operation name="insert" paramtype="object">
-		<sql>
-			INSERT INTO qrcode (
-			id ,serial_no ,commodity_id ,batch_id ,data ,gmt_create ,gmt_modified ,create_by ,modify_by
-			) VALUES (
-			? ,? ,? ,? ,? ,? ,? ,? ,?
-			)
-		</sql>
-	</operation>
+    <operation name="insert" paramtype="object">
+        <sql>
+            INSERT INTO qrcode (
+            id ,serial_no ,commodity_id ,batch_id ,data , state, gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (
+            ? ,? ,? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
+            )
+        </sql>
+    </operation>
 
-	<operation name="delete">
-		<sql>
-			DELETE FROM qrcode WHERE
-			id = ?
-		</sql>
-	</operation>
+    <operation name="delete">
+        <sql>
+            DELETE FROM qrcode WHERE
+            id = ?
+        </sql>
+    </operation>
 
-	<operation name="update" paramtype="object">
-		<sql>
-			UPDATE qrcode SET
-			serial_no = ? ,commodity_id = ? ,batch_id = ? ,data = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ?
-			WHERE
-			id = ?
-		</sql>
-	</operation>
+    <operation name="update" paramtype="object">
+        <sql>
+            UPDATE qrcode SET
+            serial_no = ? ,commodity_id = ? ,batch_id = ? ,data = ? ,state = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
+            WHERE
+            id = ?
+        </sql>
+    </operation>
 
-	<operation name="queryById" multiplicity="one">
-		<sql>
-			SELECT
-			<include refid="Qrcode.columns"/>
-			FROM qrcode
-			WHERE
-			id = ?
-		</sql>
-	</operation>
+    <operation name="queryById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Qrcode.columns"/>
+            FROM qrcode
+            WHERE
+            id = ?
+        </sql>
+    </operation>
 
+    <operation name="findByCommodityId" multiplicity="paging">
+        <sql>
+            SELECT
+            <include refid="Qrcode.columns"/>
+            FROM qrcode
+            WHERE
+            commodity_id = ?
+        </sql>
+    </operation>
 
-	<operation name="findPage" multiplicity="paging">
-		<sql>
-			SELECT
-			<include refid="Qrcode.columns"/>
-			FROM qrcode
-		</sql>
-	</operation>
-
-	<operation name="findByCommodityId" multiplicity="paging">
-		<sql>
-			SELECT
-			<include refid="Qrcode.columns"/>
-			FROM qrcode
-			WHERE
-				commodity_id = ?
-		</sql>
-	</operation>
-
-	<operation name="queryPageAll" multiplicity="paging">
-		<sql>
-			SELECT
-			<include refid="Qrcode.columns"/>
-			FROM qrcode
-			ORDER BY gmt_modified DESC
-		</sql>
-	</operation>
-
-	<operation name="queryPageByConditions" paramtype="parameterObject" multiplicity="paging">
-		<sql>
-			SELECT
-			<include refid="Qrcode.columns"/>
-			FROM qrcode
-			WHERE 1 = 1
-			<dynamic>
-				<isNotEmpty prepend="AND" property="commodityId">
-					commodity_id = #commodityId#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="batchId">
-					batch_id = #batchId#
-				</isNotEmpty>
-			</dynamic>
-			ORDER BY gmt_modified DESC
-		</sql>
-	</operation>
+    <operation name="queryPageByConditions" paramtype="parameterObject" multiplicity="paging">
+        <sql>
+            SELECT
+            <include refid="Qrcode.columns"/>
+            FROM qrcode
+            WHERE 1 = 1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    commodity_id = #commodityId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="batchId">
+                    batch_id = #batchId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="state">
+                    state = #state#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
+        </sql>
+    </operation>
 
 </table>

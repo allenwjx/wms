@@ -5,8 +5,22 @@
  */
 package com.zeh.wms.dal.operation.qrcodebatch;
 
-import com.zeh.jungle.dal.paginator.PageQuery;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * database table: qrcode_batch
  * database table comments: QrcodeBatch
@@ -21,12 +35,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class QueryByPageQuery  extends PageQuery implements java.io.Serializable {
 	private static final long serialVersionUID = -5216457518046898601L;
 	
-	/** 批次号 */
+	/** batchSerial */
 	private String batchSerial;
 	/** 批次状态； 0-未使用，1-已使用 */
 	private Integer state;
-	/** 批次数量 */
-	private Integer amount;
 	
 	public QueryByPageQuery() {
 	}
@@ -51,13 +63,5 @@ public class QueryByPageQuery  extends PageQuery implements java.io.Serializable
 	
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
-	}
-
-	public Integer getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Integer amount) {
-		this.amount = amount;
 	}
 }
