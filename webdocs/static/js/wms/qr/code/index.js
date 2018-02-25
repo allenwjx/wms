@@ -78,7 +78,7 @@ $(document).ready(function () {
                     backdrop: 'static'
                 });
             },
-            viewCode: function(id) {
+            details: function(id) {
                 $("#formModal").modal({
                     show: true,
                     remote: __ctx + "/page/qr/code/viewCode?id=" + id,
