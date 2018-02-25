@@ -103,6 +103,9 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public CommodityVO findCommodityById(long id) throws ServiceException {
         CommodityDO commodityDO = commodityDAO.queryById(id);
+        if (commodityDO == null) {
+            return null;
+        }
         return mapper.do2vo(commodityDO);
     }
 

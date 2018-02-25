@@ -1,5 +1,16 @@
 package com.zeh.wms.biz.service.impl;
 
+import java.util.Collection;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.wms.biz.error.BizErrorFactory;
@@ -12,15 +23,6 @@ import com.zeh.wms.biz.utils.CodeGenerator;
 import com.zeh.wms.dal.daointerface.AgentDAO;
 import com.zeh.wms.dal.dataobject.AgentDO;
 import com.zeh.wms.dal.operation.agent.QueryByPageQuery;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * The type Agent service.
@@ -135,6 +137,9 @@ public class AgentServiceImpl implements AgentService {
     @Override
     public AgentVO findAgentById(long id) throws ServiceException {
         AgentDO agentDO = agentDAO.queryById(id);
+        if (agentDO == null) {
+            return null;
+        }
         return mapper.do2vo(agentDO);
     }
 

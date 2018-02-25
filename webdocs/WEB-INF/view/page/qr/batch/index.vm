@@ -63,7 +63,7 @@
         <tr v-cloak v-for="item in pageResult.data">
             <td>
                  <span>
-                    <a target="_blank" href="${rc.contextPath}/page/qr/code/index?batchId={{item.id}}">{{item.id}}</a>
+                    <a href="${rc.contextPath}/page/qr/code/index?batchId={{item.id}}">{{item.id}}</a>
                 </span>
             </td>
             <td v-html="item.batchSerial"></td>

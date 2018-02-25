@@ -205,8 +205,11 @@ public class QRCodeServiceImpl implements QRCodeService, AppConfigurationAware {
         if (StringUtils.isBlank(serialNo)) {
             throw new ServiceException(ERROR_FACTORY.queryQRCodeError());
         }
-        QrcodeDO _do = qrcodeDAO.queryBySerialno(serialNo);
-        return mapper.d2v(_do);
+        QrcodeDO qrcodeDO = qrcodeDAO.queryBySerialno(serialNo);
+        if (qrcodeDO == null) {
+            return null;
+        }
+        return mapper.d2v(qrcodeDO);
     }
 
     /**

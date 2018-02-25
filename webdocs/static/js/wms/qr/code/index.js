@@ -24,7 +24,6 @@ $(document).ready(function () {
         methods: {
             init: function () {
                 var self = this;
-                self.queryForm.batchId = $("#batchId").val();
                 $.ajax({
                     type: 'GET',
                     url: __ctx + "/combo/commodities"
@@ -51,6 +50,11 @@ $(document).ready(function () {
             },
             preQuery: function () {
                 $.resetCurrentPage(this.pageResult.paginator);
+                this.queryForm.batchId = $("#batchId").val();
+                this.query();
+            },
+            search: function () {
+                this.queryForm.batchId = '';
                 this.query();
             },
             query: function () {
