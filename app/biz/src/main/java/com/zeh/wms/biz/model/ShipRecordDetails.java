@@ -1,6 +1,5 @@
 package com.zeh.wms.biz.model;
 
-import com.zeh.wms.biz.model.enums.StateEnum;
 import lombok.Getter;
 import lombok.Setter;
 

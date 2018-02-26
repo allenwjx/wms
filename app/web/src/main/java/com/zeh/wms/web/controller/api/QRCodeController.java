@@ -30,10 +30,10 @@ public class QRCodeController extends BaseController {
     @Resource
     private ShipRecordService shipRecordService;
 
-    @ApiOperation(value = "二维码绑定商品", httpMethod = "POST")
+    @ApiOperation(value = "商品代理人绑定", httpMethod = "POST")
     @RequestMapping(params = "action=bind", method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult<String> bind(@ApiParam("请求订单参数") @RequestBody QRCodeBindForm form) {
+    public SingleResult<String> bind(@ApiParam("绑定参数") @RequestBody QRCodeBindForm form) {
         if (form.getAgentId() == null || form.getAgentId() <= 0) {
             return createErrorResult(ERROR_FACTORY.parameterEmptyError("agentId"));
         }
@@ -64,10 +64,10 @@ public class QRCodeController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "二维码绑定商品", httpMethod = "GET")
+    @ApiOperation(value = "绑定详情", httpMethod = "GET")
     @RequestMapping(params = "action=view", method = RequestMethod.GET)
     @ResponseBody
-    public SingleResult<ShipRecordDetails> view(@ApiParam("快递单号") @RequestParam("serialNo") String serialNo,
+    public SingleResult<ShipRecordDetails> view(@ApiParam("二维码流水号") @RequestParam("serialNo") String serialNo,
                                                 @ApiParam("二维码原始关联的商品ID") @RequestParam("commodityId") Long commodityId) {
         if (StringUtils.isBlank(serialNo)) {
             return createErrorResult(ERROR_FACTORY.parameterEmptyError("serialNo"));
@@ -81,10 +81,10 @@ public class QRCodeController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "根据二维码编号删除邦定记录", httpMethod = "POST")
+    @ApiOperation(value = "删除绑定记录", httpMethod = "POST")
     @RequestMapping(value = "/{serialNo}", method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult<String> delete(@PathVariable("serialNo") String serialNo) {
+    public SingleResult<String> delete(@ApiParam("二维码流水号") @PathVariable("serialNo") String serialNo) {
         if (StringUtils.isBlank(serialNo)) {
             return createErrorResult(ERROR_FACTORY.parameterEmptyError("serialNo"));
         }
