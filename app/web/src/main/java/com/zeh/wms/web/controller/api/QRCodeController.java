@@ -2,6 +2,7 @@ package com.zeh.wms.web.controller.api;
 
 import javax.annotation.Resource;
 
+import com.wordnik.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,15 @@ import com.zeh.wms.web.form.QRCodeBindForm;
 @Controller("apiQRCodeController")
 @RequestMapping("/api/qrcode")
 public class QRCodeController extends BaseController {
+
     @Resource
     private ShipRecordService shipRecordService;
 
+    @ApiOperation(value = "二维码绑定商品", httpMethod = "POST")
+    @ApiResponse(code = 200, message = "success", response = String.class)
     @RequestMapping(params = "action=bind", method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult<String> bind(@RequestBody QRCodeBindForm form) {
+    public SingleResult<String> bind(@ApiParam("请求订单参数") @RequestBody QRCodeBindForm form) {
         if (form.getAgentId() == null || form.getAgentId() <= 0) {
             return createErrorResult(ERROR_FACTORY.parameterEmptyError("agentId"));
         }
@@ -60,9 +64,12 @@ public class QRCodeController extends BaseController {
         }
     }
 
+    @ApiOperation(value = "二维码绑定商品", httpMethod = "GET")
+    @ApiResponse(code = 200, message = "success", response = ShipRecordDetails.class)
     @RequestMapping(params = "action=view", method = RequestMethod.GET)
     @ResponseBody
-    public SingleResult<ShipRecordDetails> view(@RequestParam("serialNo") String serialNo, @RequestParam("commodityId") Long commodityId) {
+    public SingleResult<ShipRecordDetails> view(@ApiParam("快递单号") @RequestParam("serialNo") String serialNo,
+    @ApiParam("二维码原始关联的商品ID") @RequestParam("commodityId") Long  commodityId) {
         if (StringUtils.isBlank(serialNo)) {
             return createErrorResult(ERROR_FACTORY.parameterEmptyError("serialNo"));
         }
@@ -75,9 +82,11 @@ public class QRCodeController extends BaseController {
         }
     }
 
+    @ApiOperation(value = "根据二维码编号删除邦定记录", httpMethod = "POST")
+    @ApiResponse(code = 200, message = "success", response = String.class)
     @RequestMapping(value = "/{serialNo}", method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult<?> delete(@PathVariable("serialNo") String serialNo) {
+    public SingleResult<String> delete(@PathVariable("serialNo") String serialNo) {
         if (StringUtils.isBlank(serialNo)) {
             return createErrorResult(ERROR_FACTORY.parameterEmptyError("serialNo"));
         }
