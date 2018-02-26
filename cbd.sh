@@ -2,7 +2,13 @@
 # chkconfig 2345 on
 
 WORKSPACE_DIR=`pwd`
-CATALINA_DIR="/opt/zhuoerhang/server/apache-tomcat-8.5.27"
+if [ $BUILD_MODE == "dev" ]; then
+CATALINA_DIR="/opt/zhuoerhang/server/apache-tomcat-8.5.27-A"
+elif [ $BUILD_MODE == "test" ]; then
+CATALINA_DIR="/opt/zhuoerhang/server/apache-tomcat-8.5.27-B"
+else
+CATALINA_DIR="/opt/zhuoerhang/server/apache-tomcat-8.5.27-prod"
+fi
 APP_NAME="wms"
 BUILD_MODE=$2
 catalina_run_start_exec="$CATALINA_DIR/bin/catalina.sh start"
