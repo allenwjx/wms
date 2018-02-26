@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiResponse;
 import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.AgentVO;
@@ -31,7 +30,6 @@ public class AgentController extends BaseController {
     private AgentService agentService;
 
     @ApiOperation(value = "代理人列表", httpMethod = "GET")
-    @ApiResponse(code = 200, message = "success", response = AgentVO.class)
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
     public SingleResult<Collection<AgentVO>> list() {

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiResponse;
 import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.CommodityVO;
@@ -31,7 +30,6 @@ public class CommodityController extends BaseController {
     private CommodityService commodityService;
 
     @ApiOperation(value = "商品列表", httpMethod = "GET")
-    @ApiResponse(code = 200, message = "success", response = CommodityVO.class)
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @ResponseBody
     public SingleResult<Collection<CommodityVO>> list() {

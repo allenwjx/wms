@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
 import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.ShipRecordDetails;
@@ -32,7 +31,6 @@ public class QRCodeController extends BaseController {
     private ShipRecordService shipRecordService;
 
     @ApiOperation(value = "二维码绑定商品", httpMethod = "POST")
-    @ApiResponse(code = 200, message = "success", response = String.class)
     @RequestMapping(params = "action=bind", method = RequestMethod.POST)
     @ResponseBody
     public SingleResult<String> bind(@ApiParam("请求订单参数") @RequestBody QRCodeBindForm form) {
@@ -67,7 +65,6 @@ public class QRCodeController extends BaseController {
     }
 
     @ApiOperation(value = "二维码绑定商品", httpMethod = "GET")
-    @ApiResponse(code = 200, message = "success", response = ShipRecordDetails.class)
     @RequestMapping(params = "action=view", method = RequestMethod.GET)
     @ResponseBody
     public SingleResult<ShipRecordDetails> view(@ApiParam("快递单号") @RequestParam("serialNo") String serialNo,
@@ -85,7 +82,6 @@ public class QRCodeController extends BaseController {
     }
 
     @ApiOperation(value = "根据二维码编号删除邦定记录", httpMethod = "POST")
-    @ApiResponse(code = 200, message = "success", response = String.class)
     @RequestMapping(value = "/{serialNo}", method = RequestMethod.POST)
     @ResponseBody
     public SingleResult<String> delete(@PathVariable("serialNo") String serialNo) {
