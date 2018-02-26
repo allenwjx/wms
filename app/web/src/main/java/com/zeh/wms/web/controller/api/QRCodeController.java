@@ -29,7 +29,7 @@ public class QRCodeController extends BaseController {
 
     @RequestMapping(params = "action=bind", method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult bind(@RequestBody QRCodeBindForm form) {
+    public SingleResult<String> bind(@RequestBody QRCodeBindForm form) {
         if (form.getAgentId() == null || form.getAgentId() <= 0) {
             return createErrorResult(ERROR_FACTORY.parameterEmptyError("agentId"));
         }
@@ -62,7 +62,7 @@ public class QRCodeController extends BaseController {
 
     @RequestMapping(params = "action=view", method = RequestMethod.GET)
     @ResponseBody
-    public SingleResult view(@RequestParam("serialNo") String serialNo, @RequestParam("commodityId") Long commodityId) {
+    public SingleResult<ShipRecordDetails> view(@RequestParam("serialNo") String serialNo, @RequestParam("commodityId") Long commodityId) {
         if (StringUtils.isBlank(serialNo)) {
             return createErrorResult(ERROR_FACTORY.parameterEmptyError("serialNo"));
         }
@@ -77,7 +77,7 @@ public class QRCodeController extends BaseController {
 
     @RequestMapping(value = "/{serialNo}", method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult delete(@PathVariable("serialNo") String serialNo) {
+    public SingleResult<?> delete(@PathVariable("serialNo") String serialNo) {
         if (StringUtils.isBlank(serialNo)) {
             return createErrorResult(ERROR_FACTORY.parameterEmptyError("serialNo"));
         }
