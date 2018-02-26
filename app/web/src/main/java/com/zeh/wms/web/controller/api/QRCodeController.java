@@ -2,12 +2,14 @@ package com.zeh.wms.web.controller.api;
 
 import javax.annotation.Resource;
 
-import com.wordnik.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
 import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.ShipRecordDetails;
@@ -69,7 +71,7 @@ public class QRCodeController extends BaseController {
     @RequestMapping(params = "action=view", method = RequestMethod.GET)
     @ResponseBody
     public SingleResult<ShipRecordDetails> view(@ApiParam("快递单号") @RequestParam("serialNo") String serialNo,
-    @ApiParam("二维码原始关联的商品ID") @RequestParam("commodityId") Long  commodityId) {
+                                                @ApiParam("二维码原始关联的商品ID") @RequestParam("commodityId") Long commodityId) {
         if (StringUtils.isBlank(serialNo)) {
             return createErrorResult(ERROR_FACTORY.parameterEmptyError("serialNo"));
         }
