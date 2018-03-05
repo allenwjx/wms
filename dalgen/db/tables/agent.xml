@@ -99,4 +99,24 @@
             external_code = #externalCode# and enabled = 1
         </sql>
     </operation>
+
+    <operation name="queryByName" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="Agent.columns"/>
+            FROM agent
+            WHERE
+            name LIKE CONCAT(#name#, '%') and enabled = 1
+        </sql>
+    </operation>
+
+    <operation name="queryByMobile" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="Agent.columns"/>
+            FROM agent
+            WHERE
+            mobile LIKE CONCAT(#mobile#, '%') and enabled = 1
+        </sql>
+    </operation>
 </table>

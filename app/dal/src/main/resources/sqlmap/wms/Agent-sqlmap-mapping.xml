@@ -154,6 +154,32 @@
 	
 	
     
+	
+	<select id="wms.Agent.queryByName" resultMap="RM.Agent" >
+    	SELECT
+ /*wms.Agent.queryByName*/             <include refid="Agent.columns"/>
+            FROM agent
+            WHERE
+            name LIKE CONCAT(#name#, '%') and enabled = 1
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Agent.queryByMobile" resultMap="RM.Agent" >
+    	SELECT
+ /*wms.Agent.queryByMobile*/             <include refid="Agent.columns"/>
+            FROM agent
+            WHERE
+            mobile LIKE CONCAT(#mobile#, '%') and enabled = 1
+	</select>	
+
+	    
+	
+	
+    
 
 </sqlMap>
 

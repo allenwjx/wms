@@ -183,6 +183,32 @@ public class AgentServiceImpl implements AgentService {
     }
 
     /**
+     * 根据代理人姓名查询代理人信息
+     *
+     * @param name 代理人姓名
+     * @return 代理人信息
+     * @throws ServiceException 代理人查询异常
+     */
+    @Override
+    public Collection<AgentVO> findAllAgentsByName(String name) throws ServiceException {
+        List<AgentDO> agents = agentDAO.queryByName(name);
+        return mapper.do2vos(agents);
+    }
+
+    /**
+     * 根据代理人电话代理人信息
+     *
+     * @param mobile 代理人电话号码
+     * @return 代理人信息
+     * @throws ServiceException 代理人查询异常
+     */
+    @Override
+    public Collection<AgentVO> findAllAgentsByMobile(String mobile) throws ServiceException {
+        List<AgentDO> agents = agentDAO.queryByMobile(mobile);
+        return mapper.do2vos(agents);
+    }
+
+    /**
      * 更新代理商启用、禁用状态
      *
      * @param id       代理商ID

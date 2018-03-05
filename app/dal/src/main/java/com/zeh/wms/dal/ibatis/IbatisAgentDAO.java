@@ -118,5 +118,23 @@ public class IbatisAgentDAO extends SqlMapClientDaoSupport implements AgentDAO {
 		return (AgentDO)getSqlMapClientTemplate().queryForObject("wms.Agent.queryByExternalCode",externalCode);
 	}
 
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, code, external_code, name, mobile, address, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent                  WHERE         name LIKE CONCAT(?, '%')          and enabled = 1</pre>
+	 */
+	public List<AgentDO> queryByName(String name) throws DataAccessException {
+		return (List<AgentDO>)getSqlMapClientTemplate().queryForList("wms.Agent.queryByName",name);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, code, external_code, name, mobile, address, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         agent                  WHERE         mobile LIKE CONCAT(?, '%')          and enabled = 1</pre>
+	 */
+	public List<AgentDO> queryByMobile(String mobile) throws DataAccessException {
+		return (List<AgentDO>)getSqlMapClientTemplate().queryForList("wms.Agent.queryByMobile",mobile);
+	}
+
 }
 
