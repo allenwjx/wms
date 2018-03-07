@@ -2,12 +2,12 @@
 # chkconfig 2345 on
 
 WORKSPACE_DIR=`pwd`
-if [ $BUILD_MODE == "dev" ]; then
-CATALINA_DIR="/opt/zhuoerhang/server/apache-tomcat-8.5.27-A"
-elif [ $BUILD_MODE == "test" ]; then
-CATALINA_DIR="/opt/zhuoerhang/server/apache-tomcat-8.5.27-B"
+if [ $BUILD_MODE=="dev"x ]; then
+CATALINA_DIR="/opt/zhuoerhang/server/jorhen-webserver-dev"
+elif [ $BUILD_MODE=="test"x ]; then
+CATALINA_DIR="/opt/zhuoerhang/server/jorhen-webserver-test"
 else
-CATALINA_DIR="/opt/zhuoerhang/server/apache-tomcat-8.5.27-prod"
+CATALINA_DIR="/opt/zhuoerhang/server/jorhen-webserver-prod1"
 fi
 APP_NAME="wms"
 BUILD_MODE=$2
