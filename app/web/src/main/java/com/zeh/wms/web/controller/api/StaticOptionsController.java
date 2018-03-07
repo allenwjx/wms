@@ -76,13 +76,16 @@ public class StaticOptionsController extends BaseController {
             List<StaticOptionsModel> options = Lists.newArrayList();
             if (t.isEnum()) {
                 T[] emArr = t.getEnumConstants();
-                for (T em : emArr) {
-                    Enum<?> e = (Enum<?>) em;
+                for (int i = 0; i < emArr.length; i++) {
+                    Enum<?> e = (Enum<?>) emArr[i];
                     Object value = e.getDeclaringClass().getDeclaredMethod("getCode").invoke(e);
                     String name = (String) (e.getDeclaringClass().getDeclaredMethod("getDesc").invoke(e));
                     StaticOptionsModel option = new StaticOptionsModel();
                     option.setName(name);
                     option.setValue(value);
+                    if (i == 0) {
+                        option.setChecked(true);
+                    }
                     options.add(option);
                 }
                 CACHE.put(t.getName(), options);
