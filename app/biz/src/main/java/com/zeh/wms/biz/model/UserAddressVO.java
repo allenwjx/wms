@@ -25,11 +25,11 @@ public class UserAddressVO extends BaseVO {
     /** 邮编 */
     private String            zipCode;
     /** 省 */
-    private ProvinceVO        province;
+    private String            province;
     /** 市 */
-    private CityVO            city;
+    private String            city;
     /** 区 */
-    private DistrictVO        region;
+    private String            region;
     /** 地址明细 */
     private String            detail;
     /** 类型：SENDER：发件人; RECEIVER：寄件人; */

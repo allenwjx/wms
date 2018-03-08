@@ -34,7 +34,7 @@
 	<insert id="wms.UserAddres.insert">
 		INSERT INTO user_address (
 	        	id ,name ,tel ,zip_code ,province ,city ,region ,detail ,address_type ,user_id ,default_setting ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (#id#,#name#,#tel#,#zipCode#,#province#,#city#,#region#,#detail#,#addressType#,#userId#,#defaultSetting#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#)
+	        ) VALUES (#id#,#name#,#tel#,#zipCode#,#province#,#city#,#region#,#detail#,#addressType#,#userId#,#defaultSetting#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -49,7 +49,7 @@
 	
 	<update id="wms.UserAddres.update">
 		UPDATE user_address SET
-		        name = #name# ,tel = #tel# ,zip_code = #zipCode# ,province = #province# ,city = #city# ,region = #region# ,detail = #detail# ,address_type = #addressType# ,user_id = #userId# ,default_setting = #defaultSetting# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# 
+		        name = #name# ,tel = #tel# ,zip_code = #zipCode# ,province = #province# ,city = #city# ,region = #region# ,detail = #detail# ,address_type = #addressType# ,user_id = #userId# ,default_setting = #defaultSetting# , gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
 	        WHERE 
 	        	id = #id#
 	</update>
@@ -79,6 +79,31 @@
 	<select id="wms.UserAddres.findPage.count" resultClass="long" >
     	select  /*wms.UserAddres.findPage.count*/ count(*) 	FROM user_address
 	</select>
+	    
+	
+	
+    
+	
+	<select id="wms.UserAddres.getDefault" resultMap="RM.UserAddres" >
+    	SELECT
+ /*wms.UserAddres.getDefault*/ 			<include refid="UserAddres.columns"/>
+			FROM user_address
+			where user_id = #userId# and address_type = #addressType# and default_setting = 1
+			limit 1
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.UserAddres.getList" resultMap="RM.UserAddres" >
+    	SELECT
+ /*wms.UserAddres.getList*/ 			<include refid="UserAddres.columns"/>
+			FROM user_address
+			where user_id = #userId# and address_type = #addressType#
+	</select>	
+
 	    
 	
 	

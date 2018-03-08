@@ -434,6 +434,23 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * {0}插入数据失败，更新返回的主键不大于0.
+     * @param bussiness 参数名
+     * @return
+     */
+    public JGError insertError(String bussiness) {
+        return createError("JG0510001002", bussiness);
+    }
+    /**
+     * {0}更新数据失败，更新记录条数不大于0.
+     * @param bussiness 参数名
+     * @return
+     */
+    public JGError updateError(String bussiness) {
+        return createError("JG0510001003", bussiness);
+    }
+
+    /**
      * 用户更新密码失败。
      * @return
      */

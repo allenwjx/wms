@@ -2,6 +2,7 @@ package com.zeh.wms.biz.service.impl;
 
 import com.google.common.collect.Maps;
 import com.zeh.wms.biz.error.BizErrorFactory;
+import com.zeh.wms.biz.exception.ServiceException;
 import org.apache.commons.collections.MapUtils;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
@@ -52,5 +53,19 @@ public abstract class AbstractService {
             logger.error("错误原因", e);
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
+    }
+
+    protected boolean checkInsert(long id, String bussiness) throws ServiceException {
+        if (id > 0) {
+            return true;
+        }
+        throw new ServiceException(ERROR_FACTORY.insertError(bussiness));
+    }
+
+    protected boolean checkUpdate(int count, String bussiness) throws ServiceException {
+        if (count > 0) {
+            return true;
+        }
+        throw new ServiceException(ERROR_FACTORY.updateError(bussiness));
     }
 }

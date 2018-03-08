@@ -13,7 +13,7 @@
 			INSERT INTO user_address (
 	        	id ,name ,tel ,zip_code ,province ,city ,region ,detail ,address_type ,user_id ,default_setting ,gmt_create ,gmt_modified ,create_by ,modify_by 
 	        ) VALUES (
-	        	? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?         
+	        	? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
 	        )
 		</sql>		
 	</operation>
@@ -24,11 +24,17 @@
 	        id = ? 
 		</sql>
 	</operation>
+
+	<operation name="delete">
+		<sql>
+			DELETE FROM user_address WHERE id = ? and user_id = ?
+		</sql>
+	</operation>
 	
 	<operation name="update" paramtype="object">
 		<sql>
 	        UPDATE user_address SET
-		        name = ? ,tel = ? ,zip_code = ? ,province = ? ,city = ? ,region = ? ,detail = ? ,address_type = ? ,user_id = ? ,default_setting = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? 
+		        name = ? ,tel = ? ,zip_code = ? ,province = ? ,city = ? ,region = ? ,detail = ? ,address_type = ? ,user_id = ? ,default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
 	        WHERE 
 	        	id = ? 
 		</sql>					
@@ -50,6 +56,25 @@
 			SELECT 
 			<include refid="UserAddres.columns"/>
 			FROM user_address 
+		</sql>
+	</operation>
+
+	<operation name="getDefault" multiplicity="one">
+		<sql>
+			SELECT
+			<include refid="UserAddres.columns"/>
+			FROM user_address
+			where user_id = #userId# and address_type = #addressType# and default_setting = 1
+			limit 1
+		</sql>
+	</operation>
+
+	<operation name="getList" multiplicity="many">
+		<sql>
+			SELECT
+			<include refid="UserAddres.columns"/>
+			FROM user_address
+			where user_id = #userId# and address_type = #addressType#
 		</sql>
 	</operation>
 

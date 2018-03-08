@@ -1,20 +1,22 @@
 package com.zeh.wms.web.controller;
 
-import java.io.File;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.zeh.jungle.core.error.JGError;
+import com.zeh.jungle.core.support.ExceptionUtils;
+import com.zeh.jungle.utils.page.SingleResult;
+import com.zeh.wms.biz.model.BaseVO;
+import com.zeh.wms.biz.model.UserBgVO;
+import com.zeh.wms.biz.model.UserVO;
+import com.zeh.wms.biz.model.enums.UserLinkTypeEnum;
 import com.zeh.wms.biz.utils.SecurityUtils;
+import com.zeh.wms.web.error.WebErrorFactory;
+import com.zeh.wms.web.exception.WebException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zeh.jungle.core.support.ExceptionUtils;
-import com.zeh.jungle.utils.page.SingleResult;
-import com.zeh.wms.biz.model.UserBgVO;
-import com.zeh.wms.web.error.WebErrorFactory;
-import com.zeh.wms.web.exception.WebException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.Date;
 
 /**
  * The type Base controller.
@@ -68,6 +70,41 @@ public abstract class BaseController {
      */
     protected UserBgVO getCurrentUser() {
         return SecurityUtils.getLoginedUser();
+    }
+
+
+    protected UserVO getCurrentApiUser() {
+        // TODO: 2018/3/8 mock data.
+        UserVO vo = new UserVO();
+        vo.setNickName("test");
+        vo.setOpenId("test_open_id");
+        vo.setPassword("test");
+        vo.setUserId("allen");
+        vo.setType(UserLinkTypeEnum.A);
+        return vo;
+    }
+
+    protected long getCurrentApiUserId() {
+        // TODO: 2018/3/8 mock data.
+        return 2L;
+    }
+
+    protected void insertSecurityApiVO(BaseVO vo) {
+        UserVO currentUser = getCurrentApiUser();
+        if (vo != null && currentUser != null) {
+            vo.setCreateBy(currentUser.getUserId());
+            vo.setGmtCreate(new Date());
+            vo.setModifyBy(currentUser.getUserId());
+            vo.setGmtModified(new Date());
+        }
+    }
+
+    protected void updateSecurityApiVO(BaseVO vo) {
+        UserVO currentUser = getCurrentApiUser();
+        if (vo != null && currentUser != null) {
+            vo.setModifyBy(currentUser.getUserId());
+            vo.setGmtModified(new Date());
+        }
     }
 
     /**
