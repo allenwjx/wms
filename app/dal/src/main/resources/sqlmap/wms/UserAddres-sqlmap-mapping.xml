@@ -47,6 +47,12 @@
     </delete>
     
 	
+	
+	<delete id="wms.UserAddres.delete">
+		DELETE FROM user_address WHERE id = #id# and user_id = #userId#
+    </delete>
+    
+	
 	<update id="wms.UserAddres.update">
 		UPDATE user_address SET
 		        name = #name# ,tel = #tel# ,zip_code = #zipCode# ,province = #province# ,city = #city# ,region = #region# ,detail = #detail# ,address_type = #addressType# ,user_id = #userId# ,default_setting = #defaultSetting# , gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#

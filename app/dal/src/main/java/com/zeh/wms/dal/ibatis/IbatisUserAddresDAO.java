@@ -55,6 +55,18 @@ public class IbatisUserAddresDAO extends SqlMapClientDaoSupport implements UserA
 	/**
 	 * 
 	 * sql: 
+	 * <pre>DELETE      FROM         user_address      WHERE         id = ?          and user_id = ?</pre>
+	 */
+	public int delete(Long id ,Long userId) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("id",id);
+		param.put("userId",userId);
+		return getSqlMapClientTemplate().delete("wms.UserAddres.delete", param);
+	}
+
+	/**
+	 * 
+	 * sql: 
 	 * <pre>UPDATE         user_address      SET         name = ? ,tel = ? ,zip_code = ? ,province = ? ,city = ? ,region = ? ,detail = ? ,address_type = ? ,user_id = ? ,default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?               WHERE         id = ?</pre>
 	 */
 	public int update(UserAddresDO userAddres) throws DataAccessException {
