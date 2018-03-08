@@ -32,13 +32,6 @@ public interface UserAddresDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>DELETE      FROM         user_address      WHERE         id = ?</pre> 
-	 */
-	public int delete(Long id) throws DataAccessException;
-
-	/**
-	 * 
-	 * sql:
 	 * <pre>DELETE      FROM         user_address      WHERE         id = ?          and user_id = ?</pre> 
 	 */
 	public int delete(Long id ,Long userId) throws DataAccessException;
