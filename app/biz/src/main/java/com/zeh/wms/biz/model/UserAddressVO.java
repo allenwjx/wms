@@ -32,6 +32,8 @@ public class UserAddressVO extends BaseVO {
     private String            region;
     /** 地址明细 */
     private String            detail;
+    /** 公司 */
+    private String            company;
     /** 类型：SENDER：发件人; RECEIVER：寄件人; */
     private AddressTypeEnum   addressType;
     /** 关联用户 */

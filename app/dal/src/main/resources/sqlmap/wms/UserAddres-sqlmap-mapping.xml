@@ -13,6 +13,7 @@
 		<result property="province" column="province" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="city" column="city" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="region" column="region" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="company" column="company" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="detail" column="detail" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="addressType" column="address_type" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="userId" column="user_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
@@ -24,7 +25,7 @@
     </resultMap>
     
 	<sql id="UserAddres.columns">
-		id, name, tel, zip_code, province, city, region, detail, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by
+		id, name, tel, zip_code, province, city, region, detail, company, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -33,8 +34,8 @@
     
 	<insert id="wms.UserAddres.insert">
 		INSERT INTO user_address (
-	        	id ,name ,tel ,zip_code ,province ,city ,region ,detail ,address_type ,user_id ,default_setting ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (#id#,#name#,#tel#,#zipCode#,#province#,#city#,#region#,#detail#,#addressType#,#userId#,#defaultSetting#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
+	        	id ,name ,tel ,zip_code ,province ,city ,region ,detail ,company, address_type ,user_id ,default_setting ,gmt_create ,gmt_modified ,create_by ,modify_by
+	        ) VALUES (#id#,#name#,#tel#,#zipCode#,#province#,#city#,#region#,#detail#,#company#,#addressType#,#userId#,#defaultSetting#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -48,7 +49,7 @@
 	
 	<update id="wms.UserAddres.update">
 		UPDATE user_address SET
-		        name = #name# ,tel = #tel# ,zip_code = #zipCode# ,province = #province# ,city = #city# ,region = #region# ,detail = #detail# ,address_type = #addressType# ,user_id = #userId# ,default_setting = #defaultSetting# , gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+		        name = #name# ,tel = #tel# ,zip_code = #zipCode# ,province = #province# ,city = #city# ,region = #region# ,detail = #detail# ,company = #company#, address_type = #addressType# ,user_id = #userId# ,default_setting = #defaultSetting# , gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
 	        WHERE 
 	        	id = #id#
 	</update>

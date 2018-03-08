@@ -42,7 +42,7 @@ public class IbatisUserAddresDAO extends SqlMapClientDaoSupport implements UserA
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         user_address         (           id ,name ,tel ,zip_code ,province ,city ,region ,detail ,address_type ,user_id ,default_setting ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
+	 * <pre>INSERT      INTO         user_address         (           id ,name ,tel ,zip_code ,province ,city ,region ,detail ,company, address_type ,user_id ,default_setting ,gmt_create ,gmt_modified ,create_by ,modify_by          )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(UserAddresDO userAddres) throws DataAccessException {
 		if(userAddres == null) {
@@ -67,7 +67,7 @@ public class IbatisUserAddresDAO extends SqlMapClientDaoSupport implements UserA
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         user_address      SET         name = ? ,tel = ? ,zip_code = ? ,province = ? ,city = ? ,region = ? ,detail = ? ,address_type = ? ,user_id = ? ,default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?               WHERE         id = ?</pre>
+	 * <pre>UPDATE         user_address      SET         name = ? ,tel = ? ,zip_code = ? ,province = ? ,city = ? ,region = ? ,detail = ? ,company = ?, address_type = ? ,user_id = ? ,default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?               WHERE         id = ?</pre>
 	 */
 	public int update(UserAddresDO userAddres) throws DataAccessException {
 		if(userAddres == null) {
@@ -92,7 +92,7 @@ public class IbatisUserAddresDAO extends SqlMapClientDaoSupport implements UserA
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, tel, zip_code, province, city, region, detail, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by                  FROM         user_address                WHERE         id = ?</pre>
+	 * <pre>SELECT         id, name, tel, zip_code, province, city, region, detail, company, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by                 FROM         user_address                WHERE         id = ?</pre>
 	 */
 	public UserAddresDO queryById(Long id) throws DataAccessException {
 		return (UserAddresDO)getSqlMapClientTemplate().queryForObject("wms.UserAddres.queryById",id);
@@ -101,7 +101,7 @@ public class IbatisUserAddresDAO extends SqlMapClientDaoSupport implements UserA
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, tel, zip_code, province, city, region, detail, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by            FROM         user_address</pre>
+	 * <pre>SELECT         id, name, tel, zip_code, province, city, region, detail, company, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by           FROM         user_address</pre>
 	 */
 	public PageList<UserAddresDO> findPage(int pageSize,int pageNum) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.UserAddres.findPage",null,pageNum,pageSize);
@@ -110,7 +110,7 @@ public class IbatisUserAddresDAO extends SqlMapClientDaoSupport implements UserA
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, tel, zip_code, province, city, region, detail, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by            FROM         user_address         where         user_id = ?          and address_type = ?          and default_setting = 1    limit 1</pre>
+	 * <pre>SELECT         id, name, tel, zip_code, province, city, region, detail, company, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by           FROM         user_address         where         user_id = ?          and address_type = ?          and default_setting = 1    limit 1</pre>
 	 */
 	public UserAddresDO getDefault(Long userId ,String addressType) throws DataAccessException {
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -122,7 +122,7 @@ public class IbatisUserAddresDAO extends SqlMapClientDaoSupport implements UserA
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, name, tel, zip_code, province, city, region, detail, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by            FROM         user_address         where         user_id = ?          and address_type = ?</pre>
+	 * <pre>SELECT         id, name, tel, zip_code, province, city, region, detail, company, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by           FROM         user_address         where         user_id = ?          and address_type = ?</pre>
 	 */
 	public List<UserAddresDO> getList(Long userId ,String addressType) throws DataAccessException {
 		Map<String,Object> param = new HashMap<String,Object>();

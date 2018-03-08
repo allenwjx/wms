@@ -16,21 +16,28 @@ public class AddressModel implements Serializable {
     private static final long serialVersionUID = 5062328898860117698L;
 
     private long              id;
-
+    /** 姓名 */
     private String            name;
 
+    /** 电话 */
     private String            tel;
 
+    /** 省 */
     private String            province;
 
+    /** 市 */
     private String            city;
 
+    /** 区 */
     private String            region;
 
+    /** 地址明细 */
     private String            detail;
-
+    /** 公司 */
+    private String            company;
     @ApiModelProperty(name = "地址类型", allowableValues = "SENDER, RECEIVER")
     private String            addressType;
 
+    /** 是否默认地址 */
     private boolean           defaultSetting;
 }

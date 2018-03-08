@@ -5,15 +5,15 @@
 	<!-- 不需要配置的列请删除 -->
 	
 	<sql id="UserAddres.columns">
-		id, name, tel, zip_code, province, city, region, detail, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by 
+		id, name, tel, zip_code, province, city, region, detail, company, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 	
 	<operation name="insert" paramtype="object">
 		<sql>
 			INSERT INTO user_address (
-	        	id ,name ,tel ,zip_code ,province ,city ,region ,detail ,address_type ,user_id ,default_setting ,gmt_create ,gmt_modified ,create_by ,modify_by 
+	        	id ,name ,tel ,zip_code ,province ,city ,region ,detail ,company, address_type ,user_id ,default_setting ,gmt_create ,gmt_modified ,create_by ,modify_by
 	        ) VALUES (
-	        	? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
+	        	? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? , ?,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
 	        )
 		</sql>		
 	</operation>
@@ -27,7 +27,7 @@
 	<operation name="update" paramtype="object">
 		<sql>
 	        UPDATE user_address SET
-		        name = ? ,tel = ? ,zip_code = ? ,province = ? ,city = ? ,region = ? ,detail = ? ,address_type = ? ,user_id = ? ,default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
+		        name = ? ,tel = ? ,zip_code = ? ,province = ? ,city = ? ,region = ? ,detail = ? ,company = ?, address_type = ? ,user_id = ? ,default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
 	        WHERE 
 	        	id = ? 
 		</sql>					

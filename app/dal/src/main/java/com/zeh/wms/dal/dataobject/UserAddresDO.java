@@ -64,6 +64,10 @@ public class UserAddresDO implements java.io.Serializable {
 	 */
 	private String region;
 	/**
+	 * 公司 		db_column: company 
+	 */
+	private String company;
+	/**
 	 * 地址明细 		db_column: detail 
 	 */
 	private String detail;
@@ -153,6 +157,14 @@ public class UserAddresDO implements java.io.Serializable {
 		return this.region;
 	}
 	
+	public void setCompany(String company) {
+		this.company = company;
+	}
+	
+	public String getCompany() {
+		return this.company;
+	}
+	
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
@@ -226,6 +238,7 @@ public class UserAddresDO implements java.io.Serializable {
 			.append("Province",getProvince())
 			.append("City",getCity())
 			.append("Region",getRegion())
+			.append("Company",getCompany())
 			.append("Detail",getDetail())
 			.append("AddressType",getAddressType())
 			.append("UserId",getUserId())
