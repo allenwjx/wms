@@ -73,8 +73,8 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
     }
 
     @Override
-    public boolean delete(long id) throws ServiceException {
-        checkUpdate(userAddresDAO.delete(id), "地址删除");
+    public boolean delete(long id, long userId) throws ServiceException {
+        checkUpdate(userAddresDAO.delete(id, userId), "地址删除");
         return true;
     }
 }

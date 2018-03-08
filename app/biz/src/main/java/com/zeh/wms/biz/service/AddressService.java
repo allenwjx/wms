@@ -55,10 +55,11 @@ public interface AddressService {
     /**
      * Delete boolean.
      *
-     * @param id the id
+     * @param id     the id
+     * @param userId the user id
      * @return the boolean
      * @throws ServiceException the service exception
      */
-    boolean delete(long id) throws ServiceException;
+    boolean delete(long id, long userId) throws ServiceException;
 
 }

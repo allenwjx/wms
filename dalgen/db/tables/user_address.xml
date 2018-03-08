@@ -24,6 +24,12 @@
 	        id = ? 
 		</sql>
 	</operation>
+
+	<operation name="delete">
+		<sql>
+			DELETE FROM user_address WHERE id = ? and user_id = ?
+		</sql>
+	</operation>
 	
 	<operation name="update" paramtype="object">
 		<sql>

@@ -140,7 +140,7 @@ public class AddressController extends BaseController {
             ServiceException {
         assertNull(id, "地址id");
 
-        addressService.delete(id);
+        addressService.delete(id, getCurrentApiUserId());
         return createSuccessResult();
     }
 }
