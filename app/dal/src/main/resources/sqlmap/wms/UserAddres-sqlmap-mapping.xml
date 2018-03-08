@@ -42,13 +42,6 @@
 	
 	
 	<delete id="wms.UserAddres.delete">
-		DELETE FROM user_address WHERE
-	        id = #id#
-    </delete>
-    
-	
-	
-	<delete id="wms.UserAddres.delete">
 		DELETE FROM user_address WHERE id = #id# and user_id = #userId#
     </delete>
     
