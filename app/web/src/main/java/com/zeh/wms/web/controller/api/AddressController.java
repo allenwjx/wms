@@ -2,66 +2,125 @@ package com.zeh.wms.web.controller.api;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
+import com.zeh.jungle.utils.page.SingleResult;
+import com.zeh.wms.biz.exception.ServiceException;
+import com.zeh.wms.biz.model.UserAddressVO;
+import com.zeh.wms.biz.model.enums.AddressTypeEnum;
+import com.zeh.wms.biz.service.AddressService;
+import com.zeh.wms.web.controller.BaseController;
+import com.zeh.wms.web.controller.api.model.AddressModel;
+import com.zeh.wms.web.exception.WebException;
+import com.zeh.wms.web.mapper.AddressFormMapper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
+ * The type Address controller.
+ *
  * @author hzy24985
- * @version $Id: AddressController, v 0.1 2018/2/24 13:52 hzy24985 Exp $
+ * @version $Id : AddressController, v 0.1 2018/2/24 13:52 hzy24985 Exp $
  */
 @Api(value = "地址管理")
 @Controller
 @RequestMapping("/api/address")
-public class AddressController {
+public class AddressController extends BaseController {
 
-    @ApiOperation(value = "新增收件人地址", httpMethod = "POST")
+    /**
+     * The Address service.
+     */
+    @Resource
+    private AddressService    addressService;
+    /**
+     * The Address form mapper.
+     */
+    @Resource
+    private AddressFormMapper addressFormMapper;
+
+    /**
+     * Add address single result.
+     *
+     * @param address the address
+     * @return the single result
+     * @throws ServiceException the service exception
+     */
+    @ApiOperation(value = "新增地址", httpMethod = "POST")
     @ApiResponse(code = 200, message = "success", response = String.class)
-    @RequestMapping(value = "receiver", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public String addReceiver() {
-        return "OK";
+    public SingleResult addAddress(@ApiParam("地址模型") @RequestBody AddressModel address) throws ServiceException {
+        UserAddressVO vo = addressFormMapper.modelToVo(address);
+        vo.setUserId(getCurrentApiUserId());
+        insertSecurityApiVO(vo);
+        addressService.addAddress(vo);
+        return createSuccessResult();
     }
 
-    @ApiOperation(value = "修改收件人地址", httpMethod = "PUT")
+    /**
+     * Update address single result.
+     *
+     * @param address the address
+     * @return the single result
+     * @throws ServiceException the service exception
+     */
+    @ApiOperation(value = "修改地址", httpMethod = "PUT")
     @ApiResponse(code = 200, message = "success", response = String.class)
-    @RequestMapping(value = "receiver", method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
-    public String updateReceiver() {
-        return "OK";
+    public SingleResult updateAddress(@ApiParam("地址模型") @RequestBody AddressModel address) throws ServiceException {
+        UserAddressVO vo = addressFormMapper.modelToVo(address);
+        vo.setUserId(getCurrentApiUserId());
+        updateSecurityApiVO(vo);
+        addressService.updateAddress(vo);
+        return createSuccessResult();
     }
 
-    @ApiOperation(value = "添加寄件人地址", httpMethod = "POST")
+    /**
+     * Gets default address.
+     *
+     * @param type the type
+     * @return the default address
+     * @throws ServiceException the service exception
+     * @throws WebException     the web exception
+     */
+    @ApiOperation(value = "获取地址", httpMethod = "GET")
     @ApiResponse(code = 200, message = "success", response = String.class)
-    @RequestMapping(value = "sender", method = RequestMethod.POST)
+    @RequestMapping(value = "/default/{type}", method = RequestMethod.GET)
     @ResponseBody
-    public String addSender() {
-        return "OK";
+    public SingleResult<AddressModel> getDefaultAddress(@PathVariable("type") @ApiParam(name = "type", allowableValues = "SENDER, RECEIVER") String type) throws ServiceException,
+                                                                                                                                                       WebException {
+        assertEmpty(type, "地址类型");
+        assertObjectNull(AddressTypeEnum.getEnumByCode(type), "地址类型枚举");
+
+        UserAddressVO userAddressVO = addressService.getDefault(getCurrentApiUserId(), AddressTypeEnum.getEnumByCode(type));
+        if (userAddressVO == null) {
+            return createErrorResult("未找到默认配置的地址");
+        }
+        return createSuccessResult(addressFormMapper.voToModel(userAddressVO));
     }
 
-    @ApiOperation(value = "修改寄件人地址", httpMethod = "PUT")
+    /**
+     * Gets address list.
+     *
+     * @param type the type
+     * @return the address list
+     * @throws WebException     the web exception
+     * @throws ServiceException the service exception
+     */
+    @ApiOperation(value = "获取地址", httpMethod = "GET")
     @ApiResponse(code = 200, message = "success", response = String.class)
-    @RequestMapping(value = "sender", method = RequestMethod.PUT)
+    @RequestMapping(value = "/list/{type}", method = RequestMethod.GET)
     @ResponseBody
-    public String updateSender() {
-        return "OK";
-    }
+    public SingleResult<List<AddressModel>> getAddressList(@PathVariable("type") @ApiParam(name = "type", allowableValues = "SENDER, RECEIVER") String type) throws WebException,
+                                                                                                                                                          ServiceException {
+        assertEmpty(type, "地址类型");
+        assertObjectNull(AddressTypeEnum.getEnumByCode(type), "地址类型枚举");
 
-    @ApiOperation(value = "获得默认收件人、寄件人地址", httpMethod = "GET")
-    @ApiResponse(code = 200, message = "success", response = String.class)
-    @RequestMapping(value = "defAddress", method = RequestMethod.GET)
-    @ResponseBody
-    public String getDefaultAddress() {
-        return "OK";
-    }
-
-    @ApiOperation(value = "获得所有收件人地址", httpMethod = "GET")
-    @ApiResponse(code = 200, message = "success", response = String.class)
-    @RequestMapping(value = "address", method = RequestMethod.GET)
-    @ResponseBody
-    public String getAllAddress() {
-        return "OK";
+        List<UserAddressVO> list = addressService.getList(getCurrentApiUserId(), AddressTypeEnum.getEnumByCode(type));
+        return createSuccessResult(addressFormMapper.vosToModels(list));
     }
 }
