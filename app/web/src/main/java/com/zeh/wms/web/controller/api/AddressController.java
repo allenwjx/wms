@@ -123,4 +123,24 @@ public class AddressController extends BaseController {
         List<UserAddressVO> list = addressService.getList(getCurrentApiUserId(), AddressTypeEnum.getEnumByCode(type));
         return createSuccessResult(addressFormMapper.vosToModels(list));
     }
+
+    /**
+     * Gets address list.
+     *
+     * @param id the id
+     * @return the address list
+     * @throws WebException     the web exception
+     * @throws ServiceException the service exception
+     */
+    @ApiOperation(value = "删除地址", httpMethod = "GET")
+    @ApiResponse(code = 200, message = "success", response = String.class)
+    @RequestMapping(method = RequestMethod.DELETE)
+    @ResponseBody
+    public SingleResult getAddressList(@ApiParam(name = "id") long id) throws WebException,
+            ServiceException {
+        assertNull(id, "地址id");
+
+        addressService.delete(id);
+        return createSuccessResult();
+    }
 }

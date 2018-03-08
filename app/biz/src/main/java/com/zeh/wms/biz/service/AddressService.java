@@ -52,4 +52,13 @@ public interface AddressService {
      */
     List<UserAddressVO> getList(Long userId, AddressTypeEnum typeEnum) throws ServiceException;
 
+    /**
+     * Delete boolean.
+     *
+     * @param id the id
+     * @return the boolean
+     * @throws ServiceException the service exception
+     */
+    boolean delete(long id) throws ServiceException;
+
 }

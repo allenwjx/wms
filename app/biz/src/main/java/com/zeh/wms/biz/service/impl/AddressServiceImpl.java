@@ -71,4 +71,10 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
         List<UserAddresDO> list = userAddresDAO.getList(userId, typeEnum.getCode());
         return userAddressMapper.do2vos(list);
     }
+
+    @Override
+    public boolean delete(long id) throws ServiceException {
+        checkUpdate(userAddresDAO.delete(id), "地址删除");
+        return true;
+    }
 }
