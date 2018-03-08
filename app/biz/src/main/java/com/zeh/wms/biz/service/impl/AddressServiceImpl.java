@@ -4,10 +4,12 @@ import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.UserAddressMapper;
 import com.zeh.wms.biz.model.UserAddressVO;
 import com.zeh.wms.biz.model.enums.AddressTypeEnum;
+import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.service.AddressService;
 import com.zeh.wms.dal.daointerface.UserAddresDAO;
 import com.zeh.wms.dal.dataobject.UserAddresDO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -40,9 +42,12 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
      * @throws ServiceException the service exception
      */
     @Override
+    @Transactional(value = "transactionManager", rollbackFor = Exception.class)
     public boolean addAddress(UserAddressVO address) throws ServiceException {
-        UserAddresDO addresDO = userAddressMapper.vo2do(address);
-        checkInsert(userAddresDAO.insert(addresDO), "地址");
+        checkUpdate(userAddresDAO.updateDefaultSettingByUserId(StateEnum.N.getCode(), address.getModifyBy(), address.getUserId()), "地址是否默认");
+        address.setDefaultSetting(StateEnum.Y);
+        UserAddresDO addressDO = userAddressMapper.vo2do(address);
+        checkInsert(userAddresDAO.insert(addressDO), "地址");
         return true;
     }
 

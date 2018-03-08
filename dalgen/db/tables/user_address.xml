@@ -33,6 +33,15 @@
 		</sql>					
 	</operation>
 
+    <operation name="updateDefaultSettingByUserId" paramtype="primitive">
+        <sql>
+            UPDATE user_address SET
+            default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
+            WHERE
+            user_id = ?
+        </sql>
+    </operation>
+
 	<operation name="queryById" multiplicity="one">
 		<sql>
 	    	SELECT

@@ -46,6 +46,13 @@ public interface UserAddresDAO {
 	/**
 	 * 
 	 * sql:
+	 * <pre>UPDATE         user_address      SET         default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         user_id = ?</pre> 
+	 */
+	public int updateDefaultSettingByUserId(Integer defaultSetting ,String modifyBy ,Long userId) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
 	 * <pre>SELECT         id, name, tel, zip_code, province, city, region, detail, address_type, user_id, default_setting, gmt_create, gmt_modified, create_by, modify_by                  FROM         user_address                WHERE         id = ?</pre> 
 	 */
 	public UserAddresDO queryById(Long id) throws DataAccessException;

@@ -55,6 +55,15 @@
 	
     
 	
+	<update id="wms.UserAddres.updateDefaultSettingByUserId">
+		UPDATE user_address SET
+            default_setting = #defaultSetting# , gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+            WHERE
+            user_id = #userId#
+	</update>
+	
+    
+	
 	<select id="wms.UserAddres.queryById" resultMap="RM.UserAddres" >
     	SELECT
  /*wms.UserAddres.queryById*/ 		    <include refid="UserAddres.columns"/>
