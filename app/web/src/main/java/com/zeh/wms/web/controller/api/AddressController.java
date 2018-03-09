@@ -88,9 +88,9 @@ public class AddressController extends BaseController {
      */
     @ApiOperation(value = "设置默认地址", httpMethod = "POST")
     @ApiResponse(code = 200, message = "success", response = String.class)
-    @RequestMapping(value = "setDefault", method = RequestMethod.POST)
+    @RequestMapping(value = "/setDefault/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult setDefault(@ApiParam("id") Long id) throws ServiceException, WebException {
+    public SingleResult setDefault(@PathVariable("id") @ApiParam("id") Long id) throws ServiceException, WebException {
         assertNull(id, "地址id");
         addressService.setDefault(getCurrentApiUserId(), id, getCurrentApiUser().getNickName());
         return createSuccessResult();
