@@ -88,11 +88,14 @@ public class AddressController extends BaseController {
      */
     @ApiOperation(value = "设置默认地址", httpMethod = "POST")
     @ApiResponse(code = 200, message = "success", response = String.class)
-    @RequestMapping(value = "/setDefault/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/setDefault/{id}/{type}", method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult setDefault(@PathVariable("id") @ApiParam("id") Long id) throws ServiceException, WebException {
+    public SingleResult setDefault(@PathVariable("id") @ApiParam("id") Long id, @PathVariable("type") @ApiParam(name = "type", allowableValues =
+    "SENDER, RECEIVER") String type) throws ServiceException, WebException {
         assertNull(id, "地址id");
-        addressService.setDefault(getCurrentApiUserId(), id, getCurrentApiUser().getNickName());
+        assertEmpty(type, "地址类型");
+        assertObjectNull(AddressTypeEnum.getEnumByCode(type), "地址类型枚举");
+        addressService.setDefault(getCurrentApiUserId(), id, type, getCurrentApiUser().getNickName());
         return createSuccessResult();
     }
 

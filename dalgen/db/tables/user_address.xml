@@ -43,7 +43,7 @@
 			ELSE 1
 			END
 			), gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
-			WHERE user_id = ?
+			WHERE user_id = ? and address_type = ?
 		</sql>
 	</operation>
 

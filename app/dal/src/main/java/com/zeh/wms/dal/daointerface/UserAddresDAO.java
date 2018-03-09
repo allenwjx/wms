@@ -46,9 +46,9 @@ public interface UserAddresDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         user_address         SET         default_setting = (    CASE                 WHEN id != ? THEN 0                 ELSE 1             END    ), gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?         WHERE         user_id = ?</pre> 
+	 * <pre>UPDATE         user_address         SET         default_setting = (    CASE                 WHEN id != ? THEN 0                 ELSE 1             END    ), gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?         WHERE         user_id = ?          and address_type = ?</pre> 
 	 */
-	public int updateDefaultByUserIdAndId(Long id ,String modifyBy ,Long userId) throws DataAccessException;
+	public int updateDefaultByUserIdAndId(Long id ,String modifyBy ,Long userId ,String addressType) throws DataAccessException;
 
 	/**
 	 * 

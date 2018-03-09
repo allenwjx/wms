@@ -37,11 +37,12 @@ public interface AddressService {
      *
      * @param userId the address
      * @param id     the id
+     * @param type   the type
      * @param modify the modify
      * @return the boolean
      * @throws ServiceException the service exception
      */
-    boolean setDefault(long userId, long id, String modify) throws ServiceException;
+    boolean setDefault(long userId, long id, String type, String modify) throws ServiceException;
 
     /**
      * 获取默认地址。
