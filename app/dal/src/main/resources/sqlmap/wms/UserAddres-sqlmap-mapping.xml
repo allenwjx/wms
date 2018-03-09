@@ -64,7 +64,7 @@
 			ELSE 1
 			END
 			), gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
-			WHERE user_id = #userId#
+			WHERE user_id = #userId# and address_type = #addressType#
 	</update>
 	
     
