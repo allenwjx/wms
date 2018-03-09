@@ -56,6 +56,19 @@
 	
     
 	
+	<update id="wms.UserAddres.updateDefaultByUserIdAndId">
+		UPDATE user_address
+			SET default_setting = (
+			CASE
+			WHEN id != #id# THEN 0
+			ELSE 1
+			END
+			), gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+			WHERE user_id = #userId#
+	</update>
+	
+    
+	
 	<update id="wms.UserAddres.updateDefaultSettingByUserId">
 		UPDATE user_address SET
             default_setting = #defaultSetting# , gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#

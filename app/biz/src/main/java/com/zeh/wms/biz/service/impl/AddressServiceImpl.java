@@ -66,6 +66,12 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
     }
 
     @Override
+    public boolean setDefault(long userId, long id, String modify) throws ServiceException {
+        checkUpdate(userAddresDAO.updateDefaultByUserIdAndId(id, modify, userId), "默认收寄地址");
+        return true;
+    }
+
+    @Override
     public UserAddressVO getDefault(Long userId, AddressTypeEnum typeEnum) throws ServiceException {
         UserAddresDO userAddresDO = userAddresDAO.getDefault(userId, typeEnum.getCode());
         return userAddressMapper.do2vo(userAddresDO);

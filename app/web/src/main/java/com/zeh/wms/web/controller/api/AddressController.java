@@ -80,6 +80,23 @@ public class AddressController extends BaseController {
     }
 
     /**
+     * Add address single result.
+     *
+     * @param id the id of address
+     * @return the single result
+     * @throws ServiceException the service exception
+     */
+    @ApiOperation(value = "新增地址", httpMethod = "POST")
+    @ApiResponse(code = 200, message = "success", response = String.class)
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    public SingleResult setDefault(@ApiParam("id") Long id) throws ServiceException, WebException {
+        assertNull(id, "地址id");
+        addressService.setDefault(getCurrentApiUserId(), id, getCurrentApiUser().getNickName());
+        return createSuccessResult();
+    }
+
+    /**
      * Gets default address.
      *
      * @param type the type

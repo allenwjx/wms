@@ -70,6 +70,19 @@ public class IbatisUserAddresDAO extends SqlMapClientDaoSupport implements UserA
 	/**
 	 * 
 	 * sql: 
+	 * <pre>UPDATE         user_address         SET         default_setting = (    CASE                 WHEN id != ? THEN 0                 ELSE 1             END    ), gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?         WHERE         user_id = ?</pre>
+	 */
+	public int updateDefaultByUserIdAndId(Long id ,String modifyBy ,Long userId) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("id",id);
+		param.put("modifyBy",modifyBy);
+		param.put("userId",userId);
+		return getSqlMapClientTemplate().update("wms.UserAddres.updateDefaultByUserIdAndId", param);
+	}
+
+	/**
+	 * 
+	 * sql: 
 	 * <pre>UPDATE         user_address      SET         default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         user_id = ?</pre>
 	 */
 	public int updateDefaultSettingByUserId(Integer defaultSetting ,String modifyBy ,Long userId) throws DataAccessException {
