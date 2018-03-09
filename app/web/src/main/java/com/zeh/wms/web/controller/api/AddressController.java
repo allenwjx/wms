@@ -100,6 +100,26 @@ public class AddressController extends BaseController {
     }
 
     /**
+     * Add address single result.
+     *
+     * @param id the id of address
+     * @return the single result
+     * @throws ServiceException the service exception
+     */
+    @ApiOperation(value = "设置默认地址", httpMethod = "POST")
+    @ApiResponse(code = 200, message = "success", response = String.class)
+    @RequestMapping(value = "/setDefault/{id}/{type}", method = RequestMethod.POST)
+    @ResponseBody
+    public SingleResult setDefault(@PathVariable("id") @ApiParam("id") Long id, @PathVariable("type") @ApiParam(name = "type", allowableValues =
+    "SENDER, RECEIVER") String type) throws ServiceException, WebException {
+        assertNull(id, "地址id");
+        assertEmpty(type, "地址类型");
+        assertObjectNull(AddressTypeEnum.getEnumByCode(type), "地址类型枚举");
+        addressService.setDefault(getCurrentApiUserId(), id, type, getCurrentApiUser().getNickName());
+        return createSuccessResult();
+    }
+
+    /**
      * Gets default address.
      *
      * @param type the type

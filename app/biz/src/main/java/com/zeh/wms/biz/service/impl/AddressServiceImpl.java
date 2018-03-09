@@ -61,9 +61,20 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
      * @throws ServiceException the service exception
      */
     @Override
+    @Transactional(value = "transactionManager", rollbackFor = Exception.class)
     public boolean updateAddress(UserAddressVO address) throws ServiceException {
         UserAddresDO addresDO = userAddressMapper.vo2do(address);
         checkUpdate(userAddresDAO.update(addresDO), "地址");
+        //如果设置地址为默认的，则需要更新其他的地址
+        if (address.getDefaultSetting() == StateEnum.Y) {
+            setDefault(address.getUserId(), address.getId(), address.getAddressType().getCode(), address.getModifyBy());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean setDefault(long userId, long id, String type, String modify) throws ServiceException {
+        checkUpdate(userAddresDAO.updateDefaultByUserIdAndId(id, modify, userId, type), "默认收寄地址");
         return true;
     }
 

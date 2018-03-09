@@ -81,6 +81,7 @@ public abstract class BaseController {
         vo.setPassword("test");
         vo.setUserId("allen");
         vo.setType(UserLinkTypeEnum.A);
+        vo.setId(2L);
         return vo;
     }
 

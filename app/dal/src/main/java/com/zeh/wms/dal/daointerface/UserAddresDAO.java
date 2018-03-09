@@ -2,21 +2,11 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import org.springframework.dao.DataAccessException;
-import com.zeh.wms.dal.operation.useraddres.*;
-import com.zeh.wms.dal.dataobject.*;
-
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import com.zeh.wms.dal.dataobject.UserAddresDO;
+import org.springframework.dao.DataAccessException;
+
+import java.util.List;
 /**
  * UserAddresDAO
  * database table: user_address
@@ -52,6 +42,13 @@ public interface UserAddresDAO {
 	 * <pre>UPDATE         user_address      SET         name = ? ,tel = ? ,zip_code = ? ,province = ? ,city = ? ,region = ? ,detail = ? ,company = ?, address_type = ? ,user_id = ? ,default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?               WHERE         id = ?</pre> 
 	 */
 	public int update(UserAddresDO userAddres) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>UPDATE         user_address         SET         default_setting = (    CASE                 WHEN id != ? THEN 0                 ELSE 1             END    ), gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?         WHERE         user_id = ?          and address_type = ?</pre> 
+	 */
+	public int updateDefaultByUserIdAndId(Long id ,String modifyBy ,Long userId ,String addressType) throws DataAccessException;
 
 	/**
 	 * 
