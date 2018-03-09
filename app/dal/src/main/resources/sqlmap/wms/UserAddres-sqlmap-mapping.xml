@@ -73,7 +73,7 @@
 		UPDATE user_address SET
             default_setting = #defaultSetting# , gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
             WHERE
-            user_id = #userId#
+            user_id = #userId# and address_type = #addressType#
 	</update>
 	
     

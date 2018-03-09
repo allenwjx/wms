@@ -52,7 +52,7 @@
             UPDATE user_address SET
             default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
             WHERE
-            user_id = ?
+            user_id = ? and address_type = ?
         </sql>
     </operation>
 

@@ -93,13 +93,14 @@ public class IbatisUserAddresDAO extends SqlMapClientDaoSupport implements UserA
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         user_address      SET         default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         user_id = ?</pre>
+	 * <pre>UPDATE         user_address      SET         default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         user_id = ?          and address_type = ?</pre>
 	 */
-	public int updateDefaultSettingByUserId(Integer defaultSetting ,String modifyBy ,Long userId) throws DataAccessException {
+	public int updateDefaultSettingByUserId(Integer defaultSetting ,String modifyBy ,Long userId ,String addressType) throws DataAccessException {
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("defaultSetting",defaultSetting);
 		param.put("modifyBy",modifyBy);
 		param.put("userId",userId);
+		param.put("addressType",addressType);
 		return getSqlMapClientTemplate().update("wms.UserAddres.updateDefaultSettingByUserId", param);
 	}
 
