@@ -1,5 +1,12 @@
 package com.zeh.wms.biz.service.impl;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.UserAddressMapper;
 import com.zeh.wms.biz.model.UserAddressVO;
@@ -8,11 +15,6 @@ import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.service.AddressService;
 import com.zeh.wms.dal.daointerface.UserAddresDAO;
 import com.zeh.wms.dal.dataobject.UserAddresDO;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * The type Address service.
@@ -63,6 +65,23 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
         UserAddresDO addresDO = userAddressMapper.vo2do(address);
         checkUpdate(userAddresDAO.update(addresDO), "地址");
         return true;
+    }
+
+    /**
+     * Set the address to the default
+     *
+     * @param address
+     * @throws ServiceException
+     */
+    @Override
+    public void setDefaultAddress(UserAddressVO address) throws ServiceException {
+        checkUpdate(userAddresDAO.updateDefaultSettingByUserId(StateEnum.N.getCode(), address.getModifyBy(), address.getUserId()), "地址是否默认");
+        UserAddresDO addressDO = userAddresDAO.queryById(address.getId());
+        if (addressDO == null) {
+            throw new RuntimeException("无效地址，ID：" + address.getId());
+        }
+        addressDO.setDefaultSetting(StateEnum.Y.getCode());
+        addressDO.setModifyBy(address.getModifyBy());
     }
 
     @Override

@@ -63,6 +63,26 @@ public class AddressController extends BaseController {
     /**
      * Update address single result.
      *
+     * @param id the address id
+     * @return the single result
+     * @throws ServiceException the service exception
+     */
+    @ApiOperation(value = "设置默认地址", httpMethod = "POST")
+    @ApiResponse(code = 200, message = "success", response = String.class)
+    @RequestMapping(value = "/setDefault", method = RequestMethod.PUT)
+    @ResponseBody
+    public SingleResult setDefaultAddress(@ApiParam("地址ID") Long id) throws ServiceException {
+        UserAddressVO vo = new UserAddressVO();
+        vo.setId(id);
+        vo.setUserId(getCurrentApiUserId());
+        updateSecurityApiVO(vo);
+        addressService.setDefaultAddress(vo);
+        return createSuccessResult();
+    }
+
+    /**
+     * Update address single result.
+     *
      * @param address the address
      * @return the single result
      * @throws ServiceException the service exception

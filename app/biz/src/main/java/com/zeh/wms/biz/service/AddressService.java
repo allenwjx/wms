@@ -1,10 +1,10 @@
 package com.zeh.wms.biz.service;
 
+import java.util.List;
+
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.UserAddressVO;
 import com.zeh.wms.biz.model.enums.AddressTypeEnum;
-
-import java.util.List;
 
 /**
  * The interface Address service.
@@ -31,6 +31,13 @@ public interface AddressService {
      * @throws ServiceException the service exception
      */
     boolean updateAddress(UserAddressVO address) throws ServiceException;
+
+    /**
+     * Set the address to the default
+     * @param address
+     * @throws ServiceException
+     */
+    void setDefaultAddress(UserAddressVO address) throws ServiceException;
 
     /**
      * 获取默认地址。
