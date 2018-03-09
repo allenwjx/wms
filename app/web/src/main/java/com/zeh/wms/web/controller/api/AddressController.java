@@ -86,9 +86,9 @@ public class AddressController extends BaseController {
      * @return the single result
      * @throws ServiceException the service exception
      */
-    @ApiOperation(value = "新增地址", httpMethod = "POST")
+    @ApiOperation(value = "设置默认地址", httpMethod = "POST")
     @ApiResponse(code = 200, message = "success", response = String.class)
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "setDefault", method = RequestMethod.POST)
     @ResponseBody
     public SingleResult setDefault(@ApiParam("id") Long id) throws ServiceException, WebException {
         assertNull(id, "地址id");
