@@ -78,26 +78,22 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
         return true;
     }
 
-    /**
-     * Set the address to the default
-     *
-     * @param address
-     * @throws ServiceException
-     */
-    @Override
-    public void setDefaultAddress(UserAddressVO address) throws ServiceException {
-        checkUpdate(userAddresDAO.updateDefaultSettingByUserId(StateEnum.N.getCode(), address.getModifyBy(), address.getUserId()), "地址是否默认");
-        UserAddresDO addressDO = userAddresDAO.queryById(address.getId());
-        if (addressDO == null) {
-            throw new RuntimeException("无效地址，ID：" + address.getId());
-        }
-        addressDO.setDefaultSetting(StateEnum.Y.getCode());
-        addressDO.setModifyBy(address.getModifyBy());
-    }
-
     @Override
     public UserAddressVO getDefault(Long userId, AddressTypeEnum typeEnum) throws ServiceException {
         UserAddresDO userAddresDO = userAddresDAO.getDefault(userId, typeEnum.getCode());
+        return userAddressMapper.do2vo(userAddresDO);
+    }
+
+    /**
+     * 获取地址
+     *
+     * @param id
+     * @return
+     * @throws ServiceException
+     */
+    @Override
+    public UserAddressVO queryAddress(Long id) throws ServiceException {
+        UserAddresDO userAddresDO = userAddresDAO.queryById(id);
         return userAddressMapper.do2vo(userAddresDO);
     }
 

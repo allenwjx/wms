@@ -1,5 +1,12 @@
 package com.zeh.wms.web.controller.api;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -13,11 +20,6 @@ import com.zeh.wms.web.controller.BaseController;
 import com.zeh.wms.web.controller.api.model.AddressModel;
 import com.zeh.wms.web.exception.WebException;
 import com.zeh.wms.web.mapper.AddressFormMapper;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * The type Address controller.
@@ -63,33 +65,13 @@ public class AddressController extends BaseController {
     /**
      * Update address single result.
      *
-     * @param id the address id
-     * @return the single result
-     * @throws ServiceException the service exception
-     */
-    @ApiOperation(value = "设置默认地址", httpMethod = "POST")
-    @ApiResponse(code = 200, message = "success", response = String.class)
-    @RequestMapping(value = "/setDefault", method = RequestMethod.PUT)
-    @ResponseBody
-    public SingleResult setDefaultAddress(@ApiParam("地址ID") Long id) throws ServiceException {
-        UserAddressVO vo = new UserAddressVO();
-        vo.setId(id);
-        vo.setUserId(getCurrentApiUserId());
-        updateSecurityApiVO(vo);
-        addressService.setDefaultAddress(vo);
-        return createSuccessResult();
-    }
-
-    /**
-     * Update address single result.
-     *
      * @param address the address
      * @return the single result
      * @throws ServiceException the service exception
      */
-    @ApiOperation(value = "修改地址", httpMethod = "PUT")
+    @ApiOperation(value = "修改地址", httpMethod = "POST")
     @ApiResponse(code = 200, message = "success", response = String.class)
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public SingleResult updateAddress(@ApiParam("地址模型") @RequestBody AddressModel address) throws ServiceException {
         UserAddressVO vo = addressFormMapper.modelToVo(address);
@@ -110,13 +92,35 @@ public class AddressController extends BaseController {
     @ApiResponse(code = 200, message = "success", response = String.class)
     @RequestMapping(value = "/setDefault/{id}/{type}", method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult setDefault(@PathVariable("id") @ApiParam("id") Long id, @PathVariable("type") @ApiParam(name = "type", allowableValues =
-    "SENDER, RECEIVER") String type) throws ServiceException, WebException {
+    public SingleResult setDefault(@PathVariable("id") @ApiParam("id") Long id,
+                                   @PathVariable("type") @ApiParam(name = "type", allowableValues = "SENDER, RECEIVER") String type) throws ServiceException, WebException {
         assertNull(id, "地址id");
         assertEmpty(type, "地址类型");
         assertObjectNull(AddressTypeEnum.getEnumByCode(type), "地址类型枚举");
         addressService.setDefault(getCurrentApiUserId(), id, type, getCurrentApiUser().getNickName());
         return createSuccessResult();
+    }
+
+    /**
+     * Gets address.
+     *
+     * @param id the type
+     * @return the address
+     * @throws ServiceException the service exception
+     * @throws WebException     the web exception
+     */
+    @ApiOperation(value = "获取地址", httpMethod = "GET")
+    @ApiResponse(code = 200, message = "success", response = String.class)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public SingleResult<AddressModel> getAddress(@PathVariable("id") @ApiParam(name = "id") Long id) throws ServiceException, WebException {
+        assertObjectNull(id, "ID");
+
+        UserAddressVO userAddressVO = addressService.queryAddress(id);
+        if (userAddressVO == null) {
+            return createErrorResult("未找到配置的地址");
+        }
+        return createSuccessResult(addressFormMapper.voToModel(userAddressVO));
     }
 
     /**
@@ -132,7 +136,7 @@ public class AddressController extends BaseController {
     @RequestMapping(value = "/default/{type}", method = RequestMethod.GET)
     @ResponseBody
     public SingleResult<AddressModel> getDefaultAddress(@PathVariable("type") @ApiParam(name = "type", allowableValues = "SENDER, RECEIVER") String type) throws ServiceException,
-                                                                                                                                                       WebException {
+                                                                                                                                                          WebException {
         assertEmpty(type, "地址类型");
         assertObjectNull(AddressTypeEnum.getEnumByCode(type), "地址类型枚举");
 
@@ -156,7 +160,7 @@ public class AddressController extends BaseController {
     @RequestMapping(value = "/list/{type}", method = RequestMethod.GET)
     @ResponseBody
     public SingleResult<List<AddressModel>> getAddressList(@PathVariable("type") @ApiParam(name = "type", allowableValues = "SENDER, RECEIVER") String type) throws WebException,
-                                                                                                                                                          ServiceException {
+                                                                                                                                                             ServiceException {
         assertEmpty(type, "地址类型");
         assertObjectNull(AddressTypeEnum.getEnumByCode(type), "地址类型枚举");
 
@@ -172,12 +176,11 @@ public class AddressController extends BaseController {
      * @throws WebException     the web exception
      * @throws ServiceException the service exception
      */
-    @ApiOperation(value = "删除地址", httpMethod = "GET")
+    @ApiOperation(value = "删除地址", httpMethod = "DELETE")
     @ApiResponse(code = 200, message = "success", response = String.class)
     @RequestMapping(method = RequestMethod.DELETE)
     @ResponseBody
-    public SingleResult getAddressList(@ApiParam(name = "id") long id) throws WebException,
-            ServiceException {
+    public SingleResult getAddressList(@ApiParam(name = "id") long id) throws WebException, ServiceException {
         assertNull(id, "地址id");
 
         addressService.delete(id, getCurrentApiUserId());
