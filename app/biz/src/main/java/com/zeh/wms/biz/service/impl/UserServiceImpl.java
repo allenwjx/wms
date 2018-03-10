@@ -2,6 +2,7 @@ package com.zeh.wms.biz.service.impl;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
+import com.zeh.jungle.utils.common.UUID;
 import com.zeh.wms.biz.error.BizErrorFactory;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.UserMapper;
@@ -9,6 +10,7 @@ import com.zeh.wms.biz.model.UserAgentLinkVO;
 import com.zeh.wms.biz.model.UserVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.model.enums.UserLinkTypeEnum;
+import com.zeh.wms.biz.model.enums.UserTypeEnum;
 import com.zeh.wms.biz.service.UserService;
 import com.zeh.wms.dal.daointerface.UserAgentLinkDAO;
 import com.zeh.wms.dal.daointerface.UserDAO;
@@ -24,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * The type User service.
@@ -31,7 +34,8 @@ import java.util.Collection;
  * @author hzy24985
  * @version $Id : UserServiceImpl, v 0.1 2018/2/10 19:21 hzy24985 Exp $
  */
-@Service public class UserServiceImpl implements UserService {
+@Service("userService")
+public class UserServiceImpl implements UserService {
     /**
      * 错误工厂
      */
@@ -180,7 +184,6 @@ import java.util.Collection;
     private void updateUserType(UserAgentLinkVO linkVO) throws ServiceException {
         UpdateByParsParameter updateByParsParameter = new UpdateByParsParameter();
         updateByParsParameter.setId(linkVO.getUserId());
-        updateByParsParameter.setType(linkVO.getType().getCode());
         int count = userDAO.updateByPars(updateByParsParameter);
         if (count <= 0) {
             throw new ServiceException(ERROR_FACTORY.updateLinkError());
@@ -233,5 +236,55 @@ import java.util.Collection;
     @Override public UserVO queryByUserId(String userId) throws ServiceException {
         UserDO userDO = userDAO.queryByUserId(userId);
         return userMapper.d2v(userDO);
+    }
+
+    /**
+     * 创建用户
+     * @param userVO
+     * @return
+     * @throws ServiceException
+     */
+    @Override public UserVO createUser(UserVO userVO) throws ServiceException {
+        if (userVO == null || userVO.getId() > 0) {
+            throw new ServiceException(ERROR_FACTORY.createUserError("参数为空"));
+        }
+        userVO.setGmtCreate(new Date());
+        userVO.setGmtModified(new Date());
+        if (StringUtils.isBlank(userVO.getCreateBy()))
+            userVO.setCreateBy("系统");
+        if (StringUtils.isBlank(userVO.getModifyBy()))
+            userVO.setModifyBy("系统");
+        if (StringUtils.isBlank(userVO.getPassword()))
+            userVO.setPassword("111111");
+        userVO.setUserId(UUID.generateRandomUUID());
+
+        Long userId = userDAO.insert(userMapper.v2d(userVO));
+        if (userId == null || userId <= 0) {
+            throw new ServiceException(ERROR_FACTORY.createUserError("数据库创建失败"));
+        }
+
+        return userMapper.d2v(userDAO.queryById(userId));
+    }
+
+    @Override public void updateUser(UserVO userVO) throws ServiceException {
+        if (userVO == null || userVO.getId() <= 0) {
+            throw new ServiceException(ERROR_FACTORY.updateUserError("参数不能为空"));
+        }
+
+        UserDO dbUser = userDAO.queryById(userVO.getId());
+        if (dbUser == null || dbUser.getId() <= 0) {
+            throw new ServiceException(ERROR_FACTORY.updateUserError("指定用户不存在"));
+        }
+
+        if (StringUtils.isNotBlank(userVO.getNickName()))
+            dbUser.setNickName(userVO.getNickName());
+        if (StringUtils.isNotBlank(userVO.getOpenId()))
+            dbUser.setOpenId(userVO.getOpenId());
+        if (StringUtils.isNotBlank(userVO.getPassword()))
+            dbUser.setPassword(userVO.getPassword());
+
+        dbUser.setGmtModified(new Date());
+
+        userDAO.update(dbUser);
     }
 }

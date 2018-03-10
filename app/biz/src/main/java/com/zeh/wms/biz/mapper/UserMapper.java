@@ -21,6 +21,8 @@ public interface UserMapper extends AbstractMapper {
 
     Collection<UserVO> d2vs(Collection<UserDO> dataObjects);
 
+    UserDO v2d(UserVO v);
+
     UserAgentLinkVO linkDo2Vo(UserAgentLinkDO dataObject);
 
     QueryByParQuery linkVo2Query(UserAgentLinkVO dataObject);

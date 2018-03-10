@@ -72,9 +72,9 @@ public class UserDO implements java.io.Serializable {
 	 */
 	private String modifyBy;
 	/**
-	 * 客户类型；代理商：A；厂商：B；散客: C； 		db_column: type 
+	 * 用户手机号 		db_column: mobile 
 	 */
-	private String type;
+	private String mobile;
 
 	
 	public void setId(long id) {
@@ -149,12 +149,12 @@ public class UserDO implements java.io.Serializable {
 		return this.modifyBy;
 	}
 	
-	public void setType(String type) {
-		this.type = type;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 	
-	public String getType() {
-		return this.type;
+	public String getMobile() {
+		return this.mobile;
 	}
 
 	public String toString() {
@@ -168,7 +168,7 @@ public class UserDO implements java.io.Serializable {
 			.append("GmtModified",getGmtModified())
 			.append("CreateBy",getCreateBy())
 			.append("ModifyBy",getModifyBy())
-			.append("Type",getType())
+			.append("Mobile",getMobile())
 			.toString();
 	}
 	

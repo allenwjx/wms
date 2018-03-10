@@ -248,6 +248,25 @@ public class BizErrorFactory extends AbstractErrorFactory {
         return createError("JG0510017001");
     }
 
+
+    /**
+     * JG0510017100=用户创建失败，{0}
+     *
+     * @return JGError
+     */
+    public JGError createUserError(String msg) {
+        return createError("JG0510017100", msg);
+    }
+
+    /**
+     * JG0510017101=用户更新失败，{0}
+     *
+     * @return JGError
+     */
+    public JGError updateUserError(String msg) {
+        return createError("JG0510017101", msg);
+    }
+
     /**
      * JG0510017002=后台用户更新失败，后台用户ID不能为空
      *

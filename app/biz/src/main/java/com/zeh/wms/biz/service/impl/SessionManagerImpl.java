@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,4 +75,33 @@ public class SessionManagerImpl implements SessionManager {
         return session;
     }
 
+    /**
+     *
+     * @param request
+     * @return
+     * @throws ServiceException
+     */
+    @Override public Session getSessionFromSevlet(HttpServletRequest request) throws ServiceException {
+        if (request == null) {
+            throw new ServiceException(ERROR_FACTORY.getSessionError("缺少必要参数"));
+        }
+        if (request.getSession().getAttribute(Session.SESSION_FLAG) == null) {
+            throw new ServiceException(ERROR_FACTORY.getSessionError("当前会话未登陆"));
+        }
+        return (Session) request.getSession().getAttribute(Session.SESSION_FLAG);
+    }
+
+    /**
+     *
+     * @param sessionId
+     * @param user
+     * @throws ServiceException
+     */
+    @Override public void refreshSessionUser(String sessionId, UserVO user) throws ServiceException {
+        Session session = sessions.get(sessionId);
+        if (session == null) {
+            throw new ServiceException(ERROR_FACTORY.getSessionError("指定会话不存在"));
+        }
+        session.setUserVO(user);
+    }
 }

@@ -15,6 +15,8 @@ import java.io.Serializable;
  */
 @Getter @Setter public class Session implements Serializable {
 
+    public static final String SESSION_FLAG = "user_session_key";
+
     /** 我方系统会话id */
     private String id;
     /** 我方平台用户对象 */

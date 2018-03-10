@@ -1,7 +1,9 @@
 package com.zeh.wms.web.filter;
 
 import com.zeh.wms.biz.model.Session;
+import com.zeh.wms.biz.model.UserVO;
 import com.zeh.wms.biz.service.SessionManager;
+import com.zeh.wms.biz.service.UserService;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.*;
@@ -17,11 +19,6 @@ import java.io.IOException;
 public class UserSessionFilter implements Filter {
 
     /**
-     * 用户会话获取标志
-     */
-    private static final String USER_SESSION_KEY = "user_session_key";
-
-    /**
      * http 请求头参数
      * 塞入这个参数，即可以换到服务端身份
      *
@@ -29,6 +26,8 @@ public class UserSessionFilter implements Filter {
     private static final String REQUEST_HEADER_SESSION_FLAG = "session_flag";
 
     private SessionManager sessionManager;
+
+    private UserService userService;
 
     @Override public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -39,7 +38,7 @@ public class UserSessionFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         // 如果存在会话，则跳出
-        if (request.getSession().getAttribute(USER_SESSION_KEY) != null) {
+        if (request.getSession().getAttribute(Session.SESSION_FLAG) != null) {
             filterChain.doFilter(servletRequest, servletResponse);
         }
 
@@ -51,9 +50,13 @@ public class UserSessionFilter implements Filter {
 
             try {
                 session = sessionManager.generateSession(session);
-                if (session.getUserVO() == null) {
+                if (session.getUserVO() == null || session.getUserVO().getId() <= 0) {
                     // 此处需要直接招待注册
-
+                    UserVO tobeRegisteUser = new UserVO();
+                    tobeRegisteUser.setOpenId(session.getWechatOpenid());
+                    tobeRegisteUser.setNickName(session.getWechatOpenid());
+                    tobeRegisteUser = userService.createUser(tobeRegisteUser);
+                    session.setUserVO(tobeRegisteUser);
                 }
             } catch (Exception ex) {
                 // 异常时报错
@@ -61,7 +64,7 @@ public class UserSessionFilter implements Filter {
                 ex.printStackTrace();
             }
 
-            request.getSession().setAttribute(USER_SESSION_KEY, session);
+            request.getSession().setAttribute(Session.SESSION_FLAG, session);
             filterChain.doFilter(servletRequest, servletResponse);
         }
 
@@ -70,7 +73,7 @@ public class UserSessionFilter implements Filter {
             Session session = null;
             try {
                 session = sessionManager.getSessionById(request.getHeader(REQUEST_HEADER_SESSION_FLAG));
-                request.getSession().setAttribute(USER_SESSION_KEY, session);
+                request.getSession().setAttribute(Session.SESSION_FLAG, session);
                 filterChain.doFilter(servletRequest, servletResponse);
             } catch (Exception ex) {
                 // 异常报错
@@ -92,5 +95,13 @@ public class UserSessionFilter implements Filter {
 
     public void setSessionManager(SessionManager sessionManager) {
         this.sessionManager = sessionManager;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

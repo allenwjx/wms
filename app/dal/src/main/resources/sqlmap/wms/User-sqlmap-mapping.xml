@@ -15,11 +15,11 @@
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="type" column="type" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="mobile" column="mobile" javaType="java.lang.String" jdbcType="VARCHAR"  />
     </resultMap>
     
 	<sql id="User.columns">
-		id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type
+		id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, mobile
 	</sql>
 		
 
@@ -28,8 +28,8 @@
     
 	<insert id="wms.User.insert">
 		INSERT INTO user (
-	        	id ,nick_name ,user_id ,password ,open_id ,gmt_create ,gmt_modified ,create_by ,modify_by ,type
-	        ) VALUES (#id#,#nickName#,#userId#,#password#,#openId#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#,#type#)
+            id ,nick_name ,user_id ,password ,open_id ,gmt_create ,gmt_modified ,create_by ,modify_by ,mobile
+            ) VALUES (#id#,#nickName#,#userId#,#password#,#openId#,#gmtCreate#,#gmtModified#,#createBy#,#modifyBy#,#mobile#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -44,9 +44,9 @@
 	
 	<update id="wms.User.update">
 		UPDATE user SET
-		        nick_name = #nickName# ,user_id = #userId# ,password = #password# ,open_id = #openId# , gmt_modified = CURRENT_TIMESTAMP , modify_by = #modifyBy# ,type = #type#
-	        WHERE
-	        	id = #id#
+            nick_name = #nickName# ,user_id = #userId# ,password = #password# ,open_id = #openId# ,gmt_create = #gmtCreate# ,gmt_modified = #gmtModified# ,create_by = #createBy# ,modify_by = #modifyBy# ,mobile = #mobile#
+            WHERE
+            id = #id#
 	</update>
 	
     
@@ -66,10 +66,6 @@
 
             <isNotEmpty prepend="," property="openId">
                 open_id = #openId#
-            </isNotEmpty>
-
-            <isNotEmpty prepend="," property="type">
-                type = #type#
             </isNotEmpty>
 
             <isNotEmpty prepend="," property="modifyBy">
@@ -138,10 +134,6 @@
                     u.user_id = #userId#
                 </isNotEmpty>
 
-                <isNotEmpty prepend="AND" property="type">
-                    u.type = #type#
-                </isNotEmpty>
-
                 <isNotEmpty prepend="AND" property="fromDate">
                     <![CDATA[
                         u.gmt_create >= #fromDate#
@@ -165,10 +157,6 @@
                 </isNotEmpty>
                 <isNotEmpty prepend="AND" property="userId">
                     u.user_id = #userId#
-                </isNotEmpty>
-
-                <isNotEmpty prepend="AND" property="type">
-                    u.type = #type#
                 </isNotEmpty>
 
                 <isNotEmpty prepend="AND" property="fromDate">

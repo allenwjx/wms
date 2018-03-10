@@ -82,4 +82,21 @@ public interface UserService {
      * @throws ServiceException
      */
     UserVO queryByUserId(String userId) throws ServiceException;
+
+    /**
+     * 创建一个用户
+     *
+     * @param userVO
+     * @return
+     * @throws ServiceException
+     */
+    UserVO createUser(UserVO userVO) throws ServiceException;
+
+    /**
+     * 更新用户
+     *
+     * @param userVO
+     * @throws ServiceException
+     */
+    void updateUser (UserVO userVO) throws ServiceException;
 }

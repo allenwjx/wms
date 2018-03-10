@@ -59,6 +59,7 @@
     <!-- 用户会话过滤器 -->
     <bean id="userSessionFilter" class="com.zeh.wms.web.filter.UserSessionFilter">
         <property name="sessionManager" ref="sessionManager" />
+        <property name="userService" ref="userService" />
     </bean>
 
 </beans>
