@@ -61,7 +61,8 @@ public class UserSessionFilter implements Filter {
             } catch (Exception ex) {
                 // 异常时报错
                 // TODO 需要处理好异常显示
-                ex.printStackTrace();
+                // ex.printStackTrace();
+                response.getWriter().append("{}");
             }
 
             request.getSession().setAttribute(Session.SESSION_FLAG, session);
@@ -79,6 +80,7 @@ public class UserSessionFilter implements Filter {
                 // 异常报错
                 // TODO 需要处理好异常显示
                 ex.printStackTrace();
+                response.getWriter().append("{}");
             }
         }
 
