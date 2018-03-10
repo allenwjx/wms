@@ -62,7 +62,7 @@ public class ManufacturerController extends BaseController {
             form.setCode(manufacturer.getCode());
             form.setName(manufacturer.getName());
             form.setExpress(manufacturer.getExpress().getCode());
-            form.setSettleType(manufacturer.getSettleType().getCode());
+            form.setSettleType(String.valueOf(manufacturer.getSettleType().getCode()));
         }
         String modelData = FastJsonUtils.toJSONString(form);
         model.addAttribute("modelData", modelData);
@@ -82,7 +82,7 @@ public class ManufacturerController extends BaseController {
         ManufacturerVO manufacturer = new ManufacturerVO();
         manufacturer.setCode(form.getCode());
         manufacturer.setName(form.getName());
-        manufacturer.setSettleType(SettleTypeEnum.getEnumByCode(form.getSettleType()));
+        manufacturer.setSettleType(SettleTypeEnum.getEnumByCode(Integer.valueOf(form.getSettleType())));
         manufacturer.setExpress(ExpressTypeEnum.getEnumByCode(form.getExpress()));
         return manufacturerService.pageQueryManufacturers(manufacturer, paginator.getCurrentPage(), paginator.getPageSize());
     }
@@ -98,7 +98,7 @@ public class ManufacturerController extends BaseController {
     public SingleResult add(@RequestBody ManufacturerForm form) {
         ManufacturerVO manufacturer = new ManufacturerVO();
         manufacturer.setExpress(ExpressTypeEnum.getEnumByCode(form.getExpress()));
-        manufacturer.setSettleType(SettleTypeEnum.getEnumByCode(form.getSettleType()));
+        manufacturer.setSettleType(SettleTypeEnum.getEnumByCode(Integer.valueOf(form.getSettleType())));
         manufacturer.setName(form.getName());
         manufacturer.setCreateBy(getCurrentUserName());
         manufacturer.setModifyBy(getCurrentUserName());
@@ -123,7 +123,7 @@ public class ManufacturerController extends BaseController {
         ManufacturerVO manufacturer = new ManufacturerVO();
         manufacturer.setId(form.getId());
         manufacturer.setExpress(ExpressTypeEnum.getEnumByCode(form.getExpress()));
-        manufacturer.setSettleType(SettleTypeEnum.getEnumByCode(form.getSettleType()));
+        manufacturer.setSettleType(SettleTypeEnum.getEnumByCode(Integer.valueOf(form.getSettleType())));
         manufacturer.setName(form.getName());
         manufacturer.setModifyBy(getCurrentUserName());
         try {

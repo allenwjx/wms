@@ -46,6 +46,13 @@ $(document).ready(function () {
                 }).done(function (resp) {
                     self.status = resp;
                 });
+                $.ajax({
+                    type: 'GET',
+                    url: __ctx + "/combo/express",
+                    data: {className:'PaymentStateEnum'}
+                }).done(function (resp) {
+                    self.status = expressTypes;
+                });
             },
             preQuery: function () {
                 $.resetCurrentPage(this.pageResult.paginator);
