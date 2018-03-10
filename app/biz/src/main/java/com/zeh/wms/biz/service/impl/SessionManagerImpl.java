@@ -21,7 +21,8 @@ import java.util.Map;
  * @author weijun
  * @create $ v 1.0.0 2018/3/10 下午2:18 Exp $
  */
-@Service public class SessionManagerImpl implements SessionManager {
+@Service (value = "sessionManager")
+public class SessionManagerImpl implements SessionManager {
 
     private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
 
@@ -61,8 +62,7 @@ import java.util.Map;
         } catch (Exception ex) {
         }
         if (user != null) {
-            session.setUserId(user.getUserId());
-            session.setUserName(user.getNickName());
+            session.setUserVO(user);
         }
 
         session.setId(UUID.generateRandomUUID());

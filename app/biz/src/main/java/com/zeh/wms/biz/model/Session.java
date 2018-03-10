@@ -17,10 +17,8 @@ import java.io.Serializable;
 
     /** 我方系统会话id */
     private String id;
-    /** 我方系统用户标识 */
-    private String userId;
-    /** 我方系统用户名称 */
-    private String userName;
+    /** 我方平台用户对象 */
+    UserVO userVO;
 
     /** 微信相关属性 */
     private String wechatSessionKey;

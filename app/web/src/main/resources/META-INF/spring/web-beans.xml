@@ -55,4 +55,10 @@
     <bean id="accessDeniedHandler" class="com.zeh.wms.biz.security.BGAccessDeniedHandler">
         <property name="errorPage" value="/page/error/403"/>
     </bean>
+
+    <!-- 用户会话过滤器 -->
+    <bean id="userSessionFilter" class="com.zeh.wms.web.filter.UserSessionFilter">
+        <property name="sessionManager" ref="sessionManager" />
+    </bean>
+
 </beans>
