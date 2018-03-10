@@ -15,6 +15,7 @@
     <bean id="qrcodeBatchDAO" class="com.zeh.wms.dal.ibatis.IbatisQrcodeBatchDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="qrcodeDAO" class="com.zeh.wms.dal.ibatis.IbatisQrcodeDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="inventoryDAO" class="com.zeh.wms.dal.ibatis.IbatisInventoryDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="expresDAO" class="com.zeh.wms.dal.ibatis.IbatisExpresDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="roleDAO" class="com.zeh.wms.dal.ibatis.IbatisRoleDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="userDAO" class="com.zeh.wms.dal.ibatis.IbatisUserDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="userBgDAO" class="com.zeh.wms.dal.ibatis.IbatisUserBgDAO" parent="wmsSqlMapClientDAO"/>

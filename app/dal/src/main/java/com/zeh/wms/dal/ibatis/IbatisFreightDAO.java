@@ -42,7 +42,7 @@ public class IbatisFreightDAO extends SqlMapClientDaoSupport implements FreightD
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         freight         (             id ,province_code ,first_weight ,first_price ,additional_price ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
+	 * <pre>INSERT      INTO         freight         (             province_code, express_code, first_weight, first_original_price,             additional_original_price, first_cost_price, additional_cost_price, enabled, gmt_create,             gmt_modified, create_by, modify_by             )      VALUES         (?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(FreightDO freight) throws DataAccessException {
 		if(freight == null) {
@@ -64,7 +64,7 @@ public class IbatisFreightDAO extends SqlMapClientDaoSupport implements FreightD
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         freight      SET         province_code = ? ,first_weight = ? ,first_price = ? ,additional_price = ? ,enabled = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         id = ?</pre>
+	 * <pre>UPDATE         freight      SET         province_code = ? ,             express_code = ?,             first_weight = ? ,             first_original_price = ? ,             additional_original_price = ? ,             first_cost_price = ?,             additional_cost_price = ?,             enabled = ?,             gmt_modified = CURRENT_TIMESTAMP,             modify_by = ?                   WHERE         id = ?</pre>
 	 */
 	public int update(FreightDO freight) throws DataAccessException {
 		if(freight == null) {
@@ -76,7 +76,7 @@ public class IbatisFreightDAO extends SqlMapClientDaoSupport implements FreightD
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, province_code, first_weight, first_price, additional_price, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         id = ?</pre>
+	 * <pre>SELECT         id, province_code, express_code, first_weight, first_original_price,         additional_original_price, first_cost_price, additional_cost_price, enabled, gmt_create,         gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         id = ?</pre>
 	 */
 	public FreightDO queryById(Long id) throws DataAccessException {
 		return (FreightDO)getSqlMapClientTemplate().queryForObject("wms.Freight.queryById",id);
@@ -85,7 +85,7 @@ public class IbatisFreightDAO extends SqlMapClientDaoSupport implements FreightD
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, province_code, first_weight, first_price, additional_price, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         province_code = ?          AND enabled = 1</pre>
+	 * <pre>SELECT         id, province_code, express_code, first_weight, first_original_price,         additional_original_price, first_cost_price, additional_cost_price, enabled, gmt_create,         gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         province_code = ?          AND enabled = 1</pre>
 	 */
 	public FreightDO queryByProvince(String provinceCode) throws DataAccessException {
 		return (FreightDO)getSqlMapClientTemplate().queryForObject("wms.Freight.queryByProvince",provinceCode);
@@ -94,7 +94,7 @@ public class IbatisFreightDAO extends SqlMapClientDaoSupport implements FreightD
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, province_code, first_weight, first_price, additional_price, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         1=1                                        AND                      province_code = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modified DESC</pre>
+	 * <pre>SELECT         id, province_code, express_code, first_weight, first_original_price,         additional_original_price, first_cost_price, additional_cost_price, enabled, gmt_create,         gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         1=1                                        AND                      province_code = ?                                            AND                      express_code = ?                                            AND                      enabled = ?                                                ORDER BY         gmt_modified DESC</pre>
 	 */
 	public PageList<FreightDO> queryByPage(QueryByPageQuery param) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Freight.queryByPage",param);
@@ -103,7 +103,7 @@ public class IbatisFreightDAO extends SqlMapClientDaoSupport implements FreightD
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, province_code, first_weight, first_price, additional_price, enabled, gmt_create, gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         enabled = 1;</pre>
+	 * <pre>SELECT         id, province_code, express_code, first_weight, first_original_price,         additional_original_price, first_cost_price, additional_cost_price, enabled, gmt_create,         gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         enabled = 1;</pre>
 	 */
 	public List<FreightDO> queryAllEnabled() throws DataAccessException {
 		return (List<FreightDO>)getSqlMapClientTemplate().queryForList("wms.Freight.queryAllEnabled",null);

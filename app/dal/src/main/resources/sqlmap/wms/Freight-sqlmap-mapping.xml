@@ -8,9 +8,12 @@
     <resultMap id="RM.Freight" class="com.zeh.wms.dal.dataobject.FreightDO">
 		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="provinceCode" column="province_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="expressCode" column="express_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="firstWeight" column="first_weight" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
-		<result property="firstPrice" column="first_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
-		<result property="additionalPrice" column="additional_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="firstOriginalPrice" column="first_original_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="additionalOriginalPrice" column="additional_original_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="firstCostPrice" column="first_cost_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="additionalCostPrice" column="additional_cost_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="enabled" column="enabled" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
@@ -19,7 +22,9 @@
     </resultMap>
     
 	<sql id="Freight.columns">
-		id, province_code, first_weight, first_price, additional_price, enabled, gmt_create, gmt_modified, create_by, modify_by
+		id, province_code, express_code, first_weight, first_original_price,
+        additional_original_price, first_cost_price, additional_cost_price, enabled, gmt_create,
+        gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -28,8 +33,10 @@
     
 	<insert id="wms.Freight.insert">
 		INSERT INTO freight (
-            id ,province_code ,first_weight ,first_price ,additional_price ,enabled ,gmt_create ,gmt_modified ,create_by ,modify_by
-            ) VALUES (#id#,#provinceCode#,#firstWeight#,#firstPrice#,#additionalPrice#,#enabled#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
+            province_code, express_code, first_weight, first_original_price,
+            additional_original_price, first_cost_price, additional_cost_price, enabled, gmt_create,
+            gmt_modified, create_by, modify_by
+            ) VALUES (#provinceCode#,#expressCode#,#firstWeight#,#firstOriginalPrice#,#additionalOriginalPrice#,#firstCostPrice#,#additionalCostPrice#,#enabled#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -44,7 +51,17 @@
 	
 	<update id="wms.Freight.update">
 		UPDATE freight SET
-            province_code = #provinceCode# ,first_weight = #firstWeight# ,first_price = #firstPrice# ,additional_price = #additionalPrice# ,enabled = #enabled# ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+            province_code = #provinceCode# ,
+            express_code = #expressCode#,
+            first_weight = #firstWeight# ,
+            first_original_price = #firstOriginalPrice# ,
+            additional_original_price = #additionalOriginalPrice# ,
+            first_cost_price = #firstCostPrice#,
+            additional_cost_price = #additionalCostPrice#,
+            enabled = #enabled#,
+            gmt_modified = CURRENT_TIMESTAMP,
+            modify_by = #modifyBy#
+
             WHERE
             id = #id#
 	</update>
@@ -86,6 +103,9 @@
                 <isNotEmpty prepend="AND" property="provinceCode">
                     province_code = #provinceCode#
                 </isNotEmpty>
+                <isNotEmpty prepend="AND" property="expressCode">
+                    express_code = #expressCode#
+                </isNotEmpty>
                 <isNotEmpty prepend="AND" property="enabled">
                     enabled = #enabled#
                 </isNotEmpty>
@@ -100,6 +120,9 @@
             <dynamic>
                 <isNotEmpty prepend="AND" property="provinceCode">
                     province_code = #provinceCode#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="expressCode">
+                    express_code = #expressCode#
                 </isNotEmpty>
                 <isNotEmpty prepend="AND" property="enabled">
                     enabled = #enabled#

@@ -13,6 +13,7 @@
 	<sqlMap resource="sqlmap/wms/QrcodeBatch-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/Qrcode-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/Inventory-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/Expres-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/Role-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/User-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/UserBg-sqlmap-mapping.xml" />

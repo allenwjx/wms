@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * The interface Express order mapper.
+ * The interface ExpressService order mapper.
  *
  * @author hzy24985
  * @version $Id : ExpressOrderMapper, v 0.1 2018/2/7 21:51 hzy24985 Exp $

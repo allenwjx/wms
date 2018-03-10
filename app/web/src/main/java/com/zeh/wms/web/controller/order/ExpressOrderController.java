@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * The type Express order controller.
+ * The type ExpressService order controller.
  *
  * @author hzy24985
  * @version $Id : ExpressOrderController, v 0.1 2018/2/7 22:08 hzy24985 Exp $
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/order/express")
 public class ExpressOrderController extends BaseController {
     /**
-     * The Express order service.
+     * The ExpressService order service.
      */
     @Resource
     private ExpressOrderService expressOrderService;
