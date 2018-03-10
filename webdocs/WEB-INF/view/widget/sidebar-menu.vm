@@ -32,6 +32,7 @@
                     <li><a href="${rc.contextPath}/page/order/express/index"  ><i class="fa fa-cab"></i>快递单管理</a></li>
                     <li><a href="${rc.contextPath}/page/order/payment/index"  ><i class="fa fa-cab"></i>支付单管理</a></li>
                     <li><a href="#"  ><i class="fa fa-cab"></i>产品验证记录</a></li>
+                    <li><a href="${rc.contextPath}/page/inventory/index"  ><i class="fa fa-cab"></i>库存管理</a></li>
                 </ul>
             </li>
             <li>

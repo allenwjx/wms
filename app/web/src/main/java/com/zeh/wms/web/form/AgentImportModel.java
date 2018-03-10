@@ -14,19 +14,19 @@ import java.math.BigDecimal;
 public class AgentImportModel implements Serializable {
     private static final String E = "E";
     /** 授权码 */
-    private String code;
+    private String              code;
 
     /** 收货人姓名 */
-    private String receiverName;
+    private String              receiverName;
 
     /** 收货人电话 */
-    private String receiverTel;
+    private String              receiverTel;
 
     /** 数量 */
-    private int amount;
+    private int                 amount;
 
     /** 收件人地址 */
-    private String receiverAddress;
+    private String              receiverAddress;
 
     public String getTelPlainString() {
         if (StringUtils.isBlank(receiverTel)) {

@@ -16,21 +16,39 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-3 control-label" for="type">快递公司</label>
+            <div class="col-sm-6">
+                <vue-select :options="expresses" :model.sync="model.expressCode" :configs="{placeholder:'全部'}"></vue-select>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label" for="type">首重</label>
             <div class="col-sm-6">
                 <input class="form-control" id="firstWeight" name="firstWeight" type="text" v-model.trim="model.firstWeight" placeholder="单位：500克"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label" for="type">首重价格</label>
+            <label class="col-sm-3 control-label" for="type">原始首重价格</label>
             <div class="col-sm-6">
-                <input class="form-control" id="firstPrice" name="firstPrice" type="text" v-model.trim="model.firstPrice" placeholder="单位：元"/>
+                <input class="form-control" id="firstPrice" name="firstOriginalPrice" type="text" v-model.trim="model.firstOriginalPrice" placeholder="单位：元"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label" for="type">续重价格</label>
+            <label class="col-sm-3 control-label" for="type">原始续重价格</label>
             <div class="col-sm-6">
-                <input class="form-control" id="additionalPrice" name="additionalPrice" type="text" v-model.trim="model.additionalPrice" placeholder="单位：元"/>
+                <input class="form-control" id="additionalPrice" name="additionalOriginalPrice" type="text" v-model.trim="model.additionalOriginalPrice" placeholder="单位：元"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="type">成本首重价格</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="firstPrice" name="firstCostPrice" type="text" v-model.trim="model.firstCostPrice" placeholder="单位：元"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="type">成本续重价格</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="additionalPrice" name="additionalCostPrice" type="text" v-model.trim="model.additionalCostPrice" placeholder="单位：元"/>
             </div>
         </div>
     </div>

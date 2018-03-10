@@ -1,11 +1,5 @@
 package com.zeh.wms.web.controller.sale;
 
-import javax.annotation.Resource;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.Paginator;
 import com.zeh.jungle.utils.page.SingleResult;
@@ -14,7 +8,12 @@ import com.zeh.wms.biz.model.FreightVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.service.FreightService;
 import com.zeh.wms.web.controller.BaseController;
+import com.zeh.wms.web.exception.WebException;
 import com.zeh.wms.web.form.FreightForm;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * @author allen
@@ -40,9 +39,13 @@ public class FreightController extends BaseController {
         FreightForm form = new FreightForm();
         if (id != null) {
             FreightVO freight = freightService.findFreightById(id);
-            form.setAdditionalPrice(String.valueOf(freight.getAdditionalPrice() / 100D));
-            form.setFirstPrice(String.valueOf(freight.getFirstPrice() / 100D));
+            form.setExpressCode(freight.getExpressCode());
+            form.setAdditionalOriginalPrice(String.valueOf(freight.getAdditionalOriginalPrice() / 100D));
+            form.setFirstOriginalPrice(String.valueOf(freight.getFirstOriginalPrice() / 100D));
             form.setFirstWeight(String.valueOf(freight.getFirstWeight() / 500D));
+
+            form.setAdditionalCostPrice(String.valueOf(freight.getAdditionalCostPrice() / 100D));
+            form.setFirstCostPrice(String.valueOf(freight.getFirstCostPrice() / 500D));
             form.setProvinceCode(freight.getProvinceCode());
             form.setEnabled(freight.getEnabled().getCode());
             form.setId(freight.getId());
@@ -61,8 +64,11 @@ public class FreightController extends BaseController {
     @ResponseBody
     public PageList<FreightVO> list(FreightForm form, Paginator paginator) throws ServiceException {
         FreightVO freight = new FreightVO();
-        freight.setProvinceCode(form.getProvinceCode());
-        freight.setEnabled(form.getEnabled() == null ? null : StateEnum.getEnumByCode(form.getEnabled()));
+        if (form != null) {
+            freight.setExpressCode(form.getExpressCode());
+            freight.setEnabled(form.getEnabled() == null ? null : StateEnum.getEnumByCode(form.getEnabled()));
+            freight.setProvinceCode(form.getProvinceCode());
+        }
         return freightService.pageQueryFreights(freight, paginator.getCurrentPage(), paginator.getPageSize());
     }
 
@@ -76,24 +82,39 @@ public class FreightController extends BaseController {
     @ResponseBody
     public SingleResult add(@RequestBody FreightForm form) {
         try {
-            FreightVO freight = new FreightVO();
-            freight.setProvinceCode(form.getProvinceCode());
-            if (StringUtils.isNotBlank(form.getAdditionalPrice())) {
-                freight.setAdditionalPrice((int) (Double.valueOf(form.getAdditionalPrice()) * 100));
-            }
-            if (StringUtils.isNotBlank(form.getFirstPrice())) {
-                freight.setFirstPrice((int) (Double.valueOf(form.getFirstPrice()) * 100));
-            }
-            if (StringUtils.isNotBlank(form.getFirstWeight())) {
-                freight.setFirstWeight((int) (Double.valueOf(form.getFirstWeight()) * 500));
-            }
-            freight.setCreateBy(getCurrentUserName());
-            freight.setModifyBy(getCurrentUserName());
+            validateForm(form);
+
+            FreightVO freight = getFreightVO(form);
+
             freightService.createFreight(freight);
             return createSuccessResult();
-        } catch (ServiceException e) {
+        } catch (ServiceException | WebException e) {
             return createErrorResult(e);
         }
+    }
+
+    private FreightVO getFreightVO(@RequestBody FreightForm form) {
+        FreightVO freight = new FreightVO();
+        freight.setProvinceCode(form.getProvinceCode());
+        freight.setExpressCode(form.getExpressCode());
+        freight.setAdditionalOriginalPrice((int) (Double.valueOf(form.getAdditionalOriginalPrice()) * 100));
+        freight.setFirstOriginalPrice((int) (Double.valueOf(form.getFirstOriginalPrice()) * 100));
+        freight.setFirstWeight((int) (Double.valueOf(form.getFirstWeight()) * 500));
+        freight.setFirstCostPrice((int) (Double.valueOf(form.getFirstCostPrice()) * 100));
+        freight.setAdditionalCostPrice((int) (Double.valueOf(form.getAdditionalCostPrice()) * 100));
+
+        freight.setCreateBy(getCurrentUserName());
+        freight.setModifyBy(getCurrentUserName());
+        return freight;
+    }
+
+    private void validateForm(@RequestBody FreightForm form) throws WebException {
+        assertEmpty(form.getAdditionalOriginalPrice(), "续重原始价");
+        assertEmpty(form.getFirstOriginalPrice(), "首重原始价");
+        assertEmpty(form.getFirstWeight(), "首重");
+        assertEmpty(form.getFirstCostPrice(), "首重成本价");
+        assertEmpty(form.getAdditionalCostPrice(), "续重成本价");
+        assertEmpty(form.getExpressCode(), "物流公司");
     }
 
     /**
@@ -106,22 +127,13 @@ public class FreightController extends BaseController {
     @ResponseBody
     public SingleResult update(@RequestBody FreightForm form) {
         try {
-            FreightVO freight = new FreightVO();
+            validateForm(form);
+            FreightVO freight = getFreightVO(form);
             freight.setId(form.getId());
-            freight.setProvinceCode(form.getProvinceCode());
-            if (StringUtils.isNotBlank(form.getAdditionalPrice())) {
-                freight.setAdditionalPrice((int) (Double.valueOf(form.getAdditionalPrice()) * 100));
-            }
-            if (StringUtils.isNotBlank(form.getFirstPrice())) {
-                freight.setFirstPrice((int) (Double.valueOf(form.getFirstPrice()) * 100));
-            }
-            if (StringUtils.isNotBlank(form.getFirstWeight())) {
-                freight.setFirstWeight((int) (Double.valueOf(form.getFirstWeight()) * 500));
-            }
             freight.setModifyBy(getCurrentUserName());
             freightService.updateFreight(freight);
             return createSuccessResult();
-        } catch (ServiceException e) {
+        } catch (ServiceException | WebException e) {
             return createErrorResult(e);
         }
     }

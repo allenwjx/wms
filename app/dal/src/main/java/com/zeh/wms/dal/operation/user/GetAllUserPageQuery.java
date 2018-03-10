@@ -39,8 +39,6 @@ public class GetAllUserPageQuery  extends PageQuery implements java.io.Serializa
 	private String nickName;
 	/** 用户账号，用户电话 */
 	private String userId;
-	/** 客户类型；代理商：A；厂商：B；散客: C； */
-	private String type;
 	/** 创建时间 */
 	private java.util.Date fromDate;
 	/** 创建时间 */
@@ -49,10 +47,9 @@ public class GetAllUserPageQuery  extends PageQuery implements java.io.Serializa
 	public GetAllUserPageQuery() {
 	}
 	
-	public GetAllUserPageQuery(String nickName ,String userId ,String type ,java.util.Date fromDate ,java.util.Date toDate ) {
+	public GetAllUserPageQuery(String nickName ,String userId ,java.util.Date fromDate ,java.util.Date toDate ) {
 		this.nickName = nickName;
 		this.userId = userId;
-		this.type = type;
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 	}
@@ -68,12 +65,6 @@ public class GetAllUserPageQuery  extends PageQuery implements java.io.Serializa
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
 	}
 	public java.util.Date getFromDate() {
 		return fromDate;

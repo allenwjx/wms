@@ -5,7 +5,8 @@ $(document).ready(function () {
         el: '#modalForm',
         data: {
             provinces: [],
-            model: {}
+            model: {},
+            expresses: freight_vm.expresses
         },
         ready: function () {
             this.init();
@@ -83,10 +84,10 @@ $(document).ready(function () {
                                 }
                             }
                         },
-                        firstPrice: {
+                        firstOriginalPrice: {
                             validators: {
                                 notEmpty: {
-                                    message: '请输入首重价格，单位：元'
+                                    message: '请输入原始首重价格，单位：元'
                                 },
                                 greaterThan: {
                                     value: 0,
@@ -94,10 +95,32 @@ $(document).ready(function () {
                                 }
                             }
                         },
-                        additionalPrice: {
+                        additionalOriginalPrice: {
                             validators: {
                                 notEmpty: {
-                                    message: '请输入续重价格，单位：元'
+                                    message: '请输入原始续重价格，单位：元'
+                                },
+                                greaterThan: {
+                                    value: 0,
+                                    message: '该值只能包含数字'
+                                }
+                            }
+                        },
+                        firstCostPrice: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请输入成本首重价格，单位：元'
+                                },
+                                greaterThan: {
+                                    value: 0,
+                                    message: '该值只能包含数字'
+                                }
+                            }
+                        },
+                        additionalCostPrice: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请输入成本续重价格，单位：元'
                                 },
                                 greaterThan: {
                                     value: 0,
@@ -108,7 +131,7 @@ $(document).ready(function () {
                     }
                 });
             }
-            ,
+
         }
     });
 

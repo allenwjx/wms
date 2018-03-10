@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.Inventory" class="com.zeh.wms.dal.dataobject.InventoryDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="commodityId" column="commodity_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="mobile" column="mobile" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="amount" column="amount" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="Inventory.columns">
+		id, commodity_id, mobile, amount, gmt_create, gmt_modified, create_by, modify_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.Inventory.insert">
+		INSERT INTO inventory (
+            commodity_id,
+            mobile,
+            amount,
+            gmt_create,
+            gmt_modified,
+
+            create_by,
+            modify_by
+            ) VALUES (#commodityId#,#mobile#,#amount#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.Inventory.delete">
+		DELETE FROM inventory WHERE
+            id = #id#
+    </delete>
+    
+	
+	
+	<delete id="wms.Inventory.deleteByMobile">
+		DELETE FROM inventory WHERE
+            mobile = #mobile#
+    </delete>
+    
+	
+	<update id="wms.Inventory.addAmountByMobile">
+		UPDATE inventory SET
+            amount = #amount# ,gmt_modified = CURRENT_TIMESTAMP,modify_by = #modifyBy#
+            WHERE
+            mobile = #mobile# and commodity_id = #commodityId#
+	</update>
+	
+    
+	
+	<select id="wms.Inventory.queryById" resultMap="RM.Inventory" >
+    	SELECT
+ /*wms.Inventory.queryById*/             <include refid="Inventory.columns"/>
+            FROM inventory
+            WHERE
+            id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Inventory.queryByMobile" resultMap="RM.Inventory" >
+    	SELECT
+ /*wms.Inventory.queryByMobile*/             <include refid="Inventory.columns"/>
+            FROM inventory
+            WHERE
+            mobile = #mobile#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Inventory.queryByMobileAndCommodityId" resultMap="RM.Inventory" >
+    	SELECT
+ /*wms.Inventory.queryByMobileAndCommodityId*/             <include refid="Inventory.columns"/>
+            FROM inventory
+            WHERE
+            mobile = #mobile# and commodity_id = #commodityId#
+            limit 1
+	</select>	
+
+	    
+	
+	
+    
+	<resultMap id="RM.FindPageResult" class="com.zeh.wms.dal.operation.inventory.FindPageResult">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="commodityId" column="commodity_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="mobile" column="mobile" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="amount" column="amount" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="commodityName" column="commodity_name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+	</resultMap>
+	
+	<select id="wms.Inventory.findPage" resultMap="RM.FindPageResult" >
+    	SELECT
+ /*wms.Inventory.findPage*/             inv.id,
+            inv.commodity_id,
+            inv.mobile,
+            inv.amount,
+            inv.gmt_create,
+
+            inv.gmt_modified,
+            inv.create_by,
+            inv.modify_by,
+            u.name,
+
+            com.commodity_name
+            FROM inventory inv left join agent u on inv.mobile = u.mobile
+            left join (select name as commodity_name, id from commodity ) com on inv.commodity_id = com.id
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="mobile">
+                    inv.mobile = #mobile#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="nickName">
+                    u.name = #nickName#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    inv.commodity_id = #commodityId#
+                </isNotEmpty>
+
+                <isNotEmpty prepend="AND" property="fromDate">
+                    <![CDATA[
+                        inv.gmt_modified >= #fromDate#
+                    ]]>
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="toDate">
+                    <![CDATA[
+                        inv.gmt_modified <= #toDate#
+                    ]]>
+                </isNotEmpty>
+            </dynamic>
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.Inventory.findPage.count" resultClass="long" >
+    	select  /*wms.Inventory.findPage.count*/ count(*)  FROM inventory inv left join agent u on inv.mobile = u.mobile
+            left join (select name as commodity_name, id from commodity ) com on inv.commodity_id = com.id
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="mobile">
+                    inv.mobile = #mobile#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="nickName">
+                    u.name = #nickName#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    inv.commodity_id = #commodityId#
+                </isNotEmpty>
+
+                <isNotEmpty prepend="AND" property="fromDate">
+                    <![CDATA[
+                        inv.gmt_modified >= #fromDate#
+                    ]]>
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="toDate">
+                    <![CDATA[
+                        inv.gmt_modified <= #toDate#
+                    ]]>
+                </isNotEmpty>
+            </dynamic>
+	</select>
+	    
+	
+	
+    
+
+</sqlMap>
+

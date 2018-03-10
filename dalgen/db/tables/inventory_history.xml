@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
+
+<table sqlname="inventory_history">
+    <!-- 不需要配置的列请删除 -->
+
+    <sql id="InventoryHistory.columns">
+        id, commodity_id, mobile, amount, gmt_create, gmt_modified, create_by, modify_by
+    </sql>
+
+    <operation name="insert" paramtype="object">
+        <sql>
+            INSERT INTO inventory_history (
+            commodity_id,
+            mobile,
+            amount,
+            gmt_create,
+            gmt_modified,
+
+            create_by,
+            modify_by
+            ) VALUES (
+            ?, ?, ?,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+            ?, ?
+            )
+        </sql>
+    </operation>
+
+    <operation name="queryById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="InventoryHistory.columns"/>
+            FROM inventory_history
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByMobile" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="InventoryHistory.columns"/>
+            FROM inventory_history
+            WHERE
+            mobile = ?
+        </sql>
+    </operation>
+
+</table>

@@ -44,17 +44,29 @@ public class FreightDO implements java.io.Serializable {
 	 */
 	private String provinceCode;
 	/**
+	 * 快递公司类型,SF-顺丰，DEPPON-德邦  		db_column: express_code 
+	 */
+	private String expressCode;
+	/**
 	 * 首重，单位：500克 		db_column: first_weight 
 	 */
 	private int firstWeight;
 	/**
-	 * 首重每500克单价，单价：分 		db_column: first_price 
+	 * 首重每500克单价原价，单价：分 		db_column: first_original_price 
 	 */
-	private int firstPrice;
+	private int firstOriginalPrice;
 	/**
-	 * 续重每500克价格，单位：分 		db_column: additional_price 
+	 * 续重每500克原始价格，单位：分 		db_column: additional_original_price 
 	 */
-	private int additionalPrice;
+	private int additionalOriginalPrice;
+	/**
+	 * 首重每500克单价成本价，单价：分 		db_column: first_cost_price 
+	 */
+	private int firstCostPrice;
+	/**
+	 * 续重每500克成本价格，单位：分 		db_column: additional_cost_price 
+	 */
+	private int additionalCostPrice;
 	/**
 	 * 启用状态，0-未启用，1-已启用 		db_column: enabled 
 	 */
@@ -93,6 +105,14 @@ public class FreightDO implements java.io.Serializable {
 		return this.provinceCode;
 	}
 	
+	public void setExpressCode(String expressCode) {
+		this.expressCode = expressCode;
+	}
+	
+	public String getExpressCode() {
+		return this.expressCode;
+	}
+	
 	public void setFirstWeight(int firstWeight) {
 		this.firstWeight = firstWeight;
 	}
@@ -101,20 +121,36 @@ public class FreightDO implements java.io.Serializable {
 		return this.firstWeight;
 	}
 	
-	public void setFirstPrice(int firstPrice) {
-		this.firstPrice = firstPrice;
+	public void setFirstOriginalPrice(int firstOriginalPrice) {
+		this.firstOriginalPrice = firstOriginalPrice;
 	}
 	
-	public int getFirstPrice() {
-		return this.firstPrice;
+	public int getFirstOriginalPrice() {
+		return this.firstOriginalPrice;
 	}
 	
-	public void setAdditionalPrice(int additionalPrice) {
-		this.additionalPrice = additionalPrice;
+	public void setAdditionalOriginalPrice(int additionalOriginalPrice) {
+		this.additionalOriginalPrice = additionalOriginalPrice;
 	}
 	
-	public int getAdditionalPrice() {
-		return this.additionalPrice;
+	public int getAdditionalOriginalPrice() {
+		return this.additionalOriginalPrice;
+	}
+	
+	public void setFirstCostPrice(int firstCostPrice) {
+		this.firstCostPrice = firstCostPrice;
+	}
+	
+	public int getFirstCostPrice() {
+		return this.firstCostPrice;
+	}
+	
+	public void setAdditionalCostPrice(int additionalCostPrice) {
+		this.additionalCostPrice = additionalCostPrice;
+	}
+	
+	public int getAdditionalCostPrice() {
+		return this.additionalCostPrice;
 	}
 	
 	public void setEnabled(int enabled) {
@@ -161,9 +197,12 @@ public class FreightDO implements java.io.Serializable {
 		return new ToStringBuilder(this)
 			.append("Id",getId())
 			.append("ProvinceCode",getProvinceCode())
+			.append("ExpressCode",getExpressCode())
 			.append("FirstWeight",getFirstWeight())
-			.append("FirstPrice",getFirstPrice())
-			.append("AdditionalPrice",getAdditionalPrice())
+			.append("FirstOriginalPrice",getFirstOriginalPrice())
+			.append("AdditionalOriginalPrice",getAdditionalOriginalPrice())
+			.append("FirstCostPrice",getFirstCostPrice())
+			.append("AdditionalCostPrice",getAdditionalCostPrice())
 			.append("Enabled",getEnabled())
 			.append("GmtCreate",getGmtCreate())
 			.append("GmtModified",getGmtModified())

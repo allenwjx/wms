@@ -248,6 +248,25 @@ public class BizErrorFactory extends AbstractErrorFactory {
         return createError("JG0510017001");
     }
 
+
+    /**
+     * JG0510017100=用户创建失败，{0}
+     *
+     * @return JGError
+     */
+    public JGError createUserError(String msg) {
+        return createError("JG0510017100", msg);
+    }
+
+    /**
+     * JG0510017101=用户更新失败，{0}
+     *
+     * @return JGError
+     */
+    public JGError updateUserError(String msg) {
+        return createError("JG0510017101", msg);
+    }
+
     /**
      * JG0510017002=后台用户更新失败，后台用户ID不能为空
      *
@@ -537,5 +556,28 @@ public class BizErrorFactory extends AbstractErrorFactory {
      */
     public JGError shipRecordNotFound() {
         return createError("JG0510051005");
+    }
+
+    /**
+     * 获取微信accesstoken异常
+     *
+     * @param msg
+     * @return
+     */
+    public JGError getWechatAccessTokenError(String msg) {
+        return createError("JG0510031101", msg);
+    }
+
+    public JGError getSessionError (String msg) {
+        return createError ("JG0510031101", msg);
+    }
+
+    /**
+     * JG0510031103=生成系统会话异常，{0}
+     * @param msg
+     * @return
+     */
+    public JGError generateSessionError (String msg) {
+        return createError("JG0510031103", msg);
     }
 }

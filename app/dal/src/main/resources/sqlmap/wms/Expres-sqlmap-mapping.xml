@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.Expres" class="com.zeh.wms.dal.dataobject.ExpresDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="Express.columns">
+		id, name, code, gmt_create, gmt_modified, create_by, modify_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.Expres.insert">
+		INSERT INTO express (
+            name, code, gmt_create, gmt_modified, create_by, modify_by
+            ) VALUES (#name#,#code#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.Expres.delete">
+		DELETE FROM express WHERE
+            id = #id#
+    </delete>
+    
+	
+	<update id="wms.Expres.update">
+		UPDATE express SET
+            name=#name#, code = #code#,gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+            WHERE
+            id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.Expres.queryById" resultMap="RM.Expres" >
+    	SELECT
+ /*wms.Expres.queryById*/             <include refid="Express.columns"/>
+            FROM express
+            WHERE
+            id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Expres.queryByCode" resultMap="RM.Expres" >
+    	SELECT
+ /*wms.Expres.queryByCode*/             <include refid="Express.columns"/>
+            FROM express
+            WHERE
+            code = #code#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.Expres.queryByPage" resultMap="RM.Expres" >
+    	SELECT
+ /*wms.Expres.queryByPage*/             <include refid="Express.columns"/>
+            FROM express
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.Expres.queryByPage.count" resultClass="long" >
+    	select  /*wms.Expres.queryByPage.count*/ count(*)  FROM express
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+            </dynamic>
+	</select>
+	    
+	
+	
+    
+	
+	<select id="wms.Expres.queryAll" resultMap="RM.Expres" >
+    	SELECT
+ /*wms.Expres.queryAll*/             <include refid="Express.columns"/>
+            FROM express
+	</select>	
+
+	    
+	
+	
+    
+
+</sqlMap>
+
