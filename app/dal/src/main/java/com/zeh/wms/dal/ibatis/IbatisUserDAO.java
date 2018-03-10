@@ -94,6 +94,24 @@ public class IbatisUserDAO extends SqlMapClientDaoSupport implements UserDAO {
 	/**
 	 * 
 	 * sql: 
+	 * <pre>SELECT         id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type                    FROM         user                  WHERE         open_id = ?</pre>
+	 */
+	public UserDO queryByOpenId(String openId) throws DataAccessException {
+		return (UserDO)getSqlMapClientTemplate().queryForObject("wms.User.queryByOpenId",openId);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type                    FROM         user                  WHERE         user_id = ?</pre>
+	 */
+	public UserDO queryByUserId(String userId) throws DataAccessException {
+		return (UserDO)getSqlMapClientTemplate().queryForObject("wms.User.queryByUserId",userId);
+	}
+
+	/**
+	 * 
+	 * sql: 
 	 * <pre>SELECT         id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type           FROM         user u                  WHERE         1=1                                        AND                      u.nick_name = ?                                            AND                      u.user_id = ?                                             AND                      u.type = ?                                             AND                                               u.gmt_create >= ?                                                                 AND                                               u.gmt_create <= ?</pre>
 	 */
 	public PageList<UserDO> getAllUserPage(GetAllUserPageQuery param) throws DataAccessException {

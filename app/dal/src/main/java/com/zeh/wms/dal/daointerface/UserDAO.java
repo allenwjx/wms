@@ -2,11 +2,21 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.wms.dal.dataobject.UserDO;
-import com.zeh.wms.dal.operation.user.GetAllUserPageQuery;
-import com.zeh.wms.dal.operation.user.UpdateByParsParameter;
 import org.springframework.dao.DataAccessException;
+import com.zeh.wms.dal.operation.user.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * UserDAO
  * database table: user
@@ -56,6 +66,20 @@ public interface UserDAO {
 	 * <pre>SELECT         id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type                 FROM         user               WHERE         id = ?</pre> 
 	 */
 	public UserDO queryById(Long id) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type                    FROM         user                  WHERE         open_id = ?</pre> 
+	 */
+	public UserDO queryByOpenId(String openId) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>SELECT         id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, type                    FROM         user                  WHERE         user_id = ?</pre> 
+	 */
+	public UserDO queryByUserId(String userId) throws DataAccessException;
 
 	/**
 	 * 

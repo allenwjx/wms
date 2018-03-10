@@ -79,6 +79,26 @@
 		</sql>
 	</operation>
 
+    <operation name="queryByOpenId" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="User.columns"/>
+            FROM user
+            WHERE
+            open_id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByUserId" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="User.columns"/>
+            FROM user
+            WHERE
+            user_id = ?
+        </sql>
+    </operation>
+
 
 	<operation name="getAllUserPage" paramtype="parameterObject" multiplicity="paging">
 		<sql>

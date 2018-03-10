@@ -99,6 +99,32 @@
 	
     
 	
+	<select id="wms.User.queryByOpenId" resultMap="RM.User" >
+    	SELECT
+ /*wms.User.queryByOpenId*/             <include refid="User.columns"/>
+            FROM user
+            WHERE
+            open_id = #openId#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.User.queryByUserId" resultMap="RM.User" >
+    	SELECT
+ /*wms.User.queryByUserId*/             <include refid="User.columns"/>
+            FROM user
+            WHERE
+            user_id = #userId#
+	</select>	
+
+	    
+	
+	
+    
+	
 	<select id="wms.User.getAllUserPage" resultMap="RM.User" >
     	SELECT
  /*wms.User.getAllUserPage*/ 			<include refid="User.columns"/>

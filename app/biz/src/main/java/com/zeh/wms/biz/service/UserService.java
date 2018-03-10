@@ -64,4 +64,22 @@ public interface UserService {
      * @throws ServiceException 更新失败。
      */
     void disabledUserLinkByUserId(Long id, String modifyBy) throws ServiceException;
+
+    /**
+     * 通过用户的微信标识查询用户
+     *
+     * @param openId
+     * @return
+     * @throws ServiceException
+     */
+    UserVO queryByOpenId(String openId) throws ServiceException;
+
+    /**
+     * 通过 userId 查询用户
+     *
+     * @param userId
+     * @return
+     * @throws ServiceException
+     */
+    UserVO queryByUserId(String userId) throws ServiceException;
 }
