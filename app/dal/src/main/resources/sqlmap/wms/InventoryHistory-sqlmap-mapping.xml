@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.InventoryHistory" class="com.zeh.wms.dal.dataobject.InventoryHistoryDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="commodityId" column="commodity_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="mobile" column="mobile" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="amount" column="amount" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="InventoryHistory.columns">
+		id, commodity_id, mobile, amount, gmt_create, gmt_modified, create_by, modify_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.InventoryHistory.insert">
+		INSERT INTO inventory_history (
+            commodity_id,
+            mobile,
+            amount,
+            gmt_create,
+            gmt_modified,
+
+            create_by,
+            modify_by
+            ) VALUES (#commodityId#,#mobile#,#amount#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	<select id="wms.InventoryHistory.queryById" resultMap="RM.InventoryHistory" >
+    	SELECT
+ /*wms.InventoryHistory.queryById*/             <include refid="InventoryHistory.columns"/>
+            FROM inventory_history
+            WHERE
+            id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.InventoryHistory.queryByMobile" resultMap="RM.InventoryHistory" >
+    	SELECT
+ /*wms.InventoryHistory.queryByMobile*/             <include refid="InventoryHistory.columns"/>
+            FROM inventory_history
+            WHERE
+            mobile = #mobile#
+	</select>	
+
+	    
+	
+	
+    
+
+</sqlMap>
+

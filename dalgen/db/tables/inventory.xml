@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
+
+<table sqlname="inventory">
+    <!-- 不需要配置的列请删除 -->
+
+    <sql id="Inventory.columns">
+        id, commodity_id, mobile, amount, gmt_create, gmt_modified, create_by, modify_by
+    </sql>
+
+    <operation name="insert" paramtype="object">
+        <sql>
+            INSERT INTO inventory (
+            commodity_id,
+            mobile,
+            amount,
+            gmt_create,
+            gmt_modified,
+
+            create_by,
+            modify_by
+            ) VALUES (
+            ?, ?, ?,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+            ?, ?
+            )
+        </sql>
+    </operation>
+
+    <operation name="delete">
+        <sql>
+            DELETE FROM inventory WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="deleteByMobile">
+        <sql>
+            DELETE FROM inventory WHERE
+            mobile = ?
+        </sql>
+    </operation>
+
+    <operation name="addAmountByMobile" paramtype="parameterObject">
+        <sql>
+            UPDATE inventory SET
+            amount = ? ,gmt_modified = CURRENT_TIMESTAMP,modify_by = ?
+            WHERE
+            mobile = ? and commodity_id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Inventory.columns"/>
+            FROM inventory
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByMobile" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="Inventory.columns"/>
+            FROM inventory
+            WHERE
+            mobile = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByMobileAndCommodityId" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Inventory.columns"/>
+            FROM inventory
+            WHERE
+            mobile = ? and commodity_id = ?
+            limit 1
+        </sql>
+    </operation>
+
+    <operation name="findPage" paramtype="parameterObject" multiplicity="paging">
+        <sql>
+            SELECT
+            inv.id,
+            inv.commodity_id,
+            inv.mobile,
+            inv.amount,
+            inv.gmt_create,
+
+            inv.gmt_modified,
+            inv.create_by,
+            inv.modify_by,
+            u.name,
+
+            com.commodity_name
+            FROM inventory inv left join agent u on inv.mobile = u.mobile
+            left join (select name as commodity_name, id from commodity ) com on inv.commodity_id = com.id
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="mobile">
+                    inv.mobile = #mobile#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="nickName">
+                    u.name = #nickName#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    inv.commodity_id = #commodityId#
+                </isNotEmpty>
+
+                <isNotEmpty prepend="AND" property="fromDate">
+                    <![CDATA[
+                        inv.gmt_modified >= #fromDate#
+                    ]]>
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="toDate">
+                    <![CDATA[
+                        inv.gmt_modified <= #toDate#
+                    ]]>
+                </isNotEmpty>
+            </dynamic>
+        </sql>
+    </operation>
+
+</table>

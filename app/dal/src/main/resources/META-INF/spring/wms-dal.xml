@@ -14,10 +14,12 @@
     <bean id="agentDAO" class="com.zeh.wms.dal.ibatis.IbatisAgentDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="qrcodeBatchDAO" class="com.zeh.wms.dal.ibatis.IbatisQrcodeBatchDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="qrcodeDAO" class="com.zeh.wms.dal.ibatis.IbatisQrcodeDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="inventoryDAO" class="com.zeh.wms.dal.ibatis.IbatisInventoryDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="roleDAO" class="com.zeh.wms.dal.ibatis.IbatisRoleDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="userDAO" class="com.zeh.wms.dal.ibatis.IbatisUserDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="userBgDAO" class="com.zeh.wms.dal.ibatis.IbatisUserBgDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="userRoleLinkDAO" class="com.zeh.wms.dal.ibatis.IbatisUserRoleLinkDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="inventoryHistoryDAO" class="com.zeh.wms.dal.ibatis.IbatisInventoryHistoryDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="manufacturerDAO" class="com.zeh.wms.dal.ibatis.IbatisManufacturerDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="paymentOrderDAO" class="com.zeh.wms.dal.ibatis.IbatisPaymentOrderDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="commodityDAO" class="com.zeh.wms.dal.ibatis.IbatisCommodityDAO" parent="wmsSqlMapClientDAO"/>

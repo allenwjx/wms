@@ -1,0 +1,112 @@
+<div id="inventory-root">
+    <div class="portlet light">
+        <div class="portlet-title">
+            <div class="caption font-green">
+                <i class="icon-settings font-green"></i>
+                <span class="caption-subject bold uppercase">库存管理</span>
+            </div>
+        </div>
+        <div class="portlet-body form small">
+            <form action="#" class="form-horizontal">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">用户名称</label>
+                                <div class="col-md-8">
+                                    <input class="form-control" id="nickName" name="nickName" type="text"
+                                           v-model.trim="queryForm.nickName"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">用户电话</label>
+                                <div class="col-md-8">
+                                    <input class="form-control" id="mobile" name="mobile" type="text"
+                                           v-model.trim="queryForm.mobile"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">商品</label>
+                                <div class="col-md-8">
+                                    <vue-select :options="commodities" id="commodityId" :model.sync="queryForm.commodityId"
+                                                :configs="{placeholder:'全部'}"></vue-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <div class="button-group" align="center">
+                        <button type="button" class="btn green-meadow" v-on:click="preQuery"><i
+                                class="fa fa-search"></i>搜索
+                        </button>
+                    ##                        <button type="button" class="btn default" v-on:click="create"><i class="fa fa-plus"></i>新增</button>
+                        <button type="button" class="btn" v-on:click="reset"><i class="fa fa-refresh"></i>重置</button>
+                        <button type="button" class="btn default" data-toggle="importModal" @click="importModal"><i
+                                class="fa fa-database"></i>导入
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table id="table" class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>用户</th>
+            <th>电话</th>
+            <th>商品名称</th>
+            <th>库存数量</th>
+            <th>创建时间</th>
+
+            <th>修改时间</th>
+            <th>创建人</th>
+            <th>修改人</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-cloak v-for="item in pageResult.data">
+            <td v-html="item.name"></td>
+            <td v-html="item.mobile"></td>
+            <td v-html="item.commodityName"></td>
+            <td v-html="item.amount"></td>
+            <td v-html="item.gmtCreate | toDate 'YYYY-MM-DD HH:mm'"></td>
+            <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>
+            <td v-html="item.createBy"></td>
+            <td v-html="item.modifyBy"></td>
+            <td>
+                <a class="a-icon" v-on:click="edit(item.userId, item.commodityId)"><i class="fa fa-edit"></i>历史</a>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="100">
+                <vue-page :paginator="pageResult.paginator" :size="10" :query="query"></vue-page>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+<div id="formModal" class="modal fade modal-scroll" tabindex="-1" data-replace="true">
+    <div class="modal-dialog" role="document" style="width:1200px">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<!-- 导入页面 -->
+<div id="importModal" class="modal fade modal-scroll" tabindex="-1" data-replace="true">
+    <div class="modal-dialog" role="document" style="width: 700px;">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="${rc.contextPath}/js/wms/inventory/index.js"></script>

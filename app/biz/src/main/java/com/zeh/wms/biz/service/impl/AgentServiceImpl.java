@@ -1,16 +1,5 @@
 package com.zeh.wms.biz.service.impl;
 
-import java.util.Collection;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.wms.biz.error.BizErrorFactory;
@@ -23,6 +12,16 @@ import com.zeh.wms.biz.utils.CodeGenerator;
 import com.zeh.wms.dal.daointerface.AgentDAO;
 import com.zeh.wms.dal.dataobject.AgentDO;
 import com.zeh.wms.dal.operation.agent.QueryByPageQuery;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The type Agent service.
@@ -51,14 +50,16 @@ public class AgentServiceImpl implements AgentService {
      * @throws ServiceException 代理商创建异常
      */
     @Override
-    public void createAgent(AgentVO agent) throws ServiceException {
+    public AgentVO createAgent(AgentVO agent) throws ServiceException {
         if (agent == null) {
             throw new ServiceException(ERROR_FACTORY.createAgentError());
         }
         agent.setCode(CodeGenerator.generateAgentCode());
         agent.setEnabled(StateEnum.Y);
         AgentDO agentDO = mapper.vo2do(agent);
-        agentDAO.insert(agentDO);
+        Long id = agentDAO.insert(agentDO);
+        agent.setId(id);
+        return agent;
     }
 
     /**
@@ -67,23 +68,30 @@ public class AgentServiceImpl implements AgentService {
      * @throws ServiceException 代理商更新异常
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void batchCreateAgent(List<AgentVO> agentVOS) throws ServiceException {
         if (CollectionUtils.isEmpty(agentVOS)) {
             return;
         }
-        agentVOS.forEach(item -> {
-            AgentDO agentDO = agentDAO.queryByExternalCode(item.getCode());
-            if (agentDO == null) {
-                try {
-                    createAgent(item);
-                } catch (ServiceException e) {
-                    logger.error("批量导入失败！", e);
-                }
-                return;
-            }
+        for (AgentVO agentVO : agentVOS) {
+            saveOrUpdate(agentVO);
+        }
+    }
 
-            updateDO(item, agentDO);
-        });
+    @Override
+    public AgentVO saveOrUpdate(AgentVO agent) throws ServiceException {
+        AgentDO agentDO = agentDAO.queryByExternalCode(agent.getCode());
+        if (agentDO == null) {
+            try {
+                agent = createAgent(agent);
+            } catch (ServiceException e) {
+                logger.error("创建失败！", e);
+            }
+            return agent;
+        }
+
+        updateDO(agent, agentDO);
+        return agent;
     }
 
     /**
