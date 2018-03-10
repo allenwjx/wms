@@ -282,6 +282,8 @@ public class UserServiceImpl implements UserService {
             dbUser.setOpenId(userVO.getOpenId());
         if (StringUtils.isNotBlank(userVO.getPassword()))
             dbUser.setPassword(userVO.getPassword());
+        if (StringUtils.isNoneBlank(userVO.getMobile()))
+            dbUser.setMobile(userVO.getMobile());
 
         dbUser.setGmtModified(new Date());
 

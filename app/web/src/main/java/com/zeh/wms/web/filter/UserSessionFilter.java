@@ -1,10 +1,16 @@
 package com.zeh.wms.web.filter;
 
+import com.alibaba.druid.support.json.JSONUtils;
+import com.zeh.jungle.core.support.ExceptionUtils;
+import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.model.Session;
 import com.zeh.wms.biz.model.UserVO;
 import com.zeh.wms.biz.service.SessionManager;
 import com.zeh.wms.biz.service.UserService;
+import com.zeh.wms.web.utils.WebTools;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -37,9 +43,22 @@ public class UserSessionFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+
+        // 通过请求头中的参数，进行真正的登陆操作
+        if(WebTools.getHeaderValue(request, Session.SESSION_FLAG) != null) {
+            try {
+                Session session = sessionManager.getSessionById(request.getHeader(Session.SESSION_FLAG));
+                request.getSession().setAttribute(Session.SESSION_FLAG, session);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return ;
+            }
+        }
+
         // 如果存在会话，则跳出
         if (request.getSession().getAttribute(Session.SESSION_FLAG) != null) {
             filterChain.doFilter(servletRequest, servletResponse);
+            return ;
         }
 
         // 否则检查是否传入 jsCode 参数
@@ -62,11 +81,13 @@ public class UserSessionFilter implements Filter {
                 // 异常时报错
                 // TODO 需要处理好异常显示
                 // ex.printStackTrace();
-                response.getWriter().append("{}");
+                response.getWriter().append(JSONUtils.toJSONString(ExceptionUtils.getErrorResult(ex, SingleResult.class)));
+                return ;
             }
 
             request.getSession().setAttribute(Session.SESSION_FLAG, session);
             filterChain.doFilter(servletRequest, servletResponse);
+            return ;
         }
 
         // 如果带上系统自有sessionId时
@@ -76,15 +97,16 @@ public class UserSessionFilter implements Filter {
                 session = sessionManager.getSessionById(request.getHeader(REQUEST_HEADER_SESSION_FLAG));
                 request.getSession().setAttribute(Session.SESSION_FLAG, session);
                 filterChain.doFilter(servletRequest, servletResponse);
+                return;
             } catch (Exception ex) {
                 // 异常报错
-                // TODO 需要处理好异常显示
-                ex.printStackTrace();
-                response.getWriter().append("{}");
+                response.getWriter().append(JSONUtils.toJSONString(ExceptionUtils.getErrorResult(ex, SingleResult.class)));
+                return ;
             }
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
+        return;
     }
 
     @Override public void destroy() {
