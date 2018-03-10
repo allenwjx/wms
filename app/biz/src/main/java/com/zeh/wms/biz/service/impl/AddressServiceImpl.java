@@ -1,5 +1,12 @@
 package com.zeh.wms.biz.service.impl;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.UserAddressMapper;
 import com.zeh.wms.biz.model.UserAddressVO;
@@ -8,11 +15,6 @@ import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.service.AddressService;
 import com.zeh.wms.dal.daointerface.UserAddresDAO;
 import com.zeh.wms.dal.dataobject.UserAddresDO;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * The type Address service.
@@ -44,7 +46,7 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
     @Override
     @Transactional(value = "transactionManager", rollbackFor = Exception.class)
     public boolean addAddress(UserAddressVO address) throws ServiceException {
-        checkUpdate(userAddresDAO.updateDefaultSettingByUserId(StateEnum.N.getCode(), address.getModifyBy(), address.getUserId()), "地址是否默认");
+        userAddresDAO.updateDefaultSettingByUserId(StateEnum.N.getCode(), address.getModifyBy(), address.getUserId(), address.getAddressType().getCode());
         address.setDefaultSetting(StateEnum.Y);
         UserAddresDO addressDO = userAddressMapper.vo2do(address);
         checkInsert(userAddresDAO.insert(addressDO), "地址");
@@ -59,15 +61,39 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
      * @throws ServiceException the service exception
      */
     @Override
+    @Transactional(value = "transactionManager", rollbackFor = Exception.class)
     public boolean updateAddress(UserAddressVO address) throws ServiceException {
         UserAddresDO addresDO = userAddressMapper.vo2do(address);
         checkUpdate(userAddresDAO.update(addresDO), "地址");
+        //如果设置地址为默认的，则需要更新其他的地址
+        if (address.getDefaultSetting() == StateEnum.Y) {
+            setDefault(address.getUserId(), address.getId(), address.getAddressType().getCode(), address.getModifyBy());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean setDefault(long userId, long id, String type, String modify) throws ServiceException {
+        checkUpdate(userAddresDAO.updateDefaultByUserIdAndId(id, modify, userId, type), "默认收寄地址");
         return true;
     }
 
     @Override
     public UserAddressVO getDefault(Long userId, AddressTypeEnum typeEnum) throws ServiceException {
         UserAddresDO userAddresDO = userAddresDAO.getDefault(userId, typeEnum.getCode());
+        return userAddressMapper.do2vo(userAddresDO);
+    }
+
+    /**
+     * 获取地址
+     *
+     * @param id
+     * @return
+     * @throws ServiceException
+     */
+    @Override
+    public UserAddressVO queryAddress(Long id) throws ServiceException {
+        UserAddresDO userAddresDO = userAddresDAO.queryById(id);
         return userAddressMapper.do2vo(userAddresDO);
     }
 

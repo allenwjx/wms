@@ -4,16 +4,25 @@
  */ 
 package com.zeh.wms.dal.ibatis;
 
+import com.zeh.wms.dal.operation.useraddres.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageQueryUtils;
-import com.zeh.wms.dal.daointerface.UserAddresDAO;
-import com.zeh.wms.dal.dataobject.UserAddresDO;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.zeh.wms.dal.dataobject.UserAddresDO;
+import com.zeh.wms.dal.daointerface.UserAddresDAO;
 
 /**
  * UserAddresDAO
@@ -70,13 +79,28 @@ public class IbatisUserAddresDAO extends SqlMapClientDaoSupport implements UserA
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         user_address      SET         default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         user_id = ?</pre>
+	 * <pre>UPDATE         user_address         SET         default_setting = (    CASE                 WHEN id != ? THEN 0                 ELSE 1             END    ), gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?         WHERE         user_id = ?          and address_type = ?</pre>
 	 */
-	public int updateDefaultSettingByUserId(Integer defaultSetting ,String modifyBy ,Long userId) throws DataAccessException {
+	public int updateDefaultByUserIdAndId(Long id ,String modifyBy ,Long userId ,String addressType) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("id",id);
+		param.put("modifyBy",modifyBy);
+		param.put("userId",userId);
+		param.put("addressType",addressType);
+		return getSqlMapClientTemplate().update("wms.UserAddres.updateDefaultByUserIdAndId", param);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>UPDATE         user_address      SET         default_setting = ? , gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?                  WHERE         user_id = ?          and address_type = ?</pre>
+	 */
+	public int updateDefaultSettingByUserId(Integer defaultSetting ,String modifyBy ,Long userId ,String addressType) throws DataAccessException {
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("defaultSetting",defaultSetting);
 		param.put("modifyBy",modifyBy);
 		param.put("userId",userId);
+		param.put("addressType",addressType);
 		return getSqlMapClientTemplate().update("wms.UserAddres.updateDefaultSettingByUserId", param);
 	}
 

@@ -2,6 +2,7 @@ package com.zeh.wms.biz.service.impl;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
+import com.zeh.jungle.utils.common.UUID;
 import com.zeh.wms.biz.error.BizErrorFactory;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.UserMapper;
@@ -9,6 +10,7 @@ import com.zeh.wms.biz.model.UserAgentLinkVO;
 import com.zeh.wms.biz.model.UserVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.model.enums.UserLinkTypeEnum;
+import com.zeh.wms.biz.model.enums.UserTypeEnum;
 import com.zeh.wms.biz.service.UserService;
 import com.zeh.wms.dal.daointerface.UserAgentLinkDAO;
 import com.zeh.wms.dal.daointerface.UserDAO;
@@ -24,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * The type User service.
@@ -31,7 +34,7 @@ import java.util.Collection;
  * @author hzy24985
  * @version $Id : UserServiceImpl, v 0.1 2018/2/10 19:21 hzy24985 Exp $
  */
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService {
     /**
      * 错误工厂
@@ -41,23 +44,19 @@ public class UserServiceImpl implements UserService {
     /**
      * The User dao.
      */
-    @Resource
-    private UserDAO                      userDAO;
+    @Resource private UserDAO          userDAO;
     /**
      * The User agent link dao.
      */
-    @Resource
-    private UserAgentLinkDAO             userAgentLinkDAO;
+    @Resource private UserAgentLinkDAO userAgentLinkDAO;
     /**
      * The User mapper.
      */
-    @Resource
-    private UserMapper                   userMapper;
+    @Resource private UserMapper       userMapper;
     /**
      * The Password encoder.
      */
-    @Resource
-    private PasswordEncoder              passwordEncoder;
+    @Resource private PasswordEncoder  passwordEncoder;
 
     /**
      * Page query user page list.
@@ -66,8 +65,7 @@ public class UserServiceImpl implements UserService {
      * @return the page list
      * @throws ServiceException the service exception
      */
-    @Override
-    public PageList<UserVO> pageQueryUser(GetAllUserPageQuery userQuery) throws ServiceException {
+    @Override public PageList<UserVO> pageQueryUser(GetAllUserPageQuery userQuery) throws ServiceException {
         PageList<UserDO> userDos = userDAO.getAllUserPage(userQuery);
         Collection<UserVO> userVOS = userMapper.d2vs(userDos.getData());
         return PageUtils.createPageList(userVOS, userDos.getPaginator());
@@ -80,8 +78,7 @@ public class UserServiceImpl implements UserService {
      * @return the user detail info
      * @throws ServiceException the service exception
      */
-    @Override
-    public UserVO getUserDetailInfo(Long id) throws ServiceException {
+    @Override public UserVO getUserDetailInfo(Long id) throws ServiceException {
         UserDO userDO = userDAO.queryById(id);
         return userMapper.d2v(userDO);
     }
@@ -93,8 +90,7 @@ public class UserServiceImpl implements UserService {
      * @param id          the id
      * @throws ServiceException the service exception
      */
-    @Override
-    public void updatePassword(String newPassword, Long id) throws ServiceException {
+    @Override public void updatePassword(String newPassword, Long id) throws ServiceException {
         if (id == null) {
             throw new ServiceException(ERROR_FACTORY.parameterEmptyError("id"));
         }
@@ -118,9 +114,7 @@ public class UserServiceImpl implements UserService {
      * @param linkVO the link vo
      * @throws ServiceException the service exception
      */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateType(UserAgentLinkVO linkVO) throws ServiceException {
+    @Override @Transactional(rollbackFor = Exception.class) public void updateType(UserAgentLinkVO linkVO) throws ServiceException {
         //校验参数
         checkUpdateTypePars(linkVO);
         //更新用户类型。
@@ -190,7 +184,6 @@ public class UserServiceImpl implements UserService {
     private void updateUserType(UserAgentLinkVO linkVO) throws ServiceException {
         UpdateByParsParameter updateByParsParameter = new UpdateByParsParameter();
         updateByParsParameter.setId(linkVO.getUserId());
-        updateByParsParameter.setType(linkVO.getType().getCode());
         int count = userDAO.updateByPars(updateByParsParameter);
         if (count <= 0) {
             throw new ServiceException(ERROR_FACTORY.updateLinkError());
@@ -204,8 +197,7 @@ public class UserServiceImpl implements UserService {
      * @return link vo by user id
      * @throws ServiceException the service exception
      */
-    @Override
-    public UserAgentLinkVO getLinkVOByUserId(Long id) throws ServiceException {
+    @Override public UserAgentLinkVO getLinkVOByUserId(Long id) throws ServiceException {
         UserAgentLinkDO linkDO = userAgentLinkDAO.queryByUserId(id, StateEnum.Y.getCode());
         return userMapper.linkDo2Vo(linkDO);
     }
@@ -217,9 +209,7 @@ public class UserServiceImpl implements UserService {
      * @param modifyBy 修改人。
      * @throws ServiceException the service exception
      */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void disabledUserLinkByUserId(Long id, String modifyBy) throws ServiceException {
+    @Override @Transactional(rollbackFor = Exception.class) public void disabledUserLinkByUserId(Long id, String modifyBy) throws ServiceException {
         UserAgentLinkVO vo = new UserAgentLinkVO();
         vo.setModifyBy(modifyBy);
         vo.setUserId(id);
@@ -236,5 +226,65 @@ public class UserServiceImpl implements UserService {
         if (count <= 0) {
             throw new ServiceException(ERROR_FACTORY.updateLinkError());
         }
+    }
+
+    @Override public UserVO queryByOpenId(String openId) throws ServiceException {
+        UserDO userDO = userDAO.queryByOpenId(openId);
+        return userMapper.d2v(userDO);
+    }
+
+    @Override public UserVO queryByUserId(String userId) throws ServiceException {
+        UserDO userDO = userDAO.queryByUserId(userId);
+        return userMapper.d2v(userDO);
+    }
+
+    /**
+     * 创建用户
+     * @param userVO
+     * @return
+     * @throws ServiceException
+     */
+    @Override public UserVO createUser(UserVO userVO) throws ServiceException {
+        if (userVO == null || userVO.getId() > 0) {
+            throw new ServiceException(ERROR_FACTORY.createUserError("参数为空"));
+        }
+        userVO.setGmtCreate(new Date());
+        userVO.setGmtModified(new Date());
+        if (StringUtils.isBlank(userVO.getCreateBy()))
+            userVO.setCreateBy("系统");
+        if (StringUtils.isBlank(userVO.getModifyBy()))
+            userVO.setModifyBy("系统");
+        if (StringUtils.isBlank(userVO.getPassword()))
+            userVO.setPassword("111111");
+        userVO.setUserId(UUID.generateRandomUUID());
+
+        Long userId = userDAO.insert(userMapper.v2d(userVO));
+        if (userId == null || userId <= 0) {
+            throw new ServiceException(ERROR_FACTORY.createUserError("数据库创建失败"));
+        }
+
+        return userMapper.d2v(userDAO.queryById(userId));
+    }
+
+    @Override public void updateUser(UserVO userVO) throws ServiceException {
+        if (userVO == null || userVO.getId() <= 0) {
+            throw new ServiceException(ERROR_FACTORY.updateUserError("参数不能为空"));
+        }
+
+        UserDO dbUser = userDAO.queryById(userVO.getId());
+        if (dbUser == null || dbUser.getId() <= 0) {
+            throw new ServiceException(ERROR_FACTORY.updateUserError("指定用户不存在"));
+        }
+
+        if (StringUtils.isNotBlank(userVO.getNickName()))
+            dbUser.setNickName(userVO.getNickName());
+        if (StringUtils.isNotBlank(userVO.getOpenId()))
+            dbUser.setOpenId(userVO.getOpenId());
+        if (StringUtils.isNotBlank(userVO.getPassword()))
+            dbUser.setPassword(userVO.getPassword());
+
+        dbUser.setGmtModified(new Date());
+
+        userDAO.update(dbUser);
     }
 }
