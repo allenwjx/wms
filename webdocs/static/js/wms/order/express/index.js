@@ -14,7 +14,8 @@ $(document).ready(function () {
             },
             queryForm: {},
             expressTypes: [],
-            agents: []
+            paymentTypes: [],
+            status: []
         },
         ready: function () {
             this.init();
@@ -31,12 +32,19 @@ $(document).ready(function () {
                 }).done(function (resp) {
                     self.expressTypes = resp;
                 });
-
                 $.ajax({
                     type: 'GET',
-                    url: __ctx + "/combo/allAgentsAndManus"
+                    url: __ctx + "/combo/fromBizEnum",
+                    data: {className:'SettleTypeEnum'}
                 }).done(function (resp) {
-                    self.agents = resp;
+                    self.paymentTypes = resp;
+                });
+                $.ajax({
+                    type: 'GET',
+                    url: __ctx + "/combo/fromBizEnum",
+                    data: {className:'PaymentStateEnum'}
+                }).done(function (resp) {
+                    self.status = resp;
                 });
             },
             preQuery: function () {

@@ -32,4 +32,10 @@ public class CodeGenerator {
         String code = g.generate();
         return "R" + code;
     }
+
+    public static final String generateOrderSerialNo() {
+        RandomGenerator g = new RandomGenerator(15);
+        String code = g.generate();
+        return "E" + code;
+    }
 }

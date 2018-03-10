@@ -6,13 +6,14 @@ package com.zeh.wms.biz.model.enums;
  * @since 1.0.0
  */
 public enum SettleTypeEnum {
-    /** 线上实时结算 */
-    REAL("REAL", "线上实时结算"),
-    /** 线下月结 */
-    MONTHLY("MONTHLY", "线下月结");
+                            ONLINE(0, "在线支付"),
+                            /** 线下现付 */
+                            REAL(1, "线下现付"),
+                            /** 线下月结 */
+                            MONTHLY(2, "线下月结");
 
     /** 枚举编码 */
-    private String code;
+    private int    code;
     /** 枚举描述 */
     private String desc;
 
@@ -22,7 +23,7 @@ public enum SettleTypeEnum {
      * @param code
      * @param desc
      */
-    private SettleTypeEnum(String code, String desc) {
+    private SettleTypeEnum(int code, String desc) {
         this.code = code;
         this.desc = desc;
     }
@@ -33,9 +34,9 @@ public enum SettleTypeEnum {
      * @param code 枚举码
      * @return
      */
-    public static SettleTypeEnum getEnumByCode(String code) {
+    public static SettleTypeEnum getEnumByCode(int code) {
         for (SettleTypeEnum e : SettleTypeEnum.values()) {
-            if (e.getCode().equals(code)) {
+            if (e.getCode() == code) {
                 return e;
             }
         }
@@ -47,7 +48,7 @@ public enum SettleTypeEnum {
      *
      * 获取枚举编码
      */
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 

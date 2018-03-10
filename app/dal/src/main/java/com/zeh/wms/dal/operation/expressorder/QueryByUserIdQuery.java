@@ -32,78 +32,33 @@ import com.zeh.jungle.dal.paginator.PageQueryUtils;
  * 
  * @author Allen Wang(Wang Junxiang)
  * */
-public class FindPageQuery  extends PageQuery implements java.io.Serializable {
+public class QueryByUserIdQuery  implements java.io.Serializable {
 	private static final long serialVersionUID = -5216457518046898601L;
 	
-	/** 快递单号 */
-	private String orderNo;
-	/** 3方订单号 */
-	private String otherOrderNo;
 	/** 用户ID */
 	private Long userId;
-	/** 支付方式：0-线上支付，1-线下现结，2-线下月结 */
-	private Integer paymentType;
 	/** 订单状态;WATI_PAY（待支付-线上支付）；WAIT_PICKUP（待取件）；WAIT_SEND（待发货）；SENDED（已发货）；CANCEL（订单取消）; */
 	private String status;
-	/** 创建时间 */
-	private java.util.Date fromDate;
-	/** 创建时间 */
-	private java.util.Date toDate;
 	
-	public FindPageQuery() {
+	public QueryByUserIdQuery() {
 	}
 	
-	public FindPageQuery(String orderNo ,String otherOrderNo ,Long userId ,Integer paymentType ,String status ,java.util.Date fromDate ,java.util.Date toDate ) {
-		this.orderNo = orderNo;
-		this.otherOrderNo = otherOrderNo;
+	public QueryByUserIdQuery(Long userId ,String status ) {
 		this.userId = userId;
-		this.paymentType = paymentType;
 		this.status = status;
-		this.fromDate = fromDate;
-		this.toDate = toDate;
 	}
 	
-	public String getOrderNo() {
-		return orderNo;
-	}
-	public void setOrderNo(String orderNo) {
-		this.orderNo = orderNo;
-	}
-	public String getOtherOrderNo() {
-		return otherOrderNo;
-	}
-	public void setOtherOrderNo(String otherOrderNo) {
-		this.otherOrderNo = otherOrderNo;
-	}
 	public Long getUserId() {
 		return userId;
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public Integer getPaymentType() {
-		return paymentType;
-	}
-	public void setPaymentType(Integer paymentType) {
-		this.paymentType = paymentType;
-	}
 	public String getStatus() {
 		return status;
 	}
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	public java.util.Date getFromDate() {
-		return fromDate;
-	}
-	public void setFromDate(java.util.Date fromDate) {
-		this.fromDate = fromDate;
-	}
-	public java.util.Date getToDate() {
-		return toDate;
-	}
-	public void setToDate(java.util.Date toDate) {
-		this.toDate = toDate;
 	}
 	
 	public String toString() {
