@@ -10,7 +10,7 @@
 		<result property="orderNo" column="order_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="otherOrderNo" column="other_order_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="userId" column="user_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
-		<result property="paymentType" column="payment_type" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="paymentType" column="payment_type" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="status" column="status" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="expressType" column="express_type" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="commodityName" column="commodity_name" javaType="java.lang.String" jdbcType="VARCHAR"  />

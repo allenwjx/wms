@@ -38,7 +38,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-4">结算方式</label>
                                 <div class="col-md-8">
-                                    <vue-select :options="paymentTypes" id="paymentType" :model.sync="queryForm.paymentType" :configs="{placeholder:'全部'}"></vue-select>
+                                    <vue-select :options="settleTypes" id="paymentType" :model.sync="queryForm.paymentType" :configs="{placeholder:'全部'}"></vue-select>
                                 </div>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-4">订单状态</label>
                                 <div class="col-md-8">
-                                    <vue-select :options="status" id="status" :model.sync="queryForm.status" :configs="{placeholder:'全部'}"></vue-select>
+                                    <vue-select :options="statues" id="status" :model.sync="queryForm.status" :configs="{placeholder:'全部'}"></vue-select>
                                 </div>
                             </div>
                         </div>
@@ -102,8 +102,8 @@
             <td v-html="item.otherOrderNo"></td>
             <td v-html="item.userName"></td>
             <td v-html="item.mobile"></td>
-            <td v-html="item.status | enumFormat status"></td>
-            <td v-html="item.paymentType | enumFormat paymentTypes"></td>
+            <td v-html="item.status | enumFormat statues"></td>
+            <td v-html="item.paymentType | enumFormat settleTypes"></td>
             <td v-html="item.expressType | enumFormat expressTypes"></td>
             <td v-html="item.totalPrice | toMoney"></td>
             <td v-html="item.commodityWeight | toKG"></td>

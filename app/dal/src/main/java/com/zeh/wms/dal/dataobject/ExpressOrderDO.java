@@ -52,9 +52,9 @@ public class ExpressOrderDO implements java.io.Serializable {
 	 */
 	private long userId;
 	/**
-	 * 支付方式：0-线上支付，1-线下现结，2-线下月结 		db_column: payment_type 
+	 * 结算方式： ONLINE("ONLINE", "在线支付"), OFFLINE("OFFLINE", "线下现付"), MONTHLY("MONTHLY", "线下月结"); 		db_column: payment_type 
 	 */
-	private int paymentType;
+	private String paymentType;
 	/**
 	 * 订单状态;WATI_PAY（待支付-线上支付）；WAIT_PICKUP（待取件）；WAIT_SEND（待发货）；SENDED（已发货）；CANCEL（订单取消）; 		db_column: status 
 	 */
@@ -213,11 +213,11 @@ public class ExpressOrderDO implements java.io.Serializable {
 		return this.userId;
 	}
 	
-	public void setPaymentType(int paymentType) {
+	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
 	}
 	
-	public int getPaymentType() {
+	public String getPaymentType() {
 		return this.paymentType;
 	}
 	

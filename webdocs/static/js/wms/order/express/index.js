@@ -14,8 +14,8 @@ $(document).ready(function () {
             },
             queryForm: {},
             expressTypes: [],
-            paymentTypes: [],
-            status: []
+            settleTypes: [],
+            statues: []
         },
         ready: function () {
             this.init();
@@ -28,30 +28,22 @@ $(document).ready(function () {
                 $.ajax({
                     type: 'GET',
                     url: __ctx + "/combo/fromBizEnum",
-                    data: {className:'ExpressTypeEnum'}
-                }).done(function (resp) {
-                    self.expressTypes = resp;
-                });
-                $.ajax({
-                    type: 'GET',
-                    url: __ctx + "/combo/fromBizEnum",
                     data: {className:'SettleTypeEnum'}
                 }).done(function (resp) {
-                    self.paymentTypes = resp;
+                    self.settleTypes = resp;
                 });
                 $.ajax({
                     type: 'GET',
                     url: __ctx + "/combo/fromBizEnum",
-                    data: {className:'PaymentStateEnum'}
+                    data: {className:'ExpressOrderStateEnum'}
                 }).done(function (resp) {
-                    self.status = resp;
+                    self.statues = resp;
                 });
                 $.ajax({
                     type: 'GET',
-                    url: __ctx + "/combo/express",
-                    data: {className:'PaymentStateEnum'}
+                    url: __ctx + "/combo/express"
                 }).done(function (resp) {
-                    self.status = expressTypes;
+                    self.expressTypes = resp;
                 });
             },
             preQuery: function () {

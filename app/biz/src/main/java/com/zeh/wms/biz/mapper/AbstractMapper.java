@@ -20,7 +20,7 @@ public interface AbstractMapper {
      * @param type
      * @return
      */
-    default int settleTypeEnumToCode(SettleTypeEnum type) {
+    default String settleTypeEnumToCode(SettleTypeEnum type) {
         return type.getCode();
     }
 
@@ -30,7 +30,7 @@ public interface AbstractMapper {
      * @param code
      * @return
      */
-    default SettleTypeEnum codeToSettleTypeEnum(int code) {
+    default SettleTypeEnum codeToSettleTypeEnum(String code) {
         return SettleTypeEnum.getEnumByCode(code);
     }
 
