@@ -46,7 +46,7 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
     @Override
     @Transactional(value = "transactionManager", rollbackFor = Exception.class)
     public boolean addAddress(UserAddressVO address) throws ServiceException {
-        checkUpdate(userAddresDAO.updateDefaultSettingByUserId(StateEnum.N.getCode(), address.getModifyBy(), address.getUserId(), address.getAddressType().getCode()), "地址是否默认");
+        userAddresDAO.updateDefaultSettingByUserId(StateEnum.N.getCode(), address.getModifyBy(), address.getUserId(), address.getAddressType().getCode());
         address.setDefaultSetting(StateEnum.Y);
         UserAddresDO addressDO = userAddressMapper.vo2do(address);
         checkInsert(userAddresDAO.insert(addressDO), "地址");

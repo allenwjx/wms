@@ -54,7 +54,7 @@ public class AddressController extends BaseController {
     @ApiResponse(code = 200, message = "success", response = String.class)
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult addAddress(@ApiParam("地址模型") AddressModel address) throws ServiceException {
+    public SingleResult addAddress(@ApiParam("地址模型") @RequestBody AddressModel address) throws ServiceException {
         UserAddressVO vo = addressFormMapper.modelToVo(address);
         vo.setUserId(getCurrentApiUserId());
         insertSecurityApiVO(vo);
@@ -73,7 +73,7 @@ public class AddressController extends BaseController {
     @ApiResponse(code = 200, message = "success", response = String.class)
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public SingleResult updateAddress(@ApiParam("地址模型") AddressModel address) throws ServiceException {
+    public SingleResult updateAddress(@ApiParam("地址模型") @RequestBody AddressModel address) throws ServiceException {
         UserAddressVO vo = addressFormMapper.modelToVo(address);
         vo.setUserId(getCurrentApiUserId());
         updateSecurityApiVO(vo);
