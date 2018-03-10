@@ -48,17 +48,57 @@ public class ExpressOrderDO implements java.io.Serializable {
 	 */
 	private String otherOrderNo;
 	/**
-	 * agent用户类型的下单：agent电话号码；大客户类型的下单：厂商编码（授权码）;散客：空值 		db_column: code 
+	 * 用户ID 		db_column: user_id 
 	 */
-	private String code;
+	private long userId;
 	/**
-	 * 类型：代理商，厂商； 代理商：A； 厂商：B； 		db_column: type 
+	 * 结算方式： ONLINE("ONLINE", "在线支付"), OFFLINE("OFFLINE", "线下现付"), MONTHLY("MONTHLY", "线下月结"); 		db_column: payment_type 
 	 */
-	private String type;
+	private String paymentType;
 	/**
-	 * 订单状态;WATI_PAY（待支付）；WAIT_PICKUP（待取件）；WAIT_SEND（待发货）；SENDED（已发货）；CANCEL（订单取消）; 		db_column: status 
+	 * 订单状态;WATI_PAY（待支付-线上支付）；WAIT_PICKUP（待取件）；WAIT_SEND（待发货）；SENDED（已发货）；CANCEL（订单取消）; 		db_column: status 
 	 */
 	private String status;
+	/**
+	 * 快递公司类型 		db_column: express_type 
+	 */
+	private String expressType;
+	/**
+	 * 商品名称或商品类型 		db_column: commodity_name 
+	 */
+	private String commodityName;
+	/**
+	 * 商品总数量 		db_column: commodity_quanity 
+	 */
+	private int commodityQuanity;
+	/**
+	 * 商品总重量 		db_column: commodity_weight 
+	 */
+	private int commodityWeight;
+	/**
+	 * 首重，单位（克） 		db_column: first_weight 
+	 */
+	private int firstWeight;
+	/**
+	 * 续重，单位：克 		db_column: additional_weight 
+	 */
+	private int additionalWeight;
+	/**
+	 * 首重价格，单位：分 		db_column: first_weight_price 
+	 */
+	private int firstWeightPrice;
+	/**
+	 * 续重价格，单位：分 		db_column: additional_weight_price 
+	 */
+	private String additionalWeightPrice;
+	/**
+	 * 快递费总价，单位：分 		db_column: total_price 
+	 */
+	private int totalPrice;
+	/**
+	 * 订单备注 		db_column: remark 
+	 */
+	private String remark;
 	/**
 	 * 寄件人姓名 		db_column: sender_name 
 	 */
@@ -88,6 +128,10 @@ public class ExpressOrderDO implements java.io.Serializable {
 	 */
 	private String senderZipCode;
 	/**
+	 * 发件人公司 		db_column: sender_company 
+	 */
+	private String senderCompany;
+	/**
 	 * 收件人姓名 		db_column: receiver_name 
 	 */
 	private String receiverName;
@@ -116,13 +160,9 @@ public class ExpressOrderDO implements java.io.Serializable {
 	 */
 	private String receiverZipCode;
 	/**
-	 * 快递公司类型 		db_column: express_type 
+	 * 收件人公司 		db_column: receiver_company 
 	 */
-	private String expressType;
-	/**
-	 * 快递费总价，单位：分 		db_column: total_price 
-	 */
-	private int totalPrice;
+	private String receiverCompany;
 	/**
 	 * 创建时间 		db_column: gmt_create 
 	 */
@@ -165,20 +205,20 @@ public class ExpressOrderDO implements java.io.Serializable {
 		return this.otherOrderNo;
 	}
 	
-	public void setCode(String code) {
-		this.code = code;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 	
-	public String getCode() {
-		return this.code;
+	public long getUserId() {
+		return this.userId;
 	}
 	
-	public void setType(String type) {
-		this.type = type;
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
 	}
 	
-	public String getType() {
-		return this.type;
+	public String getPaymentType() {
+		return this.paymentType;
 	}
 	
 	public void setStatus(String status) {
@@ -187,6 +227,86 @@ public class ExpressOrderDO implements java.io.Serializable {
 	
 	public String getStatus() {
 		return this.status;
+	}
+	
+	public void setExpressType(String expressType) {
+		this.expressType = expressType;
+	}
+	
+	public String getExpressType() {
+		return this.expressType;
+	}
+	
+	public void setCommodityName(String commodityName) {
+		this.commodityName = commodityName;
+	}
+	
+	public String getCommodityName() {
+		return this.commodityName;
+	}
+	
+	public void setCommodityQuanity(int commodityQuanity) {
+		this.commodityQuanity = commodityQuanity;
+	}
+	
+	public int getCommodityQuanity() {
+		return this.commodityQuanity;
+	}
+	
+	public void setCommodityWeight(int commodityWeight) {
+		this.commodityWeight = commodityWeight;
+	}
+	
+	public int getCommodityWeight() {
+		return this.commodityWeight;
+	}
+	
+	public void setFirstWeight(int firstWeight) {
+		this.firstWeight = firstWeight;
+	}
+	
+	public int getFirstWeight() {
+		return this.firstWeight;
+	}
+	
+	public void setAdditionalWeight(int additionalWeight) {
+		this.additionalWeight = additionalWeight;
+	}
+	
+	public int getAdditionalWeight() {
+		return this.additionalWeight;
+	}
+	
+	public void setFirstWeightPrice(int firstWeightPrice) {
+		this.firstWeightPrice = firstWeightPrice;
+	}
+	
+	public int getFirstWeightPrice() {
+		return this.firstWeightPrice;
+	}
+	
+	public void setAdditionalWeightPrice(String additionalWeightPrice) {
+		this.additionalWeightPrice = additionalWeightPrice;
+	}
+	
+	public String getAdditionalWeightPrice() {
+		return this.additionalWeightPrice;
+	}
+	
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	
+	public int getTotalPrice() {
+		return this.totalPrice;
+	}
+	
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	
+	public String getRemark() {
+		return this.remark;
 	}
 	
 	public void setSenderName(String senderName) {
@@ -245,6 +365,14 @@ public class ExpressOrderDO implements java.io.Serializable {
 		return this.senderZipCode;
 	}
 	
+	public void setSenderCompany(String senderCompany) {
+		this.senderCompany = senderCompany;
+	}
+	
+	public String getSenderCompany() {
+		return this.senderCompany;
+	}
+	
 	public void setReceiverName(String receiverName) {
 		this.receiverName = receiverName;
 	}
@@ -301,20 +429,12 @@ public class ExpressOrderDO implements java.io.Serializable {
 		return this.receiverZipCode;
 	}
 	
-	public void setExpressType(String expressType) {
-		this.expressType = expressType;
+	public void setReceiverCompany(String receiverCompany) {
+		this.receiverCompany = receiverCompany;
 	}
 	
-	public String getExpressType() {
-		return this.expressType;
-	}
-	
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-	
-	public int getTotalPrice() {
-		return this.totalPrice;
+	public String getReceiverCompany() {
+		return this.receiverCompany;
 	}
 	
 	public void setGmtCreate(Date gmtCreate) {
@@ -354,9 +474,19 @@ public class ExpressOrderDO implements java.io.Serializable {
 			.append("Id",getId())
 			.append("OrderNo",getOrderNo())
 			.append("OtherOrderNo",getOtherOrderNo())
-			.append("Code",getCode())
-			.append("Type",getType())
+			.append("UserId",getUserId())
+			.append("PaymentType",getPaymentType())
 			.append("Status",getStatus())
+			.append("ExpressType",getExpressType())
+			.append("CommodityName",getCommodityName())
+			.append("CommodityQuanity",getCommodityQuanity())
+			.append("CommodityWeight",getCommodityWeight())
+			.append("FirstWeight",getFirstWeight())
+			.append("AdditionalWeight",getAdditionalWeight())
+			.append("FirstWeightPrice",getFirstWeightPrice())
+			.append("AdditionalWeightPrice",getAdditionalWeightPrice())
+			.append("TotalPrice",getTotalPrice())
+			.append("Remark",getRemark())
 			.append("SenderName",getSenderName())
 			.append("SenderTel",getSenderTel())
 			.append("SenderProvince",getSenderProvince())
@@ -364,6 +494,7 @@ public class ExpressOrderDO implements java.io.Serializable {
 			.append("SenderRegion",getSenderRegion())
 			.append("SenderAddressDetail",getSenderAddressDetail())
 			.append("SenderZipCode",getSenderZipCode())
+			.append("SenderCompany",getSenderCompany())
 			.append("ReceiverName",getReceiverName())
 			.append("ReceiverTel",getReceiverTel())
 			.append("ReceiverProvince",getReceiverProvince())
@@ -371,8 +502,7 @@ public class ExpressOrderDO implements java.io.Serializable {
 			.append("ReceiverRegion",getReceiverRegion())
 			.append("ReceiverAddressDetail",getReceiverAddressDetail())
 			.append("ReceiverZipCode",getReceiverZipCode())
-			.append("ExpressType",getExpressType())
-			.append("TotalPrice",getTotalPrice())
+			.append("ReceiverCompany",getReceiverCompany())
 			.append("GmtCreate",getGmtCreate())
 			.append("GmtModified",getGmtModified())
 			.append("CreateBy",getCreateBy())

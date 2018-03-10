@@ -20,6 +20,14 @@
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
+                                <label class="control-label col-md-4">快递公司</label>
+                                <div class="col-md-8">
+                                    <vue-select :options="expresses" :model.sync="queryForm.expressCode" :configs="{placeholder:'全部'}"></vue-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
                                 <label class="control-label col-md-4">状态</label>
                                 <div class="col-md-8">
                                     <vue-select :options="states" :model.sync="queryForm.enabled" :configs="{placeholder:'全部'}"></vue-select>
@@ -43,9 +51,10 @@
         <tr>
             <th>ID</th>
             <th>省份</th>
+            <th>快递公司</th>
             <th>首重</th>
-            <th>首重价格</th>
-            <th>续重价格</th>
+            <th>首重原始/成本价格</th>
+            <th>续重原始/成本价格</th>
             <th>状态</th>
             <th>创建时间</th>
             <th>修改时间</th>
@@ -58,9 +67,10 @@
         <tr v-cloak v-for="item in pageResult.data">
             <td v-html="item.id"></td>
             <td v-html="item.provinceCode | enumFormat provinces"></td>
+            <td v-html="item.expressCode | enumFormat expresses"></td>
             <td v-html="item.firstWeight | toJin"></td>
-            <td v-html="item.firstPrice | toMoney"></td>
-            <td v-html="item.additionalPrice | toMoney"></td>
+            <td >{{item.firstOriginalPrice | toMoney}} / {{item.firstCostPrice | toMoney}}</td>
+            <td >{{item.additionalOriginalPrice | toMoney}} / {{item.additionalCostPrice | toMoney}}</td>
             <td v-html="item.enabled | enumFormat states"></td>
             <td v-html="item.gmtCreate | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>

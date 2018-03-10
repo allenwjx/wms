@@ -1,13 +1,14 @@
 package com.zeh.wms.biz.model;
 
+import java.util.List;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
-import com.zeh.wms.biz.model.enums.ExpressTypeEnum;
+import com.zeh.wms.biz.model.enums.SettleTypeEnum;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 /**
  * 快递单模型
@@ -25,8 +26,30 @@ public class ExpressOrderVO extends BaseVO {
     private String                   orderNo;
     /** 第三方订单号 */
     private String                   otherOrderNo;
-    /** agent用户类型的下单：agent电话号码； 大客户类型的下单：厂商编码（授权码） 散客：空值 */
-    private String                   code;
+    /** 用户ID */
+    private long                     userId;
+    /** 支付方式：0-线上支付，1-线下现结，2-线下月结 */
+    private SettleTypeEnum           paymentType;
+    /** 快递公司类型 */
+    private String                   expressType;
+    /** 商品名称或商品类型 */
+    private String                   commodityName;
+    /** 商品总数量 */
+    private int                      commodityQuanity;
+    /** 商品总重量 */
+    private int                      commodityWeight;
+    /**  首重，单位（克）*/
+    private int                      firstWeight;
+    /** 续重，单位：克 */
+    private int                      additionalWeight;
+    /** 首重价格，单位：分 */
+    private int                      firstWeightPrice;
+    /** 续重价格，单位：分 */
+    private String                   additionalWeightPrice;
+    /** 快递费总价，单位：分 */
+    private int                      totalPrice;
+    /** 订单备注 */
+    private String                   remark;
     /** 订单状态; WATI_PAY（待支付）； WAIT_PICKUP（待取件）； WAIT_SEND（待发货）； SENDED（已发货）； CANCEL（订单取消）*/
     private ExpressOrderStateEnum    status;
     /** 寄件人姓名 */
@@ -43,6 +66,8 @@ public class ExpressOrderVO extends BaseVO {
     private String                   senderAddressDetail;
     /** 寄件人邮编 */
     private String                   senderZipCode;
+    /** 发件人公司 */
+    private String                   senderCompany;
     /** 收件人姓名 */
     private String                   receiverName;
     /** 收件人电话 */
@@ -57,10 +82,8 @@ public class ExpressOrderVO extends BaseVO {
     private String                   receiverAddressDetail;
     /** 收件人邮编 */
     private String                   receiverZipCode;
-    /** 快递公司类型 TODO 快递公司需要配置为可数据库维护方式 */
-    private ExpressTypeEnum          expressType;
-    /** 快递费总价，单位：分 */
-    private int                      totalPrice;
+    /** 收件人公司 */
+    private String                   receiverCompany;
     /** 快递商品项 */
     private List<ExpressOrderItemVO> items            = Lists.newArrayList();
 

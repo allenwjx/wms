@@ -9,9 +9,19 @@
 		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="orderNo" column="order_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="otherOrderNo" column="other_order_no" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="type" column="type" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="userId" column="user_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="paymentType" column="payment_type" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="status" column="status" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="expressType" column="express_type" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="commodityName" column="commodity_name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="commodityQuanity" column="commodity_quanity" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="commodityWeight" column="commodity_weight" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="firstWeight" column="first_weight" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="additionalWeight" column="additional_weight" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="firstWeightPrice" column="first_weight_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="additionalWeightPrice" column="additional_weight_price" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="totalPrice" column="total_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="remark" column="remark" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="senderName" column="sender_name" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="senderTel" column="sender_tel" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="senderProvince" column="sender_province" javaType="java.lang.String" jdbcType="VARCHAR"  />
@@ -19,6 +29,7 @@
 		<result property="senderRegion" column="sender_region" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="senderAddressDetail" column="sender_address_detail" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="senderZipCode" column="sender_zip_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="senderCompany" column="sender_company" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="receiverName" column="receiver_name" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="receiverTel" column="receiver_tel" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="receiverProvince" column="receiver_province" javaType="java.lang.String" jdbcType="VARCHAR"  />
@@ -26,8 +37,7 @@
 		<result property="receiverRegion" column="receiver_region" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="receiverAddressDetail" column="receiver_address_detail" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="receiverZipCode" column="receiver_zip_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="expressType" column="express_type" javaType="java.lang.String" jdbcType="VARCHAR"  />
-		<result property="totalPrice" column="total_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="receiverCompany" column="receiver_company" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
 		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
@@ -35,7 +45,10 @@
     </resultMap>
     
 	<sql id="ExpressOrder.columns">
-		id, order_no, other_order_no, code, type, status, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail, sender_zip_code, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code, express_type, total_price, gmt_create, gmt_modified, create_by, modify_by
+		id, order_no, other_order_no, user_id, payment_type, status, express_type, commodity_name, commodity_quanity, commodity_weight, first_weight, additional_weight,
+        first_weight_price, additional_weight_price, total_price, remark, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail,
+        sender_zip_code, sender_company, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code,
+        receiver_company, gmt_create, gmt_modified, create_by, modify_by
 	</sql>
 		
 
@@ -44,8 +57,11 @@
     
 	<insert id="wms.ExpressOrder.insert">
 		INSERT INTO express_order (
-	        	id ,order_no ,other_order_no ,code ,status ,sender_name ,sender_tel ,sender_province ,sender_city ,sender_region ,sender_address_detail ,sender_zip_code ,receiver_name ,receiver_tel ,receiver_province ,receiver_city ,receiver_region ,receiver_address_detail ,receiver_zip_code ,express_type ,total_price ,gmt_create ,gmt_modified ,create_by ,modify_by 
-	        ) VALUES (#id#,#orderNo#,#otherOrderNo#,#code#,#status#,#senderName#,#senderTel#,#senderProvince#,#senderCity#,#senderRegion#,#senderAddressDetail#,#senderZipCode#,#receiverName#,#receiverTel#,#receiverProvince#,#receiverCity#,#receiverRegion#,#receiverAddressDetail#,#receiverZipCode#,#expressType#,#totalPrice#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
+            id ,order_no ,other_order_no ,user_id ,payment_type ,status ,express_type ,commodity_name ,commodity_quanity ,commodity_weight ,first_weight ,additional_weight
+            ,first_weight_price ,additional_weight_price ,total_price ,remark ,sender_name ,sender_tel ,sender_province ,sender_city ,sender_region ,sender_address_detail
+            ,sender_zip_code ,sender_company ,receiver_name ,receiver_tel ,receiver_province ,receiver_city ,receiver_region ,receiver_address_detail ,receiver_zip_code
+            ,receiver_company ,gmt_create ,gmt_modified ,create_by ,modify_by
+            ) VALUES (#id#,#orderNo#,#otherOrderNo#,#userId#,#paymentType#,#status#,#expressType#,#commodityName#,#commodityQuanity#,#commodityWeight#,#firstWeight#,#additionalWeight#,#firstWeightPrice#,#additionalWeightPrice#,#totalPrice#,#remark#,#senderName#,#senderTel#,#senderProvince#,#senderCity#,#senderRegion#,#senderAddressDetail#,#senderZipCode#,#senderCompany#,#receiverName#,#receiverTel#,#receiverProvince#,#receiverCity#,#receiverRegion#,#receiverAddressDetail#,#receiverZipCode#,#receiverCompany#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -54,25 +70,82 @@
 	
 	<delete id="wms.ExpressOrder.delete">
 		DELETE FROM express_order WHERE
-	        id = #id#
+            id = #id#
     </delete>
     
 	
 	<update id="wms.ExpressOrder.update">
 		UPDATE express_order SET
-		        order_no = #orderNo# ,other_order_no = #otherOrderNo# ,code = #code# ,status = #status# ,sender_name = #senderName# ,sender_tel = #senderTel# ,sender_province = #senderProvince# ,sender_city = #senderCity# ,sender_region = #senderRegion# ,sender_address_detail = #senderAddressDetail# ,sender_zip_code = #senderZipCode# ,receiver_name = #receiverName# ,receiver_tel = #receiverTel# ,receiver_province = #receiverProvince# ,receiver_city = #receiverCity# ,receiver_region = #receiverRegion# ,receiver_address_detail = #receiverAddressDetail# ,receiver_zip_code = #receiverZipCode# ,express_type = #expressType# ,total_price = #totalPrice# ,gmt_modified = CURRENT_TIMESTAMP ,create_by = #createBy# ,modify_by = #modifyBy#
-	        WHERE 
-	        	id = #id#
+            order_no = #orderNo# ,other_order_no = #otherOrderNo# ,user_id = #userId# ,payment_type = #paymentType# ,status = #status# ,express_type = #expressType# ,commodity_name = #commodityName# ,commodity_quanity = #commodityQuanity# ,commodity_weight = #commodityWeight#
+            ,first_weight = #firstWeight# ,additional_weight = #additionalWeight# ,first_weight_price = #firstWeightPrice# ,additional_weight_price = #additionalWeightPrice# ,total_price = #totalPrice# ,remark = #remark# ,sender_name = #senderName# ,sender_tel = #senderTel#
+            ,sender_province = #senderProvince# ,sender_city = #senderCity# ,sender_region = #senderRegion# ,sender_address_detail = #senderAddressDetail# ,sender_zip_code = #senderZipCode# ,sender_company = #senderCompany# ,receiver_name = #receiverName# ,receiver_tel = #receiverTel#
+            ,receiver_province = #receiverProvince# ,receiver_city = #receiverCity# ,receiver_region = #receiverRegion# ,receiver_address_detail = #receiverAddressDetail# ,receiver_zip_code = #receiverZipCode# ,receiver_company = #receiverCompany# ,gmt_modified =
+            CURRENT_TIMESTAMP, modify_by = #modifyBy#
+            WHERE
+            id = #id#
+	</update>
+	
+    
+	
+	<update id="wms.ExpressOrder.updateStatus">
+		UPDATE express_order SET
+            status = #status# ,gmt_modified = CURRENT_TIMESTAMP, modify_by = #modifyBy#
+            WHERE
+            order_no = #orderNo#
+	</update>
+	
+    
+	
+	<update id="wms.ExpressOrder.updateCommodityWeightAndPrice">
+		UPDATE express_order SET
+            commodity_weight = #commodityWeight# ,first_weight = #firstWeight# ,additional_weight = #additionalWeight# ,first_weight_price = #firstWeightPrice# ,additional_weight_price = #additionalWeightPrice# ,total_price = #totalPrice# , status = #status# ,gmt_modified =
+            CURRENT_TIMESTAMP, modify_by = #modifyBy#
+            WHERE
+            order_no = #orderNo#
 	</update>
 	
     
 	
 	<select id="wms.ExpressOrder.queryById" resultMap="RM.ExpressOrder" >
     	SELECT
- /*wms.ExpressOrder.queryById*/ 		    <include refid="ExpressOrder.columns"/>
-	        FROM express_order 
-	        WHERE 
-		        id = #id#
+ /*wms.ExpressOrder.queryById*/             <include refid="ExpressOrder.columns"/>
+            FROM express_order
+            WHERE
+            id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.ExpressOrder.queryByOrderSerialNo" resultMap="RM.ExpressOrder" >
+    	SELECT
+ /*wms.ExpressOrder.queryByOrderSerialNo*/             <include refid="ExpressOrder.columns"/>
+            FROM express_order
+            WHERE
+            order_no = #orderNo#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.ExpressOrder.queryByUserId" resultMap="RM.ExpressOrder" >
+    	SELECT
+ /*wms.ExpressOrder.queryByUserId*/             <include refid="ExpressOrder.columns"/>
+            FROM express_order
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="userId">
+                    user_id = #userId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="status">
+                    status = #status#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
 	</select>	
 
 	    
@@ -81,88 +154,71 @@
     
 	
 	<select id="wms.ExpressOrder.findPage" resultMap="RM.ExpressOrder" >
-    	SELECT  /*wms.ExpressOrder.findPage*/ 
-			<include refid="ExpressOrder.columns"/>
-			FROM express_order
-			WHERE 1=1
-			<dynamic>
+    	SELECT
+ /*wms.ExpressOrder.findPage*/             <include refid="ExpressOrder.columns"/>
+            FROM express_order
+            WHERE 1=1
+            <dynamic>
                 <isNotEmpty prepend="AND" property="orderNo">
                     order_no = #orderNo#
                 </isNotEmpty>
                 <isNotEmpty prepend="AND" property="otherOrderNo">
                     other_order_no = #otherOrderNo#
                 </isNotEmpty>
-                <isNotEmpty prepend="AND" property="code">
-                    code = #code#
+                <isNotEmpty prepend="AND" property="userId">
+                    user_id = #userId#
                 </isNotEmpty>
-                <isNotEmpty prepend="AND" property="type">
-                    type = #type#
+                <isNotEmpty prepend="AND" property="paymentType">
+                    payment_type = #paymentType#
                 </isNotEmpty>
                 <isNotEmpty prepend="AND" property="status">
                     status = #status#
                 </isNotEmpty>
-                <isNotEmpty prepend="AND" property="receiverName">
-                    receiver_name like concat('%',#receiverName#,'%')
-                </isNotEmpty>
-                <isNotEmpty prepend="AND" property="receiverTel">
-                    receiver_tel = #receiverTel#
-                </isNotEmpty>
-                <isNotEmpty prepend="AND" property="expressType">
-                    express_type = #expressType#
-                </isNotEmpty>
                 <isNotEmpty prepend="AND" property="fromDate">
                     <![CDATA[
-                        gmt_create >= #fromDate#
-                    ]]>
+                       gmt_create >= #fromDate#
+                   ]]>
                 </isNotEmpty>
                 <isNotEmpty prepend="AND" property="toDate">
                     <![CDATA[
-                        gmt_create <= #toDate#
-                    ]]>
+                       gmt_create <= #toDate#
+                   ]]>
                 </isNotEmpty>
-			</dynamic>
+            </dynamic>
+            ORDER BY gmt_modified DESC
 			limit #offset#,#limit#
 	</select>	
 
 	<select id="wms.ExpressOrder.findPage.count" resultClass="long" >
-    	select  /*wms.ExpressOrder.findPage.count*/ count(*) 	FROM express_order
-			WHERE 1=1
-			<dynamic>
+    	select  /*wms.ExpressOrder.findPage.count*/ count(*)  FROM express_order
+            WHERE 1=1
+            <dynamic>
                 <isNotEmpty prepend="AND" property="orderNo">
                     order_no = #orderNo#
                 </isNotEmpty>
                 <isNotEmpty prepend="AND" property="otherOrderNo">
                     other_order_no = #otherOrderNo#
                 </isNotEmpty>
-                <isNotEmpty prepend="AND" property="code">
-                    code = #code#
+                <isNotEmpty prepend="AND" property="userId">
+                    user_id = #userId#
                 </isNotEmpty>
-                <isNotEmpty prepend="AND" property="type">
-                    type = #type#
+                <isNotEmpty prepend="AND" property="paymentType">
+                    payment_type = #paymentType#
                 </isNotEmpty>
                 <isNotEmpty prepend="AND" property="status">
                     status = #status#
                 </isNotEmpty>
-                <isNotEmpty prepend="AND" property="receiverName">
-                    receiver_name like concat('%',#receiverName#,'%')
-                </isNotEmpty>
-                <isNotEmpty prepend="AND" property="receiverTel">
-                    receiver_tel = #receiverTel#
-                </isNotEmpty>
-                <isNotEmpty prepend="AND" property="expressType">
-                    express_type = #expressType#
-                </isNotEmpty>
                 <isNotEmpty prepend="AND" property="fromDate">
                     <![CDATA[
-                        gmt_create >= #fromDate#
-                    ]]>
+                       gmt_create >= #fromDate#
+                   ]]>
                 </isNotEmpty>
                 <isNotEmpty prepend="AND" property="toDate">
                     <![CDATA[
-                        gmt_create <= #toDate#
-                    ]]>
+                       gmt_create <= #toDate#
+                   ]]>
                 </isNotEmpty>
-			</dynamic>
+            </dynamic>
 	</select>
 	    
 	
@@ -171,45 +227,37 @@
 	
 	<select id="wms.ExpressOrder.getAllByPars" resultMap="RM.ExpressOrder" >
     	SELECT
- /*wms.ExpressOrder.getAllByPars*/ 			<include refid="ExpressOrder.columns"/>
-			FROM express_order
-			WHERE 1=1
-			<dynamic>
-				<isNotEmpty prepend="AND" property="orderNo">
-					order_no = #orderNo#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="otherOrderNo">
-					other_order_no = #otherOrderNo#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="code">
-					code = #code#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="type">
-					type = #type#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="status">
-					status = #status#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="receiverName">
-					receiver_name like concat('%',#receiverName#,'%')
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="receiverTel">
-					receiver_tel = #receiverTel#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="expressType">
-					express_type = #expressType#
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="fromDate">
-					<![CDATA[
-                        gmt_create >= #fromDate#
-                    ]]>
-				</isNotEmpty>
-				<isNotEmpty prepend="AND" property="toDate">
-					<![CDATA[
-                        gmt_create <= #toDate#
-                    ]]>
-				</isNotEmpty>
-			</dynamic>
+ /*wms.ExpressOrder.getAllByPars*/             <include refid="ExpressOrder.columns"/>
+            FROM express_order
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="orderNo">
+                    order_no = #orderNo#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="otherOrderNo">
+                    other_order_no = #otherOrderNo#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="userId">
+                    user_id = #userId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="paymentType">
+                    payment_type = #paymentType#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="status">
+                    status = #status#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="fromDate">
+                    <![CDATA[
+                       gmt_create >= #fromDate#
+                   ]]>
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="toDate">
+                    <![CDATA[
+                       gmt_create <= #toDate#
+                   ]]>
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
 	</select>	
 
 	    

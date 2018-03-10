@@ -6,10 +6,11 @@ package com.zeh.wms.biz.model.enums;
  * @since 1.0.0
  */
 public enum SettleTypeEnum {
-    /** 线上实时结算 */
-    REAL("REAL", "线上实时结算"),
-    /** 线下月结 */
-    MONTHLY("MONTHLY", "线下月结");
+                            ONLINE("ONLINE", "在线支付"),
+                            /** 线下现付 */
+                            OFFLINE("OFFLINE", "线下现付"),
+                            /** 线下月结 */
+                            MONTHLY("MONTHLY", "线下月结");
 
     /** 枚举编码 */
     private String code;

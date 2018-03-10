@@ -39,18 +39,12 @@ public class GetAllByParsQuery  implements java.io.Serializable {
 	private String orderNo;
 	/** 3方订单号 */
 	private String otherOrderNo;
-	/** agent用户类型的下单：agent电话号码；大客户类型的下单：厂商编码（授权码）;散客：空值 */
-	private String code;
-	/** 类型：代理商，厂商； 代理商：A； 厂商：B； */
-	private String type;
-	/** 订单状态;WATI_PAY（待支付）；WAIT_PICKUP（待取件）；WAIT_SEND（待发货）；SENDED（已发货）；CANCEL（订单取消）; */
+	/** 用户ID */
+	private Long userId;
+	/** 结算方式： ONLINE("ONLINE", "在线支付"), OFFLINE("OFFLINE", "线下现付"), MONTHLY("MONTHLY", "线下月结"); */
+	private String paymentType;
+	/** 订单状态;WATI_PAY（待支付-线上支付）；WAIT_PICKUP（待取件）；WAIT_SEND（待发货）；SENDED（已发货）；CANCEL（订单取消）; */
 	private String status;
-	/** 收件人姓名 */
-	private String receiverName;
-	/** 收件人电话 */
-	private String receiverTel;
-	/** 快递公司类型 */
-	private String expressType;
 	/** 创建时间 */
 	private java.util.Date fromDate;
 	/** 创建时间 */
@@ -59,15 +53,12 @@ public class GetAllByParsQuery  implements java.io.Serializable {
 	public GetAllByParsQuery() {
 	}
 	
-	public GetAllByParsQuery(String orderNo ,String otherOrderNo ,String code ,String type ,String status ,String receiverName ,String receiverTel ,String expressType ,java.util.Date fromDate ,java.util.Date toDate ) {
+	public GetAllByParsQuery(String orderNo ,String otherOrderNo ,Long userId ,String paymentType ,String status ,java.util.Date fromDate ,java.util.Date toDate ) {
 		this.orderNo = orderNo;
 		this.otherOrderNo = otherOrderNo;
-		this.code = code;
-		this.type = type;
+		this.userId = userId;
+		this.paymentType = paymentType;
 		this.status = status;
-		this.receiverName = receiverName;
-		this.receiverTel = receiverTel;
-		this.expressType = expressType;
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 	}
@@ -84,41 +75,23 @@ public class GetAllByParsQuery  implements java.io.Serializable {
 	public void setOtherOrderNo(String otherOrderNo) {
 		this.otherOrderNo = otherOrderNo;
 	}
-	public String getCode() {
-		return code;
+	public Long getUserId() {
+		return userId;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
-	public String getType() {
-		return type;
+	public String getPaymentType() {
+		return paymentType;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
 	}
 	public String getStatus() {
 		return status;
 	}
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	public String getReceiverName() {
-		return receiverName;
-	}
-	public void setReceiverName(String receiverName) {
-		this.receiverName = receiverName;
-	}
-	public String getReceiverTel() {
-		return receiverTel;
-	}
-	public void setReceiverTel(String receiverTel) {
-		this.receiverTel = receiverTel;
-	}
-	public String getExpressType() {
-		return expressType;
-	}
-	public void setExpressType(String expressType) {
-		this.expressType = expressType;
 	}
 	public java.util.Date getFromDate() {
 		return fromDate;

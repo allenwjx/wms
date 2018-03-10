@@ -5,22 +5,8 @@
  */
 package com.zeh.wms.dal.operation.freight;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
 import com.zeh.jungle.dal.paginator.PageQuery;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * database table: freight
  * database table comments: Freight
@@ -37,14 +23,17 @@ public class QueryByPageQuery  extends PageQuery implements java.io.Serializable
 	
 	/** 省编码 */
 	private String provinceCode;
+	/** 快递公司类型,SF-顺丰，DEPPON-德邦  */
+	private String expressCode;
 	/** 启用状态，0-未启用，1-已启用 */
 	private Integer enabled;
 	
 	public QueryByPageQuery() {
 	}
 	
-	public QueryByPageQuery(String provinceCode ,Integer enabled ) {
+	public QueryByPageQuery(String provinceCode ,String expressCode ,Integer enabled ) {
 		this.provinceCode = provinceCode;
+		this.expressCode = expressCode;
 		this.enabled = enabled;
 	}
 	
@@ -53,6 +42,12 @@ public class QueryByPageQuery  extends PageQuery implements java.io.Serializable
 	}
 	public void setProvinceCode(String provinceCode) {
 		this.provinceCode = provinceCode;
+	}
+	public String getExpressCode() {
+		return expressCode;
+	}
+	public void setExpressCode(String expressCode) {
+		this.expressCode = expressCode;
 	}
 	public Integer getEnabled() {
 		return enabled;

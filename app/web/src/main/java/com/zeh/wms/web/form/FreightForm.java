@@ -1,9 +1,9 @@
 package com.zeh.wms.web.form;
 
-import java.io.Serializable;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  * @author allen
@@ -19,12 +19,20 @@ public class FreightForm implements Serializable {
     private Long              id;
     /** 省编码 */
     private String            provinceCode;
+    /** 快递公司类型,SF-顺丰，DEPPON-德邦 */
+    private String            expressCode;
     /** 首重，单位：500克 */
     private String            firstWeight;
     /** 首重每500克单价，单价：分 */
-    private String            firstPrice;
+    private String            firstOriginalPrice;
     /** 续重每500克价格，单位：分 */
-    private String            additionalPrice;
+    private String            additionalOriginalPrice;
+
+    /** 首重每500克单价成本价，单价：分 */
+    private String           firstCostPrice;
+
+    /** 续重每500克价格成本价，单位：分 */
+    private String           additionalCostPrice;
     /** 启用，禁用 */
     private Integer           enabled;
 }

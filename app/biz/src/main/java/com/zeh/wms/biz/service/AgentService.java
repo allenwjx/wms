@@ -22,7 +22,7 @@ public interface AgentService {
      * @param agent 代理商
      * @throws ServiceException 代理商创建异常
      */
-    void createAgent(AgentVO agent) throws ServiceException;
+    AgentVO createAgent(AgentVO agent) throws ServiceException;
 
     /**
      * 批量更新.
@@ -38,8 +38,9 @@ public interface AgentService {
      * @param agent 代理商
      * @throws ServiceException 代理商更新异常
      */
-    void updateAgent(AgentVO agent) throws ServiceException;
+    AgentVO saveOrUpdate(AgentVO agent) throws ServiceException;
 
+    void updateAgent(AgentVO agent) throws ServiceException;
     /**
      * 根据代理商编号查询代理商信息
      *
@@ -81,7 +82,7 @@ public interface AgentService {
      * 根据代理人姓名查询代理人信息
      *
      * @param name 代理人姓名
-     * @return 代理人信息
+     * @return 代理人信息 collection
      * @throws ServiceException 代理人查询异常
      */
     Collection<AgentVO> findAllAgentsByName(String name) throws ServiceException;
@@ -90,7 +91,7 @@ public interface AgentService {
      * 根据代理人电话代理人信息
      *
      * @param mobile 代理人电话号码
-     * @return 代理人信息
+     * @return 代理人信息 collection
      * @throws ServiceException 代理人查询异常
      */
     Collection<AgentVO> findAllAgentsByMobile(String mobile) throws ServiceException;

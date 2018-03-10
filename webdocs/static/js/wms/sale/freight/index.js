@@ -14,7 +14,8 @@ $(document).ready(function () {
             },
             queryForm: {},
             provinces: [],
-            states: []
+            states: [],
+            expresses: []
         },
         ready: function () {
             this.init();
@@ -36,6 +37,13 @@ $(document).ready(function () {
                     data: {className: 'StateEnum'}
                 }).done(function (resp) {
                     self.states = resp;
+                });
+
+                $.ajax({
+                    type: 'GET',
+                    url: __ctx + "/combo/express"
+                }).done(function (resp) {
+                    self.expresses = resp;
                 });
             },
             preQuery: function () {

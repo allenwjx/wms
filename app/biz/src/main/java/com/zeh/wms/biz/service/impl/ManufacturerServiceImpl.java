@@ -1,10 +1,10 @@
 package com.zeh.wms.biz.service.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.zeh.wms.biz.utils.CodeGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +15,10 @@ import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.ManufacturerMapper;
 import com.zeh.wms.biz.model.ManufacturerVO;
 import com.zeh.wms.biz.service.ManufacturerService;
+import com.zeh.wms.biz.utils.CodeGenerator;
 import com.zeh.wms.dal.daointerface.ManufacturerDAO;
 import com.zeh.wms.dal.dataobject.ManufacturerDO;
 import com.zeh.wms.dal.operation.manufacturer.QueryByPageQuery;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author allen
@@ -70,7 +65,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         }
         ManufacturerDO manufacturerDO = manufacturerDAO.queryById(manufacturer.getId());
         manufacturerDO.setName(StringUtils.isNotBlank(manufacturer.getName()) ? manufacturer.getName() : manufacturerDO.getName());
-        manufacturerDO.setSettleType(manufacturer.getSettleType() != null ? manufacturer.getSettleType().getCode() : manufacturerDO.getSettleType());
+        manufacturerDO.setSettleType(manufacturer.getSettleType() != null ? String.valueOf(manufacturer.getSettleType().getCode()) : manufacturerDO.getSettleType());
         manufacturerDO.setExpress(manufacturer.getExpress() != null ? manufacturer.getExpress().getCode() : manufacturerDO.getExpress());
         manufacturerDO.setModifyBy(manufacturer.getModifyBy());
         manufacturerDAO.update(manufacturerDO);
@@ -123,7 +118,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         query.setCode(manufacturer.getCode());
         query.setExpress(manufacturer.getExpress() == null ? null : manufacturer.getExpress().getCode());
         query.setName(manufacturer.getName());
-        query.setSettleType(manufacturer.getSettleType() == null ? null : manufacturer.getSettleType().getCode());
+        query.setSettleType(manufacturer.getSettleType() == null ? null : String.valueOf(manufacturer.getSettleType().getCode()));
         query.setPage(currentPage);
         query.setPageSize(size);
         PageList<ManufacturerDO> ret = manufacturerDAO.queryByPage(query);

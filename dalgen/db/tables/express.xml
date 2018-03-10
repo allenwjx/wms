@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
+
+<table sqlname="express">
+    <!-- 不需要配置的列请删除 -->
+
+    <sql id="Express.columns">
+        id, name, code, gmt_create, gmt_modified, create_by, modify_by
+    </sql>
+
+    <operation name="insert" paramtype="object">
+        <sql>
+            INSERT INTO express (
+            name, code, gmt_create, gmt_modified, create_by, modify_by
+            ) VALUES (
+            ? ,? ,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,?
+            )
+        </sql>
+    </operation>
+
+    <operation name="delete">
+        <sql>
+            DELETE FROM express WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="update" paramtype="object">
+        <sql>
+            UPDATE express SET
+            name=?, code = ?,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryById" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Express.columns"/>
+            FROM express
+            WHERE
+            id = ?
+        </sql>
+    </operation>
+
+    <operation name="queryByCode" multiplicity="one">
+        <sql>
+            SELECT
+            <include refid="Express.columns"/>
+            FROM express
+            WHERE
+            code = #code#
+        </sql>
+    </operation>
+
+    <operation name="queryByPage" paramtype="parameterObject" multiplicity="paging">
+        <sql>
+            SELECT
+            <include refid="Express.columns"/>
+            FROM express
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="code">
+                    code = #code#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    name = #name#
+                </isNotEmpty>
+            </dynamic>
+            ORDER BY gmt_modified DESC
+        </sql>
+    </operation>
+
+    <operation name="queryAll" multiplicity="many">
+        <sql>
+            SELECT
+            <include refid="Express.columns"/>
+            FROM express
+        </sql>
+    </operation>
+
+</table>

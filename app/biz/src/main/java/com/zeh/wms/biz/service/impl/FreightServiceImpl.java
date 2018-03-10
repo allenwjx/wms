@@ -1,12 +1,5 @@
 package com.zeh.wms.biz.service.impl;
 
-import java.util.Collection;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.wms.biz.error.BizErrorFactory;
@@ -18,7 +11,12 @@ import com.zeh.wms.biz.service.FreightService;
 import com.zeh.wms.dal.daointerface.FreightDAO;
 import com.zeh.wms.dal.dataobject.FreightDO;
 import com.zeh.wms.dal.operation.freight.QueryByPageQuery;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author allen
@@ -76,9 +74,13 @@ public class FreightServiceImpl implements FreightService {
         }
 
         FreightDO freightDO = freightDAO.queryById(freight.getId());
-        freightDO.setAdditionalPrice(freight.getAdditionalPrice() != null ? freight.getAdditionalPrice() : freightDO.getAdditionalPrice());
-        freightDO.setFirstPrice(freight.getFirstPrice() != null ? freight.getFirstPrice() : freightDO.getFirstPrice());
+        freightDO.setAdditionalOriginalPrice(freight.getAdditionalOriginalPrice() != null ? freight.getAdditionalOriginalPrice() : freightDO.getAdditionalOriginalPrice());
+        freightDO.setFirstOriginalPrice(freight.getFirstOriginalPrice() != null ? freight.getFirstOriginalPrice() : freightDO.getFirstOriginalPrice());
+        freightDO.setAdditionalCostPrice(freight.getAdditionalCostPrice() != null ? freight.getAdditionalCostPrice() : freightDO.getAdditionalCostPrice());
+        freightDO.setFirstCostPrice(freight.getFirstCostPrice() != null ? freight.getFirstCostPrice() : freightDO.getFirstCostPrice());
+
         freightDO.setFirstWeight(freight.getFirstWeight() != null ? freight.getFirstWeight() : freightDO.getFirstWeight());
+        freightDO.setExpressCode(freight.getExpressCode() != null ? freight.getExpressCode() : freightDO.getExpressCode());
         freightDO.setProvinceCode(StringUtils.isNotBlank(freight.getProvinceCode()) ? freight.getProvinceCode() : freightDO.getProvinceCode());
         freightDO.setModifyBy(freight.getModifyBy());
         freightDO.setEnabled(freight.getEnabled() != null ? freight.getEnabled().getCode() : freightDO.getEnabled());
@@ -114,6 +116,7 @@ public class FreightServiceImpl implements FreightService {
         }
         QueryByPageQuery query = new QueryByPageQuery();
         query.setProvinceCode(StringUtils.isNotBlank(freight.getProvinceCode()) ? freight.getProvinceCode() : null);
+        query.setExpressCode(StringUtils.isNotBlank(freight.getExpressCode()) ? freight.getExpressCode() : null);
         query.setEnabled(freight.getEnabled() == null ? null : freight.getEnabled().getCode());
         query.setPage(currentPage);
         query.setPageSize(size);
