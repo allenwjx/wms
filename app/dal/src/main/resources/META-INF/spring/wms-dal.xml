@@ -21,6 +21,7 @@
     <bean id="userBgDAO" class="com.zeh.wms.dal.ibatis.IbatisUserBgDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="userRoleLinkDAO" class="com.zeh.wms.dal.ibatis.IbatisUserRoleLinkDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="inventoryHistoryDAO" class="com.zeh.wms.dal.ibatis.IbatisInventoryHistoryDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="userExpressDiscountDAO" class="com.zeh.wms.dal.ibatis.IbatisUserExpressDiscountDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="manufacturerDAO" class="com.zeh.wms.dal.ibatis.IbatisManufacturerDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="paymentOrderDAO" class="com.zeh.wms.dal.ibatis.IbatisPaymentOrderDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="commodityDAO" class="com.zeh.wms.dal.ibatis.IbatisCommodityDAO" parent="wmsSqlMapClientDAO"/>

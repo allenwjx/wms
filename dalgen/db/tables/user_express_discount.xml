@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "http://sources.jungle.net/svn/dtd/table-config-1.0.dtd">
+
+<table sqlname="user_express_discount">
+	<!-- 不需要配置的列请删除 -->
+	
+	<sql id="UserExpressDiscount.columns">
+		id, user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by
+	</sql>
+	
+	<operation name="insert" paramtype="object">
+		<sql>
+			INSERT INTO user_express_discount (
+			user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by
+			) VALUES (
+	        	? ,? ,? ,
+			CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+			? ,?
+	        )
+		</sql>		
+	</operation>
+
+	<operation name="delete">
+		<sql>
+	        DELETE FROM user_express_discount WHERE
+	        id = ? 
+		</sql>
+	</operation>
+	
+	<operation name="update" paramtype="object">
+		<sql>
+	        UPDATE user_express_discount SET
+			user_id = ? , express_code = ?, gmt_modified = CURRENT_TIMESTAMP , modify_by = ?
+	        WHERE 
+	        	id = ?
+		</sql>
+	</operation>
+
+	<operation name="queryById" multiplicity="one">
+		<sql>
+	    	SELECT
+		    <include refid="UserExpressDiscount.columns"/>
+	        FROM user_express_discount
+	        WHERE 
+		        id = ? 
+		</sql>
+	</operation>
+
+	<operation name="queryByPar" multiplicity="many" paramtype="parameterObject">
+		<sql>
+			SELECT
+			<include refid="UserExpressDiscount.columns"/>
+			FROM user_express_discount
+			WHERE 1=1
+			<dynamic>
+				<isNotEmpty prepend="AND" property="userId">
+					user_id = #userId#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="AND" property="expressCode">
+					express_code = #expressCode#
+				</isNotEmpty>
+
+			</dynamic>
+		</sql>
+	</operation>
+</table>

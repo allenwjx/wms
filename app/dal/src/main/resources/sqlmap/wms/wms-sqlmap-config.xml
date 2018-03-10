@@ -19,6 +19,7 @@
 	<sqlMap resource="sqlmap/wms/UserBg-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/UserRoleLink-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/InventoryHistory-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/wms/UserExpressDiscount-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/Manufacturer-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/PaymentOrder-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/wms/Commodity-sqlmap-mapping.xml" />
