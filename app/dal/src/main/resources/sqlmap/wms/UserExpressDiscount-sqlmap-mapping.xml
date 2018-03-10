@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+    
+    <resultMap id="RM.UserExpressDiscount" class="com.zeh.wms.dal.dataobject.UserExpressDiscountDO">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="userId" column="user_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="expressCode" column="express_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="discount" column="discount" javaType="double" jdbcType="DECIMAL"  nullValue="0"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+    </resultMap>
+    
+	<sql id="UserExpressDiscount.columns">
+		id, user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by
+	</sql>
+		
+
+	
+	
+    
+	<insert id="wms.UserExpressDiscount.insert">
+		INSERT INTO user_express_discount (
+			user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by
+			) VALUES (#userId#,#expressCode#,#discount#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
+		<selectKey resultClass="long" type="post" keyProperty="id" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	
+	<delete id="wms.UserExpressDiscount.delete">
+		DELETE FROM user_express_discount WHERE
+	        id = #id#
+    </delete>
+    
+	
+	<update id="wms.UserExpressDiscount.update">
+		UPDATE user_express_discount SET
+			user_id = #userId# , express_code = #expressCode#, gmt_modified = CURRENT_TIMESTAMP , modify_by = #modifyBy#
+	        WHERE 
+	        	id = #id#
+	</update>
+	
+    
+	
+	<select id="wms.UserExpressDiscount.queryById" resultMap="RM.UserExpressDiscount" >
+    	SELECT
+ /*wms.UserExpressDiscount.queryById*/ 		    <include refid="UserExpressDiscount.columns"/>
+	        FROM user_express_discount
+	        WHERE 
+		        id = #id#
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="wms.UserExpressDiscount.queryByPar" resultMap="RM.UserExpressDiscount" >
+    	SELECT
+ /*wms.UserExpressDiscount.queryByPar*/ 			<include refid="UserExpressDiscount.columns"/>
+			FROM user_express_discount
+			WHERE 1=1
+			<dynamic>
+				<isNotEmpty prepend="AND" property="userId">
+					user_id = #userId#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="AND" property="expressCode">
+					express_code = #expressCode#
+				</isNotEmpty>
+
+			</dynamic>
+	</select>	
+
+	    
+	
+	
+    
+
+</sqlMap>
+
