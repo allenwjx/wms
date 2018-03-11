@@ -318,6 +318,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
         if (StringUtils.isNotBlank(userVO.getPassword())) {
             dbUser.setPassword(userVO.getPassword());
         }
+        if (StringUtils.isNotBlank(userVO.getMobile())) {
+            dbUser.setMobile(userVO.getMobile());
+        }
 
         dbUser.setGmtModified(new Date());
 
