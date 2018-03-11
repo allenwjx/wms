@@ -5,22 +5,7 @@
  */
 package com.zeh.wms.dal.operation.user;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * database table: user
  * database table comments: User
@@ -39,6 +24,8 @@ public class UpdateByParsParameter  implements java.io.Serializable {
 	private String nickName;
 	/** 用户账号，用户电话 */
 	private String userId;
+	/** 用户手机号 */
+	private String mobile;
 	/** 密码 */
 	private String password;
 	/** openid */
@@ -53,9 +40,10 @@ public class UpdateByParsParameter  implements java.io.Serializable {
 	public UpdateByParsParameter() {
 	}
 	
-	public UpdateByParsParameter(String nickName ,String userId ,String password ,String openId ,String modifyBy ,Long id ,Object noExistsProp ) {
+	public UpdateByParsParameter(String nickName ,String userId ,String mobile ,String password ,String openId ,String modifyBy ,Long id ,Object noExistsProp ) {
 		this.nickName = nickName;
 		this.userId = userId;
+		this.mobile = mobile;
 		this.password = password;
 		this.openId = openId;
 		this.modifyBy = modifyBy;
@@ -74,6 +62,12 @@ public class UpdateByParsParameter  implements java.io.Serializable {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 	public String getPassword() {
 		return password;

@@ -59,6 +59,9 @@
             <isNotEmpty prepend="," property="userId">
                 user_id = #userId#
             </isNotEmpty>
+            <isNotEmpty prepend="," property="mobile">
+                mobile = #mobile#
+            </isNotEmpty>
 
             <isNotEmpty prepend="," property="password">
                 password = #password#
@@ -133,6 +136,9 @@
                 <isNotEmpty prepend="AND" property="userId">
                     u.user_id = #userId#
                 </isNotEmpty>
+                <isNotEmpty prepend="AND" property="mobile">
+                    u.mobile = #mobile#
+                </isNotEmpty>
 
                 <isNotEmpty prepend="AND" property="fromDate">
                     <![CDATA[
@@ -157,6 +163,9 @@
                 </isNotEmpty>
                 <isNotEmpty prepend="AND" property="userId">
                     u.user_id = #userId#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="mobile">
+                    u.mobile = #mobile#
                 </isNotEmpty>
 
                 <isNotEmpty prepend="AND" property="fromDate">

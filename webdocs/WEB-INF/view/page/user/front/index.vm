@@ -28,9 +28,9 @@
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <label class="control-label col-md-4">客户类型</label>
+                                <label class="control-label col-md-4">电话</label>
                                 <div class="col-md-8">
-                                    <vue-select id="type" :options="userTypes" :model.sync="queryForm.type" :configs="{placeholder:'全部'}"></vue-select>
+                                    <input class="form-control" id="mobile" name="mobile" type="text" v-model.trim="queryForm.mobile"/>
                                 </div>
                             </div>
                         </div>
@@ -39,7 +39,6 @@
                 <div class="form-actions">
                     <div class="button-group" align="center">
                         <button type="button" class="btn green-meadow" v-on:click="preQuery"><i class="fa fa-search"></i>搜索</button>
-                        <button type="button" class="btn default" v-on:click="create"><i class="fa fa-plus"></i>新增</button>
                         <button type="button" class="btn" v-on:click="reset"><i class="fa fa-refresh"></i>重置</button>
                     </div>
                 </div>
@@ -52,7 +51,7 @@
             <th>昵称</th>
             <th>账号</th>
             <th>openid</th>
-            <th>类型</th>
+            <th>电话</th>
             <th>创建时间</th>
             <th>修改时间</th>
             <th>创建人</th>
@@ -65,14 +64,14 @@
             <td v-html="item.nickName"></td>
             <td v-html="item.userId"></td>
             <td v-html="item.openId"></td>
-            <td v-html="item.type | enumFormat userTypes"></td>
+            <td v-html="item.mobile"></td>
             <td v-html="item.gmtCreate | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>
             <td v-html="item.createBy"></td>
             <td v-html="item.modifyBy"></td>
             <td>
-                <a class="a-icon" v-on:click="openPwdModel(item)"><i class="fa fa-lock"></i>修改密码</a>
-                <a class="a-icon" v-on:click="openTypeModel(item)"><i class="fa fa-bank"></i>修改类型</a>
+                <a class="a-icon" v-on:click="openPwdModel(item)"><i class="fa fa-lock"></i>重置密码</a>
+                <a class="a-icon" v-on:click="openDiscountModel(item)"><i class="fa fa-bank"></i>修改折扣</a>
             </td>
         </tr>
         </tbody>
@@ -128,51 +127,75 @@
         </div>
     </div>
 
-    ## 修改用户类型
-
-    <div id="typeModal" class="modal fade modal-scroll" tabindex="-1" data-replace="true">
+## 修改折扣弹框.
+    <div id="discountModal" class="modal fade modal-scroll" tabindex="-1" data-replace="true">
         <div class="modal-dialog" role="document" style="width:1200px">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <span class="mymodal-title">修改用户类型</span>
+                    <span class="mymodal-title">修改折扣信息</span>
                 </div>
 
                 <div class="modal-body">
-                    <form id="typeModalForm" class="form-horizontal">
+                    <form id="discountModalForm" class="form-horizontal">
                         <div class="row">
-                            <input type="hidden" v-model="formData.id">
+                            <input type="hidden" v-model="discountForm.userId">
                             <div class="form-group">
-                                <label class="col-md-3 control-label ">
+                                <label class="col-md-2 control-label ">
                                     <span class="text-danger">*</span>
-                                    类型
+                                    快递公司
                                 </label>
-                                <div class="col-md-7">
-                                    <vue-select id="changeType" :options="userTypes" :model.sync="formData.type" :configs="{placeholder:'全部'}"></vue-select>
+                                <div class="col-md-3">
+                                    <vue-select :options="expresses" id="expressCode" :model.sync="discountForm.expressCode" :configs="{placeholder:'全部'}"></vue-select>
+                                </div>
+                                <label class="col-md-2 control-label ">
+                                    <span class="text-danger">*</span>
+                                    折扣
+                                </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" placeholder="折扣大于0小于1，默认是1" maxlength="4" name="discount" v-model="discountForm.discount"/>
                                 </div>
                             </div>
-                            <div class="form-group" v-if="formData.type == 'A'">
-                                <label class="col-md-3 control-label ">
-                                    <span class="text-danger">*</span>
-                                    代理商
-                                </label>
-                                <div class="col-md-7">
-                                    <vue-select id="changeType" :options="agents" :model.sync="formData.agentCode" :configs="{placeholder:'全部'}"></vue-select>
+
+                            <div class="form-actions">
+                                <div class="button-group" align="center">
+                                    <button type="button" class="btn blue" v-on:click="addDiscount()">添加</button>
                                 </div>
                             </div>
-                            <div class="form-group" v-if="formData.type == 'B'">
-                                <label class="col-md-3 control-label ">
-                                    <span class="text-danger">*</span>
-                                    大客户
-                                </label>
-                                <div class="col-md-7">
-                                    <vue-select id="changeType" :options="manus" :model.sync="formData.manuCode" :configs="{placeholder:'全部'}"></vue-select>
-                                </div>
-                            </div>
+
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row">
+                            <table id="discountTable" class="table table-bordered table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th>快递公司</th>
+                                    <th>折扣</th>
+                                    <th>创建时间</th>
+                                    <th>修改时间</th>
+                                    <th>操作人</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-cloak v-for="item in discounts">
+                                    <td v-html="item.expressCode | enumFormat expresses"></td>
+                                    <td v-html="item.discount"></td>
+                                    <td v-html="item.gmtCreate | toDate 'YYYY-MM-DD HH:mm'"></td>
+                                    <td v-html="item.gmtModified | toDate 'YYYY-MM-DD HH:mm'"></td>
+                                    <td v-html="item.createBy"></td>
+                                    <td>
+                                        <a class="a-icon" v-on:click="delDiscount(item)"><i class="fa fa-lock"></i>删除</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn blue" v-on:click="changeType()">确认</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         </div>
                     </form>

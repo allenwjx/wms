@@ -4,12 +4,15 @@ import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.UserAgentLinkVO;
+import com.zeh.wms.biz.model.UserExpressDiscountVO;
 import com.zeh.wms.biz.model.UserVO;
 import com.zeh.wms.biz.model.enums.UserLinkTypeEnum;
 import com.zeh.wms.biz.service.UserService;
 import com.zeh.wms.dal.operation.user.GetAllUserPageQuery;
 import com.zeh.wms.web.controller.BaseController;
 import com.zeh.wms.web.exception.WebException;
+import com.zeh.wms.web.form.UserExpressDiscountForm;
+import com.zeh.wms.web.mapper.UserExpressDiscountFormMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * The type User controller.
@@ -33,6 +37,9 @@ public class UserController extends BaseController {
      */
     @Resource
     private UserService userService;
+
+    @Resource
+    private UserExpressDiscountFormMapper userExpressDiscountFormMapper;
 
     /**
      * 分页查询
@@ -64,6 +71,33 @@ public class UserController extends BaseController {
             userVO = userService.getUserDetailInfo(id);
         }
         return userVO;
+    }
+
+    @RequestMapping(value = "discounts", method = RequestMethod.GET)
+    @ResponseBody
+    public SingleResult<List<UserExpressDiscountForm>> getDiscounts(Long userId) throws ServiceException, WebException {
+        assertNull(userId, "userId");
+        List<UserExpressDiscountVO> list = userService.getUserDiscount(userId);
+        return createSuccessResult(userExpressDiscountFormMapper.vos2forms(list));
+    }
+
+    @RequestMapping(value = "delDis", method = RequestMethod.POST)
+    @ResponseBody
+    public SingleResult deleteDiscount(Long id) throws ServiceException, WebException {
+        assertNull(id, "id");
+        userService.deleteDiscount(id);
+        return createSuccessResult();
+    }
+
+    @RequestMapping(value = "addDiscounts", method = RequestMethod.POST)
+    @ResponseBody
+    public SingleResult addDiscount(UserExpressDiscountForm form) throws ServiceException, WebException {
+        assertObjectNull(form, "form");
+        UserExpressDiscountVO vo = userExpressDiscountFormMapper.form2vo(form);
+        vo.setModifyBy(getCurrentUserName());
+        vo.setCreateBy(getCurrentUserName());
+        userService.addDiscount(vo);
+        return createSuccessResult();
     }
 
     /**

@@ -56,7 +56,7 @@ public interface UserDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         user      SET         gmt_modified = CURRENT_TIMESTAMP              ,                  nick_name = ?                           ,                  user_id = ?                            ,                  password = ?                            ,                  open_id = ?                            ,                  modify_by = ?                                WHERE         id = ?                        AND                  1 = ?</pre> 
+	 * <pre>UPDATE         user      SET         gmt_modified = CURRENT_TIMESTAMP              ,                  nick_name = ?                           ,                  user_id = ?                           ,                  mobile = ?                            ,                  password = ?                            ,                  open_id = ?                            ,                  modify_by = ?                                WHERE         id = ?                        AND                  1 = ?</pre> 
 	 */
 	public int updateByPars(UpdateByParsParameter param) throws DataAccessException;
 
@@ -84,7 +84,7 @@ public interface UserDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>SELECT         id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, mobile           FROM         user u                  WHERE         1=1                                        AND                      u.nick_name = ?                                            AND                      u.user_id = ?                                             AND                                               u.gmt_create >= ?                                                                 AND                                               u.gmt_create <= ?</pre> 
+	 * <pre>SELECT         id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, mobile           FROM         user u                  WHERE         1=1                                        AND                      u.nick_name = ?                                            AND                      u.user_id = ?                                            AND                      u.mobile = ?                                             AND                                               u.gmt_create >= ?                                                                 AND                                               u.gmt_create <= ?</pre> 
 	 */
 	public PageList<UserDO> getAllUserPage(GetAllUserPageQuery param) throws DataAccessException;
 

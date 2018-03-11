@@ -17,9 +17,11 @@ $(document).ready(function () {
             manus:[],
             agents:[],
             pwdUser: {},
-            typeUser: {},
             linkVo: {},
-            formData: {type: '', newPassword: '', confirmPassword: '', agentCode: '', manuCode: ''}
+            formData: {type: '', newPassword: '', confirmPassword: '', agentCode: '', manuCode: ''},
+            discounts:[],
+            expresses: [],
+            discountForm: {userId: 0, expressCode: "", discount: 1.0}
         },
         ready: function () {
             this.init();
@@ -40,18 +42,12 @@ $(document).ready(function () {
                     self.userTypes = resp;
                 });
 
-                $.ajax({
-                    type: 'GET',
-                    url: __ctx + "/combo/allManus"
-                }).done(function (resp) {
-                    self.manus = resp;
-                });
 
                 $.ajax({
                     type: 'GET',
-                    url: __ctx + "/combo/allAgents"
+                    url: __ctx + "/combo/express"
                 }).done(function (resp) {
-                    self.agents = resp;
+                    self.expresses = resp;
                 });
             },
             /**
@@ -97,17 +93,24 @@ $(document).ready(function () {
                     backdrop: 'static'
                 });
             },
+
             /**
-             * 打款修改用户类型model
+             * 打开修改用户折扣信息的model
              * @param item user的一条记录
              */
-            openTypeModel: function (item) {
+            openDiscountModel: function (item) {
                 var self = this;
                 self.typeUser = item;
+                self.queryDiscount(self.typeUser.id);
+
+            },
+            queryDiscount: function (userId) {
+                var self = this;
+                self.discountForm.userId = userId;
                 $.ajax({
                     type: 'GET',
-                    url: __ctx + "/user/front/link",
-                    data: {id: self.typeUser.id}
+                    url: __ctx + "/user/front/discounts",
+                    data: {userId: userId}
                 }).done(function (result) {
                     if (!result.success) {
                         toastr.error(result.errorMessage, '', {
@@ -117,15 +120,10 @@ $(document).ready(function () {
                         return false;
                     }
                     //初识化界面
-                    self.linkVo = result.data;
-                    self.formData.type = self.typeUser.type;
-                    if (self.formData.type == 'A') {
-                        self.formData.agentCode = self.linkVo.code;
-                    } else if (self.formData.type == 'B') {
-                        self.formData.manuCode = self.linkVo.code;
-                    }
+                    self.discounts = result.data;
+
                     //弹框
-                    $("#typeModal").modal({
+                    $("#discountModal").modal({
                         show: true,
                         backdrop: 'static'
                     });
@@ -170,61 +168,68 @@ $(document).ready(function () {
                     }
                 });
             },
-            /**
-             * 修改用户类型.
-             */
-            changeType: function () {
-                var self = this;
-                var code = '';
-                if (self.formData.type === 'A') {
-                    code = self.formData.agentCode;
-                } else if (self.formData.type === 'B'){
-                    code = self.formData.manuCode;
-                }
 
+            addDiscount: function () {
+                var self = this;
+                if (!self.discountForm.expressCode) {
+                    toastr.error("参数校验", "请选择快递公司", {timeOut: 1500, positionClass: "toast-top-center"});
+                    return;
+                }
+                $("#discountModalForm").data('bootstrapValidator', null);
+                this.validatorDiscount();
+
+                $("#discountModalForm").data('bootstrapValidator').validate();
+                if ($("#discountModalForm").data('bootstrapValidator').isValid()) {
+                    $.ajax({
+                        type: 'POST',
+                        url: __ctx + "/user/front/addDiscounts",
+                        data: self.discountForm
+                    }).done(function (data) {
+                        if (data.success) {
+                            toastr.success('操作成功', {timeOut: 1500, positionClass: "toast-top-center"});
+                            self.queryDiscount(self.discountForm.userId);
+                        } else {
+                            toastr.error(data.errorMessage, {timeOut: 1500, positionClass: "toast-top-center"});
+                        }
+                    });
+                }
+            },
+            delDiscount: function (item) {
+                var self = this;
                 $.ajax({
                     type: 'POST',
-                    url: __ctx + '/user/front/type',
-                    data: {userId: self.typeUser.id, type: self.formData.type, code: code}
-                }).done(function (resp) {
-                    if (resp.success) {
-                        toastr.success('操作成功', "", {
-                            timeOut: 3000,
-                            positionClass: "toast-top-center"
-                        });
-                        $('#typeModal').modal('hide');
+                    url: __ctx + "/user/front/delDis",
+                    data: {id: item.id}
+                }).done(function (data) {
+                    if (data.success) {
+                        toastr.success('操作成功', {timeOut: 1500, positionClass: "toast-top-center"});
+                        self.queryDiscount(self.discountForm.userId);
                     } else {
-                        toastr.error(resp.message, resp.errorCode, {
-                            timeOut: 3000,
-                            positionClass: "toast-top-center"
-                        });
+                        toastr.error(data.errorMessage, {timeOut: 1500, positionClass: "toast-top-center"});
                     }
                 });
             },
-            delete: function (id, enabled) {
-                var self = this;
-                var p = "";
-                var _enabled = 0;
-                if (enabled == 0) {
-                    p = "启用";
-                    _enabled = 1;
-                } else {
-                    p = "禁用";
-                    _enabled = 0;
-                }
-                alertify.confirm("确定" + p + "该记录么？", function (result) {
-                    if (result) {
-                        $.ajax({
-                            type: 'POST',
-                            url: __ctx + "/user/bg/state/" + id + "/" + _enabled
-                        }).done(function (data) {
-                            if (data.success) {
-                                toastr.success('操作成功', {timeOut: 1500, positionClass: "toast-top-center"});
-                                self.preQuery();
-                            } else {
-                                toastr.error(data.errorMessage, {timeOut: 1500, positionClass: "toast-top-center"});
+            validatorDiscount: function() {
+                $('#discountModalForm').bootstrapValidator({
+                    message: 'This value is not valid',
+                    fields: {
+                        expressCode: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请选择快递公司'
+                                }
                             }
-                        });
+                        },
+                        discount: {
+                            validators: {
+                                numeric: {
+                                    message: '请输入数字'
+                                },
+                                notEmpty: {
+                                    message: '请输入折扣'
+                                }
+                            }
+                        }
                     }
                 });
             }
@@ -234,7 +239,7 @@ $(document).ready(function () {
     $("#pwdModal").on("hidden.bs.modal", function () {
         $(this).removeData("bs.modal");
     });
-    $("#typeModal").on("hidden.bs.modal", function () {
+    $("#discountModal").on("hidden.bs.modal", function () {
         $(this).removeData("bs.modal");
     });
 });
