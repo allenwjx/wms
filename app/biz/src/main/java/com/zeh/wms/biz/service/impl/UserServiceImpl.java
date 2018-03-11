@@ -47,7 +47,10 @@ public class UserServiceImpl extends AbstractService implements UserService {
      * 错误工厂
      */
     private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
-    
+
+    /**
+     * The constant logger.
+     */
     private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     /**
@@ -254,12 +257,26 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
     }
 
+    /**
+     * Query by open id user vo.
+     *
+     * @param openId the open id
+     * @return the user vo
+     * @throws ServiceException the service exception
+     */
     @Override
     public UserVO queryByOpenId(String openId) throws ServiceException {
         UserDO userDO = userDAO.queryByOpenId(openId);
         return userMapper.d2v(userDO);
     }
 
+    /**
+     * Query by user id user vo.
+     *
+     * @param userId the user id
+     * @return the user vo
+     * @throws ServiceException the service exception
+     */
     @Override
     public UserVO queryByUserId(String userId) throws ServiceException {
         UserDO userDO = userDAO.queryByUserId(userId);
@@ -268,9 +285,10 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     /**
      * 创建用户
-     * @param userVO
-     * @return
-     * @throws ServiceException
+     *
+     * @param userVO the user vo
+     * @return user vo
+     * @throws ServiceException the service exception
      */
     @Override
     public UserVO createUser(UserVO userVO) throws ServiceException {
@@ -291,13 +309,17 @@ public class UserServiceImpl extends AbstractService implements UserService {
         userVO.setUserId(UUID.generateRandomUUID());
 
         Long userId = userDAO.insert(userMapper.v2d(userVO));
-        if (userId == null || userId <= 0) {
-            throw new ServiceException(ERROR_FACTORY.createUserError("数据库创建失败"));
-        }
+        checkInsert(userId, "前端用户");
 
         return userMapper.d2v(userDAO.queryById(userId));
     }
 
+    /**
+     * Update user.
+     *
+     * @param userVO the user vo
+     * @throws ServiceException the service exception
+     */
     @Override
     public void updateUser(UserVO userVO) throws ServiceException {
         if (userVO == null || userVO.getId() <= 0) {
@@ -327,6 +349,13 @@ public class UserServiceImpl extends AbstractService implements UserService {
         userDAO.update(dbUser);
     }
 
+    /**
+     * Gets user discount.
+     *
+     * @param userId the user id
+     * @return the user discount
+     * @throws ServiceException the service exception
+     */
     @Override
     public List<UserExpressDiscountVO> getUserDiscount(Long userId) throws ServiceException {
         com.zeh.wms.dal.operation.userexpressdiscount.QueryByParQuery query = new com.zeh.wms.dal.operation.userexpressdiscount.QueryByParQuery();
@@ -336,11 +365,23 @@ public class UserServiceImpl extends AbstractService implements UserService {
         return userMapper.discountDos2Vos(list);
     }
 
+    /**
+     * Delete discount.
+     *
+     * @param id the id
+     * @throws ServiceException the service exception
+     */
     @Override
     public void deleteDiscount(Long id) throws ServiceException {
         checkUpdate(expressDiscountDAO.delete(id), "折扣信息");
     }
 
+    /**
+     * Add discount.
+     *
+     * @param vo the vo
+     * @throws ServiceException the service exception
+     */
     @Override
     public void addDiscount(UserExpressDiscountVO vo) throws ServiceException {
         UserExpressDiscountDO discountDO = userMapper.discountVo2Do(vo);
@@ -360,6 +401,13 @@ public class UserServiceImpl extends AbstractService implements UserService {
         checkInsert(expressDiscountDAO.insert(discountDO), "折扣信息");
     }
 
+    /**
+     * Gets discount.
+     *
+     * @param userId      the user id
+     * @param expressCode the express code
+     * @return the discount
+     */
     @Override
     public BigDecimal getDiscount(Long userId, String expressCode) {
         com.zeh.wms.dal.operation.userexpressdiscount.QueryByParQuery query = new com.zeh.wms.dal.operation.userexpressdiscount.QueryByParQuery();
