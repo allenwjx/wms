@@ -14,7 +14,8 @@ $(document).ready(function () {
             },
             queryForm: {},
             expressTypes: [],
-            agents: []
+            settleTypes: [],
+            statues: []
         },
         ready: function () {
             this.init();
@@ -27,16 +28,22 @@ $(document).ready(function () {
                 $.ajax({
                     type: 'GET',
                     url: __ctx + "/combo/fromBizEnum",
-                    data: {className:'ExpressTypeEnum'}
+                    data: {className:'SettleTypeEnum'}
                 }).done(function (resp) {
-                    self.expressTypes = resp;
+                    self.settleTypes = resp;
                 });
-
                 $.ajax({
                     type: 'GET',
-                    url: __ctx + "/combo/allAgentsAndManus"
+                    url: __ctx + "/combo/fromBizEnum",
+                    data: {className:'ExpressOrderStateEnum'}
                 }).done(function (resp) {
-                    self.agents = resp;
+                    self.statues = resp;
+                });
+                $.ajax({
+                    type: 'GET',
+                    url: __ctx + "/combo/express"
+                }).done(function (resp) {
+                    self.expressTypes = resp;
                 });
             },
             preQuery: function () {

@@ -42,7 +42,7 @@ public class IbatisExpressOrderDAO extends SqlMapClientDaoSupport implements Exp
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         express_order         (           id ,order_no ,other_order_no ,code ,status ,sender_name ,sender_tel ,sender_province ,sender_city ,sender_region ,sender_address_detail ,sender_zip_code ,receiver_name ,receiver_tel ,receiver_province ,receiver_city ,receiver_region ,receiver_address_detail ,receiver_zip_code ,express_type ,total_price ,gmt_create ,gmt_modified ,create_by ,modify_by           )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
+	 * <pre>INSERT      INTO         express_order         (             id ,order_no ,other_order_no ,user_id ,payment_type ,status ,express_type ,commodity_name ,commodity_quanity ,commodity_weight ,first_weight ,additional_weight             ,first_weight_price ,additional_weight_price ,total_price ,remark ,sender_name ,sender_tel ,sender_province ,sender_city ,sender_region ,sender_address_detail             ,sender_zip_code ,sender_company ,receiver_name ,receiver_tel ,receiver_province ,receiver_city ,receiver_region ,receiver_address_detail ,receiver_zip_code             ,receiver_company ,gmt_create ,gmt_modified ,create_by ,modify_by             )      VALUES         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(ExpressOrderDO expressOrder) throws DataAccessException {
 		if(expressOrder == null) {
@@ -64,7 +64,7 @@ public class IbatisExpressOrderDAO extends SqlMapClientDaoSupport implements Exp
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         express_order      SET         order_no = ? ,other_order_no = ? ,code = ? ,status = ? ,sender_name = ? ,sender_tel = ? ,sender_province = ? ,sender_city = ? ,sender_region = ? ,sender_address_detail = ? ,sender_zip_code = ? ,receiver_name = ? ,receiver_tel = ? ,receiver_province = ? ,receiver_city = ? ,receiver_region = ? ,receiver_address_detail = ? ,receiver_zip_code = ? ,express_type = ? ,total_price = ? ,gmt_modified = CURRENT_TIMESTAMP ,create_by = ? ,modify_by = ?               WHERE         id = ?</pre>
+	 * <pre>UPDATE         express_order      SET         order_no = ? ,other_order_no = ? ,user_id = ? ,payment_type = ? ,status = ? ,express_type = ? ,commodity_name = ? ,commodity_quanity = ? ,commodity_weight = ?             ,first_weight = ? ,additional_weight = ? ,first_weight_price = ? ,additional_weight_price = ? ,total_price = ? ,remark = ? ,sender_name = ? ,sender_tel = ?             ,sender_province = ? ,sender_city = ? ,sender_region = ? ,sender_address_detail = ? ,sender_zip_code = ? ,sender_company = ? ,receiver_name = ? ,receiver_tel = ?             ,receiver_province = ? ,receiver_city = ? ,receiver_region = ? ,receiver_address_detail = ? ,receiver_zip_code = ? ,receiver_company = ? ,gmt_modified =             CURRENT_TIMESTAMP, modify_by = ?                  WHERE         id = ?</pre>
 	 */
 	public int update(ExpressOrderDO expressOrder) throws DataAccessException {
 		if(expressOrder == null) {
@@ -76,7 +76,25 @@ public class IbatisExpressOrderDAO extends SqlMapClientDaoSupport implements Exp
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, order_no, other_order_no, code, type, status, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail, sender_zip_code, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code, express_type, total_price, gmt_create, gmt_modified, create_by, modify_by                 FROM         express_order                WHERE         id = ?</pre>
+	 * <pre>UPDATE         express_order      SET         status = ? ,gmt_modified = CURRENT_TIMESTAMP, modify_by = ?                  WHERE         order_no = ?</pre>
+	 */
+	public int updateStatus(UpdateStatusParameter param) throws DataAccessException {
+		return getSqlMapClientTemplate().update("wms.ExpressOrder.updateStatus", param);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>UPDATE         express_order      SET         commodity_weight = ? ,first_weight = ? ,additional_weight = ? ,first_weight_price = ? ,additional_weight_price = ? ,total_price = ? , status = ? ,gmt_modified =             CURRENT_TIMESTAMP, modify_by = ?                  WHERE         order_no = ?</pre>
+	 */
+	public int updateCommodityWeightAndPrice(UpdateCommodityWeightAndPriceParameter param) throws DataAccessException {
+		return getSqlMapClientTemplate().update("wms.ExpressOrder.updateCommodityWeightAndPrice", param);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, order_no, other_order_no, user_id, payment_type, status, express_type, commodity_name, commodity_quanity, commodity_weight, first_weight, additional_weight,         first_weight_price, additional_weight_price, total_price, remark, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail,         sender_zip_code, sender_company, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code,         receiver_company, gmt_create, gmt_modified, create_by, modify_by                       FROM         express_order                  WHERE         id = ?</pre>
 	 */
 	public ExpressOrderDO queryById(Long id) throws DataAccessException {
 		return (ExpressOrderDO)getSqlMapClientTemplate().queryForObject("wms.ExpressOrder.queryById",id);
@@ -85,7 +103,25 @@ public class IbatisExpressOrderDAO extends SqlMapClientDaoSupport implements Exp
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, order_no, other_order_no, code, type, status, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail, sender_zip_code, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code, express_type, total_price, gmt_create, gmt_modified, create_by, modify_by           FROM         express_order         WHERE         1=1                               AND                      order_no = ?                                            AND                      other_order_no = ?                                            AND                      code = ?                                            AND                      type = ?                                            AND                      status = ?                                            AND                      receiver_name like concat('%',?,'%')                                            AND                      receiver_tel = ?                                            AND                      express_type = ?                                            AND                                               gmt_create >= ?                                                                 AND                                               gmt_create <= ?</pre>
+	 * <pre>SELECT         id, order_no, other_order_no, user_id, payment_type, status, express_type, commodity_name, commodity_quanity, commodity_weight, first_weight, additional_weight,         first_weight_price, additional_weight_price, total_price, remark, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail,         sender_zip_code, sender_company, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code,         receiver_company, gmt_create, gmt_modified, create_by, modify_by                       FROM         express_order                  WHERE         order_no = ?</pre>
+	 */
+	public ExpressOrderDO queryByOrderSerialNo(String orderNo) throws DataAccessException {
+		return (ExpressOrderDO)getSqlMapClientTemplate().queryForObject("wms.ExpressOrder.queryByOrderSerialNo",orderNo);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, order_no, other_order_no, user_id, payment_type, status, express_type, commodity_name, commodity_quanity, commodity_weight, first_weight, additional_weight,         first_weight_price, additional_weight_price, total_price, remark, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail,         sender_zip_code, sender_company, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code,         receiver_company, gmt_create, gmt_modified, create_by, modify_by                       FROM         express_order                  WHERE         1=1                                        AND                      user_id = ?                                            AND                      status = ?                                                ORDER BY         gmt_modified DESC</pre>
+	 */
+	public List<ExpressOrderDO> queryByUserId(QueryByUserIdQuery param) throws DataAccessException {
+		return (List<ExpressOrderDO>)getSqlMapClientTemplate().queryForList("wms.ExpressOrder.queryByUserId",param);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, order_no, other_order_no, user_id, payment_type, status, express_type, commodity_name, commodity_quanity, commodity_weight, first_weight, additional_weight,         first_weight_price, additional_weight_price, total_price, remark, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail,         sender_zip_code, sender_company, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code,         receiver_company, gmt_create, gmt_modified, create_by, modify_by                       FROM         express_order                  WHERE         1=1                                        AND                      order_no = ?                                            AND                      other_order_no = ?                                            AND                      user_id = ?                                            AND                      payment_type = ?                                            AND                      status = ?                                            AND                                              gmt_create >= ?                                                                AND                                              gmt_create <= ?                                                                    ORDER BY         gmt_modified DESC</pre>
 	 */
 	public PageList<ExpressOrderDO> findPage(FindPageQuery param) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.ExpressOrder.findPage",param);
@@ -94,7 +130,7 @@ public class IbatisExpressOrderDAO extends SqlMapClientDaoSupport implements Exp
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, order_no, other_order_no, code, type, status, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail, sender_zip_code, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code, express_type, total_price, gmt_create, gmt_modified, create_by, modify_by           FROM         express_order         WHERE         1=1                   AND       order_no = ?                    AND       other_order_no = ?                    AND       code = ?                    AND       type = ?                    AND       status = ?                    AND       receiver_name like concat('%',?,'%')                    AND       receiver_tel = ?                    AND       express_type = ?                    AND                                gmt_create >= ?                                         AND                                gmt_create <= ?</pre>
+	 * <pre>SELECT         id, order_no, other_order_no, user_id, payment_type, status, express_type, commodity_name, commodity_quanity, commodity_weight, first_weight, additional_weight,         first_weight_price, additional_weight_price, total_price, remark, sender_name, sender_tel, sender_province, sender_city, sender_region, sender_address_detail,         sender_zip_code, sender_company, receiver_name, receiver_tel, receiver_province, receiver_city, receiver_region, receiver_address_detail, receiver_zip_code,         receiver_company, gmt_create, gmt_modified, create_by, modify_by                       FROM         express_order                  WHERE         1=1                                        AND                      order_no = ?                                            AND                      other_order_no = ?                                            AND                      user_id = ?                                            AND                      payment_type = ?                                            AND                      status = ?                                            AND                                              gmt_create >= ?                                                                AND                                              gmt_create <= ?                                                                    ORDER BY         gmt_modified DESC</pre>
 	 */
 	public List<ExpressOrderDO> getAllByPars(GetAllByParsQuery param) throws DataAccessException {
 		return (List<ExpressOrderDO>)getSqlMapClientTemplate().queryForList("wms.ExpressOrder.getAllByPars",param);

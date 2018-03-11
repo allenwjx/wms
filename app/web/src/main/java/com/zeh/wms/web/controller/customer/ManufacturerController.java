@@ -62,7 +62,7 @@ public class ManufacturerController extends BaseController {
             form.setCode(manufacturer.getCode());
             form.setName(manufacturer.getName());
             form.setExpress(manufacturer.getExpress().getCode());
-            form.setSettleType(manufacturer.getSettleType().getCode());
+            form.setSettleType(String.valueOf(manufacturer.getSettleType().getCode()));
         }
         String modelData = FastJsonUtils.toJSONString(form);
         model.addAttribute("modelData", modelData);
