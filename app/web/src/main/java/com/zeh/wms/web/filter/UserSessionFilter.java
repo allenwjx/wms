@@ -90,21 +90,6 @@ public class UserSessionFilter implements Filter {
             return ;
         }
 
-        // 如果带上系统自有sessionId时
-        if (StringUtils.isNotBlank(request.getHeader(REQUEST_HEADER_SESSION_FLAG))) {
-            Session session = null;
-            try {
-                session = sessionManager.getSessionById(request.getHeader(REQUEST_HEADER_SESSION_FLAG));
-                request.getSession().setAttribute(Session.SESSION_FLAG, session);
-                filterChain.doFilter(servletRequest, servletResponse);
-                return;
-            } catch (Exception ex) {
-                // 异常报错
-                response.getWriter().append(JSONUtils.toJSONString(ExceptionUtils.getErrorResult(ex, SingleResult.class)));
-                return ;
-            }
-        }
-
         filterChain.doFilter(servletRequest, servletResponse);
         return;
     }
