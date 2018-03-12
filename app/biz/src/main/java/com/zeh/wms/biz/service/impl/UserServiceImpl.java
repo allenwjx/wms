@@ -1,5 +1,20 @@
 package com.zeh.wms.biz.service.impl;
 
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.jungle.utils.common.UUID;
@@ -21,19 +36,6 @@ import com.zeh.wms.dal.dataobject.UserExpressDiscountDO;
 import com.zeh.wms.dal.operation.user.GetAllUserPageQuery;
 import com.zeh.wms.dal.operation.user.UpdateByParsParameter;
 import com.zeh.wms.dal.operation.useragentlink.QueryByParQuery;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 /**
  * The type User service.
@@ -51,7 +53,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
     /**
      * The constant logger.
      */
-    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static Logger                logger        = LoggerFactory.getLogger(UserServiceImpl.class);
 
     /**
      * The User dao.
@@ -68,9 +70,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
      */
     @Resource
     private UserMapper                   userMapper;
-    /**
-     * The Password encoder.
-     */
+    /** 密码加解密服务 */
     @Resource
     private PasswordEncoder              passwordEncoder;
     /**
@@ -267,6 +267,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
     @Override
     public UserVO queryByOpenId(String openId) throws ServiceException {
         UserDO userDO = userDAO.queryByOpenId(openId);
+        if (userDO == null) {
+            return null;
+        }
         return userMapper.d2v(userDO);
     }
 
@@ -303,14 +306,11 @@ public class UserServiceImpl extends AbstractService implements UserService {
         if (StringUtils.isBlank(userVO.getModifyBy())) {
             userVO.setModifyBy("系统");
         }
-        if (StringUtils.isBlank(userVO.getPassword())) {
-            userVO.setPassword("111111");
+        if (StringUtils.isNotBlank(userVO.getPassword())) {
+            userVO.setPassword(passwordEncoder.encode(userVO.getPassword()));
         }
         userVO.setUserId(UUID.generateRandomUUID());
-
         Long userId = userDAO.insert(userMapper.v2d(userVO));
-        checkInsert(userId, "前端用户");
-
         return userMapper.d2v(userDAO.queryById(userId));
     }
 

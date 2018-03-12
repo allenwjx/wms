@@ -1,4 +1,4 @@
-package com.zeh.wms.integration.dto.unifiedorder;
+package com.zeh.wms.integration.wechat.model;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.zeh.jungle.utils.serializer.FastJsonUtils;

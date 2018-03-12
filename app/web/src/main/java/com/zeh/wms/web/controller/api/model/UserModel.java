@@ -1,9 +1,9 @@
 package com.zeh.wms.web.controller.api.model;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.Serializable;
 
 /**
  *
@@ -13,8 +13,12 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class UserModel implements Serializable {
-    /** 待注册用户的手机 */
-    private String mobile;
-    /** 待注册用户的名称 */
-    private String nickName;
+    /**  */
+    private static final long serialVersionUID = 1L;
+    /** 用户手机 */
+    private String            mobile;
+    private String            userId;
+    private String            token;
+    private String            openId;
+
 }

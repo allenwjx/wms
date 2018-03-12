@@ -178,9 +178,9 @@ public class AddressController extends BaseController {
      */
     @ApiOperation(value = "删除地址", httpMethod = "DELETE")
     @ApiResponse(code = 200, message = "success", response = String.class)
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public SingleResult getAddressList(@ApiParam(name = "id") long id) throws WebException, ServiceException {
+    public SingleResult deleteAddress(@PathVariable("id") @ApiParam(name = "id") long id) throws WebException, ServiceException {
         assertNull(id, "地址id");
 
         addressService.delete(id, getCurrentApiUserId());
