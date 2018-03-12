@@ -6,6 +6,9 @@ import com.zeh.wms.biz.model.AgentVO;
 import com.zeh.wms.biz.model.InventoryVO;
 import com.zeh.wms.dal.operation.inventory.FindPageQuery;
 import com.zeh.wms.dal.operation.inventory.FindPageResult;
+import com.zeh.wms.dal.operation.inventory.GetInfoByMobileResult;
+
+import java.util.List;
 
 /**
  * The interface Inventory service.
@@ -23,5 +26,24 @@ public interface InventoryService {
      */
     PageList<FindPageResult> pageQueryInventory(FindPageQuery query);
 
+    /**
+     * Save agent and inventory inventory vo.
+     *
+     * @param agent     the agent
+     * @param inventory the inventory
+     * @return the inventory vo
+     * @throws ServiceException the service exception
+     */
     InventoryVO saveAgentAndInventory(AgentVO agent, InventoryVO inventory)  throws ServiceException;
+
+    /**
+     * Get info by mobile and name list.
+     *
+     * @param mobile the mobile
+     * @param name   the name
+     * @return the list
+     */
+    List<GetInfoByMobileResult> getInfoByMobileAndName(String mobile, String name);
+
+
 }

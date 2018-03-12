@@ -5,7 +5,22 @@
  */
 package com.zeh.wms.dal.operation.inventory;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * database table: inventory
  * database table comments: Inventory

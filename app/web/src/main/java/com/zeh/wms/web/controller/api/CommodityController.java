@@ -1,15 +1,5 @@
 package com.zeh.wms.web.controller.api;
 
-import java.util.Collection;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.beust.jcommander.internal.Lists;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -19,6 +9,14 @@ import com.zeh.wms.biz.model.CommodityVO;
 import com.zeh.wms.biz.service.CommodityService;
 import com.zeh.wms.web.controller.BaseController;
 import com.zeh.wms.web.controller.api.model.CommodityModel;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author allen

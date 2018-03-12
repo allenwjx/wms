@@ -8,9 +8,7 @@ import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageQueryUtils;
 import com.zeh.wms.dal.daointerface.InventoryDAO;
 import com.zeh.wms.dal.dataobject.InventoryDO;
-import com.zeh.wms.dal.operation.inventory.AddAmountByMobileParameter;
-import com.zeh.wms.dal.operation.inventory.FindPageQuery;
-import com.zeh.wms.dal.operation.inventory.FindPageResult;
+import com.zeh.wms.dal.operation.inventory.*;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
@@ -110,6 +108,16 @@ public class IbatisInventoryDAO extends SqlMapClientDaoSupport implements Invent
 	 */
 	public PageList<FindPageResult> findPage(FindPageQuery param) throws DataAccessException {
 		return PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"wms.Inventory.findPage",param);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         inv.id,             inv.commodity_id,             inv.mobile,             inv.amount,             com.code,              com.name,             com.price,             com.unit,             com.weight,             com.description,              com.manufacturer_id                  FROM         inventory inv      left join         agent u              on inv.mobile = u.mobile                  left join         commodity com              on inv.commodity_id = com.id                   WHERE         inv.mobile = ?                                            AND                      inv.id = ?                                            AND                      com.name like concat('%',?,'%')</pre>
+	 */
+	@Override
+	public List<GetInfoByMobileResult> getInfoByMobile(GetInfoByMobileQuery param) throws DataAccessException {
+		return (List<GetInfoByMobileResult>)getSqlMapClientTemplate().queryForList("wms.Inventory.getInfoByMobile",param);
 	}
 
 }

@@ -188,6 +188,54 @@
 	
 	
     
+	<resultMap id="RM.GetInfoByMobileResult" class="com.zeh.wms.dal.operation.inventory.GetInfoByMobileResult">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="commodityId" column="commodity_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="mobile" column="mobile" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="amount" column="amount" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="code" column="code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="price" column="price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="unit" column="unit" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="weight" column="weight" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="description" column="description" javaType="java.lang.String" jdbcType="LONGVARCHAR"  />
+		<result property="manufacturerId" column="manufacturer_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+	</resultMap>
+	
+	<select id="wms.Inventory.getInfoByMobile" resultMap="RM.GetInfoByMobileResult" >
+    	SELECT
+ /*wms.Inventory.getInfoByMobile*/             inv.id,
+            inv.commodity_id,
+            inv.mobile,
+            inv.amount,
+            com.code,
+
+            com.name,
+            com.price,
+            com.unit,
+            com.weight,
+            com.description,
+
+            com.manufacturer_id
+            FROM inventory inv left join agent u on inv.mobile = u.mobile
+            left join commodity com on inv.commodity_id = com.id
+            <dynamic prepend="where">
+                <isNotEmpty prepend="AND" property="mobile">
+                    inv.mobile = #mobile#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="id">
+                    inv.id = #id#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    com.name like concat('%',#name#,'%')
+                </isNotEmpty>
+            </dynamic>
+	</select>	
+
+	    
+	
+	
+    
 
 </sqlMap>
 

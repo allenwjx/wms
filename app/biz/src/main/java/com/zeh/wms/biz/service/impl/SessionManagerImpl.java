@@ -22,22 +22,26 @@ import java.util.Map;
  * @author weijun
  * @create $ v 1.0.0 2018/3/10 下午2:18 Exp $
  */
-@Service (value = "sessionManager")
+@Service(value = "sessionManager")
 public class SessionManagerImpl implements SessionManager {
 
     private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
 
-    @Resource private WechatService wechatService;
+    @Resource
+    private WechatService                wechatService;
 
-    @Resource private UserService userService;
+    @Resource
+    private UserService                  userService;
 
-    private Map<String, Session> sessions = new HashMap<>();
+    private Map<String, Session>         sessions      = new HashMap<>();
 
-    @Override public Session getSessionById(String sessionId) throws ServiceException {
-        if (sessions.containsKey(sessionId))
+    @Override
+    public Session getSessionById(String sessionId) throws ServiceException {
+        if (sessions.containsKey(sessionId)) {
             return sessions.get(sessionId);
-        else
+        } else {
             throw new ServiceException(ERROR_FACTORY.getSessionError("指定会话不存在"));
+        }
     }
 
     /**
@@ -48,7 +52,8 @@ public class SessionManagerImpl implements SessionManager {
      * @return
      * @throws ServiceException
      */
-    @Override public Session generateSession(Session session) throws ServiceException {
+    @Override
+    public Session generateSession(Session session) throws ServiceException {
         if (session == null) {
             throw new ServiceException(ERROR_FACTORY.generateSessionError("查询参数不能为空"));
         }
@@ -81,7 +86,8 @@ public class SessionManagerImpl implements SessionManager {
      * @return
      * @throws ServiceException
      */
-    @Override public Session getSessionFromSevlet(HttpServletRequest request) throws ServiceException {
+    @Override
+    public Session getSessionFromSevlet(HttpServletRequest request) throws ServiceException {
         if (request == null) {
             throw new ServiceException(ERROR_FACTORY.getSessionError("缺少必要参数"));
         }
@@ -97,7 +103,8 @@ public class SessionManagerImpl implements SessionManager {
      * @param user
      * @throws ServiceException
      */
-    @Override public void refreshSessionUser(String sessionId, UserVO user) throws ServiceException {
+    @Override
+    public void refreshSessionUser(String sessionId, UserVO user) throws ServiceException {
         Session session = sessions.get(sessionId);
         if (session == null) {
             throw new ServiceException(ERROR_FACTORY.getSessionError("指定会话不存在"));

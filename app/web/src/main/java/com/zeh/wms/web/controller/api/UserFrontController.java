@@ -10,9 +10,9 @@ import com.zeh.wms.biz.model.Session;
 import com.zeh.wms.biz.model.UserVO;
 import com.zeh.wms.biz.service.SessionManager;
 import com.zeh.wms.biz.service.UserService;
+import com.zeh.wms.biz.service.WechatService;
 import com.zeh.wms.web.controller.BaseController;
 import com.zeh.wms.web.controller.api.model.UserModel;
-
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +38,8 @@ public class UserFrontController extends BaseController {
 
     @Resource
     private SessionManager sessionManager;
+    @Resource
+    private WechatService wechatService;
 
     @ApiOperation(value = "微信用户注册", httpMethod = "POST")
     @ApiResponse(code = 200, message = "success", response = UserVO.class)

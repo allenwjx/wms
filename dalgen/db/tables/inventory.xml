@@ -123,4 +123,36 @@
         </sql>
     </operation>
 
+    <operation name="getInfoByMobile" paramtype="parameterObject" multiplicity="many">
+        <sql>
+            SELECT
+            inv.id,
+            inv.commodity_id,
+            inv.mobile,
+            inv.amount,
+            com.code,
+
+            com.name,
+            com.price,
+            com.unit,
+            com.weight,
+            com.description,
+
+            com.manufacturer_id
+            FROM inventory inv left join agent u on inv.mobile = u.mobile
+            left join commodity com on inv.commodity_id = com.id
+            <dynamic prepend="where">
+                <isNotEmpty prepend="AND" property="mobile">
+                    inv.mobile = #mobile#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="id">
+                    inv.id = #id#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="name">
+                    com.name like concat('%',#name#,'%')
+                </isNotEmpty>
+            </dynamic>
+        </sql>
+    </operation>
+
 </table>

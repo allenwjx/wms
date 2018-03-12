@@ -17,17 +17,18 @@ import weixin.popular.client.LocalHttpClient;
  * @author weijun
  * @create $ v 1.0.0 2018/3/10 下午1:24 Exp $
  */
-@Service public class WechatServiceImpl implements WechatService, AppConfigurationAware {
-    private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
+@Service
+public class WechatServiceImpl implements WechatService, AppConfigurationAware {
+    private static final BizErrorFactory ERROR_FACTORY       = BizErrorFactory.getInstance();
 
-    private String           wechat_js_code_url  = "https://api.weixin.qq.com/sns/jscode2session";
-    private String           wechat_access_token = "https://api.weixin.qq.com/cgi-bin/token";
-    private AppConfiguration appConfiguration    = null;
+    private String                       wechat_js_code_url  = "https://api.weixin.qq.com/sns/jscode2session";
+    private String                       wechat_access_token = "https://api.weixin.qq.com/cgi-bin/token";
+    private AppConfiguration             appConfiguration    = null;
 
-    private WechatAccessToken wechatAccessToken = null;
+    private WechatAccessToken            wechatAccessToken   = null;
 
-    private String wechatAppId     = null;
-    private String wechatAppSecret = null;
+    private String                       wechatAppId         = null;
+    private String                       wechatAppSecret     = null;
 
     @Override public void setAppConfiguration(AppConfiguration appConfiguration) {
         this.appConfiguration = appConfiguration;
@@ -35,13 +36,14 @@ import weixin.popular.client.LocalHttpClient;
         this.wechatAppSecret = this.appConfiguration.getPropertyValue("wechat.appSecret");
     }
 
-    @Override public WechatAccessToken getAccessToken(Boolean isRenew) throws ServiceException {
+    @Override
+    public WechatAccessToken getAccessToken(Boolean isRenew) throws ServiceException {
         if (this.wechatAccessToken != null && !isRenew) {
             return this.wechatAccessToken;
         }
 
         HttpUriRequest httpUriRequest = RequestBuilder.get().setUri(wechat_access_token).addParameter("appid", this.wechatAppId).addParameter("secret", this.wechatAppSecret)
-                .addParameter("grant_type", "client_credential").build();
+            .addParameter("grant_type", "client_credential").build();
 
         this.wechatAccessToken = LocalHttpClient.executeJsonResult(httpUriRequest, WechatAccessToken.class);
 
@@ -52,10 +54,11 @@ import weixin.popular.client.LocalHttpClient;
         return this.wechatAccessToken;
     }
 
-    @Override public WechatUser getUserByJSCode(String jsCode) throws ServiceException {
+    @Override
+    public WechatUser getUserByJSCode(String jsCode) throws ServiceException {
         // 从微信获取对应信息
         HttpUriRequest httpUriRequest = RequestBuilder.get().setUri(wechat_js_code_url).addParameter("appid", this.wechatAppId).addParameter("secret", this.wechatAppSecret)
-                .addParameter("js_code", jsCode).addParameter("grant_type", "authorization_code").build();
+            .addParameter("js_code", jsCode).addParameter("grant_type", "authorization_code").build();
         WechatUser wechat_app_user = LocalHttpClient.executeJsonResult(httpUriRequest, WechatUser.class);
         if (wechat_app_user.getErrcode() != null) {
             throw new ServiceException(ERROR_FACTORY.getWechatAccessTokenError(wechat_app_user.getErrmsg()));

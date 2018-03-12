@@ -17,7 +17,7 @@ public class InventoryVO extends BaseVO {
     /**
      * 电话
      */
-    private String    mobile;
+    private String  mobile;
     /**
      * amount
      */
