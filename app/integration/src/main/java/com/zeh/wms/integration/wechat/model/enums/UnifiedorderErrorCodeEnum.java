@@ -1,4 +1,4 @@
-package com.zeh.wms.integration.dto.enums;
+package com.zeh.wms.integration.wechat.model.enums;
 
 /**
  * The enum Unifiedorder error code enum.

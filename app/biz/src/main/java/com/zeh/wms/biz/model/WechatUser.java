@@ -1,9 +1,9 @@
 package com.zeh.wms.biz.model;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.Setter;
-import weixin.popular.bean.BaseResult;
-
 
 /**
  *
@@ -12,8 +12,15 @@ import weixin.popular.bean.BaseResult;
  * @author weijun
  * @create $ v 1.0.0 2018/3/10 下午12:40 Exp $
  */
-@Getter @Setter public class WechatUser extends BaseResult {
-    private String openid;
-    private String session_key;
-    private String unionid;
+@Getter
+@Setter
+public class WechatUser implements Serializable {
+    /**  */
+    private static final long serialVersionUID = 1L;
+    /** 微信侧，用户open id */
+    private String            openId;
+    /** 微信侧，用户session key */
+    private String            sessionKey;
+    /** union id */
+    private String            unionId;
 }

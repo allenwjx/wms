@@ -1,4 +1,4 @@
-package com.zeh.wms.integration.dto.unifiedorder;
+package com.zeh.wms.integration.wechat.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;

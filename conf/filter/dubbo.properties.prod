@@ -30,8 +30,13 @@ db.logAbandoned=true
 
 #RocketMQ\u914D\u7F6E\uFF0C\u9879\u76EE\u6CA1\u6709mq\uFF0C\u53EF\u4EE5\u5220\u9664
 mq.namesrv.addr=10.100.159.200:9876;10.100.157.34:9876
-wechat.notifyUrl=https://47.97.222.254:8080/wms/api/callback/paynotify
-wechat.useSandboxEnv=false
 
 #二维码web地址
 qrcode.web.root=http://47.97.222.254:8080/wms/api/qrcode
+
+#微信URL
+wechat.appId=wxd9bc788c2667c728
+wechat.appSecret=a7f65cfbe721773445f05ab2680d3dda
+wechat.useSandboxEnv=false
+jscode.url=https://api.weixin.qq.com/sns/jscode2session
+wechat.notifyUrl=https://47.97.222.254:8080/wms/api/callback/paynotify

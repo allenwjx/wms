@@ -1,4 +1,4 @@
-package com.zeh.wms.web.controller.user;
+package com.zeh.wms.web.controller.user.front;
 
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.utils.page.SingleResult;
