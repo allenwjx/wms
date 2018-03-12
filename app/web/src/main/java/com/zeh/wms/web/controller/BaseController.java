@@ -6,14 +6,17 @@ import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.model.BaseVO;
 import com.zeh.wms.biz.model.UserBgVO;
 import com.zeh.wms.biz.model.UserVO;
-import com.zeh.wms.biz.model.enums.UserLinkTypeEnum;
+import com.zeh.wms.biz.session.UserSession;
+import com.zeh.wms.biz.session.UserSessionManager;
 import com.zeh.wms.biz.utils.SecurityUtils;
 import com.zeh.wms.web.error.WebErrorFactory;
 import com.zeh.wms.web.exception.WebException;
+import com.zeh.wms.web.utils.ApiRequestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.Date;
@@ -45,6 +48,9 @@ public abstract class BaseController {
      */
     protected static final String          FAILED        = "操作失败";
 
+    @Resource
+    private UserSessionManager             userSessionManager;
+
     /**
      * 获取当前用户工号
      *
@@ -72,20 +78,21 @@ public abstract class BaseController {
         return SecurityUtils.getLoginedUser();
     }
 
-
     protected UserVO getCurrentApiUser() {
-        // TODO: 2018/3/8 mock data.
-        UserVO vo = new UserVO();
-        vo.setNickName("test");
-        vo.setOpenId("test_open_id");
-        vo.setPassword("test");
-        vo.setUserId("allen");
-        vo.setId(2L);
-        return vo;
+        UserSession userSession = userSessionManager.getSession(ApiRequestUtils.getHttpServletRequest());
+        if (userSession != null) {
+            return userSession.getUser();
+        }
+
+        return null;
     }
 
     protected long getCurrentApiUserId() {
-        // TODO: 2018/3/8 mock data.
+        UserSession userSession = userSessionManager.getSession(ApiRequestUtils.getHttpServletRequest());
+        if (userSession != null) {
+            return userSession.getUser().getId();
+        }
+
         return 2L;
     }
 

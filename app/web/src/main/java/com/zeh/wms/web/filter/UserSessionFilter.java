@@ -1,15 +1,5 @@
 package com.zeh.wms.web.filter;
 
-import java.io.IOException;
-
-import javax.annotation.Resource;
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Service;
-
 import com.zeh.jungle.core.support.ExceptionUtils;
 import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.jungle.utils.serializer.FastJsonUtils;
@@ -18,6 +8,15 @@ import com.zeh.wms.biz.model.UserVO;
 import com.zeh.wms.biz.service.UserService;
 import com.zeh.wms.biz.session.UserSession;
 import com.zeh.wms.biz.session.UserSessionManager;
+import com.zeh.wms.web.utils.ApiRequestUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  *
@@ -42,6 +41,9 @@ public class UserSessionFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         try {
+            ApiRequestUtils.setHttpServletRequest(request);
+            ApiRequestUtils.setHttpServletResponse(response);
+
             UserSession userSession;
             String jsCode = request.getParameter("jsCode");
             if (StringUtils.isNotBlank(jsCode)) {
@@ -66,6 +68,8 @@ public class UserSessionFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (Exception e) {
             response.getWriter().append(FastJsonUtils.toJSONString(ExceptionUtils.getErrorResult(e, SingleResult.class)));
+        } finally {
+            ApiRequestUtils.clearHttpReqResponse();
         }
     }
 

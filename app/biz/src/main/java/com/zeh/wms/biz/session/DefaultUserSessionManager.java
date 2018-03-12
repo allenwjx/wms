@@ -1,13 +1,5 @@
 package com.zeh.wms.biz.session;
 
-import java.util.Enumeration;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-
 import com.zeh.jungle.core.configuration.AppConfiguration;
 import com.zeh.jungle.core.configuration.AppConfigurationAware;
 import com.zeh.wms.biz.error.BizErrorFactory;
@@ -20,6 +12,12 @@ import com.zeh.wms.integration.exceptions.IntegrationException;
 import com.zeh.wms.integration.wechat.client.WechatClient;
 import com.zeh.wms.integration.wechat.model.RetrieveSessionRequest;
 import com.zeh.wms.integration.wechat.model.RetrieveSessionResponse;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 /**
  * @author allen

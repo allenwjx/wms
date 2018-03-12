@@ -1,19 +1,18 @@
 package com.zeh.wms.web.controller.api;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.wordnik.swagger.annotations.Api;
 import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.session.UserSession;
 import com.zeh.wms.biz.session.UserSessionManager;
 import com.zeh.wms.web.controller.BaseController;
 import com.zeh.wms.web.controller.api.model.UserModel;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author allen

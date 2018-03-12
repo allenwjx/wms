@@ -1,9 +1,9 @@
 package com.zeh.wms.biz.session;
 
-import java.io.Serializable;
-
 import com.zeh.wms.biz.model.UserVO;
 import com.zeh.wms.biz.model.WechatUser;
+
+import java.io.Serializable;
 
 /**
  * @author allen
