@@ -3,8 +3,12 @@ package com.zeh.wms.biz.service;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.UserAgentLinkVO;
+import com.zeh.wms.biz.model.UserExpressDiscountVO;
 import com.zeh.wms.biz.model.UserVO;
 import com.zeh.wms.dal.operation.user.GetAllUserPageQuery;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * The interface User service.
@@ -99,4 +103,37 @@ public interface UserService {
      * @throws ServiceException
      */
     void updateUser (UserVO userVO) throws ServiceException;
+
+
+    /**
+     * 获取用户的折扣信息.
+     * @param userId 用户id
+     * @return 折扣信息
+     * @throws ServiceException
+     */
+    List<UserExpressDiscountVO> getUserDiscount(Long userId) throws ServiceException;
+
+    /**
+     * 删除用户的折扣信息.
+     * @param id id
+     * @return 折扣信息
+     * @throws ServiceException
+     */
+    void deleteDiscount(Long id) throws ServiceException;
+
+    /**
+     * 添加用户的折扣信息.
+     * @param vo 折扣vo
+     * @return 折扣信息
+     * @throws ServiceException
+     */
+    void addDiscount(UserExpressDiscountVO vo) throws ServiceException;
+
+    /**
+     * 获取用户的折扣数据
+     * @param userId 用户id
+     * @param expressCode 快递公司code
+     * @return 折扣，会捕获异常，如果没有配置，则返回1：没有折扣
+     */
+    BigDecimal getDiscount(Long userId, String expressCode);
 }

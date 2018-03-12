@@ -5,22 +5,8 @@
  */
 package com.zeh.wms.dal.operation.user;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
 import com.zeh.jungle.dal.paginator.PageQuery;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * database table: user
  * database table comments: User
@@ -39,6 +25,8 @@ public class GetAllUserPageQuery  extends PageQuery implements java.io.Serializa
 	private String nickName;
 	/** 用户账号，用户电话 */
 	private String userId;
+	/** 用户手机号 */
+	private String mobile;
 	/** 创建时间 */
 	private java.util.Date fromDate;
 	/** 创建时间 */
@@ -47,9 +35,10 @@ public class GetAllUserPageQuery  extends PageQuery implements java.io.Serializa
 	public GetAllUserPageQuery() {
 	}
 	
-	public GetAllUserPageQuery(String nickName ,String userId ,java.util.Date fromDate ,java.util.Date toDate ) {
+	public GetAllUserPageQuery(String nickName ,String userId ,String mobile ,java.util.Date fromDate ,java.util.Date toDate ) {
 		this.nickName = nickName;
 		this.userId = userId;
+		this.mobile = mobile;
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 	}
@@ -65,6 +54,12 @@ public class GetAllUserPageQuery  extends PageQuery implements java.io.Serializa
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 	public java.util.Date getFromDate() {
 		return fromDate;
