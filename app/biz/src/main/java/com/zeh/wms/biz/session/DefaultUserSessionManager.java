@@ -63,7 +63,7 @@ public class DefaultUserSessionManager implements UserSessionManager, AppConfigu
         Enumeration headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String key = (String) headerNames.nextElement();
-            if (StringUtils.equals(key, UserSession.SESSION_ID_KEY)) {
+            if (StringUtils.equalsIgnoreCase(key, UserSession.SESSION_ID_KEY)) {
                 // 获取sid
                 String sid = request.getHeader(UserSession.SESSION_ID_KEY);
                 // 获取UserSession存储中的用户会话数据

@@ -12,7 +12,7 @@ import com.zeh.wms.biz.model.WechatUser;
  */
 public interface UserSession extends Serializable {
 
-    String SESSION_ID_KEY = "SID";
+    String SESSION_ID_KEY = "token";
 
     /**
      * 获取用户会话ID

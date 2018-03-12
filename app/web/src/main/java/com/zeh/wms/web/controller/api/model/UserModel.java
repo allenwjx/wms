@@ -18,7 +18,7 @@ public class UserModel implements Serializable {
     /** 用户手机 */
     private String            mobile;
     private String            userId;
-    private String            sid;
+    private String            token;
     private String            openId;
 
 }
