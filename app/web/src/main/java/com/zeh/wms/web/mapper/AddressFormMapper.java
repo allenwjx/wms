@@ -15,7 +15,7 @@ import java.util.List;
  * @author hzy24985
  * @version $Id : AddressFormMapper, v 0.1 2018/3/8 13:01 hzy24985 Exp $
  */
-@Mapper(componentModel = "spring", nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
+@Mapper(componentModel = "spring", nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
 public interface AddressFormMapper {
     /**
      * Model to vo user address vo.

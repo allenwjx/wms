@@ -1,12 +1,12 @@
 package com.zeh.wms.biz.mapper;
 
-import java.util.Collection;
-
+import com.zeh.wms.biz.model.FreightVO;
+import com.zeh.wms.dal.dataobject.FreightDO;
+import com.zeh.wms.dal.operation.freight.GetPriceByProvinceNameResult;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueMappingStrategy;
 
-import com.zeh.wms.biz.model.FreightVO;
-import com.zeh.wms.dal.dataobject.FreightDO;
+import java.util.Collection;
 
 /**
  * @author allen
@@ -22,4 +22,6 @@ public interface FreightMapper extends AbstractMapper {
     Collection<FreightVO> do2vos(Collection<FreightDO> dataObjects);
 
     Collection<FreightDO> vo2dos(Collection<FreightVO> dateVOs);
+
+    FreightVO result2VO(GetPriceByProvinceNameResult result);
 }

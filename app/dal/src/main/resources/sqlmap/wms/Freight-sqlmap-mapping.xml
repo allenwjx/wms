@@ -145,6 +145,50 @@
 	
 	
     
+	<resultMap id="RM.GetPriceByProvinceNameResult" class="com.zeh.wms.dal.operation.freight.GetPriceByProvinceNameResult">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="provinceCode" column="province_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="expressCode" column="express_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="firstWeight" column="first_weight" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="firstOriginalPrice" column="first_original_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="additionalOriginalPrice" column="additional_original_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="firstCostPrice" column="first_cost_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="additionalCostPrice" column="additional_cost_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="enabled" column="enabled" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+	</resultMap>
+	
+	<select id="wms.Freight.getPriceByProvinceName" resultMap="RM.GetPriceByProvinceNameResult" >
+    	SELECT
+ /*wms.Freight.getPriceByProvinceName*/             f.id,
+            f.province_code,
+            f.express_code,
+            f.first_weight,
+            f.first_original_price,
+
+            f.additional_original_price,
+            f.first_cost_price,
+            f.additional_cost_price,
+            f.enabled,
+            f.gmt_create,
+
+            f.gmt_modified,
+            f.create_by,
+            f.modify_by
+
+            FROM freight f left join regions r on f.province_code = r.id
+            WHERE enabled = 1
+            and r.name = #name#
+            limit 1;
+	</select>	
+
+	    
+	
+	
+    
 
 </sqlMap>
 
