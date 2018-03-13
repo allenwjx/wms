@@ -45,5 +45,12 @@ public interface InventoryService {
      */
     List<GetInfoByMobileResult> getInfoByMobileAndName(String mobile, String name);
 
-
+    /**
+     * Gets info by mobile and id.
+     *
+     * @param mobile the mobile
+     * @param id     the id
+     * @return the info by mobile and id
+     */
+    GetInfoByMobileResult getInfoByMobileAndId(String mobile, Long id);
 }
