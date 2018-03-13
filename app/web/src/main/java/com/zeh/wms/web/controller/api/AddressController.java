@@ -115,11 +115,7 @@ public class AddressController extends BaseController {
     @ResponseBody
     public SingleResult<AddressModel> getAddress(@PathVariable("id") @ApiParam(name = "id") Long id) throws ServiceException, WebException {
         assertObjectNull(id, "ID");
-
         UserAddressVO userAddressVO = addressService.queryAddress(id);
-        if (userAddressVO == null) {
-            return createErrorResult("未找到配置的地址");
-        }
         return createSuccessResult(addressFormMapper.voToModel(userAddressVO));
     }
 
@@ -139,11 +135,7 @@ public class AddressController extends BaseController {
                                                                                                                                                           WebException {
         assertEmpty(type, "地址类型");
         assertObjectNull(AddressTypeEnum.getEnumByCode(type), "地址类型枚举");
-
         UserAddressVO userAddressVO = addressService.getDefault(getCurrentApiUserId(), AddressTypeEnum.getEnumByCode(type));
-        if (userAddressVO == null) {
-            return createErrorResult("未找到默认配置的地址");
-        }
         return createSuccessResult(addressFormMapper.voToModel(userAddressVO));
     }
 
@@ -163,7 +155,6 @@ public class AddressController extends BaseController {
                                                                                                                                                              ServiceException {
         assertEmpty(type, "地址类型");
         assertObjectNull(AddressTypeEnum.getEnumByCode(type), "地址类型枚举");
-
         List<UserAddressVO> list = addressService.getList(getCurrentApiUserId(), AddressTypeEnum.getEnumByCode(type));
         return createSuccessResult(addressFormMapper.vosToModels(list));
     }
@@ -182,7 +173,6 @@ public class AddressController extends BaseController {
     @ResponseBody
     public SingleResult deleteAddress(@PathVariable("id") @ApiParam(name = "id") long id) throws WebException, ServiceException {
         assertNull(id, "地址id");
-
         addressService.delete(id, getCurrentApiUserId());
         return createSuccessResult();
     }

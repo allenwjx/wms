@@ -1,5 +1,15 @@
 package com.zeh.wms.web.filter;
 
+import java.io.IOException;
+
+import javax.annotation.Resource;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
+
 import com.zeh.jungle.core.support.ExceptionUtils;
 import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.jungle.utils.serializer.FastJsonUtils;
@@ -9,14 +19,6 @@ import com.zeh.wms.biz.service.UserService;
 import com.zeh.wms.biz.session.UserSession;
 import com.zeh.wms.biz.session.UserSessionManager;
 import com.zeh.wms.web.utils.ApiRequestUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  *
@@ -57,12 +59,6 @@ public class UserSessionFilter implements Filter {
             } else {
                 // 非微信侧用户会话失效，获取系统中用户会话信息
                 userSession = sessionManager.getSession(request);
-                if (userSession == null) {
-                    // 用户会话失效，要求用户重新发起微信登录流程
-                    SingleResult<String> sessionExpiredRet = new SingleResult<>("", "-2001", "session expired");
-                    response.getWriter().append(FastJsonUtils.toJSONString(sessionExpiredRet));
-                    return;
-                }
             }
             request.getSession().setAttribute(UserSession.SESSION_ID_KEY, userSession);
             filterChain.doFilter(servletRequest, servletResponse);

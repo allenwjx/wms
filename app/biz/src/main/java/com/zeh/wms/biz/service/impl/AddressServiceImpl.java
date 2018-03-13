@@ -49,7 +49,7 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
         userAddresDAO.updateDefaultSettingByUserId(StateEnum.N.getCode(), address.getModifyBy(), address.getUserId(), address.getAddressType().getCode());
         address.setDefaultSetting(StateEnum.Y);
         UserAddresDO addressDO = userAddressMapper.vo2do(address);
-        checkInsert(userAddresDAO.insert(addressDO), "地址");
+        userAddresDAO.insert(addressDO);
         return true;
     }
 
@@ -64,7 +64,7 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
     @Transactional(value = "transactionManager", rollbackFor = Exception.class)
     public boolean updateAddress(UserAddressVO address) throws ServiceException {
         UserAddresDO addresDO = userAddressMapper.vo2do(address);
-        checkUpdate(userAddresDAO.update(addresDO), "地址");
+        userAddresDAO.update(addresDO);
         //如果设置地址为默认的，则需要更新其他的地址
         if (address.getDefaultSetting() == StateEnum.Y) {
             setDefault(address.getUserId(), address.getId(), address.getAddressType().getCode(), address.getModifyBy());
@@ -74,7 +74,7 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
 
     @Override
     public boolean setDefault(long userId, long id, String type, String modify) throws ServiceException {
-        checkUpdate(userAddresDAO.updateDefaultByUserIdAndId(id, modify, userId, type), "默认收寄地址");
+        userAddresDAO.updateDefaultByUserIdAndId(id, modify, userId, type);
         return true;
     }
 
@@ -105,7 +105,7 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
 
     @Override
     public boolean delete(long id, long userId) throws ServiceException {
-        checkUpdate(userAddresDAO.delete(id, userId), "地址删除");
+        userAddresDAO.delete(id, userId);
         return true;
     }
 }

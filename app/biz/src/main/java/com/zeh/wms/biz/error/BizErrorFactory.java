@@ -248,7 +248,6 @@ public class BizErrorFactory extends AbstractErrorFactory {
         return createError("JG0510017001");
     }
 
-
     /**
      * JG0510017100=用户创建失败，{0}
      *
@@ -460,6 +459,7 @@ public class BizErrorFactory extends AbstractErrorFactory {
     public JGError insertError(String bussiness) {
         return createError("JG0510001002", bussiness);
     }
+
     /**
      * {0}更新数据失败，更新记录条数不大于0.
      * @param bussiness 参数名
@@ -467,6 +467,15 @@ public class BizErrorFactory extends AbstractErrorFactory {
      */
     public JGError updateError(String bussiness) {
         return createError("JG0510001003", bussiness);
+    }
+
+    /**
+     * JG0510001004=用户会话失效
+     * 
+     * @return
+     */
+    public JGError invalidSession() {
+        return createError("JG0510001004");
     }
 
     /**
@@ -568,8 +577,8 @@ public class BizErrorFactory extends AbstractErrorFactory {
         return createError("JG0510031101", msg);
     }
 
-    public JGError getSessionError (String msg) {
-        return createError ("JG0510031101", msg);
+    public JGError getSessionError(String msg) {
+        return createError("JG0510031101", msg);
     }
 
     /**
@@ -577,7 +586,7 @@ public class BizErrorFactory extends AbstractErrorFactory {
      * @param msg
      * @return
      */
-    public JGError generateSessionError (String msg) {
+    public JGError generateSessionError(String msg) {
         return createError("JG0510031103", msg);
     }
 }

@@ -1,5 +1,13 @@
 package com.zeh.wms.biz.session;
 
+import java.util.Enumeration;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
 import com.zeh.jungle.core.configuration.AppConfiguration;
 import com.zeh.jungle.core.configuration.AppConfigurationAware;
 import com.zeh.wms.biz.error.BizErrorFactory;
@@ -12,12 +20,6 @@ import com.zeh.wms.integration.exceptions.IntegrationException;
 import com.zeh.wms.integration.wechat.client.WechatClient;
 import com.zeh.wms.integration.wechat.model.RetrieveSessionRequest;
 import com.zeh.wms.integration.wechat.model.RetrieveSessionResponse;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
 
 /**
  * @author allen
@@ -69,7 +71,7 @@ public class DefaultUserSessionManager implements UserSessionManager, AppConfigu
                 if (userSession == null) {
                     // 会话失效
                     request.getSession().removeAttribute(UserSession.SESSION_ID_KEY);
-                    return null;
+                    throw new SessionException(ERROR_FACTORY.invalidSession());
                 }
                 return userSession;
             }
@@ -79,7 +81,7 @@ public class DefaultUserSessionManager implements UserSessionManager, AppConfigu
         if (obj != null) {
             return UserSession.class.cast(obj);
         }
-        return null;
+        throw new SessionException(ERROR_FACTORY.invalidSession());
     }
 
     /**
