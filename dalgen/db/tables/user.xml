@@ -5,15 +5,19 @@
 	<!-- 不需要配置的列请删除 -->
 
 	<sql id="User.columns">
-        id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, mobile
+        id, nick_name, user_id, password, open_id, gmt_create, gmt_modified, create_by, modify_by, mobile, payment_type
 	</sql>
 
 	<operation name="insert" paramtype="object">
 		<sql>
             INSERT INTO user (
-            id ,nick_name ,user_id ,password ,open_id ,gmt_create ,gmt_modified ,create_by ,modify_by ,mobile
+            id ,nick_name ,user_id ,password ,open_id ,
+            gmt_create ,gmt_modified ,create_by ,modify_by ,mobile,
+            payment_type
             ) VALUES (
-            ? ,? ,? ,? ,? ,? ,? ,? ,? ,?
+            ? ,? ,? ,? ,? ,
+            CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP ,? ,? ,?,
+            ?
             )
 		</sql>
 	</operation>
@@ -28,7 +32,7 @@
 	<operation name="update" paramtype="object">
 		<sql>
             UPDATE user SET
-            nick_name = ? ,user_id = ? ,password = ? ,open_id = ? ,gmt_create = ? ,gmt_modified = ? ,create_by = ? ,modify_by = ? ,mobile = ?
+            nick_name = ? ,user_id = ? ,password = ? ,open_id = ? ,gmt_modified = ? ,modify_by = ? ,mobile = ?, payment_type = ?
             WHERE
             id = ?
         </sql>
@@ -53,6 +57,10 @@
 
             <isNotEmpty prepend="," property="openId">
                 open_id = #openId#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="," property="paymentType">
+                payment_type = #paymentType#
             </isNotEmpty>
 
             <isNotEmpty prepend="," property="modifyBy">
@@ -115,7 +123,9 @@
                 <isNotEmpty prepend="AND" property="mobile">
                     u.mobile = #mobile#
                 </isNotEmpty>
-
+                <isNotEmpty prepend="AND" property="paymentType">
+                    u.payment_type = #paymentType#
+                </isNotEmpty>
                 <isNotEmpty prepend="AND" property="fromDate">
                     <![CDATA[
                         u.gmt_create >= #fromDate#

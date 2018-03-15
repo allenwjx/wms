@@ -1,12 +1,5 @@
 package com.zeh.wms.biz.service.impl;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.UserAddressMapper;
 import com.zeh.wms.biz.model.UserAddressVO;
@@ -15,6 +8,11 @@ import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.service.AddressService;
 import com.zeh.wms.dal.daointerface.UserAddresDAO;
 import com.zeh.wms.dal.dataobject.UserAddresDO;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * The type Address service.
@@ -107,5 +105,11 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
     public boolean delete(long id, long userId) throws ServiceException {
         userAddresDAO.delete(id, userId);
         return true;
+    }
+
+    @Override
+    public UserAddressVO getById(Long id) throws ServiceException {
+        UserAddresDO userAddresDO = userAddresDAO.queryById(id);
+        return userAddressMapper.do2vo(userAddresDO);
     }
 }

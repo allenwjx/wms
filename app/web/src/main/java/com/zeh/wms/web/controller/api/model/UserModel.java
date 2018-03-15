@@ -1,9 +1,9 @@
 package com.zeh.wms.web.controller.api.model;
 
-import java.io.Serializable;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  *
@@ -20,5 +20,6 @@ public class UserModel implements Serializable {
     private String            userId;
     private String            token;
     private String            openId;
+    private String            paymentType;
 
 }

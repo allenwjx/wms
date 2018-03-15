@@ -1,10 +1,10 @@
 package com.zeh.wms.biz.service;
 
-import java.util.List;
-
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.UserAddressVO;
 import com.zeh.wms.biz.model.enums.AddressTypeEnum;
+
+import java.util.List;
 
 /**
  * The interface Address service.
@@ -33,13 +33,14 @@ public interface AddressService {
     boolean updateAddress(UserAddressVO address) throws ServiceException;
 
     /**
+     * Sets default.
      *
-     * @param userId
-     * @param id
-     * @param type
-     * @param modify
-     * @return
-     * @throws ServiceException
+     * @param userId the user id
+     * @param id     the id
+     * @param type   the type
+     * @param modify the modify
+     * @return default
+     * @throws ServiceException the service exception
      */
     boolean setDefault(long userId, long id, String type, String modify) throws ServiceException;
 
@@ -55,10 +56,10 @@ public interface AddressService {
 
     /**
      * 获取地址
-     * 
-     * @param id
-     * @return
-     * @throws ServiceException
+     *
+     * @param id the id
+     * @return user address vo
+     * @throws ServiceException the service exception
      */
     UserAddressVO queryAddress(Long id) throws ServiceException;
 
@@ -81,5 +82,14 @@ public interface AddressService {
      * @throws ServiceException the service exception
      */
     boolean delete(long id, long userId) throws ServiceException;
+
+    /**
+     * Gets by id.
+     *
+     * @param id the id
+     * @return the by id
+     * @throws ServiceException the service exception
+     */
+    UserAddressVO getById(Long id) throws ServiceException;
 
 }

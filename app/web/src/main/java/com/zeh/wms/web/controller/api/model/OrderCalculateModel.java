@@ -17,7 +17,7 @@ public class OrderCalculateModel implements Serializable {
 
     private Long              commodityId;
 
-    private Double            commodityQuantity;
+    private Integer           commodityQuantity;
 
     private String            expressType;
 }
