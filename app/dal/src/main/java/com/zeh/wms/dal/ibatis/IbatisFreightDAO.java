@@ -87,7 +87,7 @@ public class IbatisFreightDAO extends SqlMapClientDaoSupport implements FreightD
 	 * sql: 
 	 * <pre>SELECT         id, province_code, express_code, first_weight, first_original_price,         additional_original_price, first_cost_price, additional_cost_price, enabled, gmt_create,         gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         province_code = ?          AND express_code = ?          AND enabled = 1</pre>
 	 */
-	public FreightDO queryByExpressAndProvince(String provinceCode ,String expressCode) throws DataAccessException {
+	public FreightDO queryByExpressAndProvince(Long provinceCode ,String expressCode) throws DataAccessException {
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("provinceCode",provinceCode);
 		param.put("expressCode",expressCode);

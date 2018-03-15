@@ -7,7 +7,7 @@
     
     <resultMap id="RM.Freight" class="com.zeh.wms.dal.dataobject.FreightDO">
 		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
-		<result property="provinceCode" column="province_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="provinceCode" column="province_code" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
 		<result property="expressCode" column="express_code" javaType="java.lang.String" jdbcType="VARCHAR"  />
 		<result property="firstWeight" column="first_weight" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
 		<result property="firstOriginalPrice" column="first_original_price" javaType="int" jdbcType="INTEGER"  nullValue="0"  />

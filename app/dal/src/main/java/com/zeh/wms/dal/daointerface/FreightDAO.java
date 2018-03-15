@@ -2,21 +2,12 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import org.springframework.dao.DataAccessException;
-import com.zeh.wms.dal.operation.freight.*;
-import com.zeh.wms.dal.dataobject.*;
-
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import com.zeh.wms.dal.dataobject.FreightDO;
+import com.zeh.wms.dal.operation.freight.QueryByPageQuery;
+import org.springframework.dao.DataAccessException;
+
+import java.util.List;
 /**
  * FreightDAO
  * database table: freight
@@ -65,7 +56,7 @@ public interface FreightDAO {
 	 * sql:
 	 * <pre>SELECT         id, province_code, express_code, first_weight, first_original_price,         additional_original_price, first_cost_price, additional_cost_price, enabled, gmt_create,         gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         province_code = ?          AND express_code = ?          AND enabled = 1</pre> 
 	 */
-	public FreightDO queryByExpressAndProvince(String provinceCode ,String expressCode) throws DataAccessException;
+	public FreightDO queryByExpressAndProvince(Long provinceCode ,String expressCode) throws DataAccessException;
 
 	/**
 	 * 

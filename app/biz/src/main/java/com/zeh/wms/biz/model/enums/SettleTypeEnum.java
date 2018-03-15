@@ -10,7 +10,7 @@ public enum SettleTypeEnum {
                             /** 线下现付 */
                             OFFLINE("OFFLINE", "线下现付"),
                             /** 线下月结 */
-                            MONTHLY("CANCEL", "线下月结");
+                            MONTHLY("MONTHLY", "线下月结");
 
     /** 枚举编码 */
     private String code;

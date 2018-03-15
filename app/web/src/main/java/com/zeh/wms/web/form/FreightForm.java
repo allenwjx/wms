@@ -18,7 +18,7 @@ public class FreightForm implements Serializable {
     /** id */
     private Long              id;
     /** 省编码 */
-    private String            provinceCode;
+    private Long              provinceCode;
     /** 快递公司类型,SF-顺丰，DEPPON-德邦 */
     private String            expressCode;
     /** 首重，单位：500克 */
@@ -29,10 +29,10 @@ public class FreightForm implements Serializable {
     private String            additionalOriginalPrice;
 
     /** 首重每500克单价成本价，单价：分 */
-    private String           firstCostPrice;
+    private String            firstCostPrice;
 
     /** 续重每500克价格成本价，单位：分 */
-    private String           additionalCostPrice;
+    private String            additionalCostPrice;
     /** 启用，禁用 */
     private Integer           enabled;
 }

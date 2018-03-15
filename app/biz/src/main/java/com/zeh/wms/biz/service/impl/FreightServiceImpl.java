@@ -1,13 +1,5 @@
 package com.zeh.wms.biz.service.impl;
 
-import java.util.Collection;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.wms.biz.error.BizErrorFactory;
@@ -19,6 +11,12 @@ import com.zeh.wms.biz.service.FreightService;
 import com.zeh.wms.dal.daointerface.FreightDAO;
 import com.zeh.wms.dal.dataobject.FreightDO;
 import com.zeh.wms.dal.operation.freight.QueryByPageQuery;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author allen
@@ -49,7 +47,7 @@ public class FreightServiceImpl implements FreightService {
         }
         FreightDO existFreight = freightDAO.queryByExpressAndProvince(freight.getProvinceCode(), freight.getExpressCode());
         if (existFreight != null) {
-            throw new ServiceException(ERROR_FACTORY.freightExistError(existFreight.getProvinceCode(), freight.getExpressCode(), existFreight.getId()));
+            throw new ServiceException(ERROR_FACTORY.freightExistError(String.valueOf(existFreight.getProvinceCode()), freight.getExpressCode(), existFreight.getId()));
         }
         freight.setEnabled(StateEnum.Y);
         FreightDO freightDO = mapper.vo2do(freight);
@@ -68,10 +66,10 @@ public class FreightServiceImpl implements FreightService {
             throw new ServiceException(ERROR_FACTORY.updateFreightError());
         }
 
-        if (StringUtils.isNotBlank(freight.getProvinceCode()) && StringUtils.isNotBlank(freight.getExpressCode())) {
+        if (freight.getProvinceCode() != null && StringUtils.isNotBlank(freight.getExpressCode())) {
             FreightDO existFreight = freightDAO.queryByExpressAndProvince(freight.getProvinceCode(), freight.getExpressCode());
             if (existFreight != null && existFreight.getId() != freight.getId()) {
-                throw new ServiceException(ERROR_FACTORY.freightExistError(existFreight.getProvinceCode(), freight.getExpressCode(), existFreight.getId()));
+                throw new ServiceException(ERROR_FACTORY.freightExistError(String.valueOf(existFreight.getProvinceCode()), freight.getExpressCode(), existFreight.getId()));
             }
         }
 
@@ -83,7 +81,7 @@ public class FreightServiceImpl implements FreightService {
 
         freightDO.setFirstWeight(freight.getFirstWeight() != null ? freight.getFirstWeight() : freightDO.getFirstWeight());
         freightDO.setExpressCode(freight.getExpressCode() != null ? freight.getExpressCode() : freightDO.getExpressCode());
-        freightDO.setProvinceCode(StringUtils.isNotBlank(freight.getProvinceCode()) ? freight.getProvinceCode() : freightDO.getProvinceCode());
+        freightDO.setProvinceCode(freight.getProvinceCode() != null ? freight.getProvinceCode() : freightDO.getProvinceCode());
         freightDO.setModifyBy(freight.getModifyBy());
         freightDO.setEnabled(freight.getEnabled() != null ? freight.getEnabled().getCode() : freightDO.getEnabled());
         freightDAO.update(freightDO);
@@ -106,12 +104,12 @@ public class FreightServiceImpl implements FreightService {
      * 查询一家物流公司某个身份的运价
      *
      * @param expressCode
-     * @param provinceName
+     * @param provinceId
      * @return
      */
     @Override
-    public FreightVO queryFreightByExpressProvince(String expressCode, String provinceName) {
-        FreightDO freightDO = freightDAO.queryByExpressAndProvince(provinceName, expressCode);
+    public FreightVO queryFreightByExpressProvince(String expressCode, Long provinceId) {
+        FreightDO freightDO = freightDAO.queryByExpressAndProvince(provinceId, expressCode);
         if (freightDO == null) {
             return null;
         }
@@ -133,7 +131,7 @@ public class FreightServiceImpl implements FreightService {
             throw new ServiceException(ERROR_FACTORY.queryFreightError());
         }
         QueryByPageQuery query = new QueryByPageQuery();
-        query.setProvinceCode(StringUtils.isNotBlank(freight.getProvinceCode()) ? freight.getProvinceCode() : null);
+        query.setProvinceCode(freight.getProvinceCode() != null ? freight.getProvinceCode() : null);
         query.setExpressCode(StringUtils.isNotBlank(freight.getExpressCode()) ? freight.getExpressCode() : null);
         query.setEnabled(freight.getEnabled() == null ? null : freight.getEnabled().getCode());
         query.setPage(currentPage);

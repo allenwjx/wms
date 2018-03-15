@@ -17,7 +17,7 @@ public class FreightVO extends BaseVO {
     /**  */
     private static final long serialVersionUID = 1L;
     /** 省编码，目前使用的中文 */
-    private String            provinceCode;
+    private Long              provinceCode;
     /** 快递公司类型,SF-顺丰，DEPPON-德邦 */
     private String            expressCode;
     /** 首重，单位：500克 */

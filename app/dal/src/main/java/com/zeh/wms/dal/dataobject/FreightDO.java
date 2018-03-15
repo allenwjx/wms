@@ -7,19 +7,8 @@ package com.zeh.wms.dal.dataobject;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
-import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import java.util.Date;
 /**
  * FreightDO
  * database table: freight
@@ -42,7 +31,7 @@ public class FreightDO implements java.io.Serializable {
 	/**
 	 * 省编码 		db_column: province_code 
 	 */
-	private String provinceCode;
+	private long provinceCode;
 	/**
 	 * 快递公司类型,SF-顺丰，DEPPON-德邦  		db_column: express_code 
 	 */
@@ -97,11 +86,11 @@ public class FreightDO implements java.io.Serializable {
 		return this.id;
 	}
 	
-	public void setProvinceCode(String provinceCode) {
+	public void setProvinceCode(long provinceCode) {
 		this.provinceCode = provinceCode;
 	}
 	
-	public String getProvinceCode() {
+	public long getProvinceCode() {
 		return this.provinceCode;
 	}
 	

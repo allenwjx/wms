@@ -1,11 +1,5 @@
 package com.zeh.wms.biz.service.impl;
 
-import java.math.BigDecimal;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.zeh.wms.biz.error.BizErrorFactory;
 import com.zeh.wms.biz.exception.BookServiceException;
 import com.zeh.wms.biz.exception.ServiceException;
@@ -15,6 +9,10 @@ import com.zeh.wms.biz.model.FreightVO;
 import com.zeh.wms.biz.model.RegionsVO;
 import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
 import com.zeh.wms.biz.service.*;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.math.BigDecimal;
 
 /**
  * @author allen
@@ -86,7 +84,7 @@ public class BookServiceImpl implements BookService {
                 throw new BookServiceException(ERROR_FACTORY.bookFail("无法获取省份编码，省份名称：" + bookVO.getReceiverProvince()));
             }
             // 获取用户该物流公司，寄送目的地省份的基础运价
-            FreightVO freight = freightService.queryFreightByExpressProvince(bookVO.getExpressType(), region.getCode());
+            FreightVO freight = freightService.queryFreightByExpressProvince(bookVO.getExpressType(), region.getId());
             if (freight == null) {
                 throw new BookServiceException(ERROR_FACTORY.bookFail("无法获取运价，物流公司：" + bookVO.getExpressType() + "，省份：" + bookVO.getReceiverProvince()));
             }

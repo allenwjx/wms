@@ -1,11 +1,11 @@
 package com.zeh.wms.biz.service;
 
-import java.util.Collection;
-
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.FreightVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
+
+import java.util.Collection;
 
 /**
  * @author allen
@@ -61,10 +61,10 @@ public interface FreightService {
      * 查询一家物流公司某个身份的运价
      * 
      * @param expressCode
-     * @param provinceName
+     * @param provinceId
      * @return
      */
-    FreightVO queryFreightByExpressProvince(String expressCode, String provinceName);
+    FreightVO queryFreightByExpressProvince(String expressCode, Long provinceId);
 
     /**
      * 更新运价启用、禁用状态
