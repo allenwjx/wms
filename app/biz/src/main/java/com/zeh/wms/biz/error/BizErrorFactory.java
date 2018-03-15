@@ -416,6 +416,24 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * JG0510021002=预定失败，价格计算错误
+     *
+     * @return
+     */
+    public JGError priceCalculateFail() {
+        return createError("JG0510021002");
+    }
+
+    /**
+     * JG0510021003=预定失败
+     *
+     * @return
+     */
+    public JGError bookFail() {
+        return createError("JG0510021003");
+    }
+
+    /**
      * JG0510031001=用户名无效
      *
      * @return

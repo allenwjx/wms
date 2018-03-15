@@ -57,8 +57,8 @@ public class ExpressOrderServiceImpl extends AbstractService implements ExpressO
             throw new RuntimeException("订单无效");
         }
         expressOrder.setOrderNo(CodeGenerator.generateOrderSerialNo());
-        ExpressOrderDO commodityDO = expressOrderMapper.v2d(expressOrder);
-        expressOrderDAO.insert(commodityDO);
+        ExpressOrderDO expressOrderDO = expressOrderMapper.v2d(expressOrder);
+        expressOrderDAO.insert(expressOrderDO);
     }
 
     /**

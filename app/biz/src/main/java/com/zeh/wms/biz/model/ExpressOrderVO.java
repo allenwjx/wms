@@ -50,7 +50,7 @@ public class ExpressOrderVO extends BaseVO {
     private int                      totalPrice;
     /** 订单备注 */
     private String                   remark;
-    /** 订单状态; WATI_PAY（待支付）； WAIT_PICKUP（待取件）； WAIT_SEND（待发货）； SENDED（已发货）； CANCEL（订单取消）*/
+    /** 订单状态; WATI_PAY（待支付）； WAIT_PICKUP（待取件）； WAIT_SEND（待发货）； SENDED（已发货）； CANCELED（订单取消）*/
     private ExpressOrderStateEnum    status;
     /** 寄件人姓名 */
     private String                   senderName;

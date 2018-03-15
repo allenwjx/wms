@@ -15,7 +15,7 @@ public enum ExpressOrderStateEnum {
     /** 已发货 */
     SENDED("SENDED", "已发货"),
     /** 订单取消 */
-    MONTHLY("CANCEL", "订单取消");
+    CANCELED("CANCEL", "订单取消");
 
     /** 枚举编码 */
     private String code;

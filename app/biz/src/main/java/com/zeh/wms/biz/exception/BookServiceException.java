@@ -5,10 +5,10 @@ import com.zeh.jungle.core.exception.JGException;
 
 /**
  * @author allen
- * @create $ ID: LoginException, 18/2/11 15:41 allen Exp $
+ * @create $ ID: BookServiceException, 18/3/15 14:26 allen Exp $
  * @since 1.0.0
  */
-public class LoginException extends JGException {
+public class BookServiceException extends JGException {
     /**  */
     private static final long serialVersionUID = 1L;
 
@@ -17,7 +17,7 @@ public class LoginException extends JGException {
      *
      * @param error 错误实例
      */
-    public LoginException(JGError error) {
+    public BookServiceException(JGError error) {
         super(error);
     }
 
@@ -27,7 +27,7 @@ public class LoginException extends JGException {
      * @param error 错误实例
      * @param cause 异常
      */
-    public LoginException(JGError error, Throwable cause) {
+    public BookServiceException(JGError error, Throwable cause) {
         super(error, cause);
     }
 
@@ -36,7 +36,7 @@ public class LoginException extends JGException {
      *
      * @param cause 异常
      */
-    public LoginException(Throwable cause) {
+    public BookServiceException(Throwable cause) {
         super(cause);
     }
 }

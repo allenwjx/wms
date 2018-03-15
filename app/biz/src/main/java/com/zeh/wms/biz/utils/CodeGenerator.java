@@ -34,8 +34,9 @@ public class CodeGenerator {
     }
 
     public static final String generateOrderSerialNo() {
-        RandomGenerator g = new RandomGenerator(15);
+        String baseNo = OrderSerialNoGenerator.getInstance().generate();
+        RandomGenerator g = new RandomGenerator(6);
         String code = g.generate();
-        return "E" + code;
+        return "E" + baseNo + code;
     }
 }
