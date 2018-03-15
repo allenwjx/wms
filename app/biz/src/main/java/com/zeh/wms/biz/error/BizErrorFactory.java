@@ -407,6 +407,15 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * 没有配置{0}的快递费，请联系管理员。
+     * @param province 省
+     * @return
+     */
+    public JGError notFindFreightConfig(String province) {
+        return createError("JG0510021002", province);
+    }
+
+    /**
      * 未找到快递单详情。id: {0}
      * @param id 主键
      * @return

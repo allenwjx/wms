@@ -100,4 +100,29 @@
         </sql>
     </operation>
 
+    <operation name="getPriceByProvinceName" multiplicity="one">
+        <sql>
+            SELECT
+            f.id,
+            f.province_code,
+            f.express_code,
+            f.first_weight,
+            f.first_original_price,
+
+            f.additional_original_price,
+            f.first_cost_price,
+            f.additional_cost_price,
+            f.enabled,
+            f.gmt_create,
+
+            f.gmt_modified,
+            f.create_by,
+            f.modify_by
+
+            FROM freight f left join regions r on f.province_code = r.id
+            WHERE enabled = 1
+            and r.name = #name#
+            limit 1;
+        </sql>
+    </operation>
 </table>

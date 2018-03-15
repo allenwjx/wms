@@ -47,6 +47,7 @@ public class WechatUserController extends BaseController {
         userModel.setOpenId(userSession.getWechatUser().getOpenId());
         userModel.setUserId(userSession.getUser().getUserId());
         userModel.setToken(userSession.getId());
+        userModel.setPaymentType(userSession.getUser().getPaymentType().getCode());
         return userModel;
     }
 

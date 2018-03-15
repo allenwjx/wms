@@ -12,6 +12,7 @@ import com.zeh.wms.dal.daointerface.InventoryHistoryDAO;
 import com.zeh.wms.dal.dataobject.InventoryDO;
 import com.zeh.wms.dal.dataobject.InventoryHistoryDO;
 import com.zeh.wms.dal.operation.inventory.*;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -75,5 +76,14 @@ public class InventoryServiceImpl extends AbstractService implements InventorySe
     @Override
     public List<GetInfoByMobileResult> getInfoByMobileAndName(String mobile, String name) {
         return inventoryDAO.getInfoByMobile(new GetInfoByMobileQuery(mobile, null, name));
+    }
+
+    @Override
+    public GetInfoByMobileResult getInfoByMobileAndId(String mobile, Long id) {
+        List<GetInfoByMobileResult> list = inventoryDAO.getInfoByMobile(new GetInfoByMobileQuery(mobile, id, null));
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        }
+        return list.get(0);
     }
 }

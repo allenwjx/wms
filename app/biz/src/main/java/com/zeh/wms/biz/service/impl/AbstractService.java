@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public abstract class AbstractService {
     /** 错误工厂 */
-    private static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
+    protected static final BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
 
     private static Logger logger = LoggerFactory.getLogger(AbstractService.class);
 

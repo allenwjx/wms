@@ -3,6 +3,8 @@ package com.zeh.wms.biz.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import com.zeh.wms.biz.model.enums.SettleTypeEnum;
+
 /**
  * 用户模型
  *
@@ -26,4 +28,6 @@ public class UserVO extends BaseVO {
 
     /** 用户手机号 */
     private String            mobile;
+
+    private SettleTypeEnum    paymentType;
 }

@@ -10,6 +10,7 @@ import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.service.FreightService;
 import com.zeh.wms.dal.daointerface.FreightDAO;
 import com.zeh.wms.dal.dataobject.FreightDO;
+import com.zeh.wms.dal.operation.freight.GetPriceByProvinceNameResult;
 import com.zeh.wms.dal.operation.freight.QueryByPageQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -168,5 +169,14 @@ public class FreightServiceImpl implements FreightService {
         freight.setModifyBy(modifyBy);
         freight.setEnabled(enabled);
         updateFreight(freight);
+    }
+
+    @Override
+    public FreightVO findByProvinceName(String provinceName) throws ServiceException {
+        if (StringUtils.isBlank(provinceName)) {
+            throw new ServiceException(ERROR_FACTORY.queryFreightError());
+        }
+        GetPriceByProvinceNameResult result = freightDAO.getPriceByProvinceName(provinceName);
+        return mapper.result2VO(result);
     }
 }

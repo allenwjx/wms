@@ -5,8 +5,22 @@
  */
 package com.zeh.wms.dal.operation.user;
 
-import com.zeh.jungle.dal.paginator.PageQuery;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * database table: user
  * database table comments: User
@@ -27,6 +41,8 @@ public class GetAllUserPageQuery  extends PageQuery implements java.io.Serializa
 	private String userId;
 	/** 用户手机号 */
 	private String mobile;
+	/** 结算方式：MONTHLY（月结）, REAL_TIME（实时结算）, WEEKLY（周结） */
+	private String paymentType;
 	/** 创建时间 */
 	private java.util.Date fromDate;
 	/** 创建时间 */
@@ -35,10 +51,11 @@ public class GetAllUserPageQuery  extends PageQuery implements java.io.Serializa
 	public GetAllUserPageQuery() {
 	}
 	
-	public GetAllUserPageQuery(String nickName ,String userId ,String mobile ,java.util.Date fromDate ,java.util.Date toDate ) {
+	public GetAllUserPageQuery(String nickName ,String userId ,String mobile ,String paymentType ,java.util.Date fromDate ,java.util.Date toDate ) {
 		this.nickName = nickName;
 		this.userId = userId;
 		this.mobile = mobile;
+		this.paymentType = paymentType;
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 	}
@@ -60,6 +77,12 @@ public class GetAllUserPageQuery  extends PageQuery implements java.io.Serializa
 	}
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+	public String getPaymentType() {
+		return paymentType;
+	}
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
 	}
 	public java.util.Date getFromDate() {
 		return fromDate;

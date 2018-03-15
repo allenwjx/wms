@@ -41,4 +41,19 @@ public class ApiInventoryController extends BaseController {
             return createErrorResult(e);
         }
     }
+
+    @ApiOperation(value = "商品详情", httpMethod = "GET")
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public SingleResult<GetInfoByMobileResult> detail(Long id) {
+        try {
+            if (getCurrentApiUser() == null || StringUtils.isBlank(getCurrentApiUser().getMobile())) {
+                return createSuccessResult();
+            }
+            GetInfoByMobileResult result = inventoryService.getInfoByMobileAndId(getCurrentApiUser().getMobile(), id);
+            return createSuccessResult(result);
+        } catch (Exception e) {
+            return createErrorResult(e);
+        }
+    }
 }

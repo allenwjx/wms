@@ -69,21 +69,23 @@ public abstract class AbstractBookService implements BookService {
      */
     private ExpressOrderVO createExpressOrder(BookVO bookVO, ExpressOrderPrice price) {
         ExpressOrderVO expressOrder = new ExpressOrderVO();
-        // 价格，预订人、商品信息
-        expressOrder.setUserId(bookVO.getUserId());
-        expressOrder.setPaymentType(price.paymentType);
-        expressOrder.setTotalPrice(price.totalPrice);
-        expressOrder.setAdditionalWeight(price.additionalWeight);
-        expressOrder.setAdditionalWeightPrice(price.additionalWeightPrice);
-        expressOrder.setFirstWeight(price.firstWeight);
-        expressOrder.setFirstWeightPrice(price.firstWeightPrice);
-        expressOrder.setCommodityName(price.commodityName);
-        expressOrder.setCommodityQuanity(price.commodityQuanity);
-        expressOrder.setCommodityWeight(price.commodityWeight);
-        expressOrder.setExpressType(bookVO.getExpressType());
+        // 预订人、商品信息
         expressOrder.setOtherOrderNo("");
+        expressOrder.setUserId(bookVO.getUserId());
+        expressOrder.setCommodityName(bookVO.getCommodityName());
+        expressOrder.setCommodityQuanity(bookVO.getCommodityQuanity());
+        expressOrder.setCommodityWeight(bookVO.getCommodityWeight());
+        expressOrder.setExpressType(bookVO.getExpressType());
         expressOrder.setStatus(ExpressOrderStateEnum.WATI_PAY);
         expressOrder.setRemark(bookVO.getRemark());
+
+        // 价格
+        expressOrder.setPaymentType(price.paymentType);
+        expressOrder.setTotalPrice(price.totalPrice);
+        expressOrder.setFirstWeightPrice(price.firstWeightPrice);
+        expressOrder.setAdditionalWeightPrice(price.additionalWeightPrice);
+        expressOrder.setFirstWeight(price.firstWeight);
+        expressOrder.setAdditionalWeight(price.additionalWeight);
 
         // 发件人
         expressOrder.setReceiverAddressDetail(bookVO.getReceiverAddressDetail());
@@ -117,12 +119,6 @@ public abstract class AbstractBookService implements BookService {
     protected class ExpressOrderPrice {
         /** 支付方式：0-线上支付，1-线下现结，2-线下月结 */
         private SettleTypeEnum paymentType;
-        /** 商品名称或商品类型 */
-        private String         commodityName;
-        /** 商品总数量 */
-        private int            commodityQuanity;
-        /** 商品总重量 */
-        private int            commodityWeight;
         /**  首重，单位（克）*/
         private int            firstWeight;
         /** 续重，单位：克 */

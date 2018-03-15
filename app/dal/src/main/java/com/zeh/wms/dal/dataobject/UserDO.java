@@ -56,6 +56,14 @@ public class UserDO implements java.io.Serializable {
 	 */
 	private String openId;
 	/**
+	 * 用户手机号 		db_column: mobile 
+	 */
+	private String mobile;
+	/**
+	 * 结算方式：MONTHLY（月结）, REAL_TIME（实时结算）, WEEKLY（周结） 		db_column: payment_type 
+	 */
+	private String paymentType;
+	/**
 	 * 创建时间 		db_column: gmt_create 
 	 */
 	private Date gmtCreate;
@@ -71,10 +79,6 @@ public class UserDO implements java.io.Serializable {
 	 * 修改人 		db_column: modify_by 
 	 */
 	private String modifyBy;
-	/**
-	 * 用户手机号 		db_column: mobile 
-	 */
-	private String mobile;
 
 	
 	public void setId(long id) {
@@ -117,6 +121,22 @@ public class UserDO implements java.io.Serializable {
 		return this.openId;
 	}
 	
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	
+	public String getMobile() {
+		return this.mobile;
+	}
+	
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
+	}
+	
+	public String getPaymentType() {
+		return this.paymentType;
+	}
+	
 	public void setGmtCreate(Date gmtCreate) {
 		this.gmtCreate = gmtCreate;
 	}
@@ -148,14 +168,6 @@ public class UserDO implements java.io.Serializable {
 	public String getModifyBy() {
 		return this.modifyBy;
 	}
-	
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-	
-	public String getMobile() {
-		return this.mobile;
-	}
 
 	public String toString() {
 		return new ToStringBuilder(this)
@@ -164,11 +176,12 @@ public class UserDO implements java.io.Serializable {
 			.append("UserId",getUserId())
 			.append("Password",getPassword())
 			.append("OpenId",getOpenId())
+			.append("Mobile",getMobile())
+			.append("PaymentType",getPaymentType())
 			.append("GmtCreate",getGmtCreate())
 			.append("GmtModified",getGmtModified())
 			.append("CreateBy",getCreateBy())
 			.append("ModifyBy",getModifyBy())
-			.append("Mobile",getMobile())
 			.toString();
 	}
 	

@@ -1,11 +1,11 @@
 package com.zeh.wms.biz.service;
 
-import java.util.Collection;
-
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.FreightVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
+
+import java.util.Collection;
 
 /**
  * @author allen
@@ -75,4 +75,6 @@ public interface FreightService {
      * @throws ServiceException 运价状态更新异常
      */
     void updateFreightState(long id, String modifyBy, StateEnum enabled) throws ServiceException;
+
+    FreightVO findByProvinceName(String provinceName) throws ServiceException;
 }
