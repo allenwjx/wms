@@ -172,8 +172,8 @@ public class BizErrorFactory extends AbstractErrorFactory {
      *
      * @return JGError
      */
-    public JGError freightExistError(String province, long id) {
-        return createError("JG0510014004", province, id);
+    public JGError freightExistError(String province, String expressCode, long id) {
+        return createError("JG0510014004", province, expressCode, id);
     }
 
     /**
@@ -425,12 +425,12 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
-     * JG0510021002=预定失败，价格计算错误
+     * JG0510021004=没有配置{0}的快递费，请联系管理员。
      *
      * @return
      */
     public JGError priceCalculateFail() {
-        return createError("JG0510021002");
+        return createError("JG0510021004");
     }
 
     /**
@@ -438,8 +438,8 @@ public class BizErrorFactory extends AbstractErrorFactory {
      *
      * @return
      */
-    public JGError bookFail() {
-        return createError("JG0510021003");
+    public JGError bookFail(String error) {
+        return createError("JG0510021003", error);
     }
 
     /**

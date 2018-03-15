@@ -82,4 +82,17 @@ public class RegionsServiceImpl implements RegionsService {
         List<RegionDO> regionDOs = regionDAO.queryByParentId(cityId);
         return mapper.do2vos(regionDOs);
     }
+
+    /**
+     * 根据名称查询
+     *
+     * @param name
+     * @return
+     * @throws ServiceException
+     */
+    @Override
+    public RegionsVO queryByName(String name) throws ServiceException {
+        RegionDO regionDO = regionDAO.queryByName(name);
+        return mapper.do2vo(regionDO);
+    }
 }

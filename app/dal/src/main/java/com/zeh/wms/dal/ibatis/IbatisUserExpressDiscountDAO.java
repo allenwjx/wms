@@ -42,7 +42,7 @@ public class IbatisUserExpressDiscountDAO extends SqlMapClientDaoSupport impleme
 	/**
 	 * 
 	 * sql: 
-	 * <pre>INSERT      INTO         user_express_discount         (    user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by    )      VALUES         (?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
+	 * <pre>INSERT      INTO         user_express_discount         (             user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by             )      VALUES         (?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?)</pre>
 	 */
 	public long insert(UserExpressDiscountDO userExpressDiscount) throws DataAccessException {
 		if(userExpressDiscount == null) {
@@ -64,7 +64,7 @@ public class IbatisUserExpressDiscountDAO extends SqlMapClientDaoSupport impleme
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         user_express_discount      SET         user_id = ? , express_code = ?, gmt_modified = CURRENT_TIMESTAMP , modify_by = ?               WHERE         id = ?</pre>
+	 * <pre>UPDATE         user_express_discount      SET         user_id = ? , express_code = ?, gmt_modified = CURRENT_TIMESTAMP , modify_by = ?                  WHERE         id = ?</pre>
 	 */
 	public int update(UserExpressDiscountDO userExpressDiscount) throws DataAccessException {
 		if(userExpressDiscount == null) {
@@ -76,7 +76,7 @@ public class IbatisUserExpressDiscountDAO extends SqlMapClientDaoSupport impleme
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by                 FROM         user_express_discount               WHERE         id = ?</pre>
+	 * <pre>SELECT         id, user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by                       FROM         user_express_discount                  WHERE         id = ?</pre>
 	 */
 	public UserExpressDiscountDO queryById(Long id) throws DataAccessException {
 		return (UserExpressDiscountDO)getSqlMapClientTemplate().queryForObject("wms.UserExpressDiscount.queryById",id);
@@ -85,10 +85,19 @@ public class IbatisUserExpressDiscountDAO extends SqlMapClientDaoSupport impleme
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by           FROM         user_express_discount         WHERE         1=1                   AND       user_id = ?                     AND       express_code = ?</pre>
+	 * <pre>SELECT         id, user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by                       FROM         user_express_discount                  WHERE         user_id = ?</pre>
 	 */
-	public List<UserExpressDiscountDO> queryByPar(QueryByParQuery param) throws DataAccessException {
-		return (List<UserExpressDiscountDO>)getSqlMapClientTemplate().queryForList("wms.UserExpressDiscount.queryByPar",param);
+	public List<UserExpressDiscountDO> queryByUserId(Long userId) throws DataAccessException {
+		return (List<UserExpressDiscountDO>)getSqlMapClientTemplate().queryForList("wms.UserExpressDiscount.queryByUserId",userId);
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>SELECT         id, user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by                       FROM         user_express_discount                  WHERE         1=1                                        AND                      user_id = ?                                             AND                      express_code = ?</pre>
+	 */
+	public UserExpressDiscountDO queryUserDiscountByExpress(QueryUserDiscountByExpressQuery param) throws DataAccessException {
+		return (UserExpressDiscountDO)getSqlMapClientTemplate().queryForObject("wms.UserExpressDiscount.queryUserDiscountByExpress",param);
 	}
 
 }

@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +35,7 @@ import com.zeh.wms.dal.dataobject.UserExpressDiscountDO;
 import com.zeh.wms.dal.operation.user.GetAllUserPageQuery;
 import com.zeh.wms.dal.operation.user.UpdateByParsParameter;
 import com.zeh.wms.dal.operation.useragentlink.QueryByParQuery;
+import com.zeh.wms.dal.operation.userexpressdiscount.QueryUserDiscountByExpressQuery;
 
 /**
  * The type User service.
@@ -360,9 +360,8 @@ public class UserServiceImpl extends AbstractService implements UserService {
     public List<UserExpressDiscountVO> getUserDiscount(Long userId) throws ServiceException {
         com.zeh.wms.dal.operation.userexpressdiscount.QueryByParQuery query = new com.zeh.wms.dal.operation.userexpressdiscount.QueryByParQuery();
         query.setUserId(userId);
-        List<UserExpressDiscountDO> list = expressDiscountDAO.queryByPar(query);
-
-        return userMapper.discountDos2Vos(list);
+        List<UserExpressDiscountDO> discountDOs = expressDiscountDAO.queryByUserId(userId);
+        return userMapper.discountDos2Vos(discountDOs);
     }
 
     /**
@@ -373,7 +372,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
      */
     @Override
     public void deleteDiscount(Long id) throws ServiceException {
-        checkUpdate(expressDiscountDAO.delete(id), "折扣信息");
+        expressDiscountDAO.delete(id);
     }
 
     /**
@@ -384,20 +383,14 @@ public class UserServiceImpl extends AbstractService implements UserService {
      */
     @Override
     public void addDiscount(UserExpressDiscountVO vo) throws ServiceException {
-        UserExpressDiscountDO discountDO = userMapper.discountVo2Do(vo);
-        com.zeh.wms.dal.operation.userexpressdiscount.QueryByParQuery query = new com.zeh.wms.dal.operation.userexpressdiscount.QueryByParQuery();
+        QueryUserDiscountByExpressQuery query = new QueryUserDiscountByExpressQuery();
         query.setUserId(vo.getUserId());
         query.setExpressCode(vo.getExpressCode());
-        List<UserExpressDiscountDO> list = expressDiscountDAO.queryByPar(query);
-        if (CollectionUtils.isNotEmpty(list)) {
-            list.stream().forEach(item -> {
-                try {
-                    deleteDiscount(item.getId());
-                } catch (ServiceException e) {
-                    logger.error("delete", e);
-                }
-            });
+        UserExpressDiscountDO existDiscount = expressDiscountDAO.queryUserDiscountByExpress(query);
+        if (existDiscount != null) {
+            throw new RuntimeException("物流公司【" + vo.getExpressCode() + "】的定价配置已存在");
         }
+        UserExpressDiscountDO discountDO = userMapper.discountVo2Do(vo);
         checkInsert(expressDiscountDAO.insert(discountDO), "折扣信息");
     }
 
@@ -410,13 +403,13 @@ public class UserServiceImpl extends AbstractService implements UserService {
      */
     @Override
     public BigDecimal getDiscount(Long userId, String expressCode) {
-        com.zeh.wms.dal.operation.userexpressdiscount.QueryByParQuery query = new com.zeh.wms.dal.operation.userexpressdiscount.QueryByParQuery();
+        QueryUserDiscountByExpressQuery query = new QueryUserDiscountByExpressQuery();
         query.setUserId(userId);
         query.setExpressCode(expressCode);
-        List<UserExpressDiscountDO> list = expressDiscountDAO.queryByPar(query);
-        if (CollectionUtils.isNotEmpty(list)) {
-            return new BigDecimal(list.get(0).getDiscount());
+        UserExpressDiscountDO discount = expressDiscountDAO.queryUserDiscountByExpress(query);
+        if (discount == null || discount.getDiscount() <= 0) {
+            return new BigDecimal(1);
         }
-        return new BigDecimal(1);
+        return new BigDecimal(discount.getDiscount());
     }
 }

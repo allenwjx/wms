@@ -1,16 +1,20 @@
 package com.zeh.wms.web.controller.api.model;
 
-import lombok.Data;
-
 import java.io.Serializable;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
- * @author hzy24985
- * @version $Id: ExpressOrderModel, v 0.1 2018/3/14 22:23 hzy24985 Exp $
+ * @author allen
+ * @create $ ID: OrderBookModel, 18/3/15 19:20 allen Exp $
+ * @since 1.0.0
  */
-@Data
-public class ExpressOrderModel implements Serializable {
-    private static final long serialVersionUID = 3117917785075061553L;
+@Getter
+@Setter
+public class OrderBookModel implements Serializable {
+    /**  */
+    private static final long serialVersionUID = 1L;
 
     /** 快递公司类型 */
     private String            expressType;
@@ -19,23 +23,25 @@ public class ExpressOrderModel implements Serializable {
     /** 商品名称或商品类型 */
     private String            commodityName;
     /** 商品总数量 */
-    private Integer           commodityQuanity;
+    private int               commodityQuanity;
     /** 商品总重量 */
-    private Integer           commodityWeight;
-    /** 库存id */
-    private Long              inventoryId;
-    /** 首重价格，单位：分 */
-    private Integer           firstWeightPrice;
-    /** 续重价格，单位：分 */
-    private Integer           additionalWeightPrice;
-    /** 快递费总价，单位：分 */
-    private int               totalPrice;
+    private int               commodityWeight;
     /** 订单备注 */
     private String            remark;
-
     /** 寄件人姓名 */
-    private Long              senderAddressId;
-
+    private String            senderName;
+    /** 寄件人电话 */
+    private String            senderTel;
+    /** 寄件人地址：省 */
+    private String            senderProvince;
+    /** 寄件人地址：城市 */
+    private String            senderCity;
+    /** 寄件人地址：区 */
+    private String            senderRegion;
+    /** 寄件人地址明细 */
+    private String            senderAddressDetail;
+    /** 发件人公司 */
+    private String            senderCompany;
     /** 收件人姓名 */
     private String            receiverName;
     /** 收件人电话 */

@@ -4,7 +4,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValueMappingStrategy;
 
 import com.zeh.wms.biz.model.ExpressOrderVO;
-import com.zeh.wms.web.controller.api.model.ExpressOrderModel;
 
 /**
  * @author hzy24985

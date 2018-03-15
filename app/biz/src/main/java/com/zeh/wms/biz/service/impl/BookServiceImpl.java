@@ -1,23 +1,28 @@
 package com.zeh.wms.biz.service.impl;
 
+import java.math.BigDecimal;
+
 import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 
 import com.zeh.wms.biz.error.BizErrorFactory;
 import com.zeh.wms.biz.exception.BookServiceException;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.BookVO;
 import com.zeh.wms.biz.model.ExpressOrderVO;
+import com.zeh.wms.biz.model.FreightVO;
+import com.zeh.wms.biz.model.RegionsVO;
 import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
-import com.zeh.wms.biz.model.enums.SettleTypeEnum;
-import com.zeh.wms.biz.service.BookService;
-import com.zeh.wms.biz.service.ExpressOrderService;
+import com.zeh.wms.biz.service.*;
 
 /**
  * @author allen
- * @create $ ID: AbstractBookService, 18/3/15 14:20 allen Exp $
+ * @create $ ID: BookServiceImpl, 18/3/15 14:20 allen Exp $
  * @since 1.0.0
  */
-public abstract class AbstractBookService implements BookService {
+@Service
+public class BookServiceImpl implements BookService {
 
     /** Error Factory */
     protected final static BizErrorFactory ERROR_FACTORY = BizErrorFactory.getInstance();
@@ -25,6 +30,18 @@ public abstract class AbstractBookService implements BookService {
     /** 快递单服务 */
     @Resource
     private ExpressOrderService            expressOrderService;
+
+    /** 会员服务 */
+    @Resource
+    private UserService                    userService;
+
+    /** 运价服务 */
+    @Resource
+    private FreightService                 freightService;
+
+    /** 区域服务 */
+    @Resource
+    private RegionsService                 regionsService;
 
     /**
      * 快递预定
@@ -36,7 +53,7 @@ public abstract class AbstractBookService implements BookService {
     @Override
     public ExpressOrderVO book(BookVO bookVO) throws BookServiceException {
         if (bookVO == null) {
-            throw new BookServiceException(ERROR_FACTORY.bookFail());
+            throw new BookServiceException(ERROR_FACTORY.bookFail("param null"));
         }
         ExpressOrderPrice price = calculatePrice(bookVO);
         if (price == null) {
@@ -58,7 +75,72 @@ public abstract class AbstractBookService implements BookService {
      * @return
      * @throws BookServiceException
      */
-    protected abstract ExpressOrderPrice calculatePrice(BookVO bookVO) throws BookServiceException;
+    protected ExpressOrderPrice calculatePrice(BookVO bookVO) throws BookServiceException {
+        ExpressOrderPrice price = new ExpressOrderPrice();
+        try {
+            // 获取用户该物流公司的运价折扣
+            BigDecimal discount = userService.getDiscount(bookVO.getUserId(), bookVO.getExpressType());
+            // 获取省份中文对应的省份编码
+            RegionsVO region = regionsService.queryByName(bookVO.getReceiverProvince());
+            if (region == null) {
+                throw new BookServiceException(ERROR_FACTORY.bookFail("无法获取省份编码，省份名称：" + bookVO.getReceiverProvince()));
+            }
+            // 获取用户该物流公司，寄送目的地省份的基础运价
+            FreightVO freight = freightService.queryFreightByExpressProvince(bookVO.getExpressType(), region.getCode());
+            if (freight == null) {
+                throw new BookServiceException(ERROR_FACTORY.bookFail("无法获取运价，物流公司：" + bookVO.getExpressType() + "，省份：" + bookVO.getReceiverProvince()));
+            }
+
+            // 计算客户运价
+            price.setFirstWeight(freight.getFirstWeight());
+            price.setAdditionalWeight(calculateAdditionalWeight(bookVO, freight));
+            price.setFirstWeightPrice(calculatePrice(freight.getFirstOriginalPrice(), discount));
+            price.setAdditionalWeightPrice(calculateAdditionalPrice(bookVO, freight, discount));
+            return price;
+        } catch (ServiceException e) {
+            throw new BookServiceException(e.getError(), e);
+        }
+    }
+
+    /**
+     * 计算折扣价
+     * 
+     * @param price
+     * @param discount
+     * @return
+     */
+    private int calculatePrice(int price, BigDecimal discount) {
+        return new BigDecimal(price).multiply(discount).setScale(0, BigDecimal.ROUND_UP).intValue();
+    }
+
+    /**
+     * 计算续重价格
+     * 
+     * @param bookVO
+     * @param freight
+     * @param discount
+     * @return
+     */
+    private int calculateAdditionalPrice(BookVO bookVO, FreightVO freight, BigDecimal discount) {
+        int additionalWeight = calculateAdditionalWeight(bookVO, freight);
+        // 续重 = 每500克的价格 * 500克的数量
+        int orgiPrice = (int) (Math.ceil(additionalWeight / 500) * freight.getAdditionalOriginalPrice());
+        return calculatePrice(orgiPrice, discount);
+    }
+
+    /**
+     * 计算续重重量
+     * @param bookVO
+     * @param freight
+     * @return
+     */
+    private int calculateAdditionalWeight(BookVO bookVO, FreightVO freight) {
+        // 货物重量小于首重的，续重为0
+        if (bookVO.getCommodityWeight() <= freight.getFirstWeight()) {
+            return 0;
+        }
+        return bookVO.getCommodityWeight() - freight.getFirstWeight();
+    }
 
     /**
      * 创建快递单模型
@@ -75,13 +157,13 @@ public abstract class AbstractBookService implements BookService {
         expressOrder.setCommodityName(bookVO.getCommodityName());
         expressOrder.setCommodityQuanity(bookVO.getCommodityQuanity());
         expressOrder.setCommodityWeight(bookVO.getCommodityWeight());
+        expressOrder.setPaymentType(bookVO.getPaymentType());
         expressOrder.setExpressType(bookVO.getExpressType());
         expressOrder.setStatus(ExpressOrderStateEnum.WATI_PAY);
         expressOrder.setRemark(bookVO.getRemark());
 
         // 价格
-        expressOrder.setPaymentType(price.paymentType);
-        expressOrder.setTotalPrice(price.totalPrice);
+        expressOrder.setTotalPrice(price.getTotalPrice());
         expressOrder.setFirstWeightPrice(price.firstWeightPrice);
         expressOrder.setAdditionalWeightPrice(price.additionalWeightPrice);
         expressOrder.setFirstWeight(price.firstWeight);
@@ -117,17 +199,33 @@ public abstract class AbstractBookService implements BookService {
      * 快递单价格
      */
     protected class ExpressOrderPrice {
-        /** 支付方式：0-线上支付，1-线下现结，2-线下月结 */
-        private SettleTypeEnum paymentType;
         /**  首重，单位（克）*/
-        private int            firstWeight;
+        private int firstWeight;
         /** 续重，单位：克 */
-        private int            additionalWeight;
+        private int additionalWeight;
         /** 首重价格，单位：分 */
-        private int            firstWeightPrice;
+        private int firstWeightPrice;
         /** 续重价格，单位：分 */
-        private String         additionalWeightPrice;
-        /** 快递费总价，单位：分 */
-        private int            totalPrice;
+        private int additionalWeightPrice;
+
+        public int getTotalPrice() {
+            return firstWeightPrice + additionalWeightPrice;
+        }
+
+        public void setFirstWeight(int firstWeight) {
+            this.firstWeight = firstWeight;
+        }
+
+        public void setAdditionalWeight(int additionalWeight) {
+            this.additionalWeight = additionalWeight;
+        }
+
+        public void setFirstWeightPrice(int firstWeightPrice) {
+            this.firstWeightPrice = firstWeightPrice;
+        }
+
+        public void setAdditionalWeightPrice(int additionalWeightPrice) {
+            this.additionalWeightPrice = additionalWeightPrice;
+        }
     }
 }

@@ -4,16 +4,25 @@
  */ 
 package com.zeh.wms.dal.ibatis;
 
+import com.zeh.wms.dal.operation.freight.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageQueryUtils;
-import com.zeh.wms.dal.daointerface.FreightDAO;
-import com.zeh.wms.dal.dataobject.FreightDO;
-import com.zeh.wms.dal.operation.freight.GetPriceByProvinceNameResult;
-import com.zeh.wms.dal.operation.freight.QueryByPageQuery;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
-import java.util.List;
+import com.zeh.wms.dal.dataobject.FreightDO;
+import com.zeh.wms.dal.daointerface.FreightDAO;
 
 /**
  * FreightDAO
@@ -76,10 +85,13 @@ public class IbatisFreightDAO extends SqlMapClientDaoSupport implements FreightD
 	/**
 	 * 
 	 * sql: 
-	 * <pre>SELECT         id, province_code, express_code, first_weight, first_original_price,         additional_original_price, first_cost_price, additional_cost_price, enabled, gmt_create,         gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         province_code = ?          AND enabled = 1</pre>
+	 * <pre>SELECT         id, province_code, express_code, first_weight, first_original_price,         additional_original_price, first_cost_price, additional_cost_price, enabled, gmt_create,         gmt_modified, create_by, modify_by                       FROM         freight                  WHERE         province_code = ?          AND express_code = ?          AND enabled = 1</pre>
 	 */
-	public FreightDO queryByProvince(String provinceCode) throws DataAccessException {
-		return (FreightDO)getSqlMapClientTemplate().queryForObject("wms.Freight.queryByProvince",provinceCode);
+	public FreightDO queryByExpressAndProvince(String provinceCode ,String expressCode) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("provinceCode",provinceCode);
+		param.put("expressCode",expressCode);
+		return (FreightDO)getSqlMapClientTemplate().queryForObject("wms.Freight.queryByExpressAndProvince",param);
 	}
 
 	/**
@@ -98,15 +110,6 @@ public class IbatisFreightDAO extends SqlMapClientDaoSupport implements FreightD
 	 */
 	public List<FreightDO> queryAllEnabled() throws DataAccessException {
 		return (List<FreightDO>)getSqlMapClientTemplate().queryForList("wms.Freight.queryAllEnabled",null);
-	}
-
-	/**
-	 * 
-	 * sql: 
-	 * <pre>SELECT         f.id,             f.province_code,             f.express_code,             f.first_weight,             f.first_original_price,              f.additional_original_price,             f.first_cost_price,             f.additional_cost_price,             f.enabled,             f.gmt_create,              f.gmt_modified,             f.create_by,             f.modify_by                   FROM         freight f      left join         regions r              on f.province_code = r.id                  WHERE         enabled = 1                      and r.name = ?             limit 1;</pre>
-	 */
-	public GetPriceByProvinceNameResult getPriceByProvinceName(String name) throws DataAccessException {
-		return (GetPriceByProvinceNameResult)getSqlMapClientTemplate().queryForObject("wms.Freight.getPriceByProvinceName",name);
 	}
 
 }

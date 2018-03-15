@@ -7,8 +7,19 @@ package com.zeh.wms.dal.dataobject;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
-import java.util.Date;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
+import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageQueryUtils;
 /**
  * UserExpressDiscountDO
  * database table: user_express_discount

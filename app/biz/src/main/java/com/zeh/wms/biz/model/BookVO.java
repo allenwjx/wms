@@ -18,10 +18,14 @@ public class BookVO extends AbstractModel<String> {
 
     /** 用户ID */
     private long              userId;
+    /** 支付方式：0-线上支付，1-线下现结，2-线下月结 */
+    private SettleTypeEnum    paymentType;
     /** 快递公司类型 */
     private String            expressType;
     /** 商品名称或商品类型 */
     private String            commodityName;
+    /** 商品总数量 */
+    private int               commodityQuanity;
     /** 商品总重量 */
     private int               commodityWeight;
     /** 订单备注 */

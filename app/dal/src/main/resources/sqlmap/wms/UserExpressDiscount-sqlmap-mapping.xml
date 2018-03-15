@@ -26,8 +26,8 @@
     
 	<insert id="wms.UserExpressDiscount.insert">
 		INSERT INTO user_express_discount (
-			user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by
-			) VALUES (#userId#,#expressCode#,#discount#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
+            user_id, express_code, discount, gmt_create, gmt_modified, create_by, modify_by
+            ) VALUES (#userId#,#expressCode#,#discount#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#createBy#,#modifyBy#)
 		<selectKey resultClass="long" type="post" keyProperty="id" >
             select last_insert_id()
     	</selectKey>        
@@ -36,25 +36,25 @@
 	
 	<delete id="wms.UserExpressDiscount.delete">
 		DELETE FROM user_express_discount WHERE
-	        id = #id#
+            id = #id#
     </delete>
     
 	
 	<update id="wms.UserExpressDiscount.update">
 		UPDATE user_express_discount SET
-			user_id = #userId# , express_code = #expressCode#, gmt_modified = CURRENT_TIMESTAMP , modify_by = #modifyBy#
-	        WHERE 
-	        	id = #id#
+            user_id = #userId# , express_code = #expressCode#, gmt_modified = CURRENT_TIMESTAMP , modify_by = #modifyBy#
+            WHERE
+            id = #id#
 	</update>
 	
     
 	
 	<select id="wms.UserExpressDiscount.queryById" resultMap="RM.UserExpressDiscount" >
     	SELECT
- /*wms.UserExpressDiscount.queryById*/ 		    <include refid="UserExpressDiscount.columns"/>
-	        FROM user_express_discount
-	        WHERE 
-		        id = #id#
+ /*wms.UserExpressDiscount.queryById*/             <include refid="UserExpressDiscount.columns"/>
+            FROM user_express_discount
+            WHERE
+            id = #id#
 	</select>	
 
 	    
@@ -62,21 +62,34 @@
 	
     
 	
-	<select id="wms.UserExpressDiscount.queryByPar" resultMap="RM.UserExpressDiscount" >
+	<select id="wms.UserExpressDiscount.queryByUserId" resultMap="RM.UserExpressDiscount" >
     	SELECT
- /*wms.UserExpressDiscount.queryByPar*/ 			<include refid="UserExpressDiscount.columns"/>
-			FROM user_express_discount
-			WHERE 1=1
-			<dynamic>
-				<isNotEmpty prepend="AND" property="userId">
-					user_id = #userId#
-				</isNotEmpty>
+ /*wms.UserExpressDiscount.queryByUserId*/             <include refid="UserExpressDiscount.columns"/>
+            FROM user_express_discount
+            WHERE
+            user_id = #userId#
+	</select>	
 
-				<isNotEmpty prepend="AND" property="expressCode">
-					express_code = #expressCode#
-				</isNotEmpty>
+	    
+	
+	
+    
+	
+	<select id="wms.UserExpressDiscount.queryUserDiscountByExpress" resultMap="RM.UserExpressDiscount" >
+    	SELECT
+ /*wms.UserExpressDiscount.queryUserDiscountByExpress*/             <include refid="UserExpressDiscount.columns"/>
+            FROM user_express_discount
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="userId">
+                    user_id = #userId#
+                </isNotEmpty>
 
-			</dynamic>
+                <isNotEmpty prepend="AND" property="expressCode">
+                    express_code = #expressCode#
+                </isNotEmpty>
+
+            </dynamic>
 	</select>	
 
 	    

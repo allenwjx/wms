@@ -1,5 +1,13 @@
 package com.zeh.wms.biz.service.impl;
 
+import java.util.Collection;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.wms.biz.error.BizErrorFactory;
@@ -10,14 +18,7 @@ import com.zeh.wms.biz.model.enums.StateEnum;
 import com.zeh.wms.biz.service.FreightService;
 import com.zeh.wms.dal.daointerface.FreightDAO;
 import com.zeh.wms.dal.dataobject.FreightDO;
-import com.zeh.wms.dal.operation.freight.GetPriceByProvinceNameResult;
 import com.zeh.wms.dal.operation.freight.QueryByPageQuery;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author allen
@@ -46,9 +47,9 @@ public class FreightServiceImpl implements FreightService {
         if (freight == null) {
             throw new ServiceException(ERROR_FACTORY.createFreightError());
         }
-        FreightDO existFreight = freightDAO.queryByProvince(freight.getProvinceCode());
+        FreightDO existFreight = freightDAO.queryByExpressAndProvince(freight.getProvinceCode(), freight.getExpressCode());
         if (existFreight != null) {
-            throw new ServiceException(ERROR_FACTORY.freightExistError(existFreight.getProvinceCode(), existFreight.getId()));
+            throw new ServiceException(ERROR_FACTORY.freightExistError(existFreight.getProvinceCode(), freight.getExpressCode(), existFreight.getId()));
         }
         freight.setEnabled(StateEnum.Y);
         FreightDO freightDO = mapper.vo2do(freight);
@@ -67,10 +68,10 @@ public class FreightServiceImpl implements FreightService {
             throw new ServiceException(ERROR_FACTORY.updateFreightError());
         }
 
-        if (StringUtils.isNotBlank(freight.getProvinceCode())) {
-            FreightDO existFreight = freightDAO.queryByProvince(freight.getProvinceCode());
+        if (StringUtils.isNotBlank(freight.getProvinceCode()) && StringUtils.isNotBlank(freight.getExpressCode())) {
+            FreightDO existFreight = freightDAO.queryByExpressAndProvince(freight.getProvinceCode(), freight.getExpressCode());
             if (existFreight != null && existFreight.getId() != freight.getId()) {
-                throw new ServiceException(ERROR_FACTORY.freightExistError(existFreight.getProvinceCode(), existFreight.getId()));
+                throw new ServiceException(ERROR_FACTORY.freightExistError(existFreight.getProvinceCode(), freight.getExpressCode(), existFreight.getId()));
             }
         }
 
@@ -98,6 +99,22 @@ public class FreightServiceImpl implements FreightService {
     @Override
     public FreightVO findFreightById(long id) throws ServiceException {
         FreightDO freightDO = freightDAO.queryById(id);
+        return mapper.do2vo(freightDO);
+    }
+
+    /**
+     * 查询一家物流公司某个身份的运价
+     *
+     * @param expressCode
+     * @param provinceName
+     * @return
+     */
+    @Override
+    public FreightVO queryFreightByExpressProvince(String expressCode, String provinceName) {
+        FreightDO freightDO = freightDAO.queryByExpressAndProvince(provinceName, expressCode);
+        if (freightDO == null) {
+            return null;
+        }
         return mapper.do2vo(freightDO);
     }
 
@@ -139,22 +156,6 @@ public class FreightServiceImpl implements FreightService {
     }
 
     /**
-     * 查询该省运价信息
-     *
-     * @param province 省
-     * @return 该省运价信息
-     * @throws ServiceException 运价查询异常
-     */
-    @Override
-    public FreightVO findByProvince(String province) throws ServiceException {
-        if (StringUtils.isBlank(province)) {
-            throw new ServiceException(ERROR_FACTORY.queryFreightError());
-        }
-        FreightDO freightDO = freightDAO.queryByProvince(province);
-        return mapper.do2vo(freightDO);
-    }
-
-    /**
      * 更新运价启用、禁用状态
      *
      * @param id       运价ID
@@ -169,14 +170,5 @@ public class FreightServiceImpl implements FreightService {
         freight.setModifyBy(modifyBy);
         freight.setEnabled(enabled);
         updateFreight(freight);
-    }
-
-    @Override
-    public FreightVO findByProvinceName(String provinceName) throws ServiceException {
-        if (StringUtils.isBlank(provinceName)) {
-            throw new ServiceException(ERROR_FACTORY.queryFreightError());
-        }
-        GetPriceByProvinceNameResult result = freightDAO.getPriceByProvinceName(provinceName);
-        return mapper.result2VO(result);
     }
 }

@@ -50,4 +50,11 @@ public interface RegionsService {
      */
     Collection<RegionsVO> queryDistricts(Long cityId) throws ServiceException;
 
+    /**
+     * 根据名称查询
+     * @param name
+     * @return
+     * @throws ServiceException
+     */
+    RegionsVO queryByName(String name) throws ServiceException;
 }

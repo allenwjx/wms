@@ -1,15 +1,17 @@
 package com.zeh.wms.biz.service.impl;
 
+import java.math.BigDecimal;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.FreightVO;
 import com.zeh.wms.biz.model.calate.OrderCalculatePriceVO;
 import com.zeh.wms.biz.service.FreightService;
 import com.zeh.wms.biz.service.OrderCalculateService;
 import com.zeh.wms.biz.service.UserService;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.math.BigDecimal;
 
 /**
  * @author hzy24985
@@ -30,7 +32,7 @@ public class OrderCalculateServiceImpl extends AbstractService implements OrderC
         // 计算价格.
         BigDecimal discount = userService.getDiscount(userId, expressCode);
         //获取运价信息
-        FreightVO freightVO = freightService.findByProvinceName(targetProvince);
+        FreightVO freightVO = freightService.queryFreightByExpressProvince(expressCode, targetProvince);
         if (freightVO == null) {
             throw new ServiceException(ERROR_FACTORY.notFindFreightConfig(targetProvince));
         }

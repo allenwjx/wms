@@ -45,7 +45,7 @@ public class ExpressOrderVO extends BaseVO {
     /** 首重价格，单位：分 */
     private int                      firstWeightPrice;
     /** 续重价格，单位：分 */
-    private String                   additionalWeightPrice;
+    private int                      additionalWeightPrice;
     /** 快递费总价，单位：分 */
     private int                      totalPrice;
     /** 订单备注 */

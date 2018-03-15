@@ -1,11 +1,11 @@
 package com.zeh.wms.biz.service;
 
+import java.util.Collection;
+
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.FreightVO;
 import com.zeh.wms.biz.model.enums.StateEnum;
-
-import java.util.Collection;
 
 /**
  * @author allen
@@ -58,13 +58,13 @@ public interface FreightService {
     Collection<FreightVO> findAllFreights() throws ServiceException;
 
     /**
-     * 查询该省运价信息
-     *
-     * @param province 省
-     * @return 该省运价信息
-     * @throws ServiceException 运价查询异常
+     * 查询一家物流公司某个身份的运价
+     * 
+     * @param expressCode
+     * @param provinceName
+     * @return
      */
-    FreightVO findByProvince(String province) throws ServiceException;
+    FreightVO queryFreightByExpressProvince(String expressCode, String provinceName);
 
     /**
      * 更新运价启用、禁用状态
@@ -75,6 +75,4 @@ public interface FreightService {
      * @throws ServiceException 运价状态更新异常
      */
     void updateFreightState(long id, String modifyBy, StateEnum enabled) throws ServiceException;
-
-    FreightVO findByProvinceName(String provinceName) throws ServiceException;
 }
