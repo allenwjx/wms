@@ -4,17 +4,25 @@
  */ 
 package com.zeh.wms.dal.ibatis;
 
+import com.zeh.wms.dal.operation.inventory.*;
+import com.zeh.wms.dal.dataobject.*;
+
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageQueryUtils;
-import com.zeh.wms.dal.daointerface.InventoryDAO;
-import com.zeh.wms.dal.dataobject.InventoryDO;
-import com.zeh.wms.dal.operation.inventory.*;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.zeh.wms.dal.dataobject.InventoryDO;
+import com.zeh.wms.dal.daointerface.InventoryDAO;
 
 /**
  * InventoryDAO
@@ -65,7 +73,7 @@ public class IbatisInventoryDAO extends SqlMapClientDaoSupport implements Invent
 	/**
 	 * 
 	 * sql: 
-	 * <pre>UPDATE         inventory      SET         amount = ? ,gmt_modified = CURRENT_TIMESTAMP,modify_by = ?                  WHERE         mobile = ?          and commodity_id = ?</pre>
+	 * <pre>UPDATE         inventory      SET         amount = amount + ? ,gmt_modified = CURRENT_TIMESTAMP,modify_by = ?                  WHERE         mobile = ?          and commodity_id = ?</pre>
 	 */
 	public int addAmountByMobile(AddAmountByMobileParameter param) throws DataAccessException {
 		return getSqlMapClientTemplate().update("wms.Inventory.addAmountByMobile", param);
@@ -115,7 +123,6 @@ public class IbatisInventoryDAO extends SqlMapClientDaoSupport implements Invent
 	 * sql: 
 	 * <pre>SELECT         inv.id,             inv.commodity_id,             inv.mobile,             inv.amount,             com.code,              com.name,             com.price,             com.unit,             com.weight,             com.description,              com.manufacturer_id                  FROM         inventory inv      left join         agent u              on inv.mobile = u.mobile                  left join         commodity com              on inv.commodity_id = com.id                   WHERE         inv.mobile = ?                                            AND                      inv.id = ?                                            AND                      com.name like concat('%',?,'%')</pre>
 	 */
-	@Override
 	public List<GetInfoByMobileResult> getInfoByMobile(GetInfoByMobileQuery param) throws DataAccessException {
 		return (List<GetInfoByMobileResult>)getSqlMapClientTemplate().queryForList("wms.Inventory.getInfoByMobile",param);
 	}

@@ -43,9 +43,9 @@
     <operation name="addAmountByMobile" paramtype="parameterObject">
         <sql>
             UPDATE inventory SET
-            amount = ? ,gmt_modified = CURRENT_TIMESTAMP,modify_by = ?
+            amount = amount + #amount# ,gmt_modified = CURRENT_TIMESTAMP,modify_by = #modifyBy#
             WHERE
-            mobile = ? and commodity_id = ?
+            mobile = #mobile# and commodity_id = #commodityId#
         </sql>
     </operation>
 

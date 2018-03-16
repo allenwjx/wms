@@ -56,7 +56,7 @@
 	
 	<update id="wms.Inventory.addAmountByMobile">
 		UPDATE inventory SET
-            amount = #amount# ,gmt_modified = CURRENT_TIMESTAMP,modify_by = #modifyBy#
+            amount = amount + #amount# ,gmt_modified = CURRENT_TIMESTAMP,modify_by = #modifyBy#
             WHERE
             mobile = #mobile# and commodity_id = #commodityId#
 	</update>

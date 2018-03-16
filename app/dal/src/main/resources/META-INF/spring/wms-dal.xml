@@ -10,29 +10,29 @@
     <!--  DAO configs: auto generate by dalgen                                    -->
     <!-- ======================================================================== -->
 
-    <bean id="roleAuthorizationLinkDAO" class="com.zeh.wms.dal.ibatis.IbatisRoleAuthorizationLinkDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="agentDAO" class="com.zeh.wms.dal.ibatis.IbatisAgentDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="qrcodeBatchDAO" class="com.zeh.wms.dal.ibatis.IbatisQrcodeBatchDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="qrcodeDAO" class="com.zeh.wms.dal.ibatis.IbatisQrcodeDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="inventoryDAO" class="com.zeh.wms.dal.ibatis.IbatisInventoryDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="authorizationDAO" class="com.zeh.wms.dal.ibatis.IbatisAuthorizationDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="auxiliaryMaterialDAO" class="com.zeh.wms.dal.ibatis.IbatisAuxiliaryMaterialDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="commodityDAO" class="com.zeh.wms.dal.ibatis.IbatisCommodityDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="expresDAO" class="com.zeh.wms.dal.ibatis.IbatisExpresDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="roleDAO" class="com.zeh.wms.dal.ibatis.IbatisRoleDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="userDAO" class="com.zeh.wms.dal.ibatis.IbatisUserDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="userBgDAO" class="com.zeh.wms.dal.ibatis.IbatisUserBgDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="userRoleLinkDAO" class="com.zeh.wms.dal.ibatis.IbatisUserRoleLinkDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="expressOrderDAO" class="com.zeh.wms.dal.ibatis.IbatisExpressOrderDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="expressOrderItemDAO" class="com.zeh.wms.dal.ibatis.IbatisExpressOrderItemDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="freightDAO" class="com.zeh.wms.dal.ibatis.IbatisFreightDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="inventoryDAO" class="com.zeh.wms.dal.ibatis.IbatisInventoryDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="inventoryHistoryDAO" class="com.zeh.wms.dal.ibatis.IbatisInventoryHistoryDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="userExpressDiscountDAO" class="com.zeh.wms.dal.ibatis.IbatisUserExpressDiscountDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="manufacturerDAO" class="com.zeh.wms.dal.ibatis.IbatisManufacturerDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="paymentOrderDAO" class="com.zeh.wms.dal.ibatis.IbatisPaymentOrderDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="commodityDAO" class="com.zeh.wms.dal.ibatis.IbatisCommodityDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="auxiliaryMaterialDAO" class="com.zeh.wms.dal.ibatis.IbatisAuxiliaryMaterialDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="freightDAO" class="com.zeh.wms.dal.ibatis.IbatisFreightDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="shipRecordDAO" class="com.zeh.wms.dal.ibatis.IbatisShipRecordDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="expressOrderItemDAO" class="com.zeh.wms.dal.ibatis.IbatisExpressOrderItemDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="authorizationDAO" class="com.zeh.wms.dal.ibatis.IbatisAuthorizationDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="qrcodeDAO" class="com.zeh.wms.dal.ibatis.IbatisQrcodeDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="qrcodeBatchDAO" class="com.zeh.wms.dal.ibatis.IbatisQrcodeBatchDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="regionDAO" class="com.zeh.wms.dal.ibatis.IbatisRegionDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="userAgentLinkDAO" class="com.zeh.wms.dal.ibatis.IbatisUserAgentLinkDAO" parent="wmsSqlMapClientDAO"/>
-    <bean id="expressOrderDAO" class="com.zeh.wms.dal.ibatis.IbatisExpressOrderDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="roleDAO" class="com.zeh.wms.dal.ibatis.IbatisRoleDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="roleAuthorizationLinkDAO" class="com.zeh.wms.dal.ibatis.IbatisRoleAuthorizationLinkDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="shipRecordDAO" class="com.zeh.wms.dal.ibatis.IbatisShipRecordDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="userDAO" class="com.zeh.wms.dal.ibatis.IbatisUserDAO" parent="wmsSqlMapClientDAO"/>
     <bean id="userAddresDAO" class="com.zeh.wms.dal.ibatis.IbatisUserAddresDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="userAgentLinkDAO" class="com.zeh.wms.dal.ibatis.IbatisUserAgentLinkDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="userBgDAO" class="com.zeh.wms.dal.ibatis.IbatisUserBgDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="userExpressDiscountDAO" class="com.zeh.wms.dal.ibatis.IbatisUserExpressDiscountDAO" parent="wmsSqlMapClientDAO"/>
+    <bean id="userRoleLinkDAO" class="com.zeh.wms.dal.ibatis.IbatisUserRoleLinkDAO" parent="wmsSqlMapClientDAO"/>
 	
 </beans>

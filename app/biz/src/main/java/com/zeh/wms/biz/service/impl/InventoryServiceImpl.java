@@ -22,28 +22,47 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
+ * The type Inventory service.
+ *
  * @author hzy24985
- * @version $Id: InventoryServiceImpl, v 0.1 2018/3/10 00:26 hzy24985 Exp $
+ * @version $Id : InventoryServiceImpl, v 0.1 2018/3/10 00:26 hzy24985 Exp $
  */
 @Service
 public class InventoryServiceImpl extends AbstractService implements InventoryService {
-    private static Logger logger = LoggerFactory.getLogger(InventoryServiceImpl.class);
-
+    private static Logger       logger = LoggerFactory.getLogger(InventoryServiceImpl.class);
+    /** 库存仓储 */
     @Resource
-    private InventoryDAO inventoryDAO;
+    private InventoryDAO        inventoryDAO;
+
+    /** 库存历史仓储 */
     @Resource
     private InventoryHistoryDAO inventoryHistoryDAO;
 
+    /** 代理商服务 */
     @Resource
-    private AgentService agentService;
-    @Resource
-    private InventoryMapper inventoryMapper;
+    private AgentService        agentService;
 
+    /** 库存模型转换工具 */
+    @Resource
+    private InventoryMapper     inventoryMapper;
+
+    /**
+     * 分页查询.
+     * @param query the query
+     * @return FindPageResult
+     */
     @Override
     public PageList<FindPageResult> pageQueryInventory(FindPageQuery query) {
         return inventoryDAO.findPage(query);
     }
 
+    /**
+     * 保存代理商和库存信息.
+     * @param agent     the agent
+     * @param inventory the inventory
+     * @return the inventory vo
+     * @throws ServiceException service exception
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public InventoryVO saveAgentAndInventory(AgentVO agent, InventoryVO inventory) throws ServiceException {
@@ -52,6 +71,13 @@ public class InventoryServiceImpl extends AbstractService implements InventorySe
         return saveOrUpdate(inventory);
     }
 
+    /**
+     * 保存或更新库存，同时库存历史表插入记录.
+     * @param inventory the inventory
+     * @return the inventory vo
+     * @throws ServiceException  service exception
+     */
+    @Override
     public InventoryVO saveOrUpdate(InventoryVO inventory) throws ServiceException {
         InventoryDO inventoryDO = inventoryDAO.queryByMobileAndCommodityId(inventory.getMobile(), inventory.getCommodityId());
         if (inventoryDO == null) {
@@ -64,7 +90,7 @@ public class InventoryServiceImpl extends AbstractService implements InventorySe
             parameter.setCommodityId(inventory.getCommodityId());
             parameter.setMobile(inventory.getMobile());
             parameter.setModifyBy(inventory.getModifyBy());
-            parameter.setAmount(inventoryDO.getAmount() + inventory.getAmount());
+            parameter.setAmount(inventory.getAmount());
             checkUpdate(inventoryDAO.addAmountByMobile(parameter), "库存");
         }
 
@@ -73,11 +99,23 @@ public class InventoryServiceImpl extends AbstractService implements InventorySe
         return inventory;
     }
 
+    /**
+     * 根据电话和代理人姓名查询库存信息.
+     * @param mobile the mobile
+     * @param name   the name
+     * @return the inventory vo list
+     */
     @Override
     public List<GetInfoByMobileResult> getInfoByMobileAndName(String mobile, String name) {
         return inventoryDAO.getInfoByMobile(new GetInfoByMobileQuery(mobile, null, name));
     }
 
+    /**
+     * 根据电话和库存id查询库存信息.
+     * @param mobile the mobile
+     * @param id     the id
+     * @return the inventory vo
+     */
     @Override
     public GetInfoByMobileResult getInfoByMobileAndId(String mobile, Long id) {
         List<GetInfoByMobileResult> list = inventoryDAO.getInfoByMobile(new GetInfoByMobileQuery(mobile, id, null));
@@ -85,5 +123,18 @@ public class InventoryServiceImpl extends AbstractService implements InventorySe
             return null;
         }
         return list.get(0);
+    }
+
+    /**
+     * 根据电话和商品id，查询库存信息.
+     * @param mobile      the mobile
+     * @param commodityId the commodity id
+     * @return the inventory vo
+     * @throws ServiceException service exception
+     */
+    @Override
+    public InventoryVO queryByMobileAndCommodityId(String mobile, Long commodityId) throws ServiceException {
+        InventoryDO inventoryDO = inventoryDAO.queryByMobileAndCommodityId(mobile, commodityId);
+        return inventoryMapper.do2vo(inventoryDO);
     }
 }

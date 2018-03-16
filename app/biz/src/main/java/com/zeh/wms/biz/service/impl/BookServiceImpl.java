@@ -3,13 +3,11 @@ package com.zeh.wms.biz.service.impl;
 import com.zeh.wms.biz.error.BizErrorFactory;
 import com.zeh.wms.biz.exception.BookServiceException;
 import com.zeh.wms.biz.exception.ServiceException;
-import com.zeh.wms.biz.model.BookVO;
-import com.zeh.wms.biz.model.ExpressOrderVO;
-import com.zeh.wms.biz.model.FreightVO;
-import com.zeh.wms.biz.model.RegionsVO;
+import com.zeh.wms.biz.model.*;
 import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
 import com.zeh.wms.biz.service.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -41,6 +39,10 @@ public class BookServiceImpl implements BookService {
     @Resource
     private RegionsService                 regionsService;
 
+    /** 库存服务 */
+    @Resource
+    private InventoryService               inventoryService;
+
     /**
      * 快递预定
      *
@@ -65,6 +67,27 @@ public class BookServiceImpl implements BookService {
         } catch (ServiceException e) {
             throw new BookServiceException(e.getError(), e);
         }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ExpressOrderVO inventoryBook(BookVO bookVO, Long commodityId, String mobile) throws BookServiceException, ServiceException {
+        //校验库存数量是否超出范围
+        InventoryVO inventoryVO = validateInventoryAmount(bookVO, commodityId, mobile);
+        //下单
+        ExpressOrderVO expressOrder = book(bookVO);
+        //更新库存数量，记录库存变动历史
+        inventoryVO.setAmount(0 - bookVO.getCommodityQuanity());
+        inventoryService.saveOrUpdate(inventoryVO);
+        return expressOrder;
+    }
+
+    private InventoryVO validateInventoryAmount(BookVO bookVO, Long commodityId, String mobile) throws ServiceException, BookServiceException {
+        InventoryVO inventoryVO = inventoryService.queryByMobileAndCommodityId(mobile, commodityId);
+        if (inventoryVO.getAmount() < bookVO.getCommodityQuanity()) {
+            throw new BookServiceException(ERROR_FACTORY.inventoryNumberError(inventoryVO.getAmount(), bookVO.getCommodityQuanity()));
+        }
+        return inventoryVO;
     }
 
     /**

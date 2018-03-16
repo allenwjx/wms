@@ -47,7 +47,7 @@ public interface InventoryDAO {
 	/**
 	 * 
 	 * sql:
-	 * <pre>UPDATE         inventory      SET         amount = ? ,gmt_modified = CURRENT_TIMESTAMP,modify_by = ?                  WHERE         mobile = ?          and commodity_id = ?</pre> 
+	 * <pre>UPDATE         inventory      SET         amount = amount + ? ,gmt_modified = CURRENT_TIMESTAMP,modify_by = ?                  WHERE         mobile = ?          and commodity_id = ?</pre> 
 	 */
 	public int addAmountByMobile(AddAmountByMobileParameter param) throws DataAccessException;
 

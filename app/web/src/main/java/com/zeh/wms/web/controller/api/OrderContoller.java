@@ -5,6 +5,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.zeh.jungle.utils.page.SingleResult;
 import com.zeh.wms.biz.exception.BookServiceException;
+import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.BookVO;
 import com.zeh.wms.biz.model.ExpressOrderVO;
 import com.zeh.wms.biz.service.*;
@@ -45,8 +46,7 @@ public class OrderContoller extends BaseController {
     @ResponseBody
     public SingleResult<OrderPriceModel> book(@RequestBody OrderBookModel orderBookModel) {
         try {
-            BookVO bookVO = createBookVO(orderBookModel);
-            ExpressOrderVO expressOrder = bookService.book(bookVO);
+            ExpressOrderVO expressOrder = createExpressOrderVO(orderBookModel);
             OrderPriceModel price = new OrderPriceModel();
             price.setAdditionalWeight(expressOrder.getAdditionalWeight());
             price.setAdditionalWeightPrice(expressOrder.getAdditionalWeightPrice());
@@ -55,9 +55,18 @@ public class OrderContoller extends BaseController {
             price.setPaymentType(expressOrder.getPaymentType().getCode());
             price.setTotalPrice(expressOrder.getTotalPrice());
             return createSuccessResult(price);
-        } catch (BookServiceException e) {
+        } catch (BookServiceException | ServiceException e) {
             return createErrorResult(e);
         }
+    }
+
+    private ExpressOrderVO createExpressOrderVO(OrderBookModel orderBookModel) throws BookServiceException, ServiceException {
+        BookVO bookVO = createBookVO(orderBookModel);
+        if (orderBookModel.getCommodityId() > 0) {
+            bookService.inventoryBook(bookVO, orderBookModel.getCommodityId(), getCurrentApiUser().getMobile());
+        }
+
+        return bookService.book(bookVO);
     }
 
     @ApiOperation(value = "订单详情", httpMethod = "GET")

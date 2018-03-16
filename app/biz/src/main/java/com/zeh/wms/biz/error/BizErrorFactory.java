@@ -443,6 +443,15 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * 下单商品数量({0})超出库存数量({1}), 请重新下单。
+     *
+     * @return
+     */
+    public JGError inventoryNumberError(int total, int num) {
+        return createError("JG0510021005", total, num);
+    }
+
+    /**
      * JG0510031001=用户名无效
      *
      * @return

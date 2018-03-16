@@ -34,7 +34,7 @@ public interface InventoryService {
      * @return the inventory vo
      * @throws ServiceException the service exception
      */
-    InventoryVO saveAgentAndInventory(AgentVO agent, InventoryVO inventory)  throws ServiceException;
+    InventoryVO saveAgentAndInventory(AgentVO agent, InventoryVO inventory) throws ServiceException;
 
     /**
      * Get info by mobile and name list.
@@ -53,4 +53,22 @@ public interface InventoryService {
      * @return the info by mobile and id
      */
     GetInfoByMobileResult getInfoByMobileAndId(String mobile, Long id);
+
+    /**
+     * Save or update inventory vo.
+     *
+     * @param inventory the inventory
+     * @return the inventory vo
+     * @throws ServiceException the service exception
+     */
+    InventoryVO saveOrUpdate(InventoryVO inventory) throws ServiceException;
+
+    /**
+     * Query by mobile and commodity id inventory vo.
+     *
+     * @param mobile      the mobile
+     * @param commodityId the commodity id
+     * @return the inventory vo
+     */
+    InventoryVO queryByMobileAndCommodityId(String mobile, Long commodityId) throws ServiceException;
 }

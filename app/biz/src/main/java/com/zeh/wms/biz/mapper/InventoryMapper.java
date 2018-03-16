@@ -13,7 +13,7 @@ import com.zeh.wms.dal.dataobject.InventoryDO;
  * @author hzy24985
  * @version $Id : InventoryMapper, v 0.1 2018/3/10 12:48 hzy24985 Exp $
  */
-@Mapper(componentModel = "spring", nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
+@Mapper(componentModel = "spring", nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
 public interface InventoryMapper extends AbstractMapper {
 
     /**
@@ -22,7 +22,7 @@ public interface InventoryMapper extends AbstractMapper {
      * @param data the data
      * @return the inventory vo
      */
-    InventoryVO do2vo(InventoryVO data);
+    InventoryVO do2vo(InventoryDO data);
 
     /**
      * Vo 2 do inventory do.
