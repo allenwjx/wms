@@ -56,6 +56,15 @@
 	
     
 	
+	<update id="wms.PaymentOrder.updateStatus">
+		UPDATE payment_order SET
+			other_payment_no = #otherPaymentNo# , status = #status# ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = #modifyBy#
+			WHERE
+			payment_order_no = #paymentOrderNo#
+	</update>
+	
+    
+	
 	<select id="wms.PaymentOrder.queryById" resultMap="RM.PaymentOrder" >
     	SELECT
  /*wms.PaymentOrder.queryById*/ 		    <include refid="PaymentOrder.columns"/>

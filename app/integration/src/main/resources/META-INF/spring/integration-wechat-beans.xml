@@ -10,6 +10,7 @@
         <property name="appId" value="wxd9bc788c2667c728"/>
         <property name="notifyUrl" value="${wechat.notifyUrl}"/>
         <property name="useSandboxEnv" value="${wechat.useSandboxEnv}"/>
+        <!--TODO 商户id等信息需要维护-->
     </bean>
 
     <bean id="wxPayService" class="com.github.binarywang.wxpay.service.impl.WxPayServiceImpl">

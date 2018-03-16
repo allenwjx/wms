@@ -39,4 +39,11 @@ public class CodeGenerator {
         String code = g.generate();
         return "E" + baseNo + code;
     }
+
+    public static final String generatePaySerialNo() {
+        String baseNo = OrderSerialNoGenerator.getInstance().generate();
+        RandomGenerator g = new RandomGenerator(6);
+        String code = g.generate();
+        return "PAY" + baseNo + code;
+    }
 }

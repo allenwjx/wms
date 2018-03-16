@@ -452,6 +452,15 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * 微信下单失败。msg: {0}
+     * @param msg msg
+     * @return jg error
+     */
+    public JGError wechatUniOrderFail(String msg) {
+        return createError("JG0510022001", msg);
+    }
+
+    /**
      * JG0510031001=用户名无效
      *
      * @return

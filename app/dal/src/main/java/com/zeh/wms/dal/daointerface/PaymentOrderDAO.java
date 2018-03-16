@@ -2,21 +2,15 @@
  * Jungle.com Inc.
  * Copyright (c) 2004-2018 All Rights Reserved.
  */package com.zeh.wms.dal.daointerface;
-import org.springframework.dao.DataAccessException;
-import com.zeh.wms.dal.operation.paymentorder.*;
-import com.zeh.wms.dal.dataobject.*;
 
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
-import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import com.zeh.wms.dal.dataobject.PaymentOrderDO;
+import com.zeh.wms.dal.operation.expressorder.UpdateStatusParameter;
+import com.zeh.wms.dal.operation.paymentorder.GetAllDataQuery;
+import com.zeh.wms.dal.operation.paymentorder.GetPageDataQuery;
+import org.springframework.dao.DataAccessException;
+
+import java.util.List;
 /**
  * PaymentOrderDAO
  * database table: payment_order
@@ -52,6 +46,13 @@ public interface PaymentOrderDAO {
 	 * <pre>UPDATE         payment_order      SET         order_no = ? ,other_order_no = ? ,user_id = ? ,code = ? ,payment_order_no = ? ,other_payment_no = ? ,amount = ? ,channel = ? ,status = ? ,pay_limited = ? ,gmt_modified = CURRENT_TIMESTAMP ,create_by = ? ,modify_by = ?               WHERE         id = ?</pre> 
 	 */
 	public int update(PaymentOrderDO paymentOrder) throws DataAccessException;
+
+	/**
+	 * 
+	 * sql:
+	 * <pre>UPDATE         payment_order      SET         other_payment_no = ? , status = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?         WHERE         payment_order_no = ?</pre> 
+	 */
+	public int updateStatus(UpdateStatusParameter param) throws DataAccessException;
 
 	/**
 	 * 

@@ -51,4 +51,19 @@ public interface PaymentService {
      * @throws ServiceException
      */
     String payCallback(String xmlData) ;
+
+    /**
+     * 创建支付单.
+     * @param paymentOrderVO payment order vo.
+     * @return payment order vo.
+     * @throws ServiceException
+     */
+    PaymentOrderVO createPayOrder(PaymentOrderVO paymentOrderVO) throws ServiceException;
+
+    /**
+     * 生成微信统一订单，返回签名信息。
+     * @return 返回签名信息，用于微信支付.
+     * @throws ServiceException service exception.
+     */
+    String createWechatOrder() throws ServiceException;
 }

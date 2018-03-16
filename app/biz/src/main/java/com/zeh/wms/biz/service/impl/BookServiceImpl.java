@@ -4,7 +4,6 @@ import com.zeh.wms.biz.error.BizErrorFactory;
 import com.zeh.wms.biz.exception.BookServiceException;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.*;
-import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
 import com.zeh.wms.biz.service.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -180,7 +179,7 @@ public class BookServiceImpl implements BookService {
         expressOrder.setCommodityWeight(bookVO.getCommodityWeight());
         expressOrder.setPaymentType(bookVO.getPaymentType());
         expressOrder.setExpressType(bookVO.getExpressType());
-        expressOrder.setStatus(ExpressOrderStateEnum.WATI_PAY);
+        expressOrder.setStatus(bookVO.getStatus());
         expressOrder.setRemark(bookVO.getRemark());
 
         // 价格

@@ -12,6 +12,8 @@ public enum PaymentStateEnum {
     PAYING("PAYING", "支付中"),
     /** 已支付 */
     PAYED("PAYED", "已支付"),
+    /** 已支付 */
+    PAY_FAIL("PAY_FAIL", "支付失败"),
     /** 支付取消 */
     PAY_CANCEL("PAY_CANCEL", "支付取消");
 

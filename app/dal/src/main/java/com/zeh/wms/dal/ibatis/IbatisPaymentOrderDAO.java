@@ -76,6 +76,15 @@ public class IbatisPaymentOrderDAO extends SqlMapClientDaoSupport implements Pay
 	/**
 	 * 
 	 * sql: 
+	 * <pre>UPDATE         payment_order      SET         other_payment_no = ? , status = ? ,gmt_modified = CURRENT_TIMESTAMP ,modify_by = ?         WHERE         payment_order_no = ?</pre>
+	 */
+	public int updateStatus(UpdateStatusParameter param) throws DataAccessException {
+		return getSqlMapClientTemplate().update("wms.PaymentOrder.updateStatus", param);
+	}
+
+	/**
+	 * 
+	 * sql: 
 	 * <pre>SELECT         id, order_no, other_order_no, user_id, code, payment_order_no, other_payment_no, amount, channel, status, pay_limited, gmt_create, gmt_modified, create_by, modify_by                  FROM         payment_order                WHERE         id = ?</pre>
 	 */
 	public PaymentOrderDO queryById(Long id) throws DataAccessException {

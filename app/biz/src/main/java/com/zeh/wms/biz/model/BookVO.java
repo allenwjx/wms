@@ -1,9 +1,10 @@
 package com.zeh.wms.biz.model;
 
-import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
-import com.zeh.wms.biz.model.enums.SettleTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
+
+import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
+import com.zeh.wms.biz.model.enums.SettleTypeEnum;
 
 /**
  * @author allen
@@ -22,6 +23,8 @@ public class BookVO extends AbstractModel<String> {
     private SettleTypeEnum    paymentType;
     /** 快递公司类型 */
     private String            expressType;
+    /** 订单状态; WATI_PAY（待支付）； WAIT_PICKUP（待取件）； WAIT_SEND（待发货）； SENDED（已发货）； CANCELED（订单取消）*/
+    private ExpressOrderStateEnum status;
     /** 商品名称或商品类型 */
     private String            commodityName;
     /** 商品总数量 */

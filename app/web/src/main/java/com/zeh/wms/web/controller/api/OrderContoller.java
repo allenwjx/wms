@@ -8,6 +8,8 @@ import com.zeh.wms.biz.exception.BookServiceException;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.model.BookVO;
 import com.zeh.wms.biz.model.ExpressOrderVO;
+import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
+import com.zeh.wms.biz.model.enums.SettleTypeEnum;
 import com.zeh.wms.biz.service.*;
 import com.zeh.wms.web.controller.BaseController;
 import com.zeh.wms.web.controller.api.model.OrderBookModel;
@@ -62,7 +64,7 @@ public class OrderContoller extends BaseController {
 
     private ExpressOrderVO createExpressOrderVO(OrderBookModel orderBookModel) throws BookServiceException, ServiceException {
         BookVO bookVO = createBookVO(orderBookModel);
-        if (orderBookModel.getCommodityId() > 0) {
+        if (getCurrentApiUser().getPaymentType() != SettleTypeEnum.ONLINE) {
             bookService.inventoryBook(bookVO, orderBookModel.getCommodityId(), getCurrentApiUser().getMobile());
         }
 
@@ -115,6 +117,12 @@ public class OrderContoller extends BaseController {
         bookVO.setReceiverRegion(orderBookModel.getReceiverRegion());
         bookVO.setReceiverTel(orderBookModel.getReceiverTel());
         bookVO.setReceiverZipCode("");
+
+        if (getCurrentApiUser().getPaymentType() == SettleTypeEnum.ONLINE) {
+            bookVO.setStatus(ExpressOrderStateEnum.WATI_PAY);
+        } else {
+            bookVO.setStatus(ExpressOrderStateEnum.WAIT_SEND);
+        }
 
         return bookVO;
     }
