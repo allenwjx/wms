@@ -4,25 +4,17 @@
  */ 
 package com.zeh.wms.dal.ibatis;
 
-import com.zeh.wms.dal.operation.paymentorder.*;
-import com.zeh.wms.dal.dataobject.*;
-
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import com.zeh.jungle.dal.paginator.PageQuery;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageQueryUtils;
+import com.zeh.wms.dal.daointerface.PaymentOrderDAO;
+import com.zeh.wms.dal.dataobject.PaymentOrderDO;
+import com.zeh.wms.dal.operation.expressorder.UpdateStatusParameter;
+import com.zeh.wms.dal.operation.paymentorder.GetAllDataQuery;
+import com.zeh.wms.dal.operation.paymentorder.GetPageDataQuery;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
-import com.zeh.wms.dal.dataobject.PaymentOrderDO;
-import com.zeh.wms.dal.daointerface.PaymentOrderDAO;
+import java.util.List;
 
 /**
  * PaymentOrderDAO
