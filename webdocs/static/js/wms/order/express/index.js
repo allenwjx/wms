@@ -54,7 +54,7 @@ $(document).ready(function () {
             query: function () {
                 var self = this;
                 var pageInfo = {
-                    "currentPage": self.pageResult.paginator.currentPage,
+                    "page": self.pageResult.paginator.currentPage,
                     "pageSize": self.pageSize,
                     "totalCount": self.pageResult.paginator.totalCount
                 };

@@ -80,7 +80,7 @@
             <td v-html="item.createBy"></td>
             <td v-html="item.modifyBy"></td>
             <td>
-                <a class="a-icon" v-on:click="edit(item.userId, item.commodityId)"><i class="fa fa-edit"></i>历史</a>
+                <a class="a-icon" v-on:click="history(item.mobile, item.commodityId)"><i class="fa fa-edit"></i>历史</a>
             </td>
         </tr>
         </tbody>

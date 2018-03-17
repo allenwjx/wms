@@ -65,7 +65,7 @@ public class OrderContoller extends BaseController {
     private ExpressOrderVO createExpressOrderVO(OrderBookModel orderBookModel) throws BookServiceException, ServiceException {
         BookVO bookVO = createBookVO(orderBookModel);
         if (getCurrentApiUser().getPaymentType() != SettleTypeEnum.ONLINE) {
-            bookService.inventoryBook(bookVO, orderBookModel.getCommodityId(), getCurrentApiUser().getMobile());
+            return bookService.inventoryBook(bookVO, orderBookModel.getCommodityId(), getCurrentApiUser().getMobile());
         }
 
         return bookService.book(bookVO);

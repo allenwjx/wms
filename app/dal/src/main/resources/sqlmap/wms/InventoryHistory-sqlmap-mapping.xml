@@ -65,6 +65,92 @@
 	
 	
     
+	<resultMap id="RM.QueryHistoryResult" class="com.zeh.wms.dal.operation.inventoryhistory.QueryHistoryResult">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="commodityId" column="commodity_id" javaType="long" jdbcType="BIGINT"  nullValue="0"  />
+		<result property="mobile" column="mobile" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="amount" column="amount" javaType="int" jdbcType="INTEGER"  nullValue="0"  />
+		<result property="gmtCreate" column="gmt_create" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="gmtModified" column="gmt_modified" javaType="java.util.Date" jdbcType="TIMESTAMP"  />
+		<result property="createBy" column="create_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="modifyBy" column="modify_by" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="nickName" column="nick_name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="commodityName" column="commodity_name" javaType="java.lang.String" jdbcType="VARCHAR"  />
+	</resultMap>
+	
+	<select id="wms.InventoryHistory.queryHistory" resultMap="RM.QueryHistoryResult" >
+    	SELECT
+ /*wms.InventoryHistory.queryHistory*/             inv.id,
+            inv.commodity_id,
+            inv.mobile,
+            inv.amount,
+            inv.gmt_create,
+
+            inv.gmt_modified,
+            inv.create_by,
+            inv.modify_by,
+            u.nick_name,
+
+            com.commodity_name
+            FROM inventory_history inv left join user u on inv.mobile = u.mobile
+            left join (select name as commodity_name, id from commodity ) com on inv.commodity_id = com.id
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="mobile">
+                    inv.mobile = #mobile#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="nickName">
+                    u.nick_name = #nickName#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    inv.commodity_id = #commodityId#
+                </isNotEmpty>
+
+                <isNotEmpty prepend="AND" property="fromDate">
+                    <![CDATA[
+                        inv.gmt_modified >= #fromDate#
+                    ]]>
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="toDate">
+                    <![CDATA[
+                        inv.gmt_modified <= #toDate#
+                    ]]>
+                </isNotEmpty>
+            </dynamic>
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="wms.InventoryHistory.queryHistory.count" resultClass="long" >
+    	select  /*wms.InventoryHistory.queryHistory.count*/ count(*)  FROM inventory_history inv left join user u on inv.mobile = u.mobile
+            left join (select name as commodity_name, id from commodity ) com on inv.commodity_id = com.id
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="mobile">
+                    inv.mobile = #mobile#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="nickName">
+                    u.nick_name = #nickName#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    inv.commodity_id = #commodityId#
+                </isNotEmpty>
+
+                <isNotEmpty prepend="AND" property="fromDate">
+                    <![CDATA[
+                        inv.gmt_modified >= #fromDate#
+                    ]]>
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="toDate">
+                    <![CDATA[
+                        inv.gmt_modified <= #toDate#
+                    ]]>
+                </isNotEmpty>
+            </dynamic>
+	</select>
+	    
+	
+	
+    
 
 </sqlMap>
 

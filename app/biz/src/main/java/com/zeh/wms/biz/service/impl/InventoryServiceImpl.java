@@ -1,6 +1,7 @@
 package com.zeh.wms.biz.service.impl;
 
 import com.zeh.jungle.dal.paginator.PageList;
+import com.zeh.jungle.dal.paginator.PageUtils;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.InventoryMapper;
 import com.zeh.wms.biz.model.AgentVO;
@@ -12,6 +13,8 @@ import com.zeh.wms.dal.daointerface.InventoryHistoryDAO;
 import com.zeh.wms.dal.dataobject.InventoryDO;
 import com.zeh.wms.dal.dataobject.InventoryHistoryDO;
 import com.zeh.wms.dal.operation.inventory.*;
+import com.zeh.wms.dal.operation.inventoryhistory.QueryHistoryQuery;
+import com.zeh.wms.dal.operation.inventoryhistory.QueryHistoryResult;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +56,18 @@ public class InventoryServiceImpl extends AbstractService implements InventorySe
      */
     @Override
     public PageList<FindPageResult> pageQueryInventory(FindPageQuery query) {
-        return inventoryDAO.findPage(query);
+        PageList<FindPageResult> ret = inventoryDAO.findPage(query);
+        return PageUtils.createPageList(ret.getData(), ret.getPaginator());
+    }
+
+    /**
+     * 分页查询.
+     * @param param the query
+     * @return FindPageResult
+     */
+    @Override
+    public PageList<QueryHistoryResult> queryHistory(QueryHistoryQuery param) {
+        return inventoryHistoryDAO.queryHistory(param);
     }
 
     /**

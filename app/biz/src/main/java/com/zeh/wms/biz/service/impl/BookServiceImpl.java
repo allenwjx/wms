@@ -77,6 +77,7 @@ public class BookServiceImpl implements BookService {
         ExpressOrderVO expressOrder = book(bookVO);
         //更新库存数量，记录库存变动历史
         inventoryVO.setAmount(0 - bookVO.getCommodityQuanity());
+        inventoryVO.setModifyBy(expressOrder.getModifyBy());
         inventoryService.saveOrUpdate(inventoryVO);
         return expressOrder;
     }

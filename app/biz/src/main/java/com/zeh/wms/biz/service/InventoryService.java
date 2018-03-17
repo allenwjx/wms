@@ -7,6 +7,8 @@ import com.zeh.wms.biz.model.InventoryVO;
 import com.zeh.wms.dal.operation.inventory.FindPageQuery;
 import com.zeh.wms.dal.operation.inventory.FindPageResult;
 import com.zeh.wms.dal.operation.inventory.GetInfoByMobileResult;
+import com.zeh.wms.dal.operation.inventoryhistory.QueryHistoryQuery;
+import com.zeh.wms.dal.operation.inventoryhistory.QueryHistoryResult;
 
 import java.util.List;
 
@@ -25,6 +27,14 @@ public interface InventoryService {
      * @return the page list
      */
     PageList<FindPageResult> pageQueryInventory(FindPageQuery query);
+
+    /**
+     * Query history page list.
+     *
+     * @param param the param
+     * @return the page list
+     */
+    PageList<QueryHistoryResult> queryHistory(QueryHistoryQuery param);
 
     /**
      * Save agent and inventory inventory vo.
@@ -69,6 +79,7 @@ public interface InventoryService {
      * @param mobile      the mobile
      * @param commodityId the commodity id
      * @return the inventory vo
+     * @throws ServiceException the service exception
      */
     InventoryVO queryByMobileAndCommodityId(String mobile, Long commodityId) throws ServiceException;
 }

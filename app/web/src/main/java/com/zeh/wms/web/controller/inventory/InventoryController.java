@@ -10,6 +10,8 @@ import com.zeh.wms.biz.model.InventoryVO;
 import com.zeh.wms.biz.service.InventoryService;
 import com.zeh.wms.dal.operation.inventory.FindPageQuery;
 import com.zeh.wms.dal.operation.inventory.FindPageResult;
+import com.zeh.wms.dal.operation.inventoryhistory.QueryHistoryQuery;
+import com.zeh.wms.dal.operation.inventoryhistory.QueryHistoryResult;
 import com.zeh.wms.web.constant.ExcelConstant;
 import com.zeh.wms.web.controller.BaseController;
 import com.zeh.wms.web.form.AgentImportModel;
@@ -19,7 +21,10 @@ import org.jxls.reader.XLSReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -53,6 +58,19 @@ public class InventoryController extends BaseController {
     @ResponseBody
     public PageList<FindPageResult> list(FindPageQuery query) throws ServiceException {
         return inventoryService.pageQueryInventory(query);
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param query the query
+     * @return page list
+     * @throws ServiceException the service exception
+     */
+    @RequestMapping(value = "history", method = RequestMethod.GET)
+    @ResponseBody
+    public PageList<QueryHistoryResult> historyList(QueryHistoryQuery query) throws ServiceException {
+        return inventoryService.queryHistory(query);
     }
 
     /**

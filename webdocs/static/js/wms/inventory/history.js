@@ -1,7 +1,8 @@
-var inventory_vm;
+var inventory_history_vm;
+debugger;
 $(document).ready(function () {
-    inventory_vm = new Vue({
-        el: '#inventory-root',
+    inventory_history_vm = new Vue({
+        el: '#inventory-history-root',
         data: {
             pageSize: 10,
             pageResult: {
@@ -40,11 +41,13 @@ $(document).ready(function () {
                 var pageInfo = {
                     "page": self.pageResult.paginator.currentPage,
                     "pageSize": self.pageSize,
-                    "totalCount": self.pageResult.paginator.totalCount
+                    "totalCount": self.pageResult.paginator.totalCount,
+                    mobile: $("#historyMobile").val(),
+                    commodityId: $("#historyCommodityId").val()
                 };
                 $.ajax({
                     type: 'GET',
-                    url: __ctx + "/inventory/list",
+                    url: __ctx + "/inventory/history",
                     data: $.extend(self.queryForm, pageInfo)
                 }).done(function (result) {
                     self.pageResult = result;
@@ -52,32 +55,7 @@ $(document).ready(function () {
             },
             reset: function () {
                 this.queryForm = {};
-            },
-
-            importModal: function () {
-                $("#importModal").modal({
-                    show: true,
-                    remote: __ctx + "/page/inventory/import",
-                    backdrop: 'static'
-                });
-            },
-            history: function (mobile, commodityId) {
-                $("#formModal").modal({
-                    show: true,
-                    remote: __ctx + "/page/inventory/history?mobile=" + mobile + "&commodityId=" + commodityId,
-                    backdrop: 'static'
-                });
             }
         }
     });
-
-    $("#importModal").on("hidden.bs.modal", function () {
-        $(this).removeData("bs.modal");
-    });
-
-    $("#formModal").on("hidden.bs.modal", function () {
-        $(this).removeData("bs.modal");
-    });
-
-
 });

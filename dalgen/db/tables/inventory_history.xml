@@ -46,4 +46,47 @@
         </sql>
     </operation>
 
+    <operation name="queryHistory" paramtype="parameterObject" multiplicity="paging">
+        <sql>
+            SELECT
+            inv.id,
+            inv.commodity_id,
+            inv.mobile,
+            inv.amount,
+            inv.gmt_create,
+
+            inv.gmt_modified,
+            inv.create_by,
+            inv.modify_by,
+            u.nick_name,
+
+            com.commodity_name
+            FROM inventory_history inv left join user u on inv.mobile = u.mobile
+            left join (select name as commodity_name, id from commodity ) com on inv.commodity_id = com.id
+            WHERE 1=1
+            <dynamic>
+                <isNotEmpty prepend="AND" property="mobile">
+                    inv.mobile = #mobile#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="nickName">
+                    u.nick_name = #nickName#
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="commodityId">
+                    inv.commodity_id = #commodityId#
+                </isNotEmpty>
+
+                <isNotEmpty prepend="AND" property="fromDate">
+                    <![CDATA[
+                        inv.gmt_modified >= #fromDate#
+                    ]]>
+                </isNotEmpty>
+                <isNotEmpty prepend="AND" property="toDate">
+                    <![CDATA[
+                        inv.gmt_modified <= #toDate#
+                    ]]>
+                </isNotEmpty>
+            </dynamic>
+        </sql>
+    </operation>
+
 </table>
