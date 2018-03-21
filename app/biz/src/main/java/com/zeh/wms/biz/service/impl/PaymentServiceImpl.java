@@ -180,7 +180,7 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
         paymentOrderVO.setUserId(currentUser.getId());
         paymentOrderVO.setCode(currentUser.getMobile());
         paymentOrderVO = createPayOrder(paymentOrderVO);
-        return createWechatOrder(orderVO, paymentOrderVO);
+        return createWechatOrder(orderVO, paymentOrderVO, currentUser);
     }
 
     /**
@@ -192,10 +192,10 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
      * @throws ServiceException service exception.
      */
     @Override
-    public WxPayMpOrderResult createWechatOrder(ExpressOrderVO order, PaymentOrderVO paymentOrderVO) throws ServiceException {
+    public WxPayMpOrderResult createWechatOrder(ExpressOrderVO order, PaymentOrderVO paymentOrderVO, UserVO userVO) throws ServiceException {
 
         try {
-            WxPayUnifiedOrderRequest request = getWxPayUnifiedOrderRequest(order, paymentOrderVO);
+            WxPayUnifiedOrderRequest request = getWxPayUnifiedOrderRequest(order, paymentOrderVO, userVO);
             WxPayMpOrderResult result = wxPayService.createOrder(request);
             return result;
         } catch (WxPayException e) {
@@ -210,7 +210,7 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
      * @param paymentOrderVO the payment order vo
      * @return the wx pay unified order request
      */
-    private WxPayUnifiedOrderRequest getWxPayUnifiedOrderRequest(ExpressOrderVO order, PaymentOrderVO paymentOrderVO) {
+    private WxPayUnifiedOrderRequest getWxPayUnifiedOrderRequest(ExpressOrderVO order, PaymentOrderVO paymentOrderVO, UserVO userVO) {
         WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
 
         UnifiedorderDetailReqDto reqDto = new UnifiedorderDetailReqDto();
@@ -243,7 +243,7 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
         request.setNotifyURL("http://47.97.222.254:8080/wms/api/callback/payCallback");
         request.setTradeType("JSAPI");
         request.setProductId("CommodityId");
-        request.setOpenid("TODO openId");
+        request.setOpenid(userVO.getOpenId());
         return request;
     }
 

@@ -73,7 +73,7 @@ public interface PaymentService {
      * @return 返回签名信息 ，用于微信支付.
      * @throws ServiceException service exception.
      */
-    WxPayMpOrderResult createWechatOrder(ExpressOrderVO order, PaymentOrderVO paymentOrderVO) throws ServiceException;
+    WxPayMpOrderResult createWechatOrder(ExpressOrderVO order, PaymentOrderVO paymentOrderVO, UserVO userVO) throws ServiceException;
 
 
     /**
