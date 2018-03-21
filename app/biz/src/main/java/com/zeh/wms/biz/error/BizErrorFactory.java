@@ -461,6 +461,15 @@ public class BizErrorFactory extends AbstractErrorFactory {
     }
 
     /**
+     * 支付失败，未找到订单。订单号：{0}
+     * @param orderNo 订单号
+     * @return jg error
+     */
+    public JGError notFondOrderNoForPay(String orderNo) {
+        return createError("JG0510022002", orderNo);
+    }
+
+    /**
      * JG0510031001=用户名无效
      *
      * @return

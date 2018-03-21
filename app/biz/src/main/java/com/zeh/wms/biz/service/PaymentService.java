@@ -2,9 +2,12 @@ package com.zeh.wms.biz.service;
 
 import org.springframework.http.ResponseEntity;
 
+import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.wms.biz.exception.ServiceException;
+import com.zeh.wms.biz.model.ExpressOrderVO;
 import com.zeh.wms.biz.model.PaymentOrderVO;
+import com.zeh.wms.biz.model.UserVO;
 import com.zeh.wms.dal.operation.paymentorder.GetAllDataQuery;
 import com.zeh.wms.dal.operation.paymentorder.GetPageDataQuery;
 
@@ -46,24 +49,41 @@ public interface PaymentService {
 
     /**
      * 微信支付回调解析
-     * @param xmlData
-     * @return
+     *
+     * @param xmlData the xml data
+     * @return string
      * @throws ServiceException
      */
     String payCallback(String xmlData) ;
 
     /**
      * 创建支付单.
+     *
      * @param paymentOrderVO payment order vo.
      * @return payment order vo.
-     * @throws ServiceException
+     * @throws ServiceException the service exception
      */
     PaymentOrderVO createPayOrder(PaymentOrderVO paymentOrderVO) throws ServiceException;
 
     /**
      * 生成微信统一订单，返回签名信息。
-     * @return 返回签名信息，用于微信支付.
+     *
+     * @param order          the order
+     * @param paymentOrderVO the payment order vo
+     * @return 返回签名信息 ，用于微信支付.
      * @throws ServiceException service exception.
      */
-    String createWechatOrder() throws ServiceException;
+    WxPayMpOrderResult createWechatOrder(ExpressOrderVO order, PaymentOrderVO paymentOrderVO) throws ServiceException;
+
+
+    /**
+     * 创建支付单，同时创建微信统一订单。
+     * 每次创建都重新生成新的支付单。
+     *
+     * @param orderNo     订单流水号
+     * @param currentUser the current user
+     * @return wx pay mp order result
+     * @throws ServiceException the service exception
+     */
+    WxPayMpOrderResult goPay(String orderNo, UserVO currentUser) throws ServiceException;
 }

@@ -7,12 +7,18 @@ import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import com.github.binarywang.wxpay.util.SignUtils;
+import com.google.common.collect.Lists;
 import com.zeh.jungle.dal.paginator.PageList;
 import com.zeh.jungle.dal.paginator.PageUtils;
+import com.zeh.jungle.utils.common.DateUtil;
+import com.zeh.jungle.utils.serializer.FastJsonUtils;
 import com.zeh.wms.biz.exception.ServiceException;
 import com.zeh.wms.biz.mapper.PaymentOrderMapper;
+import com.zeh.wms.biz.model.ExpressOrderVO;
 import com.zeh.wms.biz.model.PaymentOrderVO;
+import com.zeh.wms.biz.model.UserVO;
 import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
+import com.zeh.wms.biz.model.enums.PaymentChannelEnum;
 import com.zeh.wms.biz.model.enums.PaymentStateEnum;
 import com.zeh.wms.biz.service.ExpressOrderService;
 import com.zeh.wms.biz.service.PaymentService;
@@ -22,11 +28,15 @@ import com.zeh.wms.dal.dataobject.PaymentOrderDO;
 import com.zeh.wms.dal.operation.expressorder.UpdateStatusParameter;
 import com.zeh.wms.dal.operation.paymentorder.GetAllDataQuery;
 import com.zeh.wms.dal.operation.paymentorder.GetPageDataQuery;
+import com.zeh.wms.integration.wechat.model.UnifiedorderDetailReqDto;
+import com.zeh.wms.integration.wechat.model.UnifiedorderGoodsDetailReqDto;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -42,22 +52,43 @@ import java.util.Map;
 @Service
 public class PaymentServiceImpl extends AbstractService implements PaymentService {
 
-    private static Logger                logger        = LoggerFactory.getLogger(PaymentServiceImpl.class);
+    /**
+     * The Logger.
+     */
+    private static Logger       logger  = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
-    private static final String          SUCCESS       = "SUCCESS";
-    /** 支付单dao */
+    /**
+     * The constant SUCCESS.
+     */
+    private static final String SUCCESS = "SUCCESS";
+    /**
+     * 支付单dao
+     */
     @Resource
-    private PaymentOrderDAO              paymentOrderDAO;
-    /** 支付单转化器 */
+    private PaymentOrderDAO     paymentOrderDAO;
+    /**
+     * 支付单转化器
+     */
     @Resource
-    private PaymentOrderMapper           paymentOrderMapper;
-    /** 微信支付服务 */
+    private PaymentOrderMapper  paymentOrderMapper;
+    /**
+     * 微信支付服务
+     */
     @Resource
-    private WxPayServiceImpl             wxPayService;
-    /** 快递单服务 */
+    private WxPayServiceImpl    wxPayService;
+    /**
+     * 快递单服务
+     */
     @Resource
-    private ExpressOrderService          expressOrderService;
+    private ExpressOrderService expressOrderService;
 
+    /**
+     * Page query payment orders page list.
+     *
+     * @param orderQuery the order query
+     * @return the page list
+     * @throws ServiceException the service exception
+     */
     @Override
     public PageList<PaymentOrderVO> pageQueryPaymentOrders(GetPageDataQuery orderQuery) throws ServiceException {
         PageList<PaymentOrderDO> list = paymentOrderDAO.getPageData(orderQuery);
@@ -65,6 +96,13 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
         return PageUtils.createPageList(result, list.getPaginator());
     }
 
+    /**
+     * Gets payment detail info.
+     *
+     * @param id the id
+     * @return the payment detail info
+     * @throws ServiceException the service exception
+     */
     @Override
     public PaymentOrderVO getPaymentDetailInfo(Long id) throws ServiceException {
         PaymentOrderDO paymentOrderDO = paymentOrderDAO.queryById(id);
@@ -82,6 +120,14 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
         return paymentOrderMapper.d2v(paymentOrderDO);
     }
 
+    /**
+     * Export response entity.
+     *
+     * @param query        the query
+     * @param templatePath the template path
+     * @return the response entity
+     * @throws ServiceException the service exception
+     */
     @Override
     public ResponseEntity<byte[]> export(GetAllDataQuery query, String templatePath) throws ServiceException {
         List<PaymentOrderDO> list = paymentOrderDAO.getAllData(query);
@@ -94,12 +140,15 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
      * Creat pay order.
      *
      * @param paymentOrderVO the payment order vo
+     * @return the payment order vo
      * @throws ServiceException the service exception
      */
     @Override
     public PaymentOrderVO createPayOrder(PaymentOrderVO paymentOrderVO) throws ServiceException {
         paymentOrderVO.setPaymentOrderNo(CodeGenerator.generatePaySerialNo());
         paymentOrderVO.setStatus(PaymentStateEnum.WATI_PAY);
+        //订单创建的30分钟后过期. TODO 具体超时时间待定.
+        paymentOrderVO.setPayLimited(60 * 30);
         PaymentOrderDO paymentOrderDO = paymentOrderMapper.v2d(paymentOrderVO);
         long id = paymentOrderDAO.insert(paymentOrderDO);
         checkInsert(id, "支付单");
@@ -109,25 +158,100 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
     }
 
     /**
+     * 创建支付单，同时创建微信统一订单。
+     * 每次创建都重新生成新的支付单。
+     *
+     * @param orderNo     订单流水号
+     * @param currentUser the current user
+     * @return wx pay mp order result
+     * @throws ServiceException the service exception
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public WxPayMpOrderResult goPay(String orderNo, UserVO currentUser) throws ServiceException {
+        ExpressOrderVO orderVO = expressOrderService.queryOrderByOrderSerialNo(orderNo);
+        if (orderVO == null) {
+            throw new ServiceException(ERROR_FACTORY.notFondOrderNoForPay(orderNo));
+        }
+        PaymentOrderVO paymentOrderVO = new PaymentOrderVO();
+        paymentOrderVO.setAmount(orderVO.getTotalPrice());
+        paymentOrderVO.setChannel(PaymentChannelEnum.WX);
+        paymentOrderVO.setOrderNo(orderNo);
+        paymentOrderVO.setUserId(currentUser.getId());
+        paymentOrderVO.setCode(currentUser.getMobile());
+        paymentOrderVO = createPayOrder(paymentOrderVO);
+        return createWechatOrder(orderVO, paymentOrderVO);
+    }
+
+    /**
      * 生成微信统一订单，返回签名信息。
-     * @return 返回签名信息，用于微信支付.
+     *
+     * @param order          the order
+     * @param paymentOrderVO the payment order vo
+     * @return 返回签名信息 ，用于微信支付.
      * @throws ServiceException service exception.
      */
     @Override
-    public String createWechatOrder() throws ServiceException {
-        WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
+    public WxPayMpOrderResult createWechatOrder(ExpressOrderVO order, PaymentOrderVO paymentOrderVO) throws ServiceException {
+
         try {
+            WxPayUnifiedOrderRequest request = getWxPayUnifiedOrderRequest(order, paymentOrderVO);
             WxPayMpOrderResult result = wxPayService.createOrder(request);
-            return result.getPaySign();
+            return result;
         } catch (WxPayException e) {
             throw new ServiceException(ERROR_FACTORY.wechatUniOrderFail(e.getReturnMsg()));
         }
     }
 
     /**
+     * Gets wx pay unified order request.
+     *
+     * @param order          the order
+     * @param paymentOrderVO the payment order vo
+     * @return the wx pay unified order request
+     */
+    private WxPayUnifiedOrderRequest getWxPayUnifiedOrderRequest(ExpressOrderVO order, PaymentOrderVO paymentOrderVO) {
+        WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
+
+        UnifiedorderDetailReqDto reqDto = new UnifiedorderDetailReqDto();
+        reqDto.setCostPrice(paymentOrderVO.getAmount());
+        reqDto.setReceiptId(paymentOrderVO.getPaymentOrderNo());
+
+        UnifiedorderGoodsDetailReqDto goods = new UnifiedorderGoodsDetailReqDto();
+        goods.setGoodsId("CommodityId");
+        goods.setGoodsName(order.getCommodityName());
+        //商品单价
+        goods.setPrice(order.getTotalPrice());
+        goods.setQuantity(order.getCommodityQuanity());
+        //goodsCategory, body, api文档没有wxtool里定义了，不知道是否正确.
+        goods.setGoodsCategory("TODO");
+        goods.setBody("TODO");
+        reqDto.setGoodsDetail(Lists.newArrayList(goods));
+
+        request.setDetail(FastJsonUtils.toJSONString(reqDto));
+        request.setAttach(paymentOrderVO.getPaymentOrderNo());
+        request.setOutTradeNo(order.getOrderNo());
+        request.setDeviceInfo("TODO");
+        request.setBody("TODO 商家名称-销售商品类目");
+
+        request.setFeeType("CNY");
+        request.setTotalFee(order.getTotalPrice());
+        request.setSpbillCreateIp("TODO IP");
+        request.setLimitPay(DateUtil.getLongDateString(order.getGmtCreate()));
+        request.setTimeExpire(new DateTime(order.getGmtCreate()).plusSeconds(paymentOrderVO.getPayLimited()).toString(DateUtil.LONG_FORMAT));
+
+        request.setNotifyURL("http://47.97.222.254:8080/wms/api/callback/payCallback");
+        request.setTradeType("JSAPI");
+        request.setProductId("CommodityId");
+        request.setOpenid("TODO openId");
+        return request;
+    }
+
+    /**
      * 支付回调处理
+     *
      * @param xmlData xml data
-     * @return result
+     * @return result string
      */
     @Override
     public String payCallback(String xmlData) {
@@ -158,6 +282,7 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
 
     /**
      * 校验参数.
+     *
      * @param result 微信返回的结果
      * @throws WxPayException wechat pay exception.
      */
@@ -171,7 +296,8 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
 
     /**
      * 更新支付单状态。
-     * @param result 微信返回结果
+     *
+     * @param result    微信返回结果
      * @param isSuccess 是否成功
      */
     private void updatePaymentStatus(WxPayOrderNotifyResult result, boolean isSuccess) {
@@ -184,6 +310,7 @@ public class PaymentServiceImpl extends AbstractService implements PaymentServic
 
     /**
      * 更新订单状态
+     *
      * @param result 微信返回结果
      * @throws ServiceException service exception.
      */

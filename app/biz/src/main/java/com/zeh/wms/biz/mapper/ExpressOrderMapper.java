@@ -18,7 +18,7 @@ import java.util.List;
  * @author hzy24985
  * @version $Id : ExpressOrderMapper, v 0.1 2018/2/7 21:51 hzy24985 Exp $
  */
-@Mapper(componentModel = "spring", nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
+@Mapper(componentModel = "spring", nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
 public interface ExpressOrderMapper extends AbstractMapper {
     /**
      * V 2 d express order do.

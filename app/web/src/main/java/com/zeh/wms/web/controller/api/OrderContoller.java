@@ -1,5 +1,6 @@
 package com.zeh.wms.web.controller.api;
 
+import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
@@ -10,7 +11,8 @@ import com.zeh.wms.biz.model.BookVO;
 import com.zeh.wms.biz.model.ExpressOrderVO;
 import com.zeh.wms.biz.model.enums.ExpressOrderStateEnum;
 import com.zeh.wms.biz.model.enums.SettleTypeEnum;
-import com.zeh.wms.biz.service.*;
+import com.zeh.wms.biz.service.BookService;
+import com.zeh.wms.biz.service.PaymentService;
 import com.zeh.wms.web.controller.BaseController;
 import com.zeh.wms.web.controller.api.model.OrderBookModel;
 import com.zeh.wms.web.controller.api.model.OrderPriceModel;
@@ -32,7 +34,10 @@ import javax.annotation.Resource;
 public class OrderContoller extends BaseController {
     /** 下单服务 */
     @Resource
-    private BookService           bookService;
+    private BookService    bookService;
+    /** 支付服务 */
+    @Resource
+    private PaymentService paymentService;
 
     @ApiOperation(value = "获得订单列表", httpMethod = "GET")
     @ApiResponse(code = 200, message = "success", response = String.class)
@@ -81,12 +86,10 @@ public class OrderContoller extends BaseController {
     }
 
     @ApiOperation(value = "生成支付单", httpMethod = "POST")
-    @ApiResponse(code = 200, message = "success", response = String.class)
     @RequestMapping(value = "pay", method = RequestMethod.POST)
     @ResponseBody
-    public String pay() {
-        // TODO: 2018/3/14
-        return "OK";
+    public SingleResult<WxPayMpOrderResult> pay(String orderNo) throws ServiceException {
+        return createSuccessResult(paymentService.goPay(orderNo, getCurrentApiUser()));
     }
 
     private BookVO createBookVO(OrderBookModel orderBookModel) {

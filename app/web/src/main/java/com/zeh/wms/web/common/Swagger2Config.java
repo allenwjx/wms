@@ -1,5 +1,7 @@
 package com.zeh.wms.web.common;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,5 +32,12 @@ public class Swagger2Config {
                 .apiInfo(new ApiInfo("WMS Web API", "请先调用LoginController的login方法获取token, 然后再调用其他接口.", "", "", "", ""))
                 .includePatterns("^/api/.*")
                 .apiVersion("1.0.0");
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return objectMapper;
     }
 }
