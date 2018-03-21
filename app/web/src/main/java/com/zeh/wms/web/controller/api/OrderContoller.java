@@ -61,6 +61,7 @@ public class OrderContoller extends BaseController {
             price.setFirstWeightPrice(expressOrder.getFirstWeightPrice());
             price.setPaymentType(expressOrder.getPaymentType().getCode());
             price.setTotalPrice(expressOrder.getTotalPrice());
+            price.setOrderNo(expressOrder.getOrderNo());
             return createSuccessResult(price);
         } catch (BookServiceException | ServiceException e) {
             return createErrorResult(e);

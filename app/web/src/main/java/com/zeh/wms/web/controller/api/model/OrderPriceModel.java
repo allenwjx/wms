@@ -1,9 +1,9 @@
 package com.zeh.wms.web.controller.api.model;
 
-import java.io.Serializable;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  * @author allen
@@ -25,4 +25,6 @@ public class OrderPriceModel implements Serializable {
     private int    additionalWeightPrice;
     /** 快递费总价，单位：分 */
     private int    totalPrice;
+    /** 订单号. */
+    private String orderNo;
 }
